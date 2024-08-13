@@ -45,13 +45,13 @@ def format_merged_list(merged_list):
     merged_list = merged_list.rename(columns={'BYE WEEK': 'Bye', 'TEAM': 'Team'})
     return merged_list
 
-def get_color(val, comp_value):
+def get_color(a, b):
     """Determine red green or black color"""
-    if pd.isna(val) or pd.isna(comp_value):
+    if pd.isna(a) or pd.isna(b):
         return 'color: black'
-    if (comp_value-val)/comp_value > 0.15 and comp_value < 200:
+    if (b-a)/b > 0.15 and b < 200:
         return 'color: green'
-    if (comp_value-val)/comp_value < -0.15 and comp_value > 10:
+    if (b-a)/b < -0.15 and b > 10:
         return 'color: red'
     return 'color: black'
 
@@ -59,21 +59,21 @@ def highlight_cells(col, comp_val):
     """Highlight certain cells based on their value"""
     return [get_color(x, y) for x, y in zip(col, comp_val)]
 
-def create_output_files(merged_list):
+def create_output_files(df):
     """Create a CSV and a formatted excell file in the data directory"""
-    merged_list.to_csv('csv_data/merged.csv', index=False)
+    df.to_csv('csv_data/merged.csv', index=False)
 
-    # merged_list = merged_list.style.map(highlight_cells, subset=['Rank'])
-    merged_list = merged_list.style.apply(lambda col: highlight_cells(
-        col, merged_list['RK']), subset=['Rank']).set_properties(**{'text-align': 'center'})
+    # styled_df = df.style.map(highlight_cells, subset=['Rank'])
+    styled_df = df.style.apply(lambda col: highlight_cells(
+        col, df['RK']), subset=['Rank']).set_properties(**{'text-align': 'center'})
 
-    merged_list.to_excel('csv_data/merged_formatted.xlsx', engine='openpyxl', index=False)
+    styled_df.to_excel('csv_data/merged_formatted.xlsx', engine='openpyxl', index=False)
 
-def add_columns(merged_dataframe):
+def add_columns(df):
     """Add columns to view the difference of certain columns"""
-    merged_dataframe['Diff'] = merged_dataframe.eval('RK - Rank')
+    df['Diff'] = df.eval('RK - Rank')
 
-    return merged_dataframe
+    return df
 
 
 # Execute the functions
