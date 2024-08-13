@@ -59,15 +59,15 @@ def highlight_cells(col, comp_val):
     """Highlight certain cells based on their value"""
     return [get_color(x, y) for x, y in zip(col, comp_val)]
 
-def create_output_files(merged_dataframe):
+def create_output_files(merged_list):
     """Create a CSV and a formatted excell file in the data directory"""
-    merged_dataframe.to_csv('csv_data/merged.csv', index=False)
+    merged_list.to_csv('csv_data/merged.csv', index=False)
 
-    # styled_merged_dataframe = merged_dataframe.style.map(highlight_cells, subset=['Rank'])
-    styled_merged_dataframe = merged_dataframe.style.apply(lambda col: highlight_cells(
-        col, merged_dataframe['RK']), subset=['Rank']).set_properties(**{'text-align': 'center'})
+    # merged_list = merged_list.style.map(highlight_cells, subset=['Rank'])
+    merged_list = merged_list.style.apply(lambda col: highlight_cells(
+        col, merged_list['RK']), subset=['Rank']).set_properties(**{'text-align': 'center'})
 
-    styled_merged_dataframe.to_excel('csv_data/merged_formatted.xlsx', engine='openpyxl', index=False)
+    merged_list.to_excel('csv_data/merged_formatted.xlsx', engine='openpyxl', index=False)
 
 def add_columns(merged_dataframe):
     """Add columns to view the difference of certain columns"""
