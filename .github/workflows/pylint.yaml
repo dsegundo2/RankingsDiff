@@ -1,55 +1,23 @@
-# name: Pylint
-
-# on: [push]
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         python-version: ["3.12"]
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Set up Python ${{ matrix.python-version }}
-#         uses: actions/setup-python@v3
-#         with:
-#           python-version: ${{ matrix.python-version }}
-#       - name: Install dependencies
-#         run: |
-#           python -m pip install --upgrade pip
-#           pip install pylint pandas
-#       - name: Analysing the code with pylint
-#         run: |
-#           pylint $(git ls-files '*.py')
-
 name: Pylint
 
-on: [pull_request]
+on: [push]
 
 jobs:
-  pylint:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pylint pandas
-          pip install -r requirements.txt
-      - name: Run Pylint
+      - name: Analysing the code with pylint
         run: |
-          mkdir -p ./pylint
-          pylint **/*.py --output-format=parseable --reports=y > ./pylint/pylint.txt || echo "Pylint completed with exit code $?"
-      - name: Annotate Pylint Results
-        uses: actions/upload-artifact@v3
-        with:
-          name: pylint-results
-          path: ./pylint/pylint.txt
-      - name: Python Pylint GitHub Action
-        uses: fylein/python-pylint-github-action@v1
-        with:
-          args: pylint **/*.py
+          pylint $(git ls-files '*.py')
