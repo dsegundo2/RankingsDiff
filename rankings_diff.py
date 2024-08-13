@@ -85,7 +85,7 @@ ud_dataframe =  clean_for_matches(ud_dataframe, UNDERDOG_PLAYER_COLUMN)
 
 
 # Display the first few rows of the DataFrame
-merged_df = pd.merge(ud_dataframe, fpros_dataframe, 
+merged_df = pd.merge(ud_dataframe, fpros_dataframe,
                         left_on=ud_dataframe[UNDERDOG_PLAYER_COLUMN].str.lower(),
                         right_on=fpros_dataframe[FPROS_PLAYER_COLUMN].str.lower(), how='inner')
 
