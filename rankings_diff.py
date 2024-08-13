@@ -38,7 +38,8 @@ def format_merged_list(merged_list):
         merged_list[merged_list['POS'].str.startswith('K',na=False)].index)
 
     # Only keep desired columns
-    merged_list = merged_list[['RK', 'Rank', 'POS', 'Player', 'TEAM', 'Diff', 'ADP', 'BYE WEEK']].sort_values(by='RK')
+    merged_list = merged_list[
+        ['RK', 'Rank', 'POS', 'Player', 'TEAM', 'Diff', 'ADP', 'BYE WEEK']].sort_values(by='RK')
 
     # Renaming columns
     merged_list = merged_list.rename(columns={'BYE WEEK': 'Bye', 'TEAM': 'Team'})
@@ -48,12 +49,11 @@ def get_color(a, b):
     """Determine red green or black color"""
     if pd.isna(a) or pd.isna(b):
         return 'color: black'
-    elif (b-a)/b > 0.15 and b < 200:
+    if (b-a)/b > 0.15 and b < 200:
         return 'color: green'
-    elif (b-a)/b < -0.15 and b > 10:
+    if (b-a)/b < -0.15 and b > 10:
         return 'color: red'
-    else:
-        return 'color: black'
+    return 'color: black'
 
 def highlight_cells(col, comp_val):
     """Highlight certain cells based on their value"""
@@ -64,7 +64,8 @@ def create_output_files(df):
     df.to_csv('csv_data/merged.csv', index=False)
 
     # styled_df = df.style.map(highlight_cells, subset=['Rank'])
-    styled_df = df.style.apply(lambda col: highlight_cells(col, df['RK']), subset=['Rank']).set_properties(**{'text-align': 'center'})
+    styled_df = df.style.apply(lambda col: highlight_cells(
+        col, df['RK']), subset=['Rank']).set_properties(**{'text-align': 'center'})
 
     styled_df.to_excel('csv_data/merged_formatted.xlsx', engine='openpyxl', index=False)
 
