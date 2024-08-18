@@ -19,3 +19,8 @@ Download base rankings and suggested auction value
 - [Third-Party Google Sheet](https://docs.google.com/spreadsheets/d/149NUwr9QRggJrdtuk2KG_eo-jXSOjEU1XCfUSHcBINw/edit?usp=sharing) - Used `JSONexport` sheet on the first run
 - Double-check if you should use the standard index or the PPR index to sort. Looks like the Standard rankings are used for the cheat sheet with auction values. Might just be the cheat sheet pdf
   - We may consider to sort by the dollar amount with the secondary sort by position
+
+## Actions this time
+ - Freeze the menu row
+ - Add 2 more sheets. One for kicker def, one for positional that is an alias cataloged
+  
