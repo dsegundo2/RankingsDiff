@@ -11,14 +11,14 @@ ESPN_AUCTION_VALUE_COLUMN_ORIGINAL = "ppr auction"
 ESPN_AUCTION_VALUE_COLUMN = "ESPN Value"
 ESPN_RANKING_COLUMN = "index"
 
-UNDERDOG_RANKINGS = "./data/raw/hw_rankings.csv"
+UNDERDOG_RANKINGS = "./data/raw/ud_ranking_final_24.csv"
 UNDERDOG_PLAYER_COLUMN = "Player"
 UNDERDOG_RANKING_COLUMN = "Rank"
 UNDERDOG_AUCTION_VALUE_COLUMN = "UD Value"
 
 OUTPUT_POSITION_COLUMN = "Pos"
-OUTPUT_EXCEL = "./data/output/espn_merged_formatted.xlsx"
-OUTPUT_CSV = "./data/output/espn_merged.csv"
+OUTPUT_EXCEL = "./data/output/espn/merged_formatted.xlsx"
+OUTPUT_CSV = "./data/output/espn/merged.csv"
 
 
 def format_merged_list(merged_list):
@@ -40,6 +40,7 @@ def format_merged_list(merged_list):
             "Team",
             ESPN_AUCTION_VALUE_COLUMN_ORIGINAL,
             UNDERDOG_AUCTION_VALUE_COLUMN,
+            "PriceRank",
         ]
     ].sort_values(by=ESPN_RANKING_COLUMN)
     # Renaming columns
@@ -87,11 +88,21 @@ def create_output_files(df):
 
 def add_columns(df):
     """Add columns to view the difference of certain columns"""
-    df["Diff"] = df.eval(f"{ESPN_RANKING_COLUMN}-{UNDERDOG_RANKING_COLUMN}")
 
-    lookup_map = df.set_index(ESPN_RANKING_COLUMN)[
+    # Sort by ppr price and then apply a price based on UD order
+
+    df[ESPN_AUCTION_VALUE_COLUMN_ORIGINAL] = df[
         ESPN_AUCTION_VALUE_COLUMN_ORIGINAL
-    ].to_dict()
+    ].astype("Int64")
+
+    df = df.sort_values(
+        ESPN_AUCTION_VALUE_COLUMN_ORIGINAL, ascending=False
+    ).reset_index(drop=True)
+    df["PriceRank"] = df.index + 1
+    print(df.head())
+
+    lookup_map = df.set_index("PriceRank")[ESPN_AUCTION_VALUE_COLUMN_ORIGINAL].to_dict()
+
     df[UNDERDOG_AUCTION_VALUE_COLUMN] = df[UNDERDOG_RANKING_COLUMN].map(lookup_map)
     df[UNDERDOG_AUCTION_VALUE_COLUMN] = df[UNDERDOG_AUCTION_VALUE_COLUMN].fillna(0)
 

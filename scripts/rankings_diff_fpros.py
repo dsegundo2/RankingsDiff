@@ -5,16 +5,16 @@
 import pandas as pd
 from utils import *
 
-FPROS_RANKINGS = "./data/raw/fpros_rankings_aug_14.csv"
+FPROS_RANKINGS = "./data/raw/fpros_rank_aug_26.csv"
 FPROS_PLAYER_COLUMN = "PLAYER NAME"
 FPROS_RANK_COLUMN = "RK"
 
-UNDERDOG_RANKINGS = "./data/raw/hw_rankings.csv"
+UNDERDOG_RANKINGS = "./data/raw/ud_ranking_final_24.csv"
 UNDERDOG_PLAYER_COLUMN = "Player"
 UNDERDOG_RANK_COLUMN = "Rank"
 
-OUTPUT_EXCEL = "./data/output/fpros_merged_formatted.xlsx"
-OUTPUT_CSV = "./data/output/fpros_merged.csv"
+OUTPUT_EXCEL = "./data/output/fpros/fpros_merged_formatted_final_24.xlsx"
+OUTPUT_CSV = "./data/output/fpros/fpros_merged_final_24.csv"
 
 
 def format_merged_list(merged_list):
@@ -25,8 +25,6 @@ def format_merged_list(merged_list):
         "Int64"
     )
     merged_list[FPROS_RANK_COLUMN] = merged_list[FPROS_RANK_COLUMN].astype("Int64")
-    # Merge team and bye week
-
     merged_list = remove_kicker_defense(merged_list, "POS")
 
     # Only keep desired columns

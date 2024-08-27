@@ -61,9 +61,9 @@ def get_text_color_auction(a, b, _pos):
         return COLOR_NEUTRAL
     if (b - a) / b > 0.20 and a < 200 and b - a > 12:
         return COLOR_VERY_BAD
-    if (b - a) / b < -0.12 and 10 < b < 200 and b - a < -15:
+    if (b - a) / b < -0.12 and 2 < b and b - a < -8:
         return COLOR_VERY_GOOD
-    if (b - a) / b > 0.15 and a < 200 and b - a > 4:
+    if (b - a) / b > 0.12 and 1 < a and b - a > 4:
         return COLOR_BAD
     if (b - a) / b < -0.15 and b > 10 and b - a < -4:
         return COLOR_GOOD
@@ -77,7 +77,7 @@ def highlight_positions(val):
     if str(val).startswith("RB"):
         return "background-color: #FFDAB9"
     if str(val).startswith("TE"):
-        return "background-color: lavender"
+        return "background-color: lightsteelblue"
     if str(val).startswith("QB"):
         return "background-color: lightyellow"
     return "white"
