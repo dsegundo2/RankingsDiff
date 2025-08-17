@@ -6,7 +6,7 @@
 2. Make sure the variable constants are set correctly in `rankings_diff.py`
 3. run `python rankings_diff.py`
 
-## Recommended Actions for the CSV
+### Recommended Actions (for CSV)
 1. Fit cells to the size of the text
 2. Optional, alternate column coloring of rows
 3. For Auction, add a currency format to the last two columns
@@ -20,7 +20,7 @@ Download base rankings and suggested auction value
 - Double-check if you should use the standard index or the PPR index to sort. Looks like the Standard rankings are used for the cheat sheet with auction values. Might just be the cheat sheet pdf
   - We may consider to sort by the dollar amount with the secondary sort by position
 
-## Actions this time
+### Actions
  - Freeze the menu row
  - Add 2 more sheets. One for kicker def, one for positional that is an alias cataloged
   
