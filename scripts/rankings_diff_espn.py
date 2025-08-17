@@ -11,7 +11,7 @@ ESPN_AUCTION_VALUE_COLUMN_ORIGINAL = "ppr auction"
 ESPN_AUCTION_VALUE_COLUMN = "ESPN Value"
 ESPN_RANKING_COLUMN = "PPR"
 
-UNDERDOG_RANKINGS = "./data/raw/ud_ranking_final_24.csv"
+UNDERDOG_RANKINGS = "./data/raw/underdog_rankings_8_5.csv"
 UNDERDOG_PLAYER_COLUMN = "Player"
 UNDERDOG_RANKING_COLUMN = "Rank"
 UNDERDOG_AUCTION_VALUE_COLUMN = "UD Value"
@@ -130,6 +130,14 @@ merged_df = pd.merge(
 
 merged_df = add_columns(merged_df)
 merged_df = format_merged_list(merged_df)
+
+print("DEBUG: Top 10 rows of merged_df after add_columns:")
+print(merged_df.head(10))
+
+positional_bias = calculate_positional_bias(merged_df)
+
+print("DEBUG: positional_bias after add_columns:")
+print(positional_bias)
 
 create_output_files(merged_df)
 print("\033[92mMerged ESPN successfully.. I think\033[0m")

@@ -4,18 +4,18 @@
 
 import pandas as pd
 from utils import *
+import os
 
-FPROS_RANKINGS = "./data/raw/fpros_rank_aug_26.csv"
+FPROS_RANKINGS = os.getenv("FPROS_RANKINGS", "./data/raw/fpros_rankings_8_17.csv")
 FPROS_PLAYER_COLUMN = "PLAYER NAME"
 FPROS_RANK_COLUMN = "RK"
 
-UNDERDOG_RANKINGS = "./data/raw/ud_ranking_final_24.csv"
+UNDERDOG_RANKINGS = os.getenv("UNDERDOG_RANKINGS", "./data/raw/underdog_rankings_8_5.csv")
 UNDERDOG_PLAYER_COLUMN = "Player"
 UNDERDOG_RANK_COLUMN = "Rank"
 
-OUTPUT_EXCEL = "./data/output/fpros/fpros_merged_formatted_final_24.xlsx"
-OUTPUT_CSV = "./data/output/fpros/fpros_merged_final_24.csv"
-
+OUTPUT_EXCEL = os.getenv("OUTPUT_EXCEL", "./data/output/fpros/fpros_merged_formatted_25.xlsx")
+OUTPUT_CSV = os.getenv("OUTPUT_CSV", "./data/output/fpros/fpros_merged_25.csv")
 
 def format_merged_list(merged_list):
     """Clean up for the formatted final list by removing undesired columns and rows"""
@@ -85,6 +85,16 @@ merged_df = pd.merge(
 
 merged_df = add_columns(merged_df)
 merged_df = format_merged_list(merged_df)
+
+print("WARN: Ensure you set export ESPN=false")
+print("DEBUG: Top 10 rows of merged_df after add_columns:")
+print(merged_df.head(10))
+
+positional_bias = calculate_positional_bias(merged_df, position_col="Position Category",
+espn_value_col="RK")
+
+print("DEBUG: positional_bias after add_columns:")
+print(positional_bias)
 
 create_output_files(merged_df)
 print("\033[92mMerged FPros successfully.. I think\033[0m")
