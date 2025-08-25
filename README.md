@@ -4,7 +4,8 @@
 
 1. Download the correct input files to the CSV data directory
 2. Make sure the variable constants are set correctly in `rankings_diff.py`
-3. run `python rankings_diff.py`
+3. `pip install -r requirements.txt`
+4. run `python rankings_diff.py`
 
 ### Recommended Actions (for CSV)
 1. Fit cells to the size of the text
