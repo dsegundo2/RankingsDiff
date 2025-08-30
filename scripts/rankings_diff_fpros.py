@@ -6,11 +6,11 @@ import pandas as pd
 from utils import *
 import os
 
-FPROS_RANKINGS = os.getenv("FPROS_RANKINGS", "./data/raw/fpros_rankings_8_17.csv")
+FPROS_RANKINGS = os.getenv("FPROS_RANKINGS", "./data/raw/fpros_rankings_8_28.csv")
 FPROS_PLAYER_COLUMN = "PLAYER NAME"
 FPROS_RANK_COLUMN = "RK"
 
-UNDERDOG_RANKINGS = os.getenv("UNDERDOG_RANKINGS", "./data/raw/underdog_rankings_8_5.csv")
+UNDERDOG_RANKINGS = os.getenv("UNDERDOG_RANKINGS", "./data/raw/underdog_rankings_8_24.csv")
 UNDERDOG_PLAYER_COLUMN = "Player"
 UNDERDOG_RANK_COLUMN = "Rank"
 
@@ -26,6 +26,19 @@ def format_merged_list(merged_list):
     )
     merged_list[FPROS_RANK_COLUMN] = merged_list[FPROS_RANK_COLUMN].astype("Int64")
     merged_list = remove_kicker_defense(merged_list, "POS")
+
+    # Append to Player based on Notes column (handle null/blank safely)
+    notes = merged_list["Notes"]
+    norm_notes = notes.where(notes.notna(), "").astype(str).str.strip()
+
+    rookie_mask = norm_notes.str.casefold().eq("rookie")
+    other_mask = norm_notes.ne("") & (~rookie_mask)
+
+    merged_list.loc[rookie_mask, "Player"] = merged_list.loc[rookie_mask, "Player"] + " (R)"
+    merged_list.loc[other_mask, "Player"] = merged_list.loc[other_mask, "Player"] + " (?)"
+
+    # Drop the Notes column
+    merged_list = merged_list.drop(columns=["Notes"])
 
     # Only keep desired columns
     merged_list = merged_list[
@@ -61,7 +74,7 @@ def create_output_files(df):
 def add_columns(df):
     """Add columns to view the difference of certain columns"""
     df["Diff"] = df.eval(f"{FPROS_RANK_COLUMN}-{UNDERDOG_RANK_COLUMN}")
-    df["Team (Bye)"] = df["TEAM"] + " (" + df["BYE WEEK"] + ")"
+    df["Team (Bye)"] = df["TEAM"] + " (" + df["BYE"] + ")"
 
     return df
 
