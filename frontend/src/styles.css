@@ -29,6 +29,18 @@ button:active { transform: translateY(1px); }
 a { color: inherit; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .dashboard { width: min(1440px, calc(100% - 40px)); margin: 0 auto; padding: 20px 0 56px; }
+.loading-shell { min-height: min(620px, calc(100vh - 80px)); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 48px clamp(20px, 7vw, 96px); border: 1px solid rgba(213,221,235,.95); border-radius: 24px; background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(238,240,255,.82)); box-shadow: var(--shadow); }
+.loading-mark { display: flex; width: 64px; height: 64px; align-items: center; justify-content: center; gap: 1px; margin-bottom: 24px; border: 1px solid rgba(79,93,228,.25); border-radius: 20px; color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 12px 26px rgba(79,93,228,.24); font-weight: 950; letter-spacing: -.13em; }
+.loading-mark span:last-child { opacity: .72; }
+.loading-shell h1 { margin: 6px 0 0; font-size: clamp(3rem, 8vw, 6rem); }
+.loading-title { margin: 26px 0 0; color: var(--ink); font-size: 1.2rem; font-weight: 850; }
+.loading-detail { max-width: 560px; margin: 7px 0 0; color: var(--muted); line-height: 1.5; }
+.loading-hint { max-width: 560px; margin: 22px 0 0; color: var(--muted); font-size: .82rem; line-height: 1.45; }
+.loading-progress { width: min(420px, 100%); height: 8px; margin-top: 30px; overflow: hidden; border-radius: 999px; background: #e7ebf4; }
+.loading-progress span { display: block; width: 42%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-2)); animation: loading-sweep 1.35s ease-in-out infinite; }
+.error-shell .loading-mark { color: #fff; background: linear-gradient(135deg, var(--danger), #e45d73); font-size: 1.5rem; letter-spacing: 0; }
+.error-shell .primary-action { margin-top: 24px; }
+@keyframes loading-sweep { 0% { transform: translateX(-120%); } 50% { transform: translateX(110%); } 100% { transform: translateX(260%); } }
 
 /* Brand and snapshot */
 .hero { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(520px, 720px); gap: 24px; align-items: end; margin-bottom: 12px; }
