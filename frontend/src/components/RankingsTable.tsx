@@ -16,6 +16,8 @@ type Props = {
   drafted: Set<string>
   onTarget: (id: string) => void
   onDrafted: (id: string) => void
+  selectedId?: string
+  onSelect?: (id: string) => void
 }
 
 function diffSignalStyle(diff: number | undefined, isEspn: boolean): CSSProperties {
@@ -33,7 +35,7 @@ function SortButton({ label, sortKey, activeKey, direction, onSort }: { label: s
   return <button className="sort-button" onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span>{direction === 'asc' ? ' ↑' : ' ↓'}</span> : null}</button>
 }
 
-export function RankingsTable({ rows, teams, source, sortKey, sortDirection, targets, drafted, onSort, onTarget, onDrafted }: Props) {
+export function RankingsTable({ rows, teams, source, sortKey, sortDirection, targets, drafted, onSort, onTarget, onDrafted, selectedId, onSelect }: Props) {
   const isEspn = source === 'espn'
   return (
     <div className="table-wrap">
@@ -68,10 +70,13 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
             return (
               <tr
                 key={`${row.player}-${row.team}-${row.sourceRank}`}
-                className={`${isDrafted ? 'is-drafted' : ''} pos-${row.positionTone ?? 'other'}`}
+                className={`${isDrafted ? 'is-drafted' : ''} ${selectedId === id ? 'is-selected' : ''} pos-${row.positionTone ?? 'other'}`}
                 style={diffSignalStyle(row.diff, isEspn)}
+                onClick={() => onSelect?.(id)}
+                aria-selected={selectedId === id}
+                data-ranking-id={id}
               >
-                <td className="row-action"><button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={() => onTarget(id)}>★</button></td>
+                <td className="row-action"><button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button></td>
                 <td className="player-cell">
                   <TeamBadge team={team} asset={asset} />
                   <div><strong>{row.player}</strong><span>{team}</span></div>
@@ -80,7 +85,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
                 <td className="num rank-cell"><span className="rank-pair"><strong>{formatRank(row.sourceRank)}</strong><span>→</span><strong>{formatRank(row.underdogRank)}</strong></span></td>
                 {isEspn ? <td className="num price-cell"><span className="stacked-price"><strong>{formatValue(row.sourceValue)}</strong><small>UD {formatValue(row.underdogValue)}</small></span></td> : null}
                 <td className={`num emphasis diff-cell ${typeof row.diff === 'number' && row.diff > 0 ? 'diff-positive' : typeof row.diff === 'number' && row.diff < 0 ? 'diff-negative' : 'diff-neutral'}`}>{isEspn ? formatSignedValue(row.diff) : formatRank(row.diff)}</td>
-                <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={() => onDrafted(id)}>{isDrafted ? 'Undo' : 'Draft'}</button></td>
+                <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undo' : 'Draft'}</button></td>
               </tr>
             )
           })}

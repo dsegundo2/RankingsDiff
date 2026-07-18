@@ -121,6 +121,35 @@ test('targets and drafted state persist per sheet', async ({ page }) => {
   await expect(page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first()).toBeVisible()
 })
 
+
+test('click selection supports arrows and enter drafting in board and position views', async ({ page }) => {
+  await page.goto('./')
+  const firstBoardRow = page.locator('.rankings-table tbody tr').first()
+  await firstBoardRow.click()
+  await expect(firstBoardRow).toHaveClass(/is-selected/)
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('button', { name: 'Undo drafted Jahmyr Gibbs' }).first()).toBeVisible()
+
+  await page.keyboard.press('ArrowDown')
+  const secondBoardRow = page.locator('.rankings-table tbody tr').nth(1)
+  await expect(secondBoardRow).toHaveClass(/is-selected/)
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('button', { name: 'Undo drafted Bijan Robinson' }).first()).toBeVisible()
+
+  await page.getByRole('checkbox', { name: 'By position' }).check()
+  const firstRunningBack = page.locator('.position-lane--rb .position-player').first()
+  await firstRunningBack.click()
+  await expect(firstRunningBack).toHaveClass(/is-selected/)
+  await page.keyboard.press('ArrowRight')
+  const firstWideReceiver = page.locator('.position-lane--wr .position-player').first()
+  await expect(firstWideReceiver).toHaveClass(/is-selected/)
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('button', { name: 'Undo drafted Puka Nacua' }).first()).toBeVisible()
+
+  await page.keyboard.press('ArrowLeft')
+  await expect(page.locator('.position-lane--rb .position-player').first()).toHaveClass(/is-selected/)
+})
+
 test('position overview shows all lanes without collisions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto('./')

@@ -449,3 +449,13 @@ tbody tr.is-drafted { opacity: .48; }
   .filters--compact .position-pills { display: grid; grid-template-columns: repeat(4,1fr); width: 100%; }
   .settings-preference-card { align-items: stretch; flex-direction: column; }
 }
+
+/* Keyboard player selection */
+.rankings-table tr.is-selected,
+.position-player.is-selected {
+  outline: 3px solid rgba(79, 93, 228, .32);
+  outline-offset: -3px;
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+.rankings-table tbody tr { cursor: pointer; }
+.position-player { cursor: pointer; }

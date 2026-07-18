@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { DataManifest, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset } from '../types'
 import { filterRankings, sortRankings } from '../data/rankings'
@@ -30,6 +30,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [view, setView] = useState<ViewMode>('board')
+  const [selectedId, setSelectedId] = useState<string>('')
   const [boardPositions, setBoardPositions] = useState<Set<PositionKey>>(new Set(allPositionKeys))
   const [positionViews, setPositionViews] = useState<Set<PositionKey>>(new Set(['RB', 'WR', 'QB', 'TE']))
   const [targets, setTargets] = useState<Set<string>>(new Set())
@@ -56,6 +57,28 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     }, {})
     return ['RB', 'WR', 'QB', 'TE'].filter((key) => positions[key]).map((key) => `${positions[key]} ${key}`).join(' · ')
   }, [targetRows])
+  const positionRows = useMemo(() => sortRankings(filteredRows, 'sourceRank', 'asc'), [filteredRows])
+  const visiblePositionRows = useMemo(() => {
+    return ['RB', 'WR', 'QB', 'TE']
+      .filter((pos): pos is PositionKey => positionViews.has(pos as PositionKey))
+      .flatMap((pos) => positionRows.filter((row) => row.position.toUpperCase() === pos && (showDrafted || !drafted.has(rankingId(row)))))
+  }, [positionRows, positionViews, showDrafted, drafted])
+  const navigationRows = view === 'board' ? visibleRows : visiblePositionRows
+
+  const toggleDrafted = useCallback((id: string) => {
+    setDrafted((current) => {
+      const next = new Set(current)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+    setTargets((current) => {
+      if (!current.has(id)) return current
+      const next = new Set(current)
+      next.delete(id)
+      return next
+    })
+  }, [])
 
   useEffect(() => {
     setHydratedStorageKey('')
@@ -69,6 +92,19 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     if (hydratedStorageKey !== storageKey) return
     writeDraftState(storageKey, { targets: [...targets], drafted: [...drafted] })
   }, [storageKey, hydratedStorageKey, targets, drafted])
+
+  useEffect(() => {
+    if (!selectedId) return
+    const ids = navigationRows.map(rankingId)
+    if (!ids.includes(selectedId)) setSelectedId(ids[0] ?? '')
+  }, [navigationRows, selectedId])
+
+  useEffect(() => {
+    if (!selectedId) return
+    window.requestAnimationFrame(() => {
+      document.querySelector(`[data-ranking-id="${CSS.escape(selectedId)}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    })
+  }, [selectedId])
 
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
@@ -95,6 +131,47 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         setSettingsOpen(true)
         return
       }
+      if (event.key === 'Enter' && selectedId) {
+        event.preventDefault()
+        toggleDrafted(selectedId)
+        return
+      }
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        if (!navigationRows.length) return
+        event.preventDefault()
+        const ids = navigationRows.map(rankingId)
+        const selectedIndex = ids.indexOf(selectedId)
+        const fallbackIndex = event.key === 'ArrowDown' ? 0 : ids.length - 1
+        const nextIndex = selectedIndex === -1
+          ? fallbackIndex
+          : Math.max(0, Math.min(ids.length - 1, selectedIndex + (event.key === 'ArrowDown' ? 1 : -1)))
+        setSelectedId(ids[nextIndex])
+        return
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        const direction = event.key === 'ArrowRight' ? 1 : -1
+        if (view === 'positions') {
+          const visiblePositions = ['RB', 'WR', 'QB', 'TE'].filter((pos): pos is PositionKey => positionViews.has(pos as PositionKey))
+          if (!visiblePositions.length) return
+          event.preventDefault()
+          const selectedRow = navigationRows.find((row) => rankingId(row) === selectedId)
+          const currentPosition = (selectedRow?.position.toUpperCase() as PositionKey | undefined) ?? visiblePositions[0]
+          const currentPositionIndex = Math.max(0, visiblePositions.indexOf(currentPosition))
+          const nextPosition = visiblePositions[(currentPositionIndex + direction + visiblePositions.length) % visiblePositions.length]
+          const currentLaneRows = navigationRows.filter((row) => row.position.toUpperCase() === currentPosition)
+          const currentLaneIndex = Math.max(0, currentLaneRows.findIndex((row) => rankingId(row) === selectedId))
+          const nextLaneRows = navigationRows.filter((row) => row.position.toUpperCase() === nextPosition)
+          if (nextLaneRows.length) setSelectedId(rankingId(nextLaneRows[Math.min(currentLaneIndex, nextLaneRows.length - 1)]))
+          return
+        }
+        const positionOrder: PositionFilter[] = ['ALL', 'RB', 'WR', 'QB', 'TE']
+        const currentFilter: PositionFilter = boardPositions.size === allPositionKeys.size ? 'ALL' : boardPositions.size === 1 ? [...boardPositions][0] : position
+        const currentIndex = Math.max(0, positionOrder.indexOf(currentFilter))
+        const nextFilter = positionOrder[(currentIndex + direction + positionOrder.length) % positionOrder.length]
+        event.preventDefault()
+        handleBoardPosition(nextFilter)
+        return
+      }
       const positionShortcuts: Record<string, PositionFilter> = { a: 'ALL', q: 'QB', r: 'RB', w: 'WR', t: 'TE' }
       const nextPosition = positionShortcuts[shortcut]
       if (nextPosition) {
@@ -110,7 +187,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     }
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [])
+  }, [boardPositions, drafted, navigationRows, position, positionViews, selectedId, toggleDrafted, view])
 
   function handleSort(key: SortKey) {
     if (key === sortKey) setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')
@@ -130,16 +207,6 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       const next = new Set(current)
       if (next.has(id)) next.delete(id)
       else next.add(id)
-      return next
-    })
-  }
-
-  function toggleDrafted(id: string) {
-    toggleSet(setDrafted, id)
-    setTargets((current) => {
-      if (!current.has(id)) return current
-      const next = new Set(current)
-      next.delete(id)
       return next
     })
   }
@@ -258,7 +325,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`}>
           <div>
-            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} onSort={handleSort} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />
+            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} targeted={targets.has(rankingId(row))} drafted={drafted.has(rankingId(row))} onTarget={() => toggleSet(setTargets, rankingId(row))} onDrafted={() => toggleDrafted(rankingId(row))} />)}
             </section>
@@ -267,7 +334,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`}>
-          <PositionBoard rows={sortRankings(filteredRows, 'sourceRank', 'asc')} positions={positionViews} teams={teams} targets={targets} drafted={drafted} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />
+          <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />
           {targetQueue}
         </div>
       )}

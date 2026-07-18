@@ -15,6 +15,8 @@ type Props = {
   showDrafted: boolean
   onTarget: (id: string) => void
   onDrafted: (id: string) => void
+  selectedId?: string
+  onSelect?: (id: string) => void
 }
 
 const positions = ['RB', 'WR', 'QB', 'TE'] as const
@@ -35,7 +37,7 @@ function rankDifference(diff?: number): string {
   return `${diff > 0 ? '+' : ''}${diff}`
 }
 
-export function PositionBoard({ rows, positions: selectedPositions, teams, targets, drafted, isEspn, showDrafted, onTarget, onDrafted }: Props) {
+export function PositionBoard({ rows, positions: selectedPositions, teams, targets, drafted, isEspn, showDrafted, onTarget, onDrafted, selectedId, onSelect }: Props) {
   const visiblePositions = positions.filter((position) => selectedPositions.has(position))
   if (!visiblePositions.length) return <div className="empty-state position-board-empty">Choose one or more positions to compare side by side.</div>
   return (
@@ -59,7 +61,7 @@ export function PositionBoard({ rows, positions: selectedPositions, teams, targe
                 const asset = getTeamAsset(teams, team)
                 const isDrafted = drafted.has(id)
                 return (
-                  <div className={`position-player ${isDrafted ? 'is-drafted' : ''}`} style={diffStyle(row.diff, isEspn)} key={id}>
+                  <div className={`position-player ${isDrafted ? 'is-drafted' : ''} ${selectedId === id ? 'is-selected' : ''}`} style={diffStyle(row.diff, isEspn)} key={id} onClick={() => onSelect?.(id)} aria-selected={selectedId === id} data-ranking-id={id}>
                     <span className="position-player__rank">{String(index + 1).padStart(2, '0')}</span>
                     <TeamBadge team={team} asset={asset} />
                     <div className="position-player__identity">
@@ -70,8 +72,8 @@ export function PositionBoard({ rows, positions: selectedPositions, teams, targe
                       <strong>{isEspn ? formatValue(row.sourceValue) : `#${formatRank(row.sourceRank)}`}</strong>
                     </div>
                     <span className="position-player__difference" title={isEspn ? 'ESPN to Underdog value difference' : 'FantasyPros to Underdog rank difference'}>{isEspn ? formatSignedValue(row.diff) : rankDifference(row.diff)}</span>
-                    <button className={`icon-action target-action ${targets.has(id) ? 'active' : ''}`} type="button" aria-label={`${targets.has(id) ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={targets.has(id)} onClick={() => onTarget(id)}>★</button>
-                    <button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={() => onDrafted(id)}>{isDrafted ? 'Undo' : 'Draft'}</button>
+                    <button className={`icon-action target-action ${targets.has(id) ? 'active' : ''}`} type="button" aria-label={`${targets.has(id) ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={targets.has(id)} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button>
+                    <button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undo' : 'Draft'}</button>
                   </div>
                 )
               })}
