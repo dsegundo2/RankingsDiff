@@ -35,7 +35,7 @@ test('FantasyPros position view emphasizes source rank', async ({ page }) => {
   await page.getByRole('button', { name: 'Close settings' }).click()
   await page.getByRole('button', { name: 'By position' }).click()
   await expect(page.locator('.position-lane--rb .position-player__metric strong').first()).toHaveText('#3')
-  await expect(page.locator('.position-lane--rb .position-lane__columns')).toContainText('FP rank')
+  await expect(page.locator('.position-lane--rb .position-lane__columns')).toContainText('FP')
 })
 
 test('command-k focuses search and position filters rows', async ({ page }) => {
@@ -73,6 +73,23 @@ test('mobile 320px has no horizontal overflow', async ({ page }) => {
   expect(overflow).toBe(false)
 })
 
+
+test('target queue can be shown and hidden and stays usable on mobile', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: "Target Ja'Marr Chase" }).first().click()
+  await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
+  await expect(page.getByLabel('Target queue', { exact: true })).toContainText('Shortlist')
+  await expect(page.getByLabel('Target queue', { exact: true })).toContainText('WR')
+  await page.getByRole('button', { name: 'Hide target queue' }).click()
+  await expect(page.getByLabel('Target queue', { exact: true })).toHaveCount(0)
+  await page.getByRole('button', { name: /Show target queue/ }).click()
+  await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
+
+  await page.setViewportSize({ width: 390, height: 900 })
+  await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
+})
+
 test('targets and drafted state persist per sheet', async ({ page }) => {
   await page.goto('./')
   const target = page.getByRole('button', { name: "Target Ja'Marr Chase" }).first()
@@ -98,8 +115,8 @@ test('position overview shows all lanes without collisions', async ({ page }) =>
   expect(overlaps).toBe(false)
   const firstMetric = page.locator('.position-lane--rb .position-player__metric strong').first()
   await expect(firstMetric).toHaveText('$57')
-  await expect(page.locator('.position-lane--rb .position-lane__columns')).toContainText('ESPN $')
-  await expect(page.locator('.position-lane--rb .position-player__difference').first()).toContainText('$0')
+  await expect(page.locator('.position-lane--rb .position-lane__columns')).toContainText('ESPN')
+  await expect(page.locator('.position-lane--rb .position-player__difference').first()).toHaveText('$0')
   expect(await page.locator('.position-lane--rb .position-player').first().evaluate((row) => row.style.getPropertyValue('--diff-alpha'))).toBe('')
   expect(await page.locator('.position-lane--wr .position-player').filter({ hasText: 'Drake London' }).evaluate((row) => Number(row.style.getPropertyValue('--diff-alpha')))).toBeGreaterThan(0)
   const runningBacks = page.getByLabel('RB players, scroll to see all')

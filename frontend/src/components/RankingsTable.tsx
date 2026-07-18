@@ -37,18 +37,29 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
   const isEspn = source === 'espn'
   return (
     <div className="table-wrap">
-      <table className="rankings-table">
+      <table className={`rankings-table ${isEspn ? 'rankings-table--espn' : 'rankings-table--fpros'}`}>
+        <colgroup>
+          <col className="col-action" />
+          <col className="col-player" />
+          <col className="col-position" />
+          <col className="col-rank" />
+          <col className="col-rank" />
+          {isEspn ? <col className="col-money" /> : null}
+          {isEspn ? <col className="col-money" /> : null}
+          <col className="col-diff" />
+          <col className="col-draft" />
+        </colgroup>
         <thead>
           <tr>
             <th className="action-heading"><span className="sr-only">Target</span></th>
             <th><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th><SortButton label={sourceLabel(source)} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th><SortButton label="Underdog" sortKey="underdogRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            {isEspn ? <th><SortButton label="ESPN $" sortKey="sourceValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
-            {isEspn ? <th><SortButton label="UD $" sortKey="underdogValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
-            <th><SortButton label={isEspn ? 'Value diff' : 'Diff'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th>Draft</th>
+            <th className="num-heading"><SortButton label={sourceLabel(source)} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
+            <th className="num-heading"><SortButton label="Underdog" sortKey="underdogRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
+            {isEspn ? <th className="num-heading"><SortButton label="ESPN $" sortKey="sourceValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
+            {isEspn ? <th className="num-heading"><SortButton label="UD $" sortKey="underdogValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
+            <th className="num-heading"><SortButton label={isEspn ? 'Value diff' : 'Diff'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
+            <th className="draft-heading">Draft</th>
           </tr>
         </thead>
         <tbody>
