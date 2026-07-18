@@ -12,12 +12,13 @@ type Props = {
   onPosition: (value: PositionFilter) => void
   onSelectOnlyPosition?: (value: Exclude<PositionFilter, 'ALL'>) => void
   showSearch?: boolean
+  multiSelect?: boolean
   showPositions?: boolean
   selectedPositions?: Set<Exclude<PositionFilter, 'ALL'>>
   onTogglePosition?: (value: Exclude<PositionFilter, 'ALL'>) => void
 }
 
-export function Filters({ search, position, searchInputRef, onSearch, onPosition, onSelectOnlyPosition, showSearch = true, showPositions = true, selectedPositions, onTogglePosition }: Props) {
+export function Filters({ search, position, searchInputRef, onSearch, onPosition, onSelectOnlyPosition, showSearch = true, multiSelect = false, showPositions = true, selectedPositions, onTogglePosition }: Props) {
   return (
     <section className="filters filters--quick" aria-label="Rankings filters">
       {showSearch ? <label className="search-field">
@@ -26,11 +27,17 @@ export function Filters({ search, position, searchInputRef, onSearch, onPosition
       </label> : null}
       {showPositions ? <div className="position-filter-wrap">
         <div className="position-pills" aria-label="Position filters">
-          {positions.map((pos) => (
-            <button key={pos} className={pos === position ? 'active' : ''} onClick={() => onPosition(pos)}>
+          {positions.map((pos) => {
+            const active = multiSelect
+              ? pos === 'ALL' ? selectedPositions?.size === 4 : selectedPositions?.has(pos as Exclude<PositionFilter, 'ALL'>)
+              : pos === position
+            return <button key={pos} className={active ? 'active' : ''} aria-pressed={active} onClick={() => {
+              if (pos === 'ALL' || !multiSelect) onPosition(pos)
+              else onTogglePosition?.(pos as Exclude<PositionFilter, 'ALL'>)
+            }} onDoubleClick={() => pos !== 'ALL' ? onSelectOnlyPosition?.(pos as Exclude<PositionFilter, 'ALL'>) : undefined}>
               {pos}
             </button>
-          ))}
+          })}
         </div>
         <span className="shortcut-help" tabIndex={0} aria-label="Keyboard shortcuts: Command K searches. A shows all. Q filters quarterback. R filters running back. W filters wide receiver. T filters tight end. Escape leaves search.">?
           <span role="tooltip">⌘K search · A all · Q QB · R RB · W WR · T TE · Esc leaves search</span>

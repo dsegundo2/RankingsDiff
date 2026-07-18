@@ -11,6 +11,7 @@ import { PositionBoard } from './PositionBoard'
 
 type ViewMode = 'board' | 'positions'
 type PositionKey = Exclude<PositionFilter, 'ALL'>
+const allPositionKeys = new Set<PositionKey>(['RB', 'WR', 'QB', 'TE'])
 type Props = {
   manifest: DataManifest
   rows: RankingRow[]
@@ -29,6 +30,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [view, setView] = useState<ViewMode>('board')
+  const [boardPositions, setBoardPositions] = useState<Set<PositionKey>>(new Set(allPositionKeys))
   const [positionViews, setPositionViews] = useState<Set<PositionKey>>(new Set(['RB', 'WR', 'QB', 'TE']))
   const [targets, setTargets] = useState<Set<string>>(new Set())
   const [drafted, setDrafted] = useState<Set<string>>(new Set())
@@ -39,7 +41,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const season = manifest.seasons.find((item) => item.season === selectedSeason) ?? manifest.seasons[0]
   const source = season?.sources.find((item) => item.id === selectedSource) ?? season?.sources[0]
   const storageKey = `rankingsdiff:draft:v1:${selectedSeason}:${selectedSource}`
-  const filteredRows = useMemo(() => filterRankings(rows, search, view === 'positions' ? 'ALL' : position), [rows, search, position, view])
+  const filteredRows = useMemo(() => {
+    const searchedRows = filterRankings(rows, search, 'ALL')
+    if (view === 'positions' || boardPositions.size === allPositionKeys.size) return searchedRows
+    return searchedRows.filter((row) => boardPositions.has(row.position.toUpperCase() as PositionKey))
+  }, [rows, search, view, boardPositions])
   const visibleRows = useMemo(() => sortRankings(filteredRows, sortKey, sortDirection).filter((row) => showDrafted || !drafted.has(rankingId(row))), [filteredRows, sortKey, sortDirection, showDrafted, drafted])
   const targetRows = useMemo(() => sortRankings(rows.filter((row) => targets.has(rankingId(row)) && !drafted.has(rankingId(row))), 'sourceRank', 'asc'), [rows, targets, drafted])
   const targetSummary = useMemo(() => {
@@ -88,7 +94,13 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       const nextPosition = positionShortcuts[shortcut]
       if (nextPosition) {
         event.preventDefault()
-        setPosition(nextPosition)
+        if (nextPosition === 'ALL') {
+          setPosition('ALL')
+          setBoardPositions(new Set(allPositionKeys))
+        } else {
+          setPosition(nextPosition)
+          setBoardPositions(new Set([nextPosition]))
+        }
       }
     }
     document.addEventListener('keydown', handleKeydown)
@@ -140,6 +152,32 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     setPositionViews(new Set([value]))
   }
 
+  function toggleBoardPosition(value: PositionKey) {
+    setBoardPositions((current) => {
+      if (current.size === allPositionKeys.size) return new Set([value])
+      const next = new Set(current)
+      if (next.has(value)) next.delete(value)
+      else next.add(value)
+      return next.size ? next : new Set(allPositionKeys)
+    })
+    setPosition(value)
+  }
+
+  function handleBoardPosition(value: PositionFilter) {
+    if (value === 'ALL') {
+      setBoardPositions(new Set(allPositionKeys))
+      setPosition('ALL')
+      return
+    }
+    setBoardPositions(new Set([value]))
+    setPosition(value)
+  }
+
+  function selectOnlyBoardPosition(value: PositionKey) {
+    setBoardPositions(new Set([value]))
+    setPosition(value)
+  }
+
   function restoreDraft(nextTargets: string[], nextDrafted: string[]) {
     setTargets(new Set(nextTargets))
     setDrafted(new Set(nextDrafted))
@@ -182,12 +220,13 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           search={search}
           position={position}
           onSearch={setSearch}
-          onPosition={setPosition}
+          onPosition={view === 'board' ? handleBoardPosition : setPosition}
           showSearch={false}
+          multiSelect={view === 'board'}
+          selectedPositions={view === 'board' ? boardPositions : positionViews}
           showPositions={view === 'board'}
-          selectedPositions={positionViews}
-          onTogglePosition={togglePositionView}
-          onSelectOnlyPosition={selectOnlyPosition}
+          onTogglePosition={view === 'board' ? toggleBoardPosition : togglePositionView}
+          onSelectOnlyPosition={view === 'board' ? selectOnlyBoardPosition : selectOnlyPosition}
         />
         <div className="draft-toolbar__actions">
           <button className="secondary-action queue-toggle" type="button" aria-pressed={showTargetQueue} aria-expanded={showTargetQueue} onClick={() => setShowTargetQueue((current) => !current)}>{showTargetQueue ? 'Hide target queue' : `Show target queue (${targetRows.length})`}</button>

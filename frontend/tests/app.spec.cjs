@@ -174,6 +174,16 @@ test('double-clicking a position isolates that lane', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Running backs' })).toHaveCount(0)
 })
 
+test('draft board position filters can combine positions', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'QB', exact: true }).click()
+  await page.getByRole('button', { name: 'WR', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'QB', exact: true })).toHaveClass(/active/)
+  await expect(page.getByRole('button', { name: 'WR', exact: true })).toHaveClass(/active/)
+  await expect(page.getByRole('button', { name: 'RB', exact: true })).not.toHaveClass(/active/)
+  await expect(page.getByRole('button', { name: 'ALL', exact: true })).not.toHaveClass(/active/)
+})
+
 test('table headings stick while draft rows scroll', async ({ page }) => {
   await page.goto('./')
   await expect(page.locator('.rankings-table th').first()).toHaveCSS('position', 'sticky')
