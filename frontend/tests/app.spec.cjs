@@ -151,6 +151,7 @@ test('position overview shows all lanes without collisions', async ({ page }) =>
 
 test('team logos are centered inside badges', async ({ page }) => {
   await page.goto('./')
+  expect(await page.locator('.player-cell').first().evaluate((cell) => parseFloat(getComputedStyle(cell).columnGap))).toBeGreaterThanOrEqual(10)
   const offset = await page.locator('.team-badge:has(img)').first().evaluate((badge) => {
     const image = badge.querySelector('img')
     const badgeBox = badge.getBoundingClientRect()
