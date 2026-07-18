@@ -35,7 +35,7 @@ test('FantasyPros position view emphasizes source rank', async ({ page }) => {
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await page.getByRole('button', { name: 'By position' }).click()
+  await page.getByRole('checkbox', { name: 'By position' }).check()
   await expect(page.locator('.position-lane--rb .position-player__metric strong').first()).toHaveText('#3')
   await expect(page.locator('.position-lane--rb .position-lane__columns')).toContainText('FP')
 })
@@ -53,6 +53,10 @@ test('command-k focuses search and position filters rows', async ({ page }) => {
   await page.keyboard.press('KeyW')
   await expect(page.getByRole('button', { name: 'WR' })).toHaveClass(/active/)
   await expect(page.getByLabel(/Keyboard shortcuts/)).toBeVisible()
+
+  await page.keyboard.press(',')
+  await expect(page.getByRole('dialog', { name: 'Settings' })).toBeVisible()
+  await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.getByText("Ja'Marr Chase").first()).toBeVisible()
   await page.getByPlaceholder(/Ja'Marr/).fill('zzzz')
   await expect(page.getByText('No players match the current filters.')).toBeVisible()
@@ -65,7 +69,7 @@ test('mobile 390px has no horizontal overflow', async ({ page }) => {
   await expect(page.locator('.cards-list')).toBeHidden()
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
-  await page.getByRole('button', { name: 'By position' }).click()
+  await page.getByRole('checkbox', { name: 'By position' }).check()
   await expect(page.getByRole('button', { name: 'Settings' })).toBeVisible()
   await page.getByRole('button', { name: /Settings/ }).click()
   await expect(page.getByRole('button', { name: 'Save draft' })).toBeVisible()
@@ -80,17 +84,25 @@ test('mobile 320px has no horizontal overflow', async ({ page }) => {
 })
 
 
-test('target queue can be shown and hidden and stays usable on mobile', async ({ page }) => {
+test('target queue is controlled from settings and works in both views', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: "Target Ja'Marr Chase" }).first().click()
   await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
   await expect(page.getByLabel('Target queue', { exact: true })).toContainText('Shortlist')
   await expect(page.getByLabel('Target queue', { exact: true })).toContainText('WR')
-  await page.getByRole('button', { name: 'Hide target queue' }).click()
+
+  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
+
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('checkbox', { name: 'Show target queue' }).uncheck()
+  await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.getByLabel('Target queue', { exact: true })).toHaveCount(0)
   await expect(page.locator('.draft-board-layout')).toHaveClass(/draft-board-layout--queue-hidden/)
-  expect(await page.locator('.draft-board-layout').evaluate((layout) => getComputedStyle(layout).gridTemplateColumns)).not.toContain('230px')
-  await page.getByRole('button', { name: /Show target queue/ }).click()
+
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('checkbox', { name: 'Show target queue' }).check()
+  await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
 
   await page.setViewportSize({ width: 390, height: 900 })
@@ -112,7 +124,7 @@ test('targets and drafted state persist per sheet', async ({ page }) => {
 test('position overview shows all lanes without collisions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto('./')
-  await page.getByRole('button', { name: 'By position' }).click()
+  await page.getByRole('checkbox', { name: 'By position' }).check()
   for (const heading of ['Running backs', 'Wide receivers', 'Quarterbacks', 'Tight ends']) {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible()
   }
@@ -167,7 +179,7 @@ test('team logos are centered inside badges', async ({ page }) => {
 
 test('double-clicking a position isolates that lane', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('button', { name: 'By position' }).click()
+  await page.getByRole('checkbox', { name: 'By position' }).check()
   await page.getByRole('button', { name: 'WR', exact: true }).dblclick()
   await expect(page.getByRole('heading', { name: 'Wide receivers' })).toBeVisible()
   await expect(page.locator('.position-board')).toHaveAttribute('data-count', '1')

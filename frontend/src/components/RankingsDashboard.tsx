@@ -90,6 +90,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       }
       if (isTyping || event.metaKey || event.ctrlKey || event.altKey) return
       const shortcut = event.key.toLowerCase()
+      if (shortcut === ',') {
+        event.preventDefault()
+        setSettingsOpen(true)
+        return
+      }
       const positionShortcuts: Record<string, PositionFilter> = { a: 'ALL', q: 'QB', r: 'RB', w: 'WR', t: 'TE' }
       const nextPosition = positionShortcuts[shortcut]
       if (nextPosition) {
@@ -188,6 +193,25 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     setDrafted(new Set())
   }
 
+  const targetQueue = showTargetQueue ? <aside className="target-queue" aria-label="Target queue">
+    <div className="target-queue__heading">
+      <div><span className="eyebrow">Target queue</span><h2>Shortlist</h2></div>
+      <strong>{targetRows.length}</strong>
+    </div>
+    {targetRows.length ? <p className="target-queue__summary">{targetSummary || 'No position mix yet'} · sorted by source rank</p> : null}
+    <div className="target-queue__list">
+      {targetRows.slice(0, 12).map((row) => (
+        <button type="button" key={rankingId(row)} onClick={() => toggleSet(setTargets, rankingId(row))} aria-label={`Remove ${row.player} from queue`}>
+          <span className={`target-queue__pos pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span>
+          <span className="target-queue__player"><strong>{row.player}</strong><small>{row.team} · #{row.sourceRank ?? '—'} → #{row.underdogRank ?? '—'}</small></span>
+          <span className="target-queue__diff">{typeof row.diff === 'number' ? `${row.diff > 0 ? '+' : ''}${row.diff}` : '—'}</span>
+          <span className="target-queue__remove" aria-hidden="true">×</span>
+        </button>
+      ))}
+    </div>
+    {!targetRows.length ? <p>Star players to build a shortlist that stays visible while you search and filter.</p> : null}
+  </aside> : null
+
   return (
     <main className="dashboard">
       <section className="hero hero--compact">
@@ -212,10 +236,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       </section>
 
       <section className="draft-toolbar" aria-label="Draft board controls">
-        <div className="view-tabs" aria-label="Ranking view">
-          <button type="button" className={view === 'board' ? 'active' : ''} aria-pressed={view === 'board'} onClick={() => setView('board')}>Draft board</button>
-          <button type="button" className={view === 'positions' ? 'active' : ''} aria-pressed={view === 'positions'} onClick={() => setView('positions')}>By position</button>
-        </div>
+        <label className="drafted-toggle view-mode-toggle"><input type="checkbox" checked={view === 'positions'} onChange={(event) => setView(event.target.checked ? 'positions' : 'board')} /> By position</label>
         <Filters
           search={search}
           position={position}
@@ -227,9 +248,9 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           showPositions={view === 'board'}
           onTogglePosition={view === 'board' ? toggleBoardPosition : togglePositionView}
           onSelectOnlyPosition={view === 'board' ? selectOnlyBoardPosition : selectOnlyPosition}
+          compact
         />
         <div className="draft-toolbar__actions">
-          <button className="secondary-action queue-toggle" type="button" aria-pressed={showTargetQueue} aria-expanded={showTargetQueue} onClick={() => setShowTargetQueue((current) => !current)}>{showTargetQueue ? 'Hide target queue' : `Show target queue (${targetRows.length})`}</button>
           <label className="drafted-toggle"><input type="checkbox" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /> Show drafted</label>
         </div>
       </section>
@@ -242,26 +263,14 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
               {visibleRows.map((row) => <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} targeted={targets.has(rankingId(row))} drafted={drafted.has(rankingId(row))} onTarget={() => toggleSet(setTargets, rankingId(row))} onDrafted={() => toggleDrafted(rankingId(row))} />)}
             </section>
           </div>
-          {showTargetQueue ? <aside className="target-queue" aria-label="Target queue">
-            <div className="target-queue__heading">
-              <div><span className="eyebrow">Target queue</span><h2>Shortlist</h2></div>
-              <strong>{targetRows.length}</strong>
-            </div>
-            {targetRows.length ? <p className="target-queue__summary">{targetSummary || 'No position mix yet'} · sorted by source rank</p> : null}
-            <div className="target-queue__list">
-              {targetRows.slice(0, 12).map((row) => (
-                <button type="button" key={rankingId(row)} onClick={() => toggleSet(setTargets, rankingId(row))} aria-label={`Remove ${row.player} from queue`}>
-                  <span className={`target-queue__pos pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span>
-                  <span className="target-queue__player"><strong>{row.player}</strong><small>{row.team} · #{row.sourceRank ?? '—'} → #{row.underdogRank ?? '—'}</small></span>
-                  <span className="target-queue__diff">{typeof row.diff === 'number' ? `${row.diff > 0 ? '+' : ''}${row.diff}` : '—'}</span>
-                  <span className="target-queue__remove" aria-hidden="true">×</span>
-                </button>
-              ))}
-            </div>
-            {!targetRows.length ? <p>Star players to build a shortlist that stays visible while you search and filter.</p> : null}
-          </aside> : null}
+          {targetQueue}
         </div>
-      ) : <PositionBoard rows={sortRankings(filteredRows, 'sourceRank', 'asc')} positions={positionViews} teams={teams} targets={targets} drafted={drafted} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />}
+      ) : (
+        <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`}>
+          <PositionBoard rows={sortRankings(filteredRows, 'sourceRank', 'asc')} positions={positionViews} teams={teams} targets={targets} drafted={drafted} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />
+          {targetQueue}
+        </div>
+      )}
       <SettingsPopover
         open={settingsOpen}
         manifest={manifest}
@@ -271,10 +280,13 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         sourceChecks={sourceChecks}
         generatedAt={manifest.generatedAt}
         visibleCount={visibleRows.length}
+        targetCount={targetRows.length}
+        showTargetQueue={showTargetQueue}
         targets={targets}
         drafted={drafted}
         onRestoreDraft={restoreDraft}
         onClearDraft={clearDraft}
+        onShowTargetQueue={setShowTargetQueue}
         onSeason={handleSeasonFromSettings}
         onSource={handleSourceFromSettings}
         onClose={() => setSettingsOpen(false)}

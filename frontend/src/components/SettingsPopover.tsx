@@ -12,10 +12,13 @@ type Props = {
   sourceChecks?: SourceCheckPayload
   generatedAt?: string
   visibleCount: number
+  targetCount: number
+  showTargetQueue: boolean
   targets: Set<string>
   drafted: Set<string>
   onRestoreDraft: (targets: string[], drafted: string[]) => void
   onClearDraft: () => void
+  onShowTargetQueue: (value: boolean) => void
   onSeason: (value: number) => void
   onSource: (value: string) => void
   onClose: () => void
@@ -37,7 +40,7 @@ function SourceLinks({ links }: { links?: SourceLink[] }) {
   )
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, sourceChecks, generatedAt, visibleCount, targets, drafted, onRestoreDraft, onClearDraft, onSeason, onSource, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, targets, drafted, onRestoreDraft, onClearDraft, onShowTargetQueue, onSeason, onSource, onClose }: Props) {
   if (!open) return null
   const currentSeason = manifest.seasons.find((season) => season.season === selectedSeason) ?? manifest.seasons[0]
 
@@ -79,11 +82,19 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
         <div className="settings-section settings-section--tools">
           <div className="settings-section__copy">
             <span className="eyebrow">Snapshot</span>
-            <h3>Downloads and draft backup</h3>
-            <p>Export the current table or save, restore, and clear your draft state.</p>
+            <h3>Downloads, queue, and draft backup</h3>
+            <p>Export the current table, control the target queue, or save, restore, and clear your draft state.</p>
           </div>
           <div className="settings-tools-grid">
             <DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact />
+            <div className="settings-preference-card">
+              <div>
+                <span className="eyebrow">Target queue</span>
+                <strong>{showTargetQueue ? 'Visible' : 'Hidden'}</strong>
+                <small>{targetCount.toLocaleString()} shortlisted player{targetCount === 1 ? '' : 's'}</small>
+              </div>
+              <label className="drafted-toggle"><input type="checkbox" checked={showTargetQueue} onChange={(event) => onShowTargetQueue(event.target.checked)} /> Show target queue</label>
+            </div>
             <DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} onRestore={onRestoreDraft} onClear={onClearDraft} />
           </div>
         </div>

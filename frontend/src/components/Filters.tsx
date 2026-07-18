@@ -5,6 +5,7 @@ const positions: PositionFilter[] = ['ALL', 'QB', 'RB', 'WR', 'TE']
 const positionOptions: Exclude<PositionFilter, 'ALL'>[] = ['RB', 'WR', 'QB', 'TE']
 
 type Props = {
+  compact?: boolean
   search: string
   position: PositionFilter
   searchInputRef?: Ref<HTMLInputElement>
@@ -18,9 +19,9 @@ type Props = {
   onTogglePosition?: (value: Exclude<PositionFilter, 'ALL'>) => void
 }
 
-export function Filters({ search, position, searchInputRef, onSearch, onPosition, onSelectOnlyPosition, showSearch = true, multiSelect = false, showPositions = true, selectedPositions, onTogglePosition }: Props) {
+export function Filters({ search, position, searchInputRef, onSearch, onPosition, onSelectOnlyPosition, showSearch = true, multiSelect = false, showPositions = true, selectedPositions, onTogglePosition, compact = false }: Props) {
   return (
-    <section className="filters filters--quick" aria-label="Rankings filters">
+    <section className={`filters filters--quick${compact ? ' filters--compact' : ''}`} aria-label="Rankings filters">
       {showSearch ? <label className="search-field">
         <span>Search players</span>
         <input data-player-search ref={searchInputRef} value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />

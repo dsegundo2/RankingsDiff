@@ -44,7 +44,7 @@ export function formatSignedValue(value?: number): string {
 }
 
 export function sourceLabel(id: string): string {
-  if (id === 'fpros') return 'FantasyPros'
+  if (id === 'fpros') return 'FPros'
   if (id === 'espn') return 'ESPN'
   return id.toUpperCase()
 }
