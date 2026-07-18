@@ -1,6 +1,5 @@
 const { defineConfig, devices } = require('@playwright/test')
-const basePath = process.env.GITHUB_ACTIONS ? '/RankingsDiff/' : '/'
-const appUrl = `http://127.0.0.1:5173${basePath}`
+const appUrl = 'http://127.0.0.1:5173/'
 
 module.exports = defineConfig({
   testDir: './tests',
