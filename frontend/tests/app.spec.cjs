@@ -205,11 +205,12 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
 
 test('spacing options preview renders layout ideas', async ({ page }) => {
   await page.goto('./spacing-options.html')
-  await expect(page.getByRole('heading', { name: 'Spacing options for rankings rows' })).toBeVisible()
-  await expect(page.locator('.option')).toHaveCount(11)
-  await expect(page.getByText('Option B: Rank pair in one column')).toBeVisible()
-  await expect(page.getByText('Option F: Mobile-first value cards')).toBeVisible()
-  await expect(page.getByText('Option I: Hide queue, widen the board')).toBeVisible()
-  await expect(page.getByText('Option J: Three-position compact lanes')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Full-name layouts for rankings' })).toBeVisible()
+  await expect(page.locator('.option')).toHaveCount(6)
+  await expect(page.getByText('Option B: Stacked price + soft edge')).toBeVisible()
+  await expect(page.getByText('Option D: Value cards with labeled pills')).toBeVisible()
+  await expect(page.getByText('Kenneth Walker III').first()).toBeVisible()
+  await expect(page.getByText('Amon-Ra St. Brown').first()).toBeVisible()
+  expect(await page.locator('.name strong, .gradient-card h4, .mobile-card h4, .mobile-row strong, .lane-row strong').allTextContents()).not.toContain('…')
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
