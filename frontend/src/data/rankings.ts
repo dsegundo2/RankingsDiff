@@ -1,0 +1,50 @@
+import type { PositionFilter, RankingRow, SortDirection, SortKey } from '../types'
+
+export function filterRankings(rows: RankingRow[], search: string, position: PositionFilter): RankingRow[] {
+  const query = search.trim().toLowerCase()
+  return rows.filter((row) => {
+    const matchesPosition = position === 'ALL' || row.position.toUpperCase() === position
+    if (!matchesPosition) return false
+    if (!query) return true
+    return [row.player, row.team, row.position, row.positionRank, row.notes]
+      .filter(Boolean)
+      .some((value) => String(value).toLowerCase().includes(query))
+  })
+}
+
+function comparable(value: RankingRow[SortKey], key: SortKey): string | number {
+  if (value === undefined || value === null) return key === 'player' || key === 'position' ? '' : Number.POSITIVE_INFINITY
+  return typeof value === 'string' ? value.toLowerCase() : value
+}
+
+export function sortRankings(rows: RankingRow[], key: SortKey, direction: SortDirection): RankingRow[] {
+  const multiplier = direction === 'asc' ? 1 : -1
+  return [...rows].sort((a, b) => {
+    const left = comparable(a[key], key)
+    const right = comparable(b[key], key)
+    if (left < right) return -1 * multiplier
+    if (left > right) return 1 * multiplier
+    return (a.sourceRank ?? 9999) - (b.sourceRank ?? 9999)
+  })
+}
+
+export function formatRank(value?: number): string {
+  return typeof value === 'number' && Number.isFinite(value) ? String(value) : '—'
+}
+
+export function formatValue(value?: number): string {
+  return typeof value === 'number' && Number.isFinite(value) ? `$${value.toLocaleString()}` : '—'
+}
+
+export function formatSignedValue(value?: number): string {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return '—'
+  const absolute = Math.abs(value).toLocaleString()
+  if (value === 0) return '$0'
+  return `${value > 0 ? '+' : '-'}$${absolute}`
+}
+
+export function sourceLabel(id: string): string {
+  if (id === 'fpros') return 'FantasyPros'
+  if (id === 'espn') return 'ESPN'
+  return id.toUpperCase()
+}
