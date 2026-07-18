@@ -3,8 +3,6 @@ import type { Dispatch, SetStateAction } from 'react'
 import type { DataManifest, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset } from '../types'
 import { filterRankings, sortRankings } from '../data/rankings'
 import { rankingId, readDraftState, writeDraftState } from '../data/draftState'
-import { DownloadPanel } from './DownloadPanel'
-import { DraftStateControls } from './DraftStateControls'
 import { Filters } from './Filters'
 import { RankingCard } from './RankingCard'
 import { RankingsTable } from './RankingsTable'
@@ -158,12 +156,12 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
             Looking at <strong>{selectedSeason}</strong> · <strong>{source?.label ?? selectedSource}</strong>
           </div>
         </div>
-        <div className="hero-actions">
-          <button className="sheet-switcher" type="button" onClick={() => setSettingsOpen(true)} aria-haspopup="dialog">
-            <span>Switch sheet</span>
-            <strong>{selectedSeason} · {source?.label ?? selectedSource}</strong>
+        <div className="hero-actions hero-actions--settings">
+          <button className="settings-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-haspopup="dialog">
+            <span className="settings-trigger__icon" aria-hidden="true">⚙</span>
+            <span><span>Settings</span><strong>{selectedSeason} · {source?.label ?? selectedSource}</strong></span>
+            <small>{visibleRows.length.toLocaleString()} showing · downloads & draft tools</small>
           </button>
-          <DownloadPanel source={source} generatedAt={manifest.generatedAt} count={visibleRows.length} />
         </div>
       </section>
 
@@ -188,7 +186,6 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         <div className="draft-toolbar__actions">
           <button className="secondary-action queue-toggle" type="button" aria-pressed={showTargetQueue} aria-expanded={showTargetQueue} onClick={() => setShowTargetQueue((current) => !current)}>{showTargetQueue ? 'Hide target queue' : `Show target queue (${targetRows.length})`}</button>
           <label className="drafted-toggle"><input type="checkbox" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /> Show drafted</label>
-          <DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} onRestore={restoreDraft} onClear={clearDraft} />
         </div>
       </section>
 
@@ -227,6 +224,12 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         selectedSource={source?.id ?? selectedSource}
         currentSource={source}
         sourceChecks={sourceChecks}
+        generatedAt={manifest.generatedAt}
+        visibleCount={visibleRows.length}
+        targets={targets}
+        drafted={drafted}
+        onRestoreDraft={restoreDraft}
+        onClearDraft={clearDraft}
         onSeason={handleSeasonFromSettings}
         onSource={handleSourceFromSettings}
         onClose={() => setSettingsOpen(false)}

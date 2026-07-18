@@ -1,12 +1,12 @@
 import type { SourceManifest } from '../types'
 import { withBasePath } from '../data/paths'
 
-type Props = { source?: SourceManifest; generatedAt?: string; count?: number }
+type Props = { source?: SourceManifest; generatedAt?: string; count?: number; compact?: boolean }
 
-export function DownloadPanel({ source, generatedAt, count }: Props) {
+export function DownloadPanel({ source, generatedAt, count, compact = false }: Props) {
   if (!source) return null
   return (
-    <aside className="download-panel" aria-label="Downloads">
+    <aside className={`download-panel ${compact ? 'download-panel--compact' : ''}`} aria-label="Downloads">
       <div>
         <span className="eyebrow">Snapshot</span>
         <strong>{(count ?? source.rowCount).toLocaleString()} showing</strong>

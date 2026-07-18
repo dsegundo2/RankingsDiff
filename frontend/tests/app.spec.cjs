@@ -5,14 +5,16 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://a.espncdn.com/**', (route) => route.abort())
 })
 
-test('dashboard renders and exposes downloads', async ({ page }) => {
+test('dashboard renders and exposes settings downloads', async ({ page }) => {
   await page.goto('./')
   await expect(page.getByRole('heading', { name: 'RankingsDiff' })).toBeVisible()
-  await expect(page.getByRole('link', { name: 'CSV' })).toBeVisible()
-  await expect(page.getByRole('link', { name: 'XLSX' })).toBeVisible()
+  await expect(page.getByRole('button', { name: /Settings/ })).toBeVisible()
   await expect(page.locator('.team-badge').first()).toBeVisible()
   await expect(page.getByText(/Looking at/)).toBeVisible()
-  await page.getByRole('button', { name: /Switch sheet/ }).click()
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await expect(page.getByRole('link', { name: 'CSV' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'XLSX' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Save draft' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Run refresh workflow' })).toBeVisible()
   await expect(page.getByLabel('Position colors')).toHaveCount(0)
   const sourceLinkRadius = await page.getByRole('link', { name: /ESPN 2026 PPR300 PDF/ }).evaluate((link) => getComputedStyle(link).borderRadius)
@@ -21,7 +23,7 @@ test('dashboard renders and exposes downloads', async ({ page }) => {
 
 test('season and source switching works with manifest data', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('button', { name: /Switch sheet/ }).click()
+  await page.getByRole('button', { name: /Settings/ }).click()
   await page.locator('.settings-popover').getByLabel('Year').selectOption('2025')
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('espn')
   await page.getByRole('button', { name: 'Close settings' }).click()
@@ -30,7 +32,7 @@ test('season and source switching works with manifest data', async ({ page }) =>
 
 test('FantasyPros position view emphasizes source rank', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('button', { name: /Switch sheet/ }).click()
+  await page.getByRole('button', { name: /Settings/ }).click()
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await page.getByRole('button', { name: 'By position' }).click()
@@ -62,6 +64,8 @@ test('mobile 390px has no horizontal overflow', async ({ page }) => {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
   await page.getByRole('button', { name: 'By position' }).click()
+  await expect(page.getByRole('button', { name: 'Settings' })).toBeVisible()
+  await page.getByRole('button', { name: /Settings/ }).click()
   await expect(page.getByRole('button', { name: 'Save draft' })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
@@ -166,6 +170,7 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
   await page.getByRole('button', { name: "Target Ja'Marr Chase" }).first().click()
   await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
 
+  await page.getByRole('button', { name: /Settings/ }).click()
   const downloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Save draft' }).click()
   const download = await downloadPromise
@@ -180,8 +185,10 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
   await page.getByRole('button', { name: 'Clear draft' }).click()
   await expect(page.getByRole('heading', { name: 'Clear this draft?' })).toBeVisible()
   await page.getByRole('button', { name: 'Clear without saving' }).click()
+  await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first()).toBeVisible()
 
+  await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByLabel('Upload draft JSON').setInputFiles({
     name: 'saved-draft.json',
     mimeType: 'application/json',
