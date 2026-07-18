@@ -239,11 +239,11 @@ tbody tr.is-drafted { opacity: .48; }
 .rankings-table .col-action { width: 48px; }
 .rankings-table .col-player { width: auto; }
 .rankings-table .col-position { width: 72px; }
-.rankings-table .col-rank { width: 92px; }
+.rankings-table .col-rank { width: 112px; }
 .rankings-table .col-money { width: 82px; }
 .rankings-table .col-diff { width: 92px; }
 .rankings-table .col-draft { width: 76px; }
-.rankings-table--fpros .col-rank, .rankings-table--fpros .col-diff { width: 78px; }
+.rankings-table--fpros .col-rank, .rankings-table--fpros .col-diff { width: 112px; }
 .num-heading, .draft-heading { text-align: right; }
 .num-heading .sort-button { width: 100%; text-align: right; }
 .draft-heading { padding-right: 17px; }
@@ -254,6 +254,15 @@ tbody tr.is-drafted { opacity: .48; }
 .rankings-table .player-cell > div { min-width: 0; }
 .rankings-table .player-cell strong, .rankings-table .player-cell span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mobile-player-meta { display: none; }
+.rank-heading small, .price-heading small { display: block; margin-top: 3px; color: var(--muted); font-size: .58rem; font-weight: 750; letter-spacing: 0; text-transform: none; }
+.rank-pair { display: inline-flex; gap: 5px; align-items: baseline; justify-content: flex-end; font-variant-numeric: tabular-nums; }
+.rank-pair span { color: var(--muted); font-weight: 700; }
+.stacked-price { display: grid; gap: 2px; justify-items: end; font-variant-numeric: tabular-nums; }
+.stacked-price small { color: var(--muted); font-size: .68rem; font-weight: 750; }
+.diff-cell { border-radius: 8px; }
+.diff-cell.diff-positive { color: var(--good); background: rgba(22,145,92,.065); }
+.diff-cell.diff-negative { color: var(--danger); background: rgba(210,52,68,.065); }
+.diff-cell.diff-neutral { color: var(--muted); background: rgba(100,116,139,.045); }
 
 .draft-board-layout { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); }
 .queue-toggle { display: inline-flex; align-items: center; justify-content: center; }
@@ -303,19 +312,21 @@ tbody tr.is-drafted { opacity: .48; }
   .draft-toolbar__actions { justify-content: space-between; }
   .table-wrap { display: block; width: calc(100% + 20px); margin-inline: -10px; overflow: hidden; border-radius: 0; border-inline: 0; box-shadow: none; }
   .rankings-table { table-layout: fixed; }
-  .rankings-table .position-heading, .rankings-table .position-cell,
-  .rankings-table .underdog-heading, .rankings-table .underdog-cell,
-  .rankings-table .money-heading, .rankings-table .money-cell { display: none; }
-  .rankings-table .col-position, .rankings-table .col-money, .rankings-table .col-underdog { width: 0; }
-  .rankings-table .col-source { width: 48px; }
-  .rankings-table .col-diff { width: 54px; }
+  .rankings-table .col-position { width: 46px; }
+  .rankings-table .col-rank { width: 68px; }
+  .rankings-table .col-money { width: 0; }
+  .rankings-table .col-diff { width: 50px; }
   .rankings-table .col-draft { width: 54px; }
   .rankings-table th, .rankings-table td { padding: 8px 7px; }
   .rankings-table .player-cell { min-width: 0; gap: 7px; }
-  .rankings-table .player-cell .team-badge { display: none; }
+  .rankings-table .player-cell .team-badge { display: flex; width: 28px; height: 28px; flex-basis: 28px; border-radius: 8px; }
+  .rankings-table .player-cell .team-badge img { width: 22px; height: 22px; }
   .rankings-table .player-cell strong { overflow: visible; text-overflow: clip; white-space: normal; font-size: .82rem; line-height: 1.15; }
-  .rankings-table .player-cell > div > span:not(.mobile-player-meta) { display: none; }
-  .rankings-table .player-cell .mobile-player-meta { display: block; overflow: hidden; margin-top: 3px; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; font-size: .64rem; }
+  .rankings-table .player-cell > div > span { display: block; margin-top: 3px; font-size: .64rem; }
+  .rankings-table .rank-heading small, .rankings-table .price-heading, .rankings-table .price-cell { display: none; }
+  .rankings-table .rank-pair { gap: 3px; font-size: .72rem; }
+  .rankings-table .position-cell { display: table-cell; }
+  .rankings-table .position-cell .pos-chip { min-width: 38px; padding: 5px 4px; font-size: .66rem; }
   .rankings-table .draft-action { min-width: 48px; padding: 6px 4px; font-size: .68rem; }
   .cards-list { display: none; }
   .settings-grid, .source-check { grid-template-columns: 1fr; }

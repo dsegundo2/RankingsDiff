@@ -27,7 +27,7 @@ test('season and source switching works with manifest data', async ({ page }) =>
   await page.locator('.settings-popover').getByLabel('Year').selectOption('2025')
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('espn')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.getByText('ESPN $')).toBeVisible()
+  await expect(page.getByText('Price', { exact: true })).toBeVisible()
 })
 
 test('FantasyPros position view emphasizes source rank', async ({ page }) => {

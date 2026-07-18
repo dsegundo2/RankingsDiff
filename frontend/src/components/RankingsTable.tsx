@@ -42,9 +42,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
           <col className="col-action" />
           <col className="col-player" />
           <col className="col-position" />
-          <col className="col-rank col-source" />
-          <col className="col-rank col-underdog" />
-          {isEspn ? <col className="col-money" /> : null}
+          <col className="col-rank" />
           {isEspn ? <col className="col-money" /> : null}
           <col className="col-diff" />
           <col className="col-draft" />
@@ -54,10 +52,8 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
             <th className="action-heading"><span className="sr-only">Target</span></th>
             <th><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th className="num-heading source-rank-heading"><SortButton label={sourceLabel(source)} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th className="num-heading underdog-heading"><SortButton label="Underdog" sortKey="underdogRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            {isEspn ? <th className="num-heading money-heading"><SortButton label="ESPN $" sortKey="sourceValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
-            {isEspn ? <th className="num-heading money-heading"><SortButton label="UD $" sortKey="underdogValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
+            <th className="num-heading rank-heading"><SortButton label="Rank" sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><small>{sourceLabel(source)} → UD</small></th>
+            {isEspn ? <th className="num-heading price-heading"><SortButton label="Price" sortKey="sourceValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><small>{sourceLabel(source)} / UD</small></th> : null}
             <th className="num-heading diff-heading"><SortButton label={isEspn ? 'Value diff' : 'Diff'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="draft-heading">Draft</th>
           </tr>
@@ -78,14 +74,12 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
                 <td className="row-action"><button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={() => onTarget(id)}>★</button></td>
                 <td className="player-cell">
                   <TeamBadge team={team} asset={asset} />
-                  <div><strong>{row.player}</strong><span>{team}</span><small className="mobile-player-meta">{sourceLabel(source)} #{formatRank(row.sourceRank)} · UD #{formatRank(row.underdogRank)}{isEspn ? ` · ${formatValue(row.sourceValue)} / ${formatValue(row.underdogValue)}` : ''}</small></div>
+                  <div><strong>{row.player}</strong><span>{team}</span></div>
                 </td>
                 <td className="position-cell"><span className={`pos-chip pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span></td>
-                <td className="num source-rank-cell">{formatRank(row.sourceRank)}</td>
-                <td className="num underdog-cell">{formatRank(row.underdogRank)}</td>
-                {isEspn ? <td className="num money-cell">{formatValue(row.sourceValue)}</td> : null}
-                {isEspn ? <td className="num money-cell">{formatValue(row.underdogValue)}</td> : null}
-                <td className="num emphasis diff-cell">{isEspn ? formatSignedValue(row.diff) : formatRank(row.diff)}</td>
+                <td className="num rank-cell"><span className="rank-pair"><strong>{formatRank(row.sourceRank)}</strong><span>→</span><strong>{formatRank(row.underdogRank)}</strong></span></td>
+                {isEspn ? <td className="num price-cell"><span className="stacked-price"><strong>{formatValue(row.sourceValue)}</strong><small>UD {formatValue(row.underdogValue)}</small></span></td> : null}
+                <td className={`num emphasis diff-cell ${typeof row.diff === 'number' && row.diff > 0 ? 'diff-positive' : typeof row.diff === 'number' && row.diff < 0 ? 'diff-negative' : 'diff-neutral'}`}>{isEspn ? formatSignedValue(row.diff) : formatRank(row.diff)}</td>
                 <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={() => onDrafted(id)}>{isDrafted ? 'Undo' : 'Draft'}</button></td>
               </tr>
             )
