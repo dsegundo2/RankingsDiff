@@ -49,7 +49,7 @@ export function PositionBoard({ rows, teams, targets, drafted, isEspn, showDraft
                       <span>{isEspn ? `${formatValue(row.sourceValue)} / ${formatValue(row.underdogValue)}` : 'rank gap'}</span>
                     </div>
                     <button className={`icon-action target-action ${targets.has(id) ? 'active' : ''}`} type="button" aria-label={`${targets.has(id) ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={targets.has(id)} onClick={() => onTarget(id)}>★</button>
-                    <button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" onClick={() => onDrafted(id)}>{isDrafted ? 'Undo' : 'Drafted'}</button>
+                    <button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={() => onDrafted(id)}>{isDrafted ? 'Undo' : 'Draft'}</button>
                   </div>
                 )
               })}

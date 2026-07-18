@@ -57,10 +57,10 @@ test('targets and drafted state persist per sheet', async ({ page }) => {
   const target = page.getByRole('button', { name: "Target Ja'Marr Chase" }).first()
   await target.click()
   await expect(page.getByRole('button', { name: "Remove target Ja'Marr Chase" }).first()).toBeVisible()
-  await page.getByRole('button', { name: 'Drafted' }).first().click()
-  await expect(page.getByRole('button', { name: 'Undo' }).first()).toBeVisible()
+  await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
+  await expect(page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first()).toBeVisible()
   await page.reload()
-  await expect(page.getByRole('button', { name: 'Undo' }).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first()).toBeVisible()
 })
 
 test('position overview shows all lanes without collisions', async ({ page }) => {

@@ -71,7 +71,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
                 {isEspn ? <td className="num">{formatValue(row.sourceValue)}</td> : null}
                 {isEspn ? <td className="num">{formatValue(row.underdogValue)}</td> : null}
                 <td className="num emphasis">{isEspn ? formatSignedValue(row.diff) : formatRank(row.diff)}</td>
-                <td><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" onClick={() => onDrafted(id)}>{isDrafted ? 'Undo' : 'Drafted'}</button></td>
+                <td><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={() => onDrafted(id)}>{isDrafted ? 'Undo' : 'Draft'}</button></td>
               </tr>
             )
           })}
