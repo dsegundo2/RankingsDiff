@@ -6,11 +6,15 @@ import { TeamBadge } from './TeamBadge'
 
 type Props = { row: RankingRow; teams: Record<string, TeamAsset>; source: RankingSource; targeted?: boolean; drafted?: boolean; onTarget?: () => void; onDrafted?: () => void }
 
-function diffSignalStyle(diff?: number): CSSProperties {
-  if (typeof diff !== 'number' || !Number.isFinite(diff) || diff === 0) return {}
-  const magnitude = Math.min(Math.abs(diff), 24)
+function diffSignalStyle(diff: number | undefined, isEspn: boolean): CSSProperties {
+  const neutralRange = isEspn ? 1 : 3
+  if (typeof diff !== 'number' || !Number.isFinite(diff) || Math.abs(diff) <= neutralRange) return {}
+  const magnitude = Math.min(Math.abs(diff) - neutralRange, 24)
   const alpha = 0.05 + (magnitude / 24) * 0.25
-  return { '--diff-alpha': alpha.toFixed(3) } as CSSProperties
+  return {
+    '--diff-alpha': alpha.toFixed(3),
+    '--diff-rgb': diff > 0 ? '22 145 92' : '210 52 68'
+  } as CSSProperties
 }
 
 function diffDirectionClass(diff?: number): string {
@@ -22,7 +26,7 @@ export function RankingCard({ row, teams, source, targeted = false, drafted = fa
   const team = normalizeTeamAbbreviation(row.team)
   const asset = getTeamAsset(teams, team)
   return (
-    <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''}`} style={diffSignalStyle(row.diff)}>
+    <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''}`} style={diffSignalStyle(row.diff, source === 'espn')}>
       <div className="ranking-card__header"><div className="player-line">
         <TeamBadge team={team} asset={asset} />
         <div>

@@ -4,6 +4,7 @@ import type { DataManifest, PositionFilter, RankingRow, SourceCheckPayload, Sort
 import { filterRankings, sortRankings } from '../data/rankings'
 import { rankingId, readDraftState, writeDraftState } from '../data/draftState'
 import { DownloadPanel } from './DownloadPanel'
+import { DraftStateControls } from './DraftStateControls'
 import { Filters } from './Filters'
 import { RankingCard } from './RankingCard'
 import { RankingsTable } from './RankingsTable'
@@ -11,6 +12,7 @@ import { SettingsPopover } from './SettingsPopover'
 import { PositionBoard } from './PositionBoard'
 
 type ViewMode = 'board' | 'positions'
+type PositionKey = Exclude<PositionFilter, 'ALL'>
 type Props = {
   manifest: DataManifest
   rows: RankingRow[]
@@ -29,6 +31,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [view, setView] = useState<ViewMode>('board')
+  const [positionViews, setPositionViews] = useState<Set<PositionKey>>(new Set(['RB', 'WR', 'QB', 'TE']))
   const [targets, setTargets] = useState<Set<string>>(new Set())
   const [drafted, setDrafted] = useState<Set<string>>(new Set())
   const [showDrafted, setShowDrafted] = useState(true)
@@ -117,6 +120,25 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     })
   }
 
+  function togglePositionView(value: PositionKey) {
+    setPositionViews((current) => {
+      const next = new Set(current)
+      if (next.has(value)) next.delete(value)
+      else next.add(value)
+      return next
+    })
+  }
+
+  function restoreDraft(nextTargets: string[], nextDrafted: string[]) {
+    setTargets(new Set(nextTargets))
+    setDrafted(new Set(nextDrafted))
+  }
+
+  function clearDraft() {
+    setTargets(new Set())
+    setDrafted(new Set())
+  }
+
   return (
     <main className="dashboard">
       <section className="hero hero--compact">
@@ -144,16 +166,19 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           onSearch={setSearch}
           onPosition={setPosition}
           showPositions={view === 'board'}
+          selectedPositions={positionViews}
+          onTogglePosition={togglePositionView}
         />
       </div>
 
       <section className="draft-toolbar" aria-label="Draft board controls">
         <div className="view-tabs" aria-label="Ranking view">
           <button type="button" className={view === 'board' ? 'active' : ''} aria-pressed={view === 'board'} onClick={() => setView('board')}>Draft board</button>
-          <button type="button" className={view === 'positions' ? 'active' : ''} aria-pressed={view === 'positions'} onClick={() => setView('positions')}>Top by position</button>
+          <button type="button" className={view === 'positions' ? 'active' : ''} aria-pressed={view === 'positions'} onClick={() => setView('positions')}>By position</button>
         </div>
         <div className="draft-toolbar__actions">
           <label className="drafted-toggle"><input type="checkbox" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /> Show drafted</label>
+          <DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} onRestore={restoreDraft} onClear={clearDraft} />
         </div>
       </section>
 
@@ -171,7 +196,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
             {!targetRows.length ? <p>Star players to keep them close while you filter.</p> : null}
           </aside>
         </div>
-      ) : <PositionBoard rows={sortRankings(filteredRows, 'sourceRank', 'asc')} teams={teams} targets={targets} drafted={drafted} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />}
+      ) : <PositionBoard rows={sortRankings(filteredRows, 'sourceRank', 'asc')} positions={positionViews} teams={teams} targets={targets} drafted={drafted} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />}
       <SettingsPopover
         open={settingsOpen}
         manifest={manifest}

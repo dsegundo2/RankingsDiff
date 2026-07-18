@@ -30,9 +30,13 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: rankingsdiff-${{ github.run_number }}
         run: |
-          DATE_TAG="rankingsdiff-$(date -u +'%Y.%m.%d')-${GITHUB_RUN_NUMBER}"
-          gh release create "$DATE_TAG" rankingsdiff-frontend.tar.gz \
-            --title "RankingsDiff ${DATE_TAG#rankingsdiff-}" \
+          VERSION="$(node -p "require('./frontend/package.json').version")"
+          TAG="v${VERSION}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; skipping."
+            exit 0
+          fi
+          gh release create "$TAG" rankingsdiff-frontend.tar.gz \
+            --title "RankingsDiff ${VERSION}" \
             --notes "Automated release for ${GITHUB_SHA}. Includes built frontend artifacts."

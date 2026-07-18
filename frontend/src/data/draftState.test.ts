@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { rankingId, readDraftState, writeDraftState } from './draftState'
+import { createDraftFile, parseDraftFile, rankingId, readDraftState, writeDraftState } from './draftState'
 
 describe('draft state', () => {
   beforeEach(() => localStorage.clear())
@@ -16,5 +16,22 @@ describe('draft state', () => {
   it('recovers from invalid cached data', () => {
     localStorage.setItem('draft', '{broken')
     expect(readDraftState('draft')).toEqual({ targets: [], drafted: [] })
+  })
+
+  it('exports and restores player-keyed draft files', () => {
+    const file = createDraftFile(2026, 'espn', {
+      targets: ["ja'marr chase|cin"],
+      drafted: ['jahmyr gibbs|det', 'jahmyr gibbs|det']
+    })
+    expect(parseDraftFile(JSON.stringify(file))).toMatchObject({
+      version: 1,
+      season: 2026,
+      source: 'espn',
+      players: { targets: ["ja'marr chase|cin"], drafted: ['jahmyr gibbs|det'] }
+    })
+  })
+
+  it('rejects files without stable player keys', () => {
+    expect(() => parseDraftFile('{"version":2}')).toThrow(/valid RankingsDiff/)
   })
 })

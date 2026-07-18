@@ -147,3 +147,13 @@ From GitHub:
 5. Leave `commit_updates` as `false` to only inspect changes in the run log, or set it to `true` to commit generated status/static data back to the branch.
 
 The static frontend's **Switch sheet → Run refresh workflow** link opens that workflow page. The check script is rate-limited to one fresh checksum run every 10 minutes by default; use `--force` only for local/manual debugging when you intentionally want to bypass that guard.
+
+## GitHub Pages and releases
+
+GitHub Pages is deployed by `.github/workflows/pages.yml`. In **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**. No `/docs` directory or separate publishing branch is required: the workflow prepares the committed static data, builds `frontend/dist`, uploads that directory as the Pages artifact, and deploys it to:
+
+`https://dsegundo2.github.io/RankingsDiff/`
+
+The Vite production base path is already configured for `/RankingsDiff/`. Keep the repository name and that base path aligned if the repository is ever renamed.
+
+Releases follow Semantic Versioning. The version in `frontend/package.json` is the release source of truth; pushing to `main` packages the frontend and creates `vMAJOR.MINOR.PATCH` if that tag does not already exist. Bump the package version before cutting a subsequent release.

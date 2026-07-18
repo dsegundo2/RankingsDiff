@@ -18,11 +18,15 @@ type Props = {
   onDrafted: (id: string) => void
 }
 
-function diffSignalStyle(diff?: number): CSSProperties {
-  if (typeof diff !== 'number' || !Number.isFinite(diff) || diff === 0) return {}
-  const magnitude = Math.min(Math.abs(diff), 24)
+function diffSignalStyle(diff: number | undefined, isEspn: boolean): CSSProperties {
+  const neutralRange = isEspn ? 1 : 3
+  if (typeof diff !== 'number' || !Number.isFinite(diff) || Math.abs(diff) <= neutralRange) return {}
+  const magnitude = Math.min(Math.abs(diff) - neutralRange, 24)
   const alpha = 0.05 + (magnitude / 24) * 0.25
-  return { '--diff-alpha': alpha.toFixed(3) } as CSSProperties
+  return {
+    '--diff-alpha': alpha.toFixed(3),
+    '--diff-rgb': diff > 0 ? '22 145 92' : '210 52 68'
+  } as CSSProperties
 }
 
 function SortButton({ label, sortKey, activeKey, direction, onSort }: { label: string; sortKey: SortKey; activeKey: SortKey; direction: SortDirection; onSort: (key: SortKey) => void }) {
@@ -58,7 +62,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
               <tr
                 key={`${row.player}-${row.team}-${row.sourceRank}`}
                 className={`${isDrafted ? 'is-drafted' : ''} pos-${row.positionTone ?? 'other'}`}
-                style={diffSignalStyle(row.diff)}
+                style={diffSignalStyle(row.diff, isEspn)}
               >
                 <td className="row-action"><button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={() => onTarget(id)}>★</button></td>
                 <td className="player-cell">

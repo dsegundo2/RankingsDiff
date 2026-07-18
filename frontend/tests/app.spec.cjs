@@ -28,6 +28,16 @@ test('season and source switching works with manifest data', async ({ page }) =>
   await expect(page.getByText('ESPN $')).toBeVisible()
 })
 
+test('FantasyPros position view emphasizes source rank', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Switch sheet/ }).click()
+  await page.locator('.settings-popover').getByLabel('Sheet').selectOption('fpros')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await page.getByRole('button', { name: 'By position' }).click()
+  await expect(page.locator('.position-lane--rb .position-player__metric strong').first()).toHaveText('#3')
+  await expect(page.locator('.position-lane--rb .position-lane__columns')).toContainText('FP rank')
+})
+
 test('command-k focuses search and position filters rows', async ({ page }) => {
   await page.goto('./')
   await expect(page.getByPlaceholder(/Ja'Marr/)).toBeVisible()
@@ -51,6 +61,9 @@ test('mobile 390px has no horizontal overflow', async ({ page }) => {
   await page.goto('./')
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
+  await page.getByRole('button', { name: 'By position' }).click()
+  await expect(page.getByRole('button', { name: 'Save draft' })).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
 
 test('mobile 320px has no horizontal overflow', async ({ page }) => {
@@ -74,7 +87,7 @@ test('targets and drafted state persist per sheet', async ({ page }) => {
 test('position overview shows all lanes without collisions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto('./')
-  await page.getByRole('button', { name: 'Top by position' }).click()
+  await page.getByRole('button', { name: 'By position' }).click()
   for (const heading of ['Running backs', 'Wide receivers', 'Quarterbacks', 'Tight ends']) {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible()
   }
@@ -83,6 +96,12 @@ test('position overview shows all lanes without collisions', async ({ page }) =>
     return cells.some((cell, index) => index > 0 && cell.left < cells[index - 1].right - 1)
   }))
   expect(overlaps).toBe(false)
+  const firstMetric = page.locator('.position-lane--rb .position-player__metric strong').first()
+  await expect(firstMetric).toHaveText('$57')
+  await expect(page.locator('.position-lane--rb .position-lane__columns')).toContainText('ESPN $')
+  await expect(page.locator('.position-lane--rb .position-player__difference').first()).toContainText('$0')
+  expect(await page.locator('.position-lane--rb .position-player').first().evaluate((row) => row.style.getPropertyValue('--diff-alpha'))).toBe('')
+  expect(await page.locator('.position-lane--wr .position-player').filter({ hasText: 'Drake London' }).evaluate((row) => Number(row.style.getPropertyValue('--diff-alpha')))).toBeGreaterThan(0)
   const runningBacks = page.getByLabel('RB players, scroll to see all')
   await expect(runningBacks.locator('.position-player')).not.toHaveCount(6)
   expect(await runningBacks.locator('.position-player').count()).toBeGreaterThan(6)
@@ -92,6 +111,12 @@ test('position overview shows all lanes without collisions', async ({ page }) =>
   await runningBacks.focus()
   await runningBacks.evaluate((list) => { list.scrollTop = list.scrollHeight })
   await expect(runningBacks.locator('.position-player').last()).toBeVisible()
+
+  await page.getByRole('button', { name: 'QB' }).click()
+  await page.getByRole('button', { name: 'TE', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Quarterbacks' })).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: 'Tight ends' })).toHaveCount(0)
+  await expect(page.locator('.position-board')).toHaveAttribute('data-count', '2')
 })
 
 test('team logos are centered inside badges', async ({ page }) => {
@@ -107,4 +132,44 @@ test('team logos are centered inside badges', async ({ page }) => {
   })
   expect(offset.x).toBeLessThanOrEqual(1)
   expect(offset.y).toBeLessThanOrEqual(1)
+})
+
+test('table headings stick while draft rows scroll', async ({ page }) => {
+  await page.goto('./')
+  await expect(page.locator('.rankings-table th').first()).toHaveCSS('position', 'sticky')
+  await page.locator('.rankings-table tbody tr').nth(30).scrollIntoViewIfNeeded()
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
+  const top = await page.locator('.rankings-table th').first().evaluate((heading) => heading.getBoundingClientRect().top)
+  expect(top).toBeGreaterThanOrEqual(-1)
+  expect(top).toBeLessThanOrEqual(1)
+})
+
+test('draft JSON can be saved, cleared, and restored by player key', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: "Target Ja'Marr Chase" }).first().click()
+  await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Save draft' }).click()
+  const download = await downloadPromise
+  expect(download.suggestedFilename()).toBe('rankingsdiff-2026-espn-draft.json')
+  const stream = await download.createReadStream()
+  let contents = ''
+  for await (const chunk of stream) contents += chunk.toString()
+  const saved = JSON.parse(contents)
+  expect(saved.players.drafted).toContain("ja'marr chase|cin")
+  expect(saved).not.toHaveProperty('rows')
+
+  await page.getByRole('button', { name: 'Clear draft' }).click()
+  await expect(page.getByRole('heading', { name: 'Clear this draft?' })).toBeVisible()
+  await page.getByRole('button', { name: 'Clear without saving' }).click()
+  await expect(page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first()).toBeVisible()
+
+  await page.getByLabel('Upload draft JSON').setInputFiles({
+    name: 'saved-draft.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(contents)
+  })
+  await expect(page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first()).toBeVisible()
+  await expect(page.getByText('Draft restored.')).toBeVisible()
 })
