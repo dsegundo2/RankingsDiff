@@ -1,5 +1,10 @@
 const { test, expect } = require('@playwright/test')
 
+test.beforeEach(async ({ page }) => {
+  // Team artwork is third-party and should never make UI behavior tests network-dependent.
+  await page.route('https://a.espncdn.com/**', (route) => route.abort())
+})
+
 test('dashboard renders and exposes downloads', async ({ page }) => {
   await page.goto('./')
   await expect(page.getByRole('heading', { name: 'RankingsDiff' })).toBeVisible()
