@@ -84,8 +84,8 @@ h1 { margin: 4px 0 5px; font-size: clamp(2.7rem, 4.5vw, 4.5rem); line-height: .9
 .shortcut-help [role="tooltip"] { position: absolute; right: 0; bottom: calc(100% + 9px); z-index: 5; width: max-content; max-width: 80vw; padding: 9px 11px; border-radius: 9px; color: #fff; background: var(--ink); opacity: 0; pointer-events: none; transform: translateY(4px); transition: .15s ease; }
 .shortcut-help:hover [role="tooltip"], .shortcut-help:focus [role="tooltip"] { opacity: 1; transform: translateY(0); }
 .filter-hint { align-self: center; color: var(--muted); font-weight: 700; }
-.draft-toolbar { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin: 9px 0 12px; }
-.draft-toolbar > .filters--positions { flex: 1 1 auto; min-width: 0; }
+.draft-toolbar { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 14px; align-items: center; margin: 9px 0 12px; }
+.draft-toolbar > .filters--positions { min-width: 0; justify-content: flex-start; }
 .view-tabs { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.74); box-shadow: 0 3px 10px rgba(28,39,69,.05); }
 .view-tabs button { border-color: transparent; padding: 9px 14px; box-shadow: none; }
 .draft-toolbar__actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
@@ -267,6 +267,7 @@ tbody tr.is-drafted { opacity: .48; }
 .draft-heading { padding-right: 17px; }
 .rankings-table td:last-child { text-align: right; }
 .rankings-table th, .rankings-table td { vertical-align: middle; }
+.rankings-table thead th:first-child, .rankings-table thead th:last-child { border-radius: 0; }
 .rankings-table th:nth-child(3), .rankings-table td:nth-child(3) { text-align: center; }
 .rankings-table .player-cell { min-width: 0; }
 .rankings-table .player-cell > div { min-width: 0; }
@@ -331,7 +332,7 @@ tbody tr.is-drafted { opacity: .48; }
   .hero-actions, .filters, .position-board, .settings-grid { grid-template-columns: 1fr; }
   .draft-board-layout { display: flex; flex-direction: column; }
   .target-queue { order: -1; }
-  .draft-toolbar { align-items: stretch; flex-direction: column; }
+  .draft-toolbar { grid-template-columns: 1fr; align-items: stretch; }
   .draft-toolbar__actions { justify-content: space-between; }
   .draft-toolbar > .filters--positions { justify-content: flex-start; }
   .table-wrap { display: block; width: calc(100% + 20px); margin-inline: -10px; overflow: hidden; border-radius: 0; border-inline: 0; box-shadow: none; }
