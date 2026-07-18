@@ -90,9 +90,32 @@
     .matrix-card dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 11px 0 0; }
     .matrix-card dt { color: var(--muted); font-size: .62rem; font-weight: 900; text-transform: uppercase; }
     .matrix-card dd { margin: 2px 0 0; font-weight: 950; font-variant-numeric: tabular-nums; }
+    .reflow-demo { display: grid; grid-template-columns: minmax(0, 1fr) 150px; gap: 10px; padding: 14px; background: #f7f9fd; }
+    .reflow-demo.is-hidden { grid-template-columns: 1fr; }
+    .reflow-main, .reflow-queue { min-width: 0; min-height: 132px; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+    .reflow-main strong, .reflow-queue strong { display: block; }
+    .reflow-main small, .reflow-queue small { display: block; margin-top: 4px; color: var(--muted); font-weight: 750; }
+    .reflow-rows { display: grid; gap: 6px; margin-top: 12px; }
+    .reflow-row { display: grid; grid-template-columns: 28px minmax(0, 1fr) 44px; gap: 6px; align-items: center; padding: 7px 8px; border: 1px solid var(--line); border-radius: 9px; font-size: .76rem; font-weight: 850; }
+    .reflow-row span:last-child { text-align: right; color: var(--good); }
+    .lane-grid { display: grid; gap: 10px; padding: 12px; background: #f7f9fd; }
+    .lane-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .lane-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .lane { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-top: 3px solid var(--lane); border-radius: 14px; background: #fff; }
+    .lane.rb { --lane: #16a085; } .lane.wr { --lane: #ef8b2c; } .lane.qb { --lane: #8b5cf6; } .lane.te { --lane: #2787d8; }
+    .lane-head { display: flex; justify-content: space-between; gap: 6px; align-items: center; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+    .lane-head strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .84rem; }
+    .lane-head span { color: var(--muted); font-size: .7rem; font-weight: 800; }
+    .lane-labels, .lane-row { display: grid; grid-template-columns: 24px minmax(0, 1fr) 42px 40px; gap: 5px; align-items: center; }
+    .lane-labels { padding: 6px 9px; color: var(--muted); background: #f7f9fd; font-size: .58rem; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+    .lane-row { padding: 8px 9px; border-top: 1px solid var(--line); font-size: .72rem; }
+    .lane-row strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .lane-row span:nth-child(3), .lane-row span:nth-child(4) { text-align: right; font-variant-numeric: tabular-nums; font-weight: 850; }
+    .lane-row .good { color: var(--good); } .lane-row .bad { color: var(--bad); }
+    .four-note { padding: 0 12px 12px; color: var(--muted); font-size: .76rem; line-height: 1.35; }
     .note { margin: 18px 0 0; color: var(--muted); font-size: .92rem; line-height: 1.45; }
-    @media (max-width: 1050px) { .options { grid-template-columns: 1fr; } header { grid-template-columns: 1fr; } .legend { justify-content: flex-start; } }
-    @media (max-width: 680px) { main { width: min(100% - 18px, 1440px); padding-top: 16px; } .option__head { display: block; } .option__tag { display: inline-flex; margin-top: 10px; } .hide-sm { display: none; } td, th { padding: 9px 8px; } .strip-row { grid-template-columns: 28px minmax(0,1fr) 70px; } .strip-row > :nth-child(3), .strip-row > :nth-child(5) { display: none; } .matrix-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 1050px) { .options { grid-template-columns: 1fr; } header { grid-template-columns: 1fr; } .legend { justify-content: flex-start; } .lane-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 680px) { main { width: min(100% - 18px, 1440px); padding-top: 16px; } .option__head { display: block; } .option__tag { display: inline-flex; margin-top: 10px; } .hide-sm { display: none; } td, th { padding: 9px 8px; } .strip-row { grid-template-columns: 28px minmax(0,1fr) 70px; } .strip-row > :nth-child(3), .strip-row > :nth-child(5) { display: none; } .matrix-grid { grid-template-columns: 1fr; } .reflow-demo, .reflow-demo.is-hidden, .lane-grid.three, .lane-grid.four { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -201,6 +224,32 @@
             <tr class="good"><td class="target">★</td><td><div class="player"><span class="badge">CIN</span><div class="identity"><strong>Ja'Marr Chase</strong><span>CIN</span></div></div></td><td><span class="pos wr">WR</span></td><td class="num">#4 <span style="color:var(--muted); font-size:.8em">(#3)</span></td><td class="num"><span class="signal good">+$1</span></td><td><button>Draft</button></td></tr>
           </tbody>
         </table>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option I: Hide queue, widen the board</h2><p>When the target queue is hidden, let the rankings reclaim its full column instead of leaving an empty rail.</p></div><span class="option__tag">reflow</span></div>
+        <div class="reflow-demo"><div class="reflow-main"><strong>Rankings board · wide</strong><small>Before: 1fr + queue rail</small><div class="reflow-rows"><div class="reflow-row"><span>#1</span><span>Jahmyr Gibbs</span><span>$0</span></div><div class="reflow-row"><span>#2</span><span>Bijan Robinson</span><span>+$1</span></div></div></div><aside class="reflow-queue"><strong>Target queue</strong><small>Optional side rail</small></aside></div>
+        <div class="reflow-demo is-hidden"><div class="reflow-main"><strong>Rankings board · full width</strong><small>After: queue hidden, 100% available</small><div class="reflow-rows"><div class="reflow-row"><span>#1</span><span>Jahmyr Gibbs</span><span>$0</span></div><div class="reflow-row"><span>#2</span><span>Bijan Robinson</span><span>+$1</span></div></div></div></div>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option J: Three-position compact lanes</h2><p>Keep three positions side by side, but give the player name the flexible space and tighten only the utility columns.</p></div><span class="option__tag">3-up</span></div>
+        <div class="lane-grid three">
+          <div class="lane rb"><div class="lane-head"><strong>Running backs</strong><span>69</span></div><div class="lane-labels"><span>#</span><span>Player</span><span>ESPN</span><span>Edge</span></div><div class="lane-row"><span>01</span><strong>Jahmyr Gibbs</strong><span>$57</span><span>0</span></div><div class="lane-row"><span>02</span><strong>Bijan Robinson</strong><span>$56</span><span class="good">+1</span></div></div>
+          <div class="lane wr"><div class="lane-head"><strong>Wide receivers</strong><span>94</span></div><div class="lane-labels"><span>#</span><span>Player</span><span>ESPN</span><span>Edge</span></div><div class="lane-row"><span>01</span><strong>Puka Nacua</strong><span>$56</span><span class="bad">-1</span></div><div class="lane-row"><span>02</span><strong>Ja'Marr Chase</strong><span>$55</span><span class="good">+1</span></div></div>
+          <div class="lane qb"><div class="lane-head"><strong>Quarterbacks</strong><span>32</span></div><div class="lane-labels"><span>#</span><span>Player</span><span>ESPN</span><span>Edge</span></div><div class="lane-row"><span>01</span><strong>Josh Allen</strong><span>$22</span><span class="good">+8</span></div><div class="lane-row"><span>02</span><strong>Lamar Jackson</strong><span>$18</span><span class="good">+5</span></div></div>
+        </div>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option K: Four positions in a 2 × 2 board</h2><p>At four positions, two comfortable columns are easier to scan than four narrow lanes. It keeps names readable and still shows every group at once.</p></div><span class="option__tag">4-up</span></div>
+        <div class="lane-grid four">
+          <div class="lane rb"><div class="lane-head"><strong>Running backs</strong><span>69 players</span></div><div class="lane-row"><span>01</span><strong>Jahmyr Gibbs</strong><span>$57</span><span>0</span></div></div>
+          <div class="lane wr"><div class="lane-head"><strong>Wide receivers</strong><span>94 players</span></div><div class="lane-row"><span>01</span><strong>Puka Nacua</strong><span>$56</span><span class="bad">-1</span></div></div>
+          <div class="lane qb"><div class="lane-head"><strong>Quarterbacks</strong><span>32 players</span></div><div class="lane-row"><span>01</span><strong>Josh Allen</strong><span>$22</span><span class="good">+8</span></div></div>
+          <div class="lane te"><div class="lane-head"><strong>Tight ends</strong><span>30 players</span></div><div class="lane-row"><span>01</span><strong>Trey McBride</strong><span>$40</span><span class="bad">-11</span></div></div>
+        </div>
+        <p class="four-note">The 2 × 2 treatment gives each lane room for a full name while preserving a single-screen position overview.</p>
       </article>
     </section>
 

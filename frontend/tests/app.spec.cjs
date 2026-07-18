@@ -86,6 +86,8 @@ test('target queue can be shown and hidden and stays usable on mobile', async ({
   await expect(page.getByLabel('Target queue', { exact: true })).toContainText('WR')
   await page.getByRole('button', { name: 'Hide target queue' }).click()
   await expect(page.getByLabel('Target queue', { exact: true })).toHaveCount(0)
+  await expect(page.locator('.draft-board-layout')).toHaveClass(/draft-board-layout--queue-hidden/)
+  expect(await page.locator('.draft-board-layout').evaluate((layout) => getComputedStyle(layout).gridTemplateColumns)).not.toContain('230px')
   await page.getByRole('button', { name: /Show target queue/ }).click()
   await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
 
@@ -112,6 +114,7 @@ test('position overview shows all lanes without collisions', async ({ page }) =>
   for (const heading of ['Running backs', 'Wide receivers', 'Quarterbacks', 'Tight ends']) {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible()
   }
+  expect(await page.locator('.position-board').evaluate((board) => getComputedStyle(board).gridTemplateColumns.split(' ').length)).toBe(2)
   const overlaps = await page.locator('.position-player').evaluateAll((rows) => rows.some((row) => {
     const cells = [...row.children].filter((cell) => getComputedStyle(cell).display !== 'none').map((cell) => cell.getBoundingClientRect())
     return cells.some((cell, index) => index > 0 && cell.left < cells[index - 1].right - 1)
@@ -134,6 +137,8 @@ test('position overview shows all lanes without collisions', async ({ page }) =>
   await expect(runningBacks.locator('.position-player').last()).toBeVisible()
 
   await page.getByRole('button', { name: 'QB' }).click()
+  expect(await page.locator('.position-board').getAttribute('data-count')).toBe('3')
+  expect(await page.locator('.position-board').evaluate((board) => getComputedStyle(board).gridTemplateColumns.split(' ').length)).toBe(3)
   await page.getByRole('button', { name: 'TE', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Quarterbacks' })).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'Tight ends' })).toHaveCount(0)
@@ -201,8 +206,10 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
 test('spacing options preview renders layout ideas', async ({ page }) => {
   await page.goto('./spacing-options.html')
   await expect(page.getByRole('heading', { name: 'Spacing options for rankings rows' })).toBeVisible()
-  await expect(page.locator('.option')).toHaveCount(8)
+  await expect(page.locator('.option')).toHaveCount(11)
   await expect(page.getByText('Option B: Rank pair in one column')).toBeVisible()
   await expect(page.getByText('Option F: Mobile-first value cards')).toBeVisible()
+  await expect(page.getByText('Option I: Hide queue, widen the board')).toBeVisible()
+  await expect(page.getByText('Option J: Three-position compact lanes')).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })

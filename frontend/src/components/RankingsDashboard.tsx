@@ -190,7 +190,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       </section>
 
       {view === 'board' ? (
-        <div className="draft-board-layout">
+        <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`}>
           <div>
             <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} onSort={handleSort} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />
             <section className="cards-list" aria-label="Mobile rankings cards">
