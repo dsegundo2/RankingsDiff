@@ -42,7 +42,7 @@ export default function App() {
   const [selectedSource, setSelectedSource] = useState<string>('')
   const [error, setError] = useState<string>('')
   const [manifestLoading, setManifestLoading] = useState(true)
-  const [rowsLoading, setRowsLoading] = useState(true)
+  const [, setRowsLoading] = useState(true)
   const [hasLoadedRows, setHasLoadedRows] = useState(false)
   const [retryKey, setRetryKey] = useState(0)
 
