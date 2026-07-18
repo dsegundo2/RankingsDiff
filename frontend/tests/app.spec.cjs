@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test')
 
 test('dashboard renders and exposes downloads', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('./')
   await expect(page.getByRole('heading', { name: 'RankingsDiff' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'CSV' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'XLSX' })).toBeVisible()
@@ -15,7 +15,7 @@ test('dashboard renders and exposes downloads', async ({ page }) => {
 })
 
 test('season and source switching works with manifest data', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('./')
   await page.getByRole('button', { name: /Switch sheet/ }).click()
   await page.locator('.settings-popover').getByLabel('Year').selectOption('2025')
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('espn')
@@ -24,7 +24,7 @@ test('season and source switching works with manifest data', async ({ page }) =>
 })
 
 test('command-k focuses search and position filters rows', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('./')
   await expect(page.getByPlaceholder(/Ja'Marr/)).toBeVisible()
   await page.waitForTimeout(100)
   await page.evaluate(() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true, bubbles: true })))
@@ -43,20 +43,20 @@ test('command-k focuses search and position filters rows', async ({ page }) => {
 
 test('mobile 390px has no horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 })
-  await page.goto('/')
+  await page.goto('./')
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
 })
 
 test('mobile 320px has no horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 900 })
-  await page.goto('/')
+  await page.goto('./')
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
 })
 
 test('targets and drafted state persist per sheet', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('./')
   const target = page.getByRole('button', { name: "Target Ja'Marr Chase" }).first()
   await target.click()
   await expect(page.getByRole('button', { name: "Remove target Ja'Marr Chase" }).first()).toBeVisible()
@@ -68,7 +68,7 @@ test('targets and drafted state persist per sheet', async ({ page }) => {
 
 test('position overview shows all lanes without collisions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
-  await page.goto('/')
+  await page.goto('./')
   await page.getByRole('button', { name: 'Top by position' }).click()
   for (const heading of ['Running backs', 'Wide receivers', 'Quarterbacks', 'Tight ends']) {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible()
@@ -90,7 +90,7 @@ test('position overview shows all lanes without collisions', async ({ page }) =>
 })
 
 test('team logos are centered inside badges', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('./')
   const offset = await page.locator('.team-badge:has(img)').first().evaluate((badge) => {
     const image = badge.querySelector('img')
     const badgeBox = badge.getBoundingClientRect()
