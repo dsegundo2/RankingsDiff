@@ -197,3 +197,12 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
   await expect(page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first()).toBeVisible()
   await expect(page.getByText('Draft restored.')).toBeVisible()
 })
+
+test('spacing options preview renders layout ideas', async ({ page }) => {
+  await page.goto('./spacing-options.html')
+  await expect(page.getByRole('heading', { name: 'Spacing options for rankings rows' })).toBeVisible()
+  await expect(page.locator('.option')).toHaveCount(8)
+  await expect(page.getByText('Option B: Rank pair in one column')).toBeVisible()
+  await expect(page.getByText('Option F: Mobile-first value cards')).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
+})

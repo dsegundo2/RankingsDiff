@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RankingsDiff spacing options</title>
+  <style>
+    :root {
+      --ink: #142033;
+      --muted: #67738a;
+      --line: #dfe6f1;
+      --surface: #f4f7fc;
+      --panel: #fff;
+      --good: #168a5a;
+      --bad: #c7364a;
+      --neutral: #64748b;
+      --accent: #4f5de4;
+      --shadow: 0 18px 48px rgba(28, 39, 69, .10);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--surface);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: radial-gradient(circle at 8% -8%, rgba(79,93,228,.16), transparent 32rem), var(--surface); }
+    main { width: min(1440px, calc(100% - 32px)); margin: 0 auto; padding: 30px 0 60px; }
+    header { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; margin-bottom: 22px; }
+    h1 { margin: 0; font-size: clamp(2rem, 4vw, 4.4rem); letter-spacing: -.045em; line-height: .92; }
+    header p { max-width: 760px; margin: 10px 0 0; color: var(--muted); font-size: 1.02rem; line-height: 1.5; }
+    .legend { display: flex; gap: 8px; flex-wrap: wrap; justify-content: end; }
+    .pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.82); color: var(--muted); font-weight: 800; font-size: .8rem; white-space: nowrap; }
+    .dot { width: 10px; height: 10px; border-radius: 99px; background: var(--neutral); }
+    .dot.good { background: var(--good); } .dot.bad { background: var(--bad); }
+    .options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .option { overflow: hidden; border: 1px solid rgba(213,221,235,.96); border-radius: 22px; background: rgba(255,255,255,.92); box-shadow: var(--shadow); }
+    .option__head { display: flex; justify-content: space-between; gap: 14px; align-items: start; padding: 17px 18px 13px; border-bottom: 1px solid var(--line); background: linear-gradient(135deg, #fff, #f6f8ff); }
+    .option h2 { margin: 0; font-size: 1.04rem; letter-spacing: -.02em; }
+    .option__head p { margin: 5px 0 0; color: var(--muted); font-size: .84rem; line-height: 1.35; }
+    .option__tag { flex: 0 0 auto; padding: 6px 9px; border-radius: 999px; color: var(--accent); background: #eef0ff; font-size: .72rem; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th { padding: 10px 12px; color: var(--muted); background: #f1f4fa; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; text-align: left; }
+    td { padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: middle; }
+    tr.good { background: linear-gradient(90deg, #fff 0%, #fff 72%, rgba(22,138,90,.12) 100%); }
+    tr.bad { background: linear-gradient(90deg, #fff 0%, #fff 72%, rgba(199,54,74,.12) 100%); }
+    .target { width: 34px; text-align: center; color: #94a0b3; font-size: 1.05rem; }
+    .player { display: flex; min-width: 0; gap: 10px; align-items: center; }
+    .badge { display: grid; width: 38px; height: 38px; flex: 0 0 38px; place-items: center; border: 1px solid #cbd6e6; border-radius: 12px; background: #f8fbff; font-weight: 900; font-size: .72rem; }
+    .identity { min-width: 0; }
+    .identity strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .96rem; }
+    .identity span { display: block; margin-top: 2px; color: var(--muted); font-size: .76rem; font-weight: 700; }
+    .pos { display: inline-flex; justify-content: center; min-width: 40px; padding: 5px 8px; border: 1px solid #8dd2c5; border-radius: 999px; background: #e9fbf7; font-weight: 900; font-size: .74rem; }
+    .pos.wr { border-color: #f2c197; background: #fff4e8; }
+    .num, .money { text-align: right; font-variant-numeric: tabular-nums; font-weight: 850; }
+    .draft { width: 72px; }
+    button { border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; background: #fff; color: var(--muted); font-weight: 900; }
+    .signal { display: inline-flex; justify-content: center; min-width: 58px; padding: 6px 9px; border-radius: 999px; font-weight: 950; font-variant-numeric: tabular-nums; }
+    .signal.good { color: var(--good); background: #e8f8f0; }
+    .signal.bad { color: var(--bad); background: #fff0f2; }
+    .signal.neutral { color: var(--neutral); background: #eef2f7; }
+    .stack { display: grid; gap: 2px; text-align: right; font-variant-numeric: tabular-nums; }
+    .stack strong { font-size: 1.02rem; }
+    .stack small { color: var(--muted); font-weight: 800; }
+    .combined { display: inline-flex; gap: 5px; justify-content: flex-end; width: 100%; font-variant-numeric: tabular-nums; font-weight: 900; }
+    .combined span { color: var(--muted); font-weight: 800; }
+    .bar-cell { min-width: 150px; }
+    .bar-track { position: relative; height: 12px; border-radius: 999px; background: #e9edf5; overflow: hidden; }
+    .bar { position: absolute; top: 0; bottom: 0; width: var(--w); background: var(--c); }
+    .bar.good { left: 50%; --c: var(--good); } .bar.bad { right: 50%; --c: var(--bad); }
+    .bar-label { display: flex; justify-content: space-between; margin-top: 5px; color: var(--muted); font-size: .7rem; font-weight: 800; }
+    .compact-card-list { display: grid; gap: 10px; padding: 14px; }
+    .mini-card { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(90deg, #fff 0%, #fff 70%, var(--wash) 100%); }
+    .mini-card .player { gap: 9px; }
+    .mini-card__meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .mini-card__meta span { padding: 5px 8px; border-radius: 999px; background: #f1f4fa; color: var(--muted); font-size: .72rem; font-weight: 850; }
+    .big-diff { text-align: right; }
+    .big-diff strong { display: block; font-size: 1.35rem; letter-spacing: -.04em; }
+    .big-diff small { color: var(--muted); font-weight: 850; }
+    .strip-row { display: grid; grid-template-columns: 32px minmax(170px, 1fr) minmax(115px, .65fr) 82px 74px; gap: 10px; align-items: center; padding: 10px 12px; border-top: 1px solid var(--line); background: #fff; }
+    .strip-row:first-child { border-top: 0; }
+    .strip-rank { display: flex; gap: 6px; justify-content: flex-end; align-items: baseline; font-variant-numeric: tabular-nums; }
+    .strip-rank strong { font-size: 1rem; } .strip-rank span { color: var(--muted); font-size: .74rem; font-weight: 850; }
+    .diff-chip { justify-self: end; display: inline-flex; align-items: center; justify-content: center; min-width: 48px; min-height: 34px; border-radius: 12px; font-weight: 950; }
+    .diff-chip.good { color: #fff; background: var(--good); } .diff-chip.bad { color: #fff; background: var(--bad); } .diff-chip.neutral { color: var(--neutral); background: #eef2f7; }
+    .matrix { padding: 14px; }
+    .matrix-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .matrix-card { padding: 12px; border: 1px solid var(--line); border-left: 5px solid var(--tone); border-radius: 16px; background: #fff; }
+    .matrix-card.good { --tone: var(--good); } .matrix-card.bad { --tone: var(--bad); } .matrix-card.neutral { --tone: #94a3b8; }
+    .matrix-card__top { display: flex; justify-content: space-between; gap: 8px; }
+    .matrix-card h3 { overflow: hidden; margin: 0; font-size: .98rem; text-overflow: ellipsis; white-space: nowrap; }
+    .matrix-card small { color: var(--muted); font-weight: 800; }
+    .matrix-card dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 11px 0 0; }
+    .matrix-card dt { color: var(--muted); font-size: .62rem; font-weight: 900; text-transform: uppercase; }
+    .matrix-card dd { margin: 2px 0 0; font-weight: 950; font-variant-numeric: tabular-nums; }
+    .note { margin: 18px 0 0; color: var(--muted); font-size: .92rem; line-height: 1.45; }
+    @media (max-width: 1050px) { .options { grid-template-columns: 1fr; } header { grid-template-columns: 1fr; } .legend { justify-content: flex-start; } }
+    @media (max-width: 680px) { main { width: min(100% - 18px, 1440px); padding-top: 16px; } .option__head { display: block; } .option__tag { display: inline-flex; margin-top: 10px; } .hide-sm { display: none; } td, th { padding: 9px 8px; } .strip-row { grid-template-columns: 28px minmax(0,1fr) 70px; } .strip-row > :nth-child(3), .strip-row > :nth-child(5) { display: none; } .matrix-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Spacing options for rankings rows</h1>
+        <p>These mockups reduce repeated rank/value columns and keep the player name readable. Green means Underdog is higher than the selected source, red means lower, and gray is basically even.</p>
+      </div>
+      <div class="legend" aria-label="Legend">
+        <span class="pill"><span class="dot good"></span>Good value</span>
+        <span class="pill"><span class="dot bad"></span>Bad value</span>
+        <span class="pill"><span class="dot"></span>Even</span>
+      </div>
+    </header>
+
+    <section class="options">
+      <article class="option">
+        <div class="option__head"><div><h2>Option A: Keep one money column + diff</h2><p>Show the selected-source dollar value and the difference. This drops the duplicate UD $ column.</p></div><span class="option__tag">table</span></div>
+        <table>
+          <colgroup><col style="width:44px"><col><col style="width:74px"><col style="width:84px"><col style="width:96px"><col style="width:82px"><col style="width:82px"></colgroup>
+          <thead><tr><th></th><th>Player</th><th>Pos</th><th class="num">ESPN</th><th class="num">ESPN $</th><th class="num">Value</th><th>Draft</th></tr></thead>
+          <tbody>
+            <tr><td class="target">★</td><td><div class="player"><span class="badge">DET</span><div class="identity"><strong>Jahmyr Gibbs</strong><span>DET</span></div></div></td><td><span class="pos">RB</span></td><td class="num">#1</td><td class="money">$57</td><td class="num"><span class="signal neutral">$0</span></td><td><button>Draft</button></td></tr>
+            <tr class="bad"><td class="target">★</td><td><div class="player"><span class="badge">LAR</span><div class="identity"><strong>Puka Nacua</strong><span>LAR</span></div></div></td><td><span class="pos wr">WR</span></td><td class="num">#3</td><td class="money">$56</td><td class="num"><span class="signal bad">-$1</span></td><td><button>Draft</button></td></tr>
+            <tr class="good"><td class="target">★</td><td><div class="player"><span class="badge">CIN</span><div class="identity"><strong>Ja'Marr Chase</strong><span>CIN</span></div></div></td><td><span class="pos wr">WR</span></td><td class="num">#4</td><td class="money">$55</td><td class="num"><span class="signal good">+$1</span></td><td><button>Draft</button></td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option B: Rank pair in one column</h2><p>Combine rankings as “ESPN → UD” and leave the final column for a clear value signal.</p></div><span class="option__tag">compact</span></div>
+        <table>
+          <colgroup><col style="width:44px"><col><col style="width:74px"><col style="width:118px"><col style="width:98px"><col style="width:82px"></colgroup>
+          <thead><tr><th></th><th>Player</th><th>Pos</th><th class="num">Rank</th><th class="num">Value</th><th>Draft</th></tr></thead>
+          <tbody>
+            <tr><td class="target">★</td><td><div class="player"><span class="badge">ATL</span><div class="identity"><strong>Bijan Robinson</strong><span>ATL</span></div></div></td><td><span class="pos">RB</span></td><td><span class="combined">#2 <span>→</span> #2</span></td><td class="num"><span class="signal neutral">even</span></td><td><button>Draft</button></td></tr>
+            <tr class="bad"><td class="target">★</td><td><div class="player"><span class="badge">SF</span><div class="identity"><strong>Christian McCaffrey</strong><span>SF</span></div></div></td><td><span class="pos">RB</span></td><td><span class="combined">#6 <span>→</span> #7</span></td><td class="num"><span class="signal bad">-$1</span></td><td><button>Draft</button></td></tr>
+            <tr class="good"><td class="target">★</td><td><div class="player"><span class="badge">IND</span><div class="identity"><strong>Jonathan Taylor</strong><span>IND</span></div></div></td><td><span class="pos">RB</span></td><td><span class="combined">#7 <span>→</span> #6</span></td><td class="num"><span class="signal good">+$1</span></td><td><button>Draft</button></td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option C: Primary metric with context underneath</h2><p>One column carries the main number. The small label underneath shows the comparator without taking another column.</p></div><span class="option__tag">stacked</span></div>
+        <table>
+          <colgroup><col style="width:44px"><col><col style="width:74px"><col style="width:112px"><col style="width:96px"><col style="width:82px"></colgroup>
+          <thead><tr><th></th><th>Player</th><th>Pos</th><th class="num">Price</th><th class="num">Edge</th><th>Draft</th></tr></thead>
+          <tbody>
+            <tr><td class="target">★</td><td><div class="player"><span class="badge">SEA</span><div class="identity"><strong>Jaxon Smith-Njigba</strong><span>SEA</span></div></div></td><td><span class="pos wr">WR</span></td><td><span class="stack"><strong>$54</strong><small>UD $54</small></span></td><td class="num"><span class="signal neutral">$0</span></td><td><button>Draft</button></td></tr>
+            <tr class="bad"><td class="target">★</td><td><div class="player"><span class="badge">LAR</span><div class="identity"><strong>Puka Nacua</strong><span>LAR</span></div></div></td><td><span class="pos wr">WR</span></td><td><span class="stack"><strong>$56</strong><small>UD $55</small></span></td><td class="num"><span class="signal bad">-$1</span></td><td><button>Draft</button></td></tr>
+            <tr class="good"><td class="target">★</td><td><div class="player"><span class="badge">IND</span><div class="identity"><strong>Jonathan Taylor</strong><span>IND</span></div></div></td><td><span class="pos">RB</span></td><td><span class="stack"><strong>$52</strong><small>UD $53</small></span></td><td class="num"><span class="signal good">+$1</span></td><td><button>Draft</button></td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option D: Visual edge bar</h2><p>Best if you want to scan value quickly. Exact values are secondary to the red/green bar.</p></div><span class="option__tag">scan</span></div>
+        <table>
+          <colgroup><col style="width:44px"><col><col style="width:74px"><col style="width:88px"><col style="width:170px"><col style="width:82px"></colgroup>
+          <thead><tr><th></th><th>Player</th><th>Pos</th><th class="num">Rank</th><th>Edge vs UD</th><th>Draft</th></tr></thead>
+          <tbody>
+            <tr><td class="target">★</td><td><div class="player"><span class="badge">DET</span><div class="identity"><strong>Jahmyr Gibbs</strong><span>DET</span></div></div></td><td><span class="pos">RB</span></td><td class="num">#1</td><td class="bar-cell"><div class="bar-track"></div><div class="bar-label"><span>bad</span><strong>$0</strong><span>good</span></div></td><td><button>Draft</button></td></tr>
+            <tr class="bad"><td class="target">★</td><td><div class="player"><span class="badge">SF</span><div class="identity"><strong>Christian McCaffrey</strong><span>SF</span></div></div></td><td><span class="pos">RB</span></td><td class="num">#6</td><td class="bar-cell"><div class="bar-track"><span class="bar bad" style="--w:18%"></span></div><div class="bar-label"><span>bad</span><strong>-$1</strong><span>good</span></div></td><td><button>Draft</button></td></tr>
+            <tr class="good"><td class="target">★</td><td><div class="player"><span class="badge">IND</span><div class="identity"><strong>Jonathan Taylor</strong><span>IND</span></div></div></td><td><span class="pos">RB</span></td><td class="num">#7</td><td class="bar-cell"><div class="bar-track"><span class="bar good" style="--w:18%"></span></div><div class="bar-label"><span>bad</span><strong>+$1</strong><span>good</span></div></td><td><button>Draft</button></td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option E: Draft board strips</h2><p>A row-like card that prioritizes full names. Rank and edge are grouped to the right.</p></div><span class="option__tag">hybrid</span></div>
+        <div>
+          <div class="strip-row"><div class="target">★</div><div class="player"><span class="badge">CIN</span><div class="identity"><strong>Ja'Marr Chase</strong><span>WR · CIN</span></div></div><div class="strip-rank"><strong>#4</strong><span>(UD #3)</span></div><span class="diff-chip good">+$1</span><button>Draft</button></div>
+          <div class="strip-row"><div class="target">★</div><div class="player"><span class="badge">SEA</span><div class="identity"><strong>Jaxon Smith-Njigba</strong><span>WR · SEA</span></div></div><div class="strip-rank"><strong>#5</strong><span>(UD #5)</span></div><span class="diff-chip neutral">$0</span><button>Draft</button></div>
+          <div class="strip-row"><div class="target">★</div><div class="player"><span class="badge">SF</span><div class="identity"><strong>Christian McCaffrey</strong><span>RB · SF</span></div></div><div class="strip-rank"><strong>#6</strong><span>(UD #7)</span></div><span class="diff-chip bad">-$1</span><button>Draft</button></div>
+        </div>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option F: Mobile-first value cards</h2><p>Useful if the table is still too dense. Works well on narrow windows without hiding names.</p></div><span class="option__tag">cards</span></div>
+        <div class="compact-card-list">
+          <div class="mini-card" style="--wash: rgba(22,138,90,.13)"><div><div class="player"><span class="badge">IND</span><div class="identity"><strong>Jonathan Taylor</strong><span>RB · IND</span></div></div><div class="mini-card__meta"><span>ESPN #7</span><span>UD #6</span><span>$52 vs $53</span></div></div><div class="big-diff"><strong style="color:var(--good)">+$1</strong><small>good</small></div></div>
+          <div class="mini-card" style="--wash: rgba(100,116,139,.10)"><div><div class="player"><span class="badge">DET</span><div class="identity"><strong>Jahmyr Gibbs</strong><span>RB · DET</span></div></div><div class="mini-card__meta"><span>ESPN #1</span><span>UD #1</span><span>$57 vs $57</span></div></div><div class="big-diff"><strong style="color:var(--neutral)">$0</strong><small>even</small></div></div>
+          <div class="mini-card" style="--wash: rgba(199,54,74,.13)"><div><div class="player"><span class="badge">LAR</span><div class="identity"><strong>Puka Nacua</strong><span>WR · LAR</span></div></div><div class="mini-card__meta"><span>ESPN #3</span><span>UD #4</span><span>$56 vs $55</span></div></div><div class="big-diff"><strong style="color:var(--bad)">-$1</strong><small>bad</small></div></div>
+        </div>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option G: Value matrix cards</h2><p>More spacious than a table, but still dense enough to compare several players per screen.</p></div><span class="option__tag">grid</span></div>
+        <div class="matrix"><div class="matrix-grid">
+          <div class="matrix-card neutral"><div class="matrix-card__top"><h3>Bijan Robinson</h3><small>RB · ATL</small></div><dl><div><dt>ESPN</dt><dd>#2</dd></div><div><dt>UD</dt><dd>#2</dd></div><div><dt>Edge</dt><dd>$0</dd></div></dl></div>
+          <div class="matrix-card bad"><div class="matrix-card__top"><h3>Puka Nacua</h3><small>WR · LAR</small></div><dl><div><dt>ESPN</dt><dd>#3</dd></div><div><dt>UD</dt><dd>#4</dd></div><div><dt>Edge</dt><dd>-$1</dd></div></dl></div>
+          <div class="matrix-card good"><div class="matrix-card__top"><h3>Ja'Marr Chase</h3><small>WR · CIN</small></div><dl><div><dt>ESPN</dt><dd>#4</dd></div><div><dt>UD</dt><dd>#3</dd></div><div><dt>Edge</dt><dd>+$1</dd></div></dl></div>
+          <div class="matrix-card neutral"><div class="matrix-card__top"><h3>Jaxon Smith-Njigba</h3><small>WR · SEA</small></div><dl><div><dt>ESPN</dt><dd>#5</dd></div><div><dt>UD</dt><dd>#5</dd></div><div><dt>Edge</dt><dd>$0</dd></div></dl></div>
+        </div></div>
+      </article>
+
+      <article class="option">
+        <div class="option__head"><div><h2>Option H: Parentheses in the rank</h2><p>The smallest table change: one rank column displays the comparison in parentheses.</p></div><span class="option__tag">minimal</span></div>
+        <table>
+          <colgroup><col style="width:44px"><col><col style="width:74px"><col style="width:116px"><col style="width:92px"><col style="width:82px"></colgroup>
+          <thead><tr><th></th><th>Player</th><th>Pos</th><th class="num">Rank</th><th class="num">Diff</th><th>Draft</th></tr></thead>
+          <tbody>
+            <tr><td class="target">★</td><td><div class="player"><span class="badge">DET</span><div class="identity"><strong>Jahmyr Gibbs</strong><span>DET</span></div></div></td><td><span class="pos">RB</span></td><td class="num">#1 <span style="color:var(--muted); font-size:.8em">(#1)</span></td><td class="num"><span class="signal neutral">$0</span></td><td><button>Draft</button></td></tr>
+            <tr class="bad"><td class="target">★</td><td><div class="player"><span class="badge">LAR</span><div class="identity"><strong>Puka Nacua</strong><span>LAR</span></div></div></td><td><span class="pos wr">WR</span></td><td class="num">#3 <span style="color:var(--muted); font-size:.8em">(#4)</span></td><td class="num"><span class="signal bad">-$1</span></td><td><button>Draft</button></td></tr>
+            <tr class="good"><td class="target">★</td><td><div class="player"><span class="badge">CIN</span><div class="identity"><strong>Ja'Marr Chase</strong><span>CIN</span></div></div></td><td><span class="pos wr">WR</span></td><td class="num">#4 <span style="color:var(--muted); font-size:.8em">(#3)</span></td><td class="num"><span class="signal good">+$1</span></td><td><button>Draft</button></td></tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <p class="note">My first picks to try in the actual app would be Option B for the main desktop table and Option F for mobile. Option H is the safest tiny change if you want to preserve the current table behavior.</p>
+  </main>
+</body>
+</html>
