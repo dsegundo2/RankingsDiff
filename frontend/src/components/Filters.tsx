@@ -10,13 +10,14 @@ type Props = {
   searchInputRef?: Ref<HTMLInputElement>
   onSearch: (value: string) => void
   onPosition: (value: PositionFilter) => void
+  onSelectOnlyPosition?: (value: Exclude<PositionFilter, 'ALL'>) => void
   showSearch?: boolean
   showPositions?: boolean
   selectedPositions?: Set<Exclude<PositionFilter, 'ALL'>>
   onTogglePosition?: (value: Exclude<PositionFilter, 'ALL'>) => void
 }
 
-export function Filters({ search, position, searchInputRef, onSearch, onPosition, showSearch = true, showPositions = true, selectedPositions, onTogglePosition }: Props) {
+export function Filters({ search, position, searchInputRef, onSearch, onPosition, onSelectOnlyPosition, showSearch = true, showPositions = true, selectedPositions, onTogglePosition }: Props) {
   return (
     <section className="filters filters--quick" aria-label="Rankings filters">
       {showSearch ? <label className="search-field">
@@ -39,7 +40,7 @@ export function Filters({ search, position, searchInputRef, onSearch, onPosition
         <div className="position-pills" aria-label="Positions shown side by side">
           {positionOptions.map((pos) => {
             const active = selectedPositions?.has(pos) ?? false
-            return <button key={pos} type="button" className={active ? 'active' : ''} aria-pressed={active} onClick={() => onTogglePosition?.(pos)}>{pos}</button>
+            return <button key={pos} type="button" className={active ? 'active' : ''} aria-pressed={active} onClick={() => onTogglePosition?.(pos)} onDoubleClick={() => onSelectOnlyPosition?.(pos)}>{pos}</button>
           })}
         </div>
       </div>}

@@ -136,6 +136,10 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     })
   }
 
+  function selectOnlyPosition(value: PositionKey) {
+    setPositionViews(new Set([value]))
+  }
+
   function restoreDraft(nextTargets: string[], nextDrafted: string[]) {
     setTargets(new Set(nextTargets))
     setDrafted(new Set(nextDrafted))
@@ -169,25 +173,22 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         </div>
       </section>
 
-      <div className="control-grid control-grid--single">
+      <section className="draft-toolbar" aria-label="Draft board controls">
+        <div className="view-tabs" aria-label="Ranking view">
+          <button type="button" className={view === 'board' ? 'active' : ''} aria-pressed={view === 'board'} onClick={() => setView('board')}>Draft board</button>
+          <button type="button" className={view === 'positions' ? 'active' : ''} aria-pressed={view === 'positions'} onClick={() => setView('positions')}>By position</button>
+        </div>
         <Filters
           search={search}
           position={position}
-          searchInputRef={searchInputRef}
           onSearch={setSearch}
           onPosition={setPosition}
           showSearch={false}
           showPositions={view === 'board'}
           selectedPositions={positionViews}
           onTogglePosition={togglePositionView}
+          onSelectOnlyPosition={selectOnlyPosition}
         />
-      </div>
-
-      <section className="draft-toolbar" aria-label="Draft board controls">
-        <div className="view-tabs" aria-label="Ranking view">
-          <button type="button" className={view === 'board' ? 'active' : ''} aria-pressed={view === 'board'} onClick={() => setView('board')}>Draft board</button>
-          <button type="button" className={view === 'positions' ? 'active' : ''} aria-pressed={view === 'positions'} onClick={() => setView('positions')}>By position</button>
-        </div>
         <div className="draft-toolbar__actions">
           <button className="secondary-action queue-toggle" type="button" aria-pressed={showTargetQueue} aria-expanded={showTargetQueue} onClick={() => setShowTargetQueue((current) => !current)}>{showTargetQueue ? 'Hide target queue' : `Show target queue (${targetRows.length})`}</button>
           <label className="drafted-toggle"><input type="checkbox" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /> Show drafted</label>

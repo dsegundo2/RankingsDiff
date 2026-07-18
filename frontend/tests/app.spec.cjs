@@ -164,6 +164,15 @@ test('team logos are centered inside badges', async ({ page }) => {
   expect(offset.y).toBeLessThanOrEqual(1)
 })
 
+test('double-clicking a position isolates that lane', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'By position' }).click()
+  await page.getByRole('button', { name: 'WR', exact: true }).dblclick()
+  await expect(page.getByRole('heading', { name: 'Wide receivers' })).toBeVisible()
+  await expect(page.locator('.position-board')).toHaveAttribute('data-count', '1')
+  await expect(page.getByRole('heading', { name: 'Running backs' })).toHaveCount(0)
+})
+
 test('table headings stick while draft rows scroll', async ({ page }) => {
   await page.goto('./')
   await expect(page.locator('.rankings-table th').first()).toHaveCSS('position', 'sticky')
