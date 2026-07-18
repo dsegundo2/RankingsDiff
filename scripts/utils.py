@@ -1,8 +1,9 @@
 # pylint: disable=too-many-arguments
 """Module with general util functions used across platform merges"""
 
-import pandas as pd
 import os
+
+import pandas as pd
 
 COLOR_VERY_GOOD = "background-color: lightgreen"
 COLOR_GOOD = "color: green"

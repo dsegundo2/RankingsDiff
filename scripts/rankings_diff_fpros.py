@@ -2,9 +2,10 @@
 # pylint: disable=unused-wildcard-import
 """Module combining rankings from different sources"""
 
+import os
+
 import pandas as pd
 from utils import *
-import os
 
 FPROS_RANKINGS = os.getenv("FPROS_RANKINGS", "./data/raw/fpros_rankings_8_28.csv")
 FPROS_PLAYER_COLUMN = "PLAYER NAME"
