@@ -11,8 +11,6 @@ import { SettingsPopover } from './SettingsPopover'
 import { PositionBoard } from './PositionBoard'
 
 type ViewMode = 'board' | 'positions'
-type Palette = 'balanced' | 'bright' | 'mono'
-
 type Props = {
   manifest: DataManifest
   rows: RankingRow[]
@@ -31,7 +29,6 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [view, setView] = useState<ViewMode>('board')
-  const [palette, setPalette] = useState<Palette>('balanced')
   const [targets, setTargets] = useState<Set<string>>(new Set())
   const [drafted, setDrafted] = useState<Set<string>>(new Set())
   const [showDrafted, setShowDrafted] = useState(true)
@@ -121,7 +118,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   }
 
   return (
-    <main className="dashboard" data-palette={palette}>
+    <main className="dashboard">
       <section className="hero hero--compact">
         <div>
           <span className="eyebrow">Fantasy football</span>
@@ -156,11 +153,6 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           <button type="button" className={view === 'positions' ? 'active' : ''} aria-pressed={view === 'positions'} onClick={() => setView('positions')}>Top by position</button>
         </div>
         <div className="draft-toolbar__actions">
-          <label className="palette-control">Position colors
-            <select value={palette} onChange={(event) => setPalette(event.target.value as Palette)}>
-              <option value="balanced">Balanced</option><option value="bright">Bright</option><option value="mono">Single accent</option>
-            </select>
-          </label>
           <label className="drafted-toggle"><input type="checkbox" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /> Show drafted</label>
         </div>
       </section>

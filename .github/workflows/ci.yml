@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pylint pandas openpyxl
+      - name: Pylint
+        run: pylint $(git ls-files '*.py')
+      - name: Check source ranking status smoke test
+        run: python scripts/check_source_rankings.py --copy-to-public
+      - name: Prepare frontend data smoke test
+        run: python scripts/prepare_frontend_data.py
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Prepare frontend data
+        run: python scripts/prepare_frontend_data.py
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+      - name: Lint
+        run: npm --prefix frontend run lint
+      - name: Unit tests
+        run: npm --prefix frontend test
+      - name: Build
+        run: npm --prefix frontend run build
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - name: UI tests
+        run: npm --prefix frontend run test:ui

@@ -23,14 +23,13 @@ export function PositionBoard({ rows, teams, targets, drafted, isEspn, showDraft
       {positions.map((position) => {
         const positionRows = rows
           .filter((row) => row.position.toUpperCase() === position && (showDrafted || !drafted.has(rankingId(row))))
-          .slice(0, 6)
         return (
           <article className={`position-lane position-lane--${position.toLowerCase()}`} key={position}>
             <header className="position-lane__header">
               <div><span className={`pos-chip pos-${position.toLowerCase()}`}>{position}</span><h2>{position === 'RB' ? 'Running backs' : position === 'WR' ? 'Wide receivers' : position === 'QB' ? 'Quarterbacks' : 'Tight ends'}</h2></div>
-              <span>{positionRows.length} shown</span>
+              <span>{positionRows.length} {positionRows.length === 1 ? 'player' : 'players'}</span>
             </header>
-            <div className="position-lane__list">
+            <div className="position-lane__list" tabIndex={0} aria-label={`${position} players, scroll to see all`}>
               {positionRows.map((row, index) => {
                 const id = rankingId(row)
                 const team = normalizeTeamAbbreviation(row.team)

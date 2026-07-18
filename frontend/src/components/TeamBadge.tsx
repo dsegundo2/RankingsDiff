@@ -9,7 +9,7 @@ export function TeamBadge({ team, asset }: Props) {
   if (hasTeamLogo(asset)) {
     return (
       <span className="team-badge" style={{ '--team-color': accent } as CSSProperties} title={asset?.displayName ?? team}>
-        <img src={asset?.logo} alt="" loading="lazy" />
+        <img src={asset?.logo} alt="" loading="lazy" width="28" height="28" />
       </span>
     )
   }

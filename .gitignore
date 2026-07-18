@@ -162,3 +162,17 @@ cython_debug/
 #.idea/
 
 .DS_Store
+
+# Generated ranking outputs
+data/output/**
+!data/output/.gitkeep
+
+# Frontend local artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+frontend/tsconfig.tsbuildinfo
+
+# Local visual checks and scratch files
+tmp/

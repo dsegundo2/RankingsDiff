@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RankingsDiff logo options</title>
+  <style>
+    :root { --blue:#2c86c8; --navy:#172a45; --red:#e8232e; --ice:#f5f8fc; --line:#dbe5f0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: radial-gradient(circle at 8% 0%, #dfeeff, transparent 30rem), #f6f8fb; color: #102033; }
+    main { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 34px 0 46px; }
+    header { display:flex; justify-content:space-between; gap:24px; align-items:end; margin-bottom:24px; }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 4.2rem); line-height: .92; letter-spacing: -.06em; }
+    p { margin: 8px 0 0; color:#64748b; line-height:1.55; max-width: 760px; }
+    .reference { display:flex; align-items:center; gap:12px; color:#64748b; font-weight:800; }
+    .reference img { width:72px; height:72px; border-radius:18px; box-shadow:0 16px 42px rgba(15,30,55,.15); }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+    .card { background:rgba(255,255,255,.88); border:1px solid var(--line); border-radius:24px; padding:22px; box-shadow:0 18px 50px rgba(14,29,54,.12); }
+    .mark-wrap { min-height:150px; display:grid; place-items:center; border-radius:18px; background:linear-gradient(145deg,#fff,#edf4fb); border:1px solid #e3ebf5; }
+    h2 { margin:16px 0 4px; font-size:1.05rem; }
+    small { color:#64748b; line-height:1.45; display:block; }
+    svg { width:112px; height:112px; overflow:visible; }
+    .wordmark { margin-top:18px; display:flex; align-items:center; gap:10px; font-weight:950; letter-spacing:-.04em; font-size:1.45rem; }
+    .wordmark span { color:var(--red); }
+    @media (max-width:700px){ header{display:grid}.reference{justify-content:flex-start}.reference img{width:58px;height:58px} }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Logo options</h1>
+      <p>Four HTML/SVG directions based on the uploaded badge: Tennessee-style tri-star cues, rankings/chart language, and simple app-icon silhouettes.</p>
+    </div>
+    <div class="reference"><img src="logo-reference.png" alt="Uploaded reference logo" />Reference</div>
+  </header>
+  <section class="grid" aria-label="Logo options">
+    <article class="card">
+      <div class="mark-wrap">
+        <svg viewBox="0 0 120 120" role="img" aria-label="Option A shield chart logo">
+          <rect x="18" y="12" width="84" height="96" rx="24" fill="#f8fbff" stroke="#d7e3ef" />
+          <path d="M34 26c-10 13-12 42-6 62 6 18 20 23 32 26-12-13-15-30-14-47 1-16 6-30 18-41H34z" fill="var(--blue)" />
+          <circle cx="65" cy="57" r="33" fill="white" stroke="var(--red)" stroke-width="4" />
+          <path d="M47 44h32M47 58h24M47 72h12" stroke="var(--navy)" stroke-width="7" stroke-linecap="round" />
+          <path d="M80 70l10-17 10 17" fill="none" stroke="var(--blue)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <h2>A. Badge + rank lines</h2><small>Closest to the reference, with rankings represented by descending rows and a small upward value arrow.</small>
+      <div class="wordmark">Rankings<span>Diff</span></div>
+    </article>
+    <article class="card">
+      <div class="mark-wrap">
+        <svg viewBox="0 0 120 120" role="img" aria-label="Option B tri-star delta logo">
+          <rect x="14" y="14" width="92" height="92" rx="28" fill="#f8fbff" stroke="#d7e3ef" />
+          <path d="M31 24c-11 15-13 43-7 62 7 19 23 25 40 28-14-16-19-34-17-51 2-16 9-29 22-39H31z" fill="var(--blue)" />
+          <circle cx="64" cy="58" r="34" fill="#fff" stroke="var(--red)" stroke-width="4" />
+          <circle cx="64" cy="58" r="25" fill="var(--blue)" />
+          <path d="M64 37l4.1 8.4 9.3 1.4-6.7 6.5 1.6 9.2-8.3-4.4-8.3 4.4 1.6-9.2-6.7-6.5 9.3-1.4L64 37zM48 68l2.7 5.5 6.1.9-4.4 4.3 1 6-5.4-2.9-5.4 2.9 1-6-4.4-4.3 6.1-.9L48 68zM80 68l2.7 5.5 6.1.9-4.4 4.3 1 6-5.4-2.9-5.4 2.9 1-6-4.4-4.3 6.1-.9L80 68z" fill="#fff" />
+        </svg>
+      </div>
+      <h2>B. Tennessee tri-star</h2><small>Most state/team inspired. Keeps the red ring and blue sweep from the uploaded image.</small>
+      <div class="wordmark">Rankings<span>Diff</span></div>
+    </article>
+    <article class="card">
+      <div class="mark-wrap">
+        <svg viewBox="0 0 120 120" role="img" aria-label="Option C RD monogram logo">
+          <rect x="16" y="16" width="88" height="88" rx="24" fill="#fff" stroke="#d7e3ef" />
+          <path d="M31 23c-11 16-12 43-5 62 7 18 22 25 36 28-14-17-18-35-16-52 2-15 9-28 20-38H31z" fill="var(--blue)" />
+          <circle cx="64" cy="58" r="34" fill="none" stroke="var(--red)" stroke-width="4" />
+          <text x="58" y="68" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="950" text-anchor="middle" fill="var(--navy)">R</text>
+          <path d="M69 42h7c12 0 20 7 20 17s-8 17-20 17h-7V42z" fill="none" stroke="var(--blue)" stroke-width="7" stroke-linejoin="round" />
+          <path d="M74 78l20-35" stroke="var(--red)" stroke-width="5" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h2>C. RD monogram</h2><small>More ownable app mark; the slash implies “diff” while preserving the original badge shape.</small>
+      <div class="wordmark">Rankings<span>Diff</span></div>
+    </article>
+    <article class="card">
+      <div class="mark-wrap">
+        <svg viewBox="0 0 120 120" role="img" aria-label="Option D draft board logo">
+          <rect x="15" y="15" width="90" height="90" rx="26" fill="#f8fbff" stroke="#d7e3ef" />
+          <path d="M32 24c-10 15-12 40-7 59 7 22 25 28 42 31-15-18-20-38-18-56 2-14 8-25 18-34H32z" fill="var(--blue)" />
+          <circle cx="64" cy="58" r="34" fill="#fff" stroke="var(--red)" stroke-width="4" />
+          <rect x="44" y="38" width="40" height="43" rx="8" fill="var(--navy)" />
+          <path d="M52 49h24M52 60h17M52 71h10" stroke="#fff" stroke-width="5" stroke-linecap="round" />
+          <path d="M82 75l8-8 8 8" fill="none" stroke="var(--red)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <h2>D. Draft board</h2><small>Uses a clipboard/rankings board for clearer product meaning at small sizes.</small>
+      <div class="wordmark">Rankings<span>Diff</span></div>
+    </article>
+  </section>
+</main>
+</body>
+</html>

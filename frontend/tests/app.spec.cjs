@@ -9,6 +9,9 @@ test('dashboard renders and exposes downloads', async ({ page }) => {
   await expect(page.getByText(/Looking at/)).toBeVisible()
   await page.getByRole('button', { name: /Switch sheet/ }).click()
   await expect(page.getByRole('link', { name: 'Run refresh workflow' })).toBeVisible()
+  await expect(page.getByLabel('Position colors')).toHaveCount(0)
+  const sourceLinkRadius = await page.getByRole('link', { name: /ESPN 2026 PPR300 PDF/ }).evaluate((link) => getComputedStyle(link).borderRadius)
+  expect(parseFloat(sourceLinkRadius)).toBeLessThanOrEqual(10)
 })
 
 test('season and source switching works with manifest data', async ({ page }) => {
@@ -75,6 +78,28 @@ test('position overview shows all lanes without collisions', async ({ page }) =>
     return cells.some((cell, index) => index > 0 && cell.left < cells[index - 1].right - 1)
   }))
   expect(overlaps).toBe(false)
-  await page.getByLabel('Position colors').selectOption('bright')
-  await expect(page.locator('.dashboard')).toHaveAttribute('data-palette', 'bright')
+  const runningBacks = page.getByLabel('RB players, scroll to see all')
+  await expect(runningBacks.locator('.position-player')).not.toHaveCount(6)
+  expect(await runningBacks.locator('.position-player').count()).toBeGreaterThan(6)
+  const scrollMetrics = await runningBacks.evaluate((list) => ({ clientHeight: list.clientHeight, scrollHeight: list.scrollHeight, overflowY: getComputedStyle(list).overflowY }))
+  expect(scrollMetrics.overflowY).toBe('auto')
+  expect(scrollMetrics.scrollHeight).toBeGreaterThan(scrollMetrics.clientHeight)
+  await runningBacks.focus()
+  await runningBacks.evaluate((list) => { list.scrollTop = list.scrollHeight })
+  await expect(runningBacks.locator('.position-player').last()).toBeVisible()
+})
+
+test('team logos are centered inside badges', async ({ page }) => {
+  await page.goto('/')
+  const offset = await page.locator('.team-badge:has(img)').first().evaluate((badge) => {
+    const image = badge.querySelector('img')
+    const badgeBox = badge.getBoundingClientRect()
+    const imageBox = image.getBoundingClientRect()
+    return {
+      x: Math.abs((badgeBox.left + badgeBox.width / 2) - (imageBox.left + imageBox.width / 2)),
+      y: Math.abs((badgeBox.top + badgeBox.height / 2) - (imageBox.top + imageBox.height / 2))
+    }
+  })
+  expect(offset.x).toBeLessThanOrEqual(1)
+  expect(offset.y).toBeLessThanOrEqual(1)
 })

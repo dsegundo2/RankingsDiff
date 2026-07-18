@@ -1,36 +1,34 @@
 # pylint: disable=wildcard-import
 # pylint: disable=unused-wildcard-import
-"""Module combining rankings from espn and underdog"""
+# pylint: disable=duplicate-code
+"""Combine ESPN and Underdog rankings."""
 
-# import pandas as pd
+import argparse
+
+import pandas as pd
+from settings import add_common_args, input_path, output_path, path_from_arg_or_env
 from utils import *
 
-ESPN_RANKINGS = "./data/raw/espn_rankings.csv"
 ESPN_PLAYER_COLUMN = "PLAYER NAME"
 ESPN_AUCTION_VALUE_COLUMN_ORIGINAL = "ppr auction"
 ESPN_AUCTION_VALUE_COLUMN = "ESPN Value"
 ESPN_RANKING_COLUMN = "PPR"
 
-UNDERDOG_RANKINGS = "./data/raw/underdog_rankings_8_24.csv"
 UNDERDOG_PLAYER_COLUMN = "Player"
 UNDERDOG_RANKING_COLUMN = "Rank"
 UNDERDOG_AUCTION_VALUE_COLUMN = "UD Value"
 
 OUTPUT_POSITION_COLUMN = "Pos"
-OUTPUT_EXCEL = "./data/output/espn/merged_formatted.xlsx"
-OUTPUT_CSV = "./data/output/espn/merged.csv"
 
 
 def format_merged_list(merged_list):
-    """Clean up for the formatted final list by removing undesired columns and rows"""
+    """Clean up for the formatted final list by removing undesired columns and rows."""
 
-    # Cast Rank to be an integer
     merged_list[UNDERDOG_RANKING_COLUMN] = merged_list[UNDERDOG_RANKING_COLUMN].astype(
         "Int64"
     )
     merged_list[ESPN_RANKING_COLUMN] = merged_list[ESPN_RANKING_COLUMN].astype("Int64")
 
-    # Only keep desired columns
     merged_list = merged_list[
         [
             OUTPUT_POSITION_COLUMN,
@@ -43,53 +41,60 @@ def format_merged_list(merged_list):
             "PriceRank",
         ]
     ].sort_values(by=ESPN_RANKING_COLUMN)
-    # Renaming columns
-    merged_list = merged_list.rename(columns={"ppr auction": ESPN_AUCTION_VALUE_COLUMN})
 
-    return merged_list
-
-
-def create_output_files(df):
-    """Create a CSV and a formatted excell file in the data directory"""
-    styled_df = (
-        df.style.apply(
-            lambda col: highlight_cell_values(
-                col, df[ESPN_RANKING_COLUMN], df[OUTPUT_POSITION_COLUMN], get_text_color
-            ),
-            subset=[UNDERDOG_RANKING_COLUMN],
-        )
-        .apply(
-            lambda col: highlight_cell_values(
-                col,
-                df[ESPN_AUCTION_VALUE_COLUMN],
-                df[OUTPUT_POSITION_COLUMN],
-                get_text_color_auction,
-            ),
-            subset=[UNDERDOG_AUCTION_VALUE_COLUMN],
-        )
-        .set_properties(**{"text-align": "center"})
+    return merged_list.rename(
+        columns={ESPN_AUCTION_VALUE_COLUMN_ORIGINAL: ESPN_AUCTION_VALUE_COLUMN}
     )
 
-    styled_df = styled_df.map(highlight_positions, subset=[OUTPUT_POSITION_COLUMN])
-    styled_df = styled_df.format({UNDERDOG_AUCTION_VALUE_COLUMN: "${:,.0f}"}).format(
-        {ESPN_AUCTION_VALUE_COLUMN: "${:,.0f}"}
-    )
-    styled_df.to_excel(OUTPUT_EXCEL, engine="openpyxl", index=False)
 
-    # Add dollar signs to auction values
+def create_output_files(df, output_csv, output_excel):
+    """Create a CSV and a formatted Excel file in the data directory."""
+    output_csv.parent.mkdir(parents=True, exist_ok=True)
+    output_excel.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        styled_df = (
+            df.style.apply(
+                lambda col: highlight_cell_values(
+                    col,
+                    df[ESPN_RANKING_COLUMN],
+                    df[OUTPUT_POSITION_COLUMN],
+                    get_text_color,
+                ),
+                subset=[UNDERDOG_RANKING_COLUMN],
+            )
+            .apply(
+                lambda col: highlight_cell_values(
+                    col,
+                    df[ESPN_AUCTION_VALUE_COLUMN],
+                    df[OUTPUT_POSITION_COLUMN],
+                    get_text_color_auction,
+                ),
+                subset=[UNDERDOG_AUCTION_VALUE_COLUMN],
+            )
+            .set_properties(**{"text-align": "center"})
+        )
+
+        styled_df = styled_df.map(highlight_positions, subset=[OUTPUT_POSITION_COLUMN])
+        styled_df = styled_df.format({UNDERDOG_AUCTION_VALUE_COLUMN: "${:,.0f}"}).format(
+            {ESPN_AUCTION_VALUE_COLUMN: "${:,.0f}"}
+        )
+        styled_df.to_excel(output_excel, engine="openpyxl", index=False)
+    except ImportError as exc:
+        print(f"WARN: Excel styling dependency missing ({exc}); writing unstyled workbook.")
+        df.to_excel(output_excel, engine="openpyxl", index=False)
+
     df[ESPN_AUCTION_VALUE_COLUMN] = df[ESPN_AUCTION_VALUE_COLUMN].apply(
         lambda x: f"${int(x):,}"
     )
     df[UNDERDOG_AUCTION_VALUE_COLUMN] = df[UNDERDOG_AUCTION_VALUE_COLUMN].apply(
         lambda x: f"${int(x):,}"
     )
-    df.to_csv(OUTPUT_CSV, index=False)
+    df.to_csv(output_csv, index=False)
 
 
 def add_columns(df):
-    """Add columns to view the difference of certain columns"""
-
-    # Sort by ppr price and then apply a price based on UD order
+    """Add columns to view the difference of certain columns."""
 
     df[ESPN_AUCTION_VALUE_COLUMN_ORIGINAL] = df[
         ESPN_AUCTION_VALUE_COLUMN_ORIGINAL
@@ -109,35 +114,70 @@ def add_columns(df):
     return df
 
 
-######## MAIN FUNCTION #############
-
-# Load in csv data and clean player names for matching
-ud_dataframe = load_csv_to_memory(UNDERDOG_RANKINGS).head(400)
-espn_dataframe = load_csv_to_memory(ESPN_RANKINGS).head(400)
-espn_dataframe.columns.values[0] = ESPN_PLAYER_COLUMN
-
-espn_dataframe = remove_name_suffix(espn_dataframe, ESPN_PLAYER_COLUMN)
-ud_dataframe = remove_name_suffix(ud_dataframe, UNDERDOG_PLAYER_COLUMN)
-
-merged_df = pd.merge(
-    ud_dataframe,
-    espn_dataframe,
-    left_on=ud_dataframe[UNDERDOG_PLAYER_COLUMN].str.lower(),
-    right_on=espn_dataframe[ESPN_PLAYER_COLUMN].str.lower(),
-    how="inner",
-)
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    add_common_args(parser)
+    parser.add_argument("--espn-rankings", help="Path to ESPN rankings CSV.")
+    parser.add_argument("--underdog-rankings", help="Path to Underdog rankings CSV.")
+    parser.add_argument("--output-csv", help="Path to write merged CSV output.")
+    parser.add_argument("--output-excel", help="Path to write formatted XLSX output.")
+    return parser.parse_args()
 
 
-merged_df = add_columns(merged_df)
-merged_df = format_merged_list(merged_df)
+def main():
+    """Run the merge."""
+    args = parse_args()
+    espn_rankings = path_from_arg_or_env(
+        args.espn_rankings,
+        "ESPN_RANKINGS",
+        input_path(args.season, "espn_rankings.csv"),
+    )
+    underdog_rankings = path_from_arg_or_env(
+        args.underdog_rankings,
+        "UNDERDOG_RANKINGS",
+        input_path(args.season, "underdog_rankings.csv"),
+    )
+    output_csv = path_from_arg_or_env(
+        args.output_csv,
+        "OUTPUT_CSV",
+        output_path(args.season, "espn", "merged.csv"),
+    )
+    output_excel = path_from_arg_or_env(
+        args.output_excel,
+        "OUTPUT_EXCEL",
+        output_path(args.season, "espn", "merged_formatted.xlsx"),
+    )
 
-print("DEBUG: Top 10 rows of merged_df after add_columns:")
-print(merged_df.head(10))
+    ud_dataframe = load_csv_to_memory(underdog_rankings).head(args.limit)
+    espn_dataframe = load_csv_to_memory(espn_rankings).head(args.limit)
+    espn_dataframe.columns.values[0] = ESPN_PLAYER_COLUMN
 
-positional_bias = calculate_positional_bias(merged_df)
+    espn_dataframe = remove_name_suffix(espn_dataframe, ESPN_PLAYER_COLUMN)
+    ud_dataframe = remove_name_suffix(ud_dataframe, UNDERDOG_PLAYER_COLUMN)
 
-print("DEBUG: positional_bias after add_columns:")
-print(positional_bias)
+    merged_df = pd.merge(
+        ud_dataframe,
+        espn_dataframe,
+        left_on=ud_dataframe[UNDERDOG_PLAYER_COLUMN].str.lower(),
+        right_on=espn_dataframe[ESPN_PLAYER_COLUMN].str.lower(),
+        how="inner",
+    )
 
-create_output_files(merged_df)
-print("\033[92mMerged ESPN successfully.. I think\033[0m")
+    merged_df = add_columns(merged_df)
+    merged_df = format_merged_list(merged_df)
+
+    print("DEBUG: Top 10 rows of merged_df after add_columns:")
+    print(merged_df.head(10))
+
+    average_position_bias = calculate_positional_bias(merged_df)
+
+    print("DEBUG: positional_bias after add_columns:")
+    print(average_position_bias)
+
+    create_output_files(merged_df, output_csv, output_excel)
+    print(f"\033[92mMerged ESPN successfully: {output_csv}\033[0m")
+
+
+if __name__ == "__main__":
+    main()

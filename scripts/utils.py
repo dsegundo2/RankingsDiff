@@ -11,6 +11,15 @@ COLOR_NEUTRAL = "color: black"
 COLOR_BAD = "color: red"
 COLOR_VERY_BAD = "background-color: coral"
 
+
+def first_existing_column(dataframe, candidates):
+    """Return the first column name in candidates that exists in dataframe."""
+    for column in candidates:
+        if column in dataframe.columns:
+            return column
+    raise KeyError(f"Missing expected column. Tried: {', '.join(candidates)}")
+
+
 def load_csv_to_memory(local_filename):
     """Read the CSV file into a pandas DataFrame"""
 
@@ -19,13 +28,13 @@ def load_csv_to_memory(local_filename):
 
 
 def remove_name_suffix(player_list, player_column):
-    """Remove name suffix so they match on a join"""
-    player_list[player_column] = player_list[player_column].apply(
-        lambda x: x.replace(" Jr.", "")
-        .replace(" Sr.", "")
-        .replace(" II", "")
-        .replace(" III", "")
-        .rstrip()
+    """Remove name suffix so they match on a join."""
+    suffix_pattern = r"\s+(Jr\.|Sr\.|II|III|IV|V)$"
+    player_list[player_column] = (
+        player_list[player_column]
+        .astype(str)
+        .str.strip()
+        .str.replace(suffix_pattern, "", regex=True)
     )
 
     return player_list
@@ -55,7 +64,7 @@ def get_text_color(a, b, pos):
 
 def positional_bias(pos, rank):
     """Accounts for different platforms being higher or lower on a position in general"""
-    if (rank < 10 or rank > 160):
+    if rank < 10 or rank > 160:
         return 0
 
     manual_switch_espn = os.getenv("ESPN", "TRUE").lower() in ("true", "1", "yes")
@@ -65,7 +74,7 @@ def positional_bias(pos, rank):
         "QB": (0, 0.2),
         "WR": (-0.10, 0),
         "TE": (0.30, 0.2),
-        "RB": (0.40, 0)
+        "RB": (0.40, 0),
     }
     bias_tuple = bias_map.get(pos[:2], (0, 0))
     return bias_tuple[0] if manual_switch_espn else bias_tuple[1]

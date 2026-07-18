@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Prepare frontend data
+        run: python scripts/prepare_frontend_data.py
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+      - name: Build frontend
+        run: npm --prefix frontend run build
+      - name: Package frontend artifact
+        run: tar -czf rankingsdiff-frontend.tar.gz -C frontend/dist .
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: rankingsdiff-${{ github.run_number }}
+        run: |
+          DATE_TAG="rankingsdiff-$(date -u +'%Y.%m.%d')-${GITHUB_RUN_NUMBER}"
+          gh release create "$DATE_TAG" rankingsdiff-frontend.tar.gz \
+            --title "RankingsDiff ${DATE_TAG#rankingsdiff-}" \
+            --notes "Automated release for ${GITHUB_SHA}. Includes built frontend artifacts."

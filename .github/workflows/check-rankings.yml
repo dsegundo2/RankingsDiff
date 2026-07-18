@@ -1,0 +1,49 @@
+name: Check source rankings
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_updates:
+        description: Commit generated status/static data back to the current branch when checks change
+        required: true
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+  schedule:
+    - cron: '23 12 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pylint pandas openpyxl
+      - name: Check source ranking checksums
+        run: python scripts/check_source_rankings.py --copy-to-public
+      - name: Prepare frontend data
+        run: python scripts/prepare_frontend_data.py
+      - name: Show changed generated files
+        run: git status --short data/status frontend/public/data/status frontend/public/data/manifest.json
+      - name: Commit generated status files
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.commit_updates == 'true' }}
+        run: |
+          if git diff --quiet -- data/status frontend/public/data/status frontend/public/data/manifest.json; then
+            echo "No generated status changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/status frontend/public/data/status frontend/public/data/manifest.json
+          git commit -m "Update source ranking check status"
+          git push

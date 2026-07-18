@@ -20,7 +20,9 @@ function SourceLinks({ links }: { links?: SourceLink[] }) {
       <span>Source pages</span>
       <div>
         {links.map((link) => (
-          <a key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
+          <a key={link.url} href={link.url} target="_blank" rel="noreferrer">
+            <span>{link.label}</span><span aria-hidden="true">↗</span>
+          </a>
         ))}
       </div>
     </div>
