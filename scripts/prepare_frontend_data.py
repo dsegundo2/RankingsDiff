@@ -276,9 +276,25 @@ def build_manifest() -> dict[str, Any]:
     return {"generatedAt": generated_at, "seasons": seasons}
 
 
+def build_or_reuse_manifest() -> dict[str, Any]:
+    """Keep committed static data when generated outputs are absent in a clean checkout."""
+    manifest = build_manifest()
+    if manifest["seasons"]:
+        return manifest
+
+    manifest_path = PUBLIC_DATA / "manifest.json"
+    if manifest_path.exists():
+        existing = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if existing.get("seasons"):
+            print("No generated outputs found; retaining committed frontend data.")
+            return existing
+
+    raise RuntimeError("No generated rankings or committed frontend manifest are available.")
+
+
 def main() -> None:
     """Entrypoint."""
-    manifest = build_manifest()
+    manifest = build_or_reuse_manifest()
     copy_team_assets()
     copy_status_files()
     manifest_path = PUBLIC_DATA / "manifest.json"
