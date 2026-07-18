@@ -417,3 +417,6 @@ tbody tr.is-drafted { opacity: .48; }
   .settings-layer { padding: 8px; }
   .settings-popover { padding: 16px; border-radius: 18px; }
 }
+@media (max-width: 360px) {
+  h1 { font-size: clamp(2.35rem, 13vw, 2.9rem); }
+}
