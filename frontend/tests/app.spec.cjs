@@ -61,6 +61,8 @@ test('command-k focuses search and position filters rows', async ({ page }) => {
 test('mobile 390px has no horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 })
   await page.goto('./')
+  await expect(page.locator('.table-wrap')).toBeVisible()
+  await expect(page.locator('.cards-list')).toBeHidden()
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
   await page.getByRole('button', { name: 'By position' }).click()

@@ -253,6 +253,7 @@ tbody tr.is-drafted { opacity: .48; }
 .rankings-table .player-cell { min-width: 0; }
 .rankings-table .player-cell > div { min-width: 0; }
 .rankings-table .player-cell strong, .rankings-table .player-cell span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mobile-player-meta { display: none; }
 
 .draft-board-layout { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); }
 .queue-toggle { display: inline-flex; align-items: center; justify-content: center; }
@@ -300,8 +301,23 @@ tbody tr.is-drafted { opacity: .48; }
   .target-queue { order: -1; }
   .draft-toolbar { align-items: stretch; flex-direction: column; }
   .draft-toolbar__actions { justify-content: space-between; }
-  .table-wrap { display: none; }
-  .cards-list { display: grid; gap: 10px; }
+  .table-wrap { display: block; width: calc(100% + 20px); margin-inline: -10px; overflow: hidden; border-radius: 0; border-inline: 0; box-shadow: none; }
+  .rankings-table { table-layout: fixed; }
+  .rankings-table .position-heading, .rankings-table .position-cell,
+  .rankings-table .underdog-heading, .rankings-table .underdog-cell,
+  .rankings-table .money-heading, .rankings-table .money-cell { display: none; }
+  .rankings-table .col-position, .rankings-table .col-money, .rankings-table .col-underdog { width: 0; }
+  .rankings-table .col-source { width: 48px; }
+  .rankings-table .col-diff { width: 54px; }
+  .rankings-table .col-draft { width: 54px; }
+  .rankings-table th, .rankings-table td { padding: 8px 7px; }
+  .rankings-table .player-cell { min-width: 0; gap: 7px; }
+  .rankings-table .player-cell .team-badge { display: none; }
+  .rankings-table .player-cell strong { overflow: visible; text-overflow: clip; white-space: normal; font-size: .82rem; line-height: 1.15; }
+  .rankings-table .player-cell > div > span:not(.mobile-player-meta) { display: none; }
+  .rankings-table .player-cell .mobile-player-meta { display: block; overflow: hidden; margin-top: 3px; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; font-size: .64rem; }
+  .rankings-table .draft-action { min-width: 48px; padding: 6px 4px; font-size: .68rem; }
+  .cards-list { display: none; }
   .settings-grid, .source-check { grid-template-columns: 1fr; }
   .source-check dl { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .position-player { grid-template-columns: 24px 36px minmax(100px,1fr) 58px 45px 34px auto; }
