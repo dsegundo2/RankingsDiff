@@ -156,7 +156,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
             Looking at <strong>{selectedSeason}</strong> · <strong>{source?.label ?? selectedSource}</strong>
           </div>
         </div>
-        <div className="hero-actions hero-actions--settings">
+        <div className="hero-actions hero-actions--workbench">
+          <label className="header-search">
+            <span>Search players</span>
+            <input data-player-search ref={searchInputRef} value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />
+          </label>
           <button className="settings-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-haspopup="dialog">
             <span className="settings-trigger__icon" aria-hidden="true">⚙</span>
             <span><span>Settings</span><strong>{selectedSeason} · {source?.label ?? selectedSource}</strong></span>
@@ -172,6 +176,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           searchInputRef={searchInputRef}
           onSearch={setSearch}
           onPosition={setPosition}
+          showSearch={false}
           showPositions={view === 'board'}
           selectedPositions={positionViews}
           onTogglePosition={togglePositionView}

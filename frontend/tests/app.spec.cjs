@@ -116,6 +116,8 @@ test('position overview shows all lanes without collisions', async ({ page }) =>
   for (const heading of ['Running backs', 'Wide receivers', 'Quarterbacks', 'Tight ends']) {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible()
   }
+  await expect(page.locator('.position-player .team-badge').first()).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
   expect(await page.locator('.position-board').evaluate((board) => getComputedStyle(board).gridTemplateColumns.split(' ').length)).toBe(2)
   const overlaps = await page.locator('.position-player').evaluateAll((rows) => rows.some((row) => {
     const cells = [...row.children].filter((cell) => getComputedStyle(cell).display !== 'none').map((cell) => cell.getBoundingClientRect())

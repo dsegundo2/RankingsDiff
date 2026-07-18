@@ -10,18 +10,19 @@ type Props = {
   searchInputRef?: Ref<HTMLInputElement>
   onSearch: (value: string) => void
   onPosition: (value: PositionFilter) => void
+  showSearch?: boolean
   showPositions?: boolean
   selectedPositions?: Set<Exclude<PositionFilter, 'ALL'>>
   onTogglePosition?: (value: Exclude<PositionFilter, 'ALL'>) => void
 }
 
-export function Filters({ search, position, searchInputRef, onSearch, onPosition, showPositions = true, selectedPositions, onTogglePosition }: Props) {
+export function Filters({ search, position, searchInputRef, onSearch, onPosition, showSearch = true, showPositions = true, selectedPositions, onTogglePosition }: Props) {
   return (
     <section className="filters filters--quick" aria-label="Rankings filters">
-      <label className="search-field">
+      {showSearch ? <label className="search-field">
         <span>Search players</span>
         <input data-player-search ref={searchInputRef} value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />
-      </label>
+      </label> : null}
       {showPositions ? <div className="position-filter-wrap">
         <div className="position-pills" aria-label="Position filters">
           {positions.map((pos) => (
