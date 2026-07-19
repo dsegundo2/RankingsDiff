@@ -37,6 +37,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [drafted, setDrafted] = useState<Set<string>>(new Set())
   const [showDrafted, setShowDrafted] = useState(true)
   const [showTargetQueue, setShowTargetQueue] = useState(true)
+  const [showMobileActions, setShowMobileActions] = useState(true)
   const [hydratedStorageKey, setHydratedStorageKey] = useState('')
   const searchInputRef = useRef<HTMLInputElement>(null)
   const season = manifest.seasons.find((item) => item.season === selectedSeason) ?? manifest.seasons[0]
@@ -290,7 +291,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   </aside> : null
 
   return (
-    <main className="dashboard">
+    <main className={`dashboard ${showMobileActions ? '' : 'mobile-actions-hidden'}`}>
       <section className="hero hero--compact">
         <div>
           <span className="eyebrow">Fantasy football</span>
@@ -313,7 +314,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       </section>
 
       <section className="draft-toolbar" aria-label="Draft board controls">
-        <label className="drafted-toggle view-mode-toggle"><input type="checkbox" checked={view === 'positions'} onChange={(event) => setView(event.target.checked ? 'positions' : 'board')} /> By position</label>
+        <label className="drafted-toggle view-mode-toggle"><input type="checkbox" aria-label="By position" checked={view === 'positions'} onChange={(event) => setView(event.target.checked ? 'positions' : 'board')} /><span>Position</span></label>
         <Filters
           search={search}
           position={position}
@@ -328,7 +329,8 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           compact
         />
         <div className="draft-toolbar__actions">
-          <label className="drafted-toggle"><input type="checkbox" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /> Show drafted</label>
+          <label className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /><span>Drafted</span></label>
+          <label className="drafted-toggle mobile-actions-toggle"><input type="checkbox" aria-label="Show actions" checked={showMobileActions} onChange={(event) => setShowMobileActions(event.target.checked)} /><span>Actions</span></label>
         </div>
       </section>
 

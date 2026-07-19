@@ -90,6 +90,27 @@ test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) 
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
 
+
+test('mobile FantasyPros cards stretch and actions can be hidden', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 900 })
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.locator('.settings-popover').getByLabel('Sheet').selectOption('fpros')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('.cards-list')).toBeVisible()
+  await expect(page.locator('.ranking-card').first()).toContainText('FPros rank')
+  const cardBox = await page.locator('.ranking-card').first().evaluate((node) => {
+    const rect = node.getBoundingClientRect()
+    return { left: rect.left, right: rect.right, width: rect.width }
+  })
+  expect(cardBox.left).toBeLessThanOrEqual(1)
+  expect(cardBox.right).toBeGreaterThanOrEqual(389)
+  await page.getByRole('checkbox', { name: 'Show actions' }).uncheck()
+  await expect(page.locator('.ranking-card__actions').first()).toBeHidden()
+  await expect(page.getByRole('button', { name: /Mark drafted/ })).toHaveCount(0)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
+})
+
 test('mobile 320px has no horizontal overflow in board, settings, and source checks', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 900 })
   await page.goto('./')
