@@ -131,6 +131,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         setSettingsOpen(true)
         return
       }
+      if (shortcut === 'f' && selectedId) {
+        event.preventDefault()
+        toggleSet(setTargets, selectedId)
+        return
+      }
       if (event.key === 'Enter' && selectedId) {
         event.preventDefault()
         toggleDrafted(selectedId)
