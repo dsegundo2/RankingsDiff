@@ -337,7 +337,10 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           <div>
             <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />
             <section className="cards-list" aria-label="Mobile rankings cards">
-              {visibleRows.map((row) => <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} targeted={targets.has(rankingId(row))} drafted={drafted.has(rankingId(row))} onTarget={() => toggleSet(setTargets, rankingId(row))} onDrafted={() => toggleDrafted(rankingId(row))} />)}
+              {visibleRows.map((row) => {
+                const id = rankingId(row)
+                return <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} targeted={targets.has(id)} drafted={drafted.has(id)} selected={selectedId === id} onSelect={() => setSelectedId(id)} onTarget={() => toggleSet(setTargets, id)} onDrafted={() => toggleDrafted(id)} />
+              })}
             </section>
           </div>
           {targetQueue}

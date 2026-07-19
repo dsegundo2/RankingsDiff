@@ -62,25 +62,34 @@ test('command-k focuses search and position filters rows', async ({ page }) => {
   await expect(page.getByText('No players match the current filters.')).toBeVisible()
 })
 
-test('mobile 390px has no horizontal overflow', async ({ page }) => {
+test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 })
   await page.goto('./')
-  await expect(page.locator('.table-wrap')).toBeVisible()
-  await expect(page.locator('.cards-list')).toBeHidden()
+  await expect(page.locator('.table-wrap')).toBeHidden()
+  await expect(page.locator('.cards-list')).toBeVisible()
+  await expect(page.locator('.ranking-card').first()).toContainText('Jahmyr Gibbs')
+  await expect(page.getByRole('button', { name: 'Target Jahmyr Gibbs' }).first()).toBeVisible()
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
   await page.getByRole('checkbox', { name: 'By position' }).check()
+  await expect(page.locator('.position-board')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Settings' })).toBeVisible()
   await page.getByRole('button', { name: /Settings/ }).click()
   await expect(page.getByRole('button', { name: 'Save draft' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Run refresh workflow' })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
 
-test('mobile 320px has no horizontal overflow', async ({ page }) => {
+test('mobile 320px has no horizontal overflow in board, settings, and source checks', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 900 })
   await page.goto('./')
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
-  expect(overflow).toBe(false)
+  await expect(page.locator('.cards-list')).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await expect(page.getByRole('heading', { name: 'Ranking change checks' })).toBeVisible()
+  const sourceHeaderWidth = await page.locator('.source-checks__header').evaluate((node) => node.getBoundingClientRect().width)
+  expect(sourceHeaderWidth).toBeLessThanOrEqual(288)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
 
 
