@@ -565,3 +565,61 @@ tbody tr.is-drafted { opacity: .48; }
   .position-player__difference { grid-area: diff; justify-self: start; min-width: 52px; text-align: center; }
   .position-player .draft-action { grid-area: draft; min-width: 64px; align-self: stretch; }
 }
+
+/* Follow-up mobile polish: full-bleed data surfaces and compact controls */
+@media (max-width: 760px) {
+  .dashboard { width: 100%; padding-top: var(--space-2); }
+  .hero,
+  .draft-toolbar { margin-inline: var(--space-2); }
+  .draft-board-layout { gap: var(--space-2); }
+
+  .draft-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    border-radius: var(--radius-lg);
+  }
+  .draft-toolbar > .view-mode-toggle { grid-column: 1 / 2; grid-row: 1; }
+  .draft-toolbar > .filters--positions { grid-column: 1 / -1; grid-row: 2; order: initial; }
+  .draft-toolbar > .draft-toolbar__actions { grid-column: 2 / 3; grid-row: 1; justify-self: stretch; }
+  .draft-toolbar__actions { align-items: stretch; flex-direction: row; justify-content: stretch; }
+  .view-mode-toggle,
+  .drafted-toggle { min-height: 40px; font-size: .9rem; line-height: 1.1; }
+  .drafted-toggle input { width: 40px; height: 24px; }
+  .drafted-toggle input::after { width: 18px; height: 18px; }
+  .drafted-toggle input:checked::after { transform: translateX(16px); }
+  .filters--compact { border: 0; background: transparent; box-shadow: none; padding: var(--space-1) 0 0; }
+  .filters--compact .position-filter-wrap { display: block; }
+  .filters--compact .position-pills {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-1);
+  }
+  .filters--compact .position-pills button { min-height: 38px; padding: var(--space-2) var(--space-1); border-radius: var(--radius-md); font-size: .76rem; }
+  .filters--compact .shortcut-help { display: none; }
+
+  .target-queue,
+  .table-wrap,
+  .cards-list { width: 100%; margin-inline: 0; }
+  .target-queue,
+  .table-wrap { border-inline: 0; border-radius: 0; }
+  .target-queue { padding: var(--space-4) var(--space-3); box-shadow: 0 8px 20px rgba(28,39,69,.08); }
+  .cards-list { gap: 1px; }
+  .ranking-card { border-inline: 0; border-radius: 0; box-shadow: none; }
+
+  /* Defensive table fallback for older cached mobile layouts: prevent Draft/Value diff header collision. */
+  .rankings-table .col-diff,
+  .rankings-table .diff-heading,
+  .rankings-table .diff-cell { display: none; }
+  .rankings-table .col-draft { width: 64px; }
+  .rankings-table .draft-heading { padding-right: var(--space-2); font-size: .68rem; text-align: center; }
+  .rankings-table .draft-cell { text-align: center; }
+}
+
+@media (max-width: 360px) {
+  .hero,
+  .draft-toolbar { margin-inline: var(--space-1); }
+  .target-queue { padding-inline: var(--space-2); }
+  .view-mode-toggle,
+  .drafted-toggle { font-size: .82rem; }
+}
