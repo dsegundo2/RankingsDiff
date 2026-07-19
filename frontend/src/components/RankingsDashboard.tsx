@@ -300,21 +300,20 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
             Looking at <strong>{selectedSeason}</strong> · <strong>{source?.label ?? selectedSource}</strong>
           </div>
         </div>
-        <div className="hero-actions hero-actions--workbench">
-          <label className="header-search">
-            <span>Search players</span>
-            <input data-player-search ref={searchInputRef} value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />
-          </label>
-          <button className="settings-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-haspopup="dialog">
-            <span className="settings-trigger__icon" aria-hidden="true">⚙</span>
-            <span><span>Settings</span><strong>{selectedSeason} · {source?.label ?? selectedSource}</strong></span>
-            <small>{visibleRows.length.toLocaleString()} showing · downloads & draft tools</small>
-          </button>
-        </div>
+      </section>
+
+      <section className="search-panel" aria-label="Player search">
+        <label className="header-search header-search--standalone">
+          <span>Search players</span>
+          <input data-player-search ref={searchInputRef} value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />
+        </label>
       </section>
 
       <section className="draft-toolbar" aria-label="Draft board controls">
-        <label className="drafted-toggle view-mode-toggle"><input type="checkbox" aria-label="By position" checked={view === 'positions'} onChange={(event) => setView(event.target.checked ? 'positions' : 'board')} /><span>Position</span></label>
+        <button className="settings-icon-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-label="Settings" aria-haspopup="dialog" title={`${selectedSeason} · ${source?.label ?? selectedSource} · ${visibleRows.length.toLocaleString()} showing`}>
+          <span aria-hidden="true">⚙</span>
+        </button>
+        <label className="drafted-toggle view-mode-toggle"><input type="checkbox" aria-label="By position" checked={view === 'positions'} onChange={(event) => setView(event.target.checked ? 'positions' : 'board')} /><span className="desktop-label">Position</span><span className="mobile-label">Pos</span></label>
         <Filters
           search={search}
           position={position}
