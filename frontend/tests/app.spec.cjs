@@ -132,6 +132,9 @@ test('click selection supports arrows and enter drafting in board and position v
   await expect(page.getByLabel('Target queue', { exact: true })).toContainText('Jahmyr Gibbs')
   await page.keyboard.press('f')
   await expect(page.getByRole('button', { name: 'Target Jahmyr Gibbs' }).first()).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(firstBoardRow).not.toHaveClass(/is-selected/)
+  await firstBoardRow.click()
   await page.keyboard.press('Enter')
   await expect(page.getByRole('button', { name: 'Undo drafted Jahmyr Gibbs' }).first()).toBeVisible()
 
@@ -155,6 +158,8 @@ test('click selection supports arrows and enter drafting in board and position v
 
   await page.keyboard.press('ArrowLeft')
   await expect(page.locator('.position-lane--rb .position-player').first()).toHaveClass(/is-selected/)
+  await page.keyboard.press('Escape')
+  await expect(page.locator('.position-player.is-selected')).toHaveCount(0)
 })
 
 test('position overview shows all lanes without collisions', async ({ page }) => {

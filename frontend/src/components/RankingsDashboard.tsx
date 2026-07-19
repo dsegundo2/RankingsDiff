@@ -123,6 +123,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           target?.blur()
           return
         }
+        if (selectedId) {
+          event.preventDefault()
+          setSelectedId('')
+          return
+        }
       }
       if (isTyping || event.metaKey || event.ctrlKey || event.altKey) return
       const shortcut = event.key.toLowerCase()
