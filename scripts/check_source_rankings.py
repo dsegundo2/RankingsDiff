@@ -35,7 +35,10 @@ RAW_SOURCE_PATTERNS = {
     "fpros": ["fpros_rankings.csv", "fantasypros_public_rankings.html"],
     "espn": ["espn_rankings.csv", "espn_ppr300_cheatsheet.pdf"],
     "adjusted": ["adjusted_rankings.csv"],
-    "yahoo-hayden-winks": ["yahoo_hayden_winks_rankings.html"],
+    "yahoo-hayden-winks": [
+        "yahoo_hayden_winks_rankings.html",
+        "yahoo_hayden_winks_rankings.json",
+    ],
     "boone-yahoo": [
         "justin_boone_yahoo_ppr_rankings.csv",
         "fantasypros_justin_boone_yahoo_ppr.html",
