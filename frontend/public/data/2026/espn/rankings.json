@@ -22,7 +22,7 @@
     "adjustedRank": 2,
     "sourceValue": 56,
     "adjustedValue": 56,
-    "priceRank": 3,
+    "priceRank": 2,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -36,7 +36,7 @@
     "adjustedRank": 4,
     "sourceValue": 56,
     "adjustedValue": 55,
-    "priceRank": 2,
+    "priceRank": 3,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -316,7 +316,7 @@
     "adjustedRank": 34,
     "sourceValue": 32,
     "adjustedValue": 23,
-    "priceRank": 23,
+    "priceRank": 24,
     "diff": -9,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -330,7 +330,7 @@
     "adjustedRank": 18,
     "sourceValue": 32,
     "adjustedValue": 37,
-    "priceRank": 24,
+    "priceRank": 23,
     "diff": 5,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -498,7 +498,7 @@
     "adjustedRank": 33,
     "sourceValue": 22,
     "adjustedValue": 24,
-    "priceRank": 35,
+    "priceRank": 36,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -512,7 +512,7 @@
     "adjustedRank": 28,
     "sourceValue": 22,
     "adjustedValue": 29,
-    "priceRank": 36,
+    "priceRank": 35,
     "diff": 7,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -750,7 +750,7 @@
     "adjustedRank": 54,
     "sourceValue": 10,
     "adjustedValue": 10,
-    "priceRank": 54,
+    "priceRank": 56,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -792,7 +792,7 @@
     "adjustedRank": 63,
     "sourceValue": 10,
     "adjustedValue": 8,
-    "priceRank": 56,
+    "priceRank": 54,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -820,7 +820,7 @@
     "adjustedRank": 59,
     "sourceValue": 9,
     "adjustedValue": 9,
-    "priceRank": 59,
+    "priceRank": 58,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -834,7 +834,7 @@
     "adjustedRank": 58,
     "sourceValue": 9,
     "adjustedValue": 9,
-    "priceRank": 58,
+    "priceRank": 59,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -848,7 +848,7 @@
     "adjustedRank": 69,
     "sourceValue": 8,
     "adjustedValue": 6,
-    "priceRank": 63,
+    "priceRank": 61,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -862,7 +862,7 @@
     "adjustedRank": 51,
     "sourceValue": 8,
     "adjustedValue": 12,
-    "priceRank": 62,
+    "priceRank": 63,
     "diff": 4,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -876,7 +876,7 @@
     "adjustedRank": 57,
     "sourceValue": 8,
     "adjustedValue": 10,
-    "priceRank": 61,
+    "priceRank": 62,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -890,7 +890,7 @@
     "adjustedRank": 70,
     "sourceValue": 7,
     "adjustedValue": 6,
-    "priceRank": 66,
+    "priceRank": 65,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -904,7 +904,7 @@
     "adjustedRank": 77,
     "sourceValue": 7,
     "adjustedValue": 5,
-    "priceRank": 67,
+    "priceRank": 64,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -918,7 +918,7 @@
     "adjustedRank": 98,
     "sourceValue": 7,
     "adjustedValue": 2,
-    "priceRank": 65,
+    "priceRank": 67,
     "diff": -5,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -932,7 +932,7 @@
     "adjustedRank": 109,
     "sourceValue": 7,
     "adjustedValue": 2,
-    "priceRank": 64,
+    "priceRank": 66,
     "diff": -5,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -946,7 +946,7 @@
     "adjustedRank": 80,
     "sourceValue": 6,
     "adjustedValue": 4,
-    "priceRank": 70,
+    "priceRank": 71,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -960,7 +960,7 @@
     "adjustedRank": 72,
     "sourceValue": 6,
     "adjustedValue": 6,
-    "priceRank": 73,
+    "priceRank": 72,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -974,7 +974,7 @@
     "adjustedRank": 79,
     "sourceValue": 6,
     "adjustedValue": 4,
-    "priceRank": 71,
+    "priceRank": 68,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -988,7 +988,7 @@
     "adjustedRank": 76,
     "sourceValue": 6,
     "adjustedValue": 5,
-    "priceRank": 72,
+    "priceRank": 73,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1002,7 +1002,7 @@
     "adjustedRank": 95,
     "sourceValue": 6,
     "adjustedValue": 3,
-    "priceRank": 68,
+    "priceRank": 69,
     "diff": -3,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1016,7 +1016,7 @@
     "adjustedRank": 82,
     "sourceValue": 6,
     "adjustedValue": 4,
-    "priceRank": 69,
+    "priceRank": 70,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1030,7 +1030,7 @@
     "adjustedRank": 55,
     "sourceValue": 5,
     "adjustedValue": 10,
-    "priceRank": 76,
+    "priceRank": 74,
     "diff": 5,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1044,7 +1044,7 @@
     "adjustedRank": 112,
     "sourceValue": 5,
     "adjustedValue": 2,
-    "priceRank": 75,
+    "priceRank": 77,
     "diff": -3,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1058,7 +1058,7 @@
     "adjustedRank": 84,
     "sourceValue": 5,
     "adjustedValue": 4,
-    "priceRank": 77,
+    "priceRank": 76,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1072,7 +1072,7 @@
     "adjustedRank": 47,
     "sourceValue": 5,
     "adjustedValue": 15,
-    "priceRank": 74,
+    "priceRank": 75,
     "diff": 10,
     "diffTone": "good",
     "positionTone": "wr"
@@ -1100,7 +1100,7 @@
     "adjustedRank": 49,
     "sourceValue": 4,
     "adjustedValue": 13,
-    "priceRank": 86,
+    "priceRank": 79,
     "diff": 9,
     "diffTone": "good",
     "positionTone": "wr"
@@ -1114,7 +1114,7 @@
     "adjustedRank": 61,
     "sourceValue": 4,
     "adjustedValue": 8,
-    "priceRank": 85,
+    "priceRank": 78,
     "diff": 4,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1128,7 +1128,7 @@
     "adjustedRank": 137,
     "sourceValue": 4,
     "adjustedValue": 1,
-    "priceRank": 80,
+    "priceRank": 86,
     "diff": -3,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1142,7 +1142,7 @@
     "adjustedRank": 86,
     "sourceValue": 4,
     "adjustedValue": 4,
-    "priceRank": 79,
+    "priceRank": 84,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1156,7 +1156,7 @@
     "adjustedRank": 74,
     "sourceValue": 4,
     "adjustedValue": 5,
-    "priceRank": 78,
+    "priceRank": 85,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1170,7 +1170,7 @@
     "adjustedRank": 97,
     "sourceValue": 4,
     "adjustedValue": 2,
-    "priceRank": 83,
+    "priceRank": 80,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1184,7 +1184,7 @@
     "adjustedRank": 96,
     "sourceValue": 4,
     "adjustedValue": 2,
-    "priceRank": 84,
+    "priceRank": 81,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1198,7 +1198,7 @@
     "adjustedRank": 102,
     "sourceValue": 4,
     "adjustedValue": 2,
-    "priceRank": 81,
+    "priceRank": 83,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1226,7 +1226,7 @@
     "adjustedRank": 149,
     "sourceValue": 3,
     "adjustedValue": 1,
-    "priceRank": 95,
+    "priceRank": 94,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1240,7 +1240,7 @@
     "adjustedRank": 78,
     "sourceValue": 3,
     "adjustedValue": 4,
-    "priceRank": 89,
+    "priceRank": 90,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1254,7 +1254,7 @@
     "adjustedRank": 108,
     "sourceValue": 3,
     "adjustedValue": 2,
-    "priceRank": 87,
+    "priceRank": 95,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1268,7 +1268,7 @@
     "adjustedRank": 91,
     "sourceValue": 3,
     "adjustedValue": 3,
-    "priceRank": 94,
+    "priceRank": 92,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1282,7 +1282,7 @@
     "adjustedRank": 83,
     "sourceValue": 3,
     "adjustedValue": 4,
-    "priceRank": 88,
+    "priceRank": 89,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1296,7 +1296,7 @@
     "adjustedRank": 75,
     "sourceValue": 3,
     "adjustedValue": 5,
-    "priceRank": 90,
+    "priceRank": 91,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1310,7 +1310,7 @@
     "adjustedRank": 104,
     "sourceValue": 3,
     "adjustedValue": 2,
-    "priceRank": 91,
+    "priceRank": 88,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1324,7 +1324,7 @@
     "adjustedRank": 67,
     "sourceValue": 3,
     "adjustedValue": 7,
-    "priceRank": 92,
+    "priceRank": 87,
     "diff": 4,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1338,7 +1338,7 @@
     "adjustedRank": 65,
     "sourceValue": 2,
     "adjustedValue": 7,
-    "priceRank": 114,
+    "priceRank": 111,
     "diff": 5,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1352,7 +1352,7 @@
     "adjustedRank": 94,
     "sourceValue": 2,
     "adjustedValue": 3,
-    "priceRank": 96,
+    "priceRank": 99,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1366,7 +1366,7 @@
     "adjustedRank": 66,
     "sourceValue": 2,
     "adjustedValue": 7,
-    "priceRank": 116,
+    "priceRank": 120,
     "diff": 5,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1380,7 +1380,7 @@
     "adjustedRank": 141,
     "sourceValue": 2,
     "adjustedValue": 1,
-    "priceRank": 108,
+    "priceRank": 113,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1394,7 +1394,7 @@
     "adjustedRank": 142,
     "sourceValue": 2,
     "adjustedValue": 1,
-    "priceRank": 97,
+    "priceRank": 115,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1408,7 +1408,7 @@
     "adjustedRank": 139,
     "sourceValue": 2,
     "adjustedValue": 1,
-    "priceRank": 98,
+    "priceRank": 116,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1422,7 +1422,7 @@
     "adjustedRank": 118,
     "sourceValue": 2,
     "adjustedValue": 2,
-    "priceRank": 106,
+    "priceRank": 108,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1436,7 +1436,7 @@
     "adjustedRank": 121,
     "sourceValue": 2,
     "adjustedValue": 1,
-    "priceRank": 103,
+    "priceRank": 110,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1450,7 +1450,7 @@
     "adjustedRank": 140,
     "sourceValue": 2,
     "adjustedValue": 1,
-    "priceRank": 102,
+    "priceRank": 117,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1464,7 +1464,7 @@
     "adjustedRank": 92,
     "sourceValue": 2,
     "adjustedValue": 3,
-    "priceRank": 112,
+    "priceRank": 102,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1478,7 +1478,7 @@
     "adjustedRank": 88,
     "sourceValue": 2,
     "adjustedValue": 3,
-    "priceRank": 107,
+    "priceRank": 100,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1492,7 +1492,7 @@
     "adjustedRank": 103,
     "sourceValue": 2,
     "adjustedValue": 2,
-    "priceRank": 119,
+    "priceRank": 107,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1506,7 +1506,7 @@
     "adjustedRank": 93,
     "sourceValue": 2,
     "adjustedValue": 3,
-    "priceRank": 113,
+    "priceRank": 103,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1520,7 +1520,7 @@
     "adjustedRank": 120,
     "sourceValue": 2,
     "adjustedValue": 2,
-    "priceRank": 104,
+    "priceRank": 106,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1534,7 +1534,7 @@
     "adjustedRank": 81,
     "sourceValue": 2,
     "adjustedValue": 4,
-    "priceRank": 115,
+    "priceRank": 104,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1548,7 +1548,7 @@
     "adjustedRank": 213,
     "sourceValue": 2,
     "adjustedValue": 0,
-    "priceRank": 109,
+    "priceRank": 119,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1562,7 +1562,7 @@
     "adjustedRank": 150,
     "sourceValue": 2,
     "adjustedValue": 1,
-    "priceRank": 118,
+    "priceRank": 114,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1576,7 +1576,7 @@
     "adjustedRank": 100,
     "sourceValue": 2,
     "adjustedValue": 2,
-    "priceRank": 111,
+    "priceRank": 105,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1590,7 +1590,7 @@
     "adjustedRank": 90,
     "sourceValue": 2,
     "adjustedValue": 3,
-    "priceRank": 117,
+    "priceRank": 101,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1604,7 +1604,7 @@
     "adjustedRank": 123,
     "sourceValue": 2,
     "adjustedValue": 1,
-    "priceRank": 101,
+    "priceRank": 97,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1618,7 +1618,7 @@
     "adjustedRank": 216,
     "sourceValue": 2,
     "adjustedValue": 0,
-    "priceRank": 110,
+    "priceRank": 118,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1632,7 +1632,7 @@
     "adjustedRank": 119,
     "sourceValue": 2,
     "adjustedValue": 2,
-    "priceRank": 105,
+    "priceRank": 109,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1646,7 +1646,7 @@
     "adjustedRank": 106,
     "sourceValue": 2,
     "adjustedValue": 2,
-    "priceRank": 120,
+    "priceRank": 98,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1660,7 +1660,7 @@
     "adjustedRank": 195,
     "sourceValue": 2,
     "adjustedValue": 0,
-    "priceRank": 99,
+    "priceRank": 112,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1674,7 +1674,7 @@
     "adjustedRank": 124,
     "sourceValue": 2,
     "adjustedValue": 1,
-    "priceRank": 100,
+    "priceRank": 96,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1688,7 +1688,7 @@
     "adjustedRank": 87,
     "sourceValue": 1,
     "adjustedValue": 3,
-    "priceRank": 158,
+    "priceRank": 121,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1702,7 +1702,7 @@
     "adjustedRank": 151,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 125,
+    "priceRank": 158,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1716,7 +1716,7 @@
     "adjustedRank": 111,
     "sourceValue": 1,
     "adjustedValue": 2,
-    "priceRank": 156,
+    "priceRank": 125,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1730,7 +1730,7 @@
     "adjustedRank": 122,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 157,
+    "priceRank": 126,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1744,7 +1744,7 @@
     "adjustedRank": 101,
     "sourceValue": 1,
     "adjustedValue": 2,
-    "priceRank": 145,
+    "priceRank": 124,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1758,7 +1758,7 @@
     "adjustedRank": 89,
     "sourceValue": 1,
     "adjustedValue": 3,
-    "priceRank": 147,
+    "priceRank": 122,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1772,7 +1772,7 @@
     "adjustedRank": 136,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 155,
+    "priceRank": 139,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1786,7 +1786,7 @@
     "adjustedRank": 85,
     "sourceValue": 1,
     "adjustedValue": 4,
-    "priceRank": 150,
+    "priceRank": 127,
     "diff": 3,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1800,7 +1800,7 @@
     "adjustedRank": 131,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 151,
+    "priceRank": 135,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1814,7 +1814,7 @@
     "adjustedRank": 200,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 135,
+    "priceRank": 149,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1828,7 +1828,7 @@
     "adjustedRank": 134,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 153,
+    "priceRank": 142,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1842,7 +1842,7 @@
     "adjustedRank": 133,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 152,
+    "priceRank": 143,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1856,7 +1856,7 @@
     "adjustedRank": 105,
     "sourceValue": 1,
     "adjustedValue": 2,
-    "priceRank": 159,
+    "priceRank": 137,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1870,7 +1870,7 @@
     "adjustedRank": 164,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 121,
+    "priceRank": 146,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1884,7 +1884,7 @@
     "adjustedRank": 177,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 124,
+    "priceRank": 153,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1898,7 +1898,7 @@
     "adjustedRank": 114,
     "sourceValue": 1,
     "adjustedValue": 2,
-    "priceRank": 149,
+    "priceRank": 136,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -1912,7 +1912,7 @@
     "adjustedRank": 244,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 129,
+    "priceRank": 128,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1926,7 +1926,7 @@
     "adjustedRank": 171,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 127,
+    "priceRank": 147,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1940,7 +1940,7 @@
     "adjustedRank": 169,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 123,
+    "priceRank": 144,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1954,7 +1954,7 @@
     "adjustedRank": 110,
     "sourceValue": 1,
     "adjustedValue": 2,
-    "priceRank": 154,
+    "priceRank": 123,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1968,7 +1968,7 @@
     "adjustedRank": 182,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 133,
+    "priceRank": 155,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1982,7 +1982,7 @@
     "adjustedRank": 167,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 122,
+    "priceRank": 141,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1996,7 +1996,7 @@
     "adjustedRank": 181,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 132,
+    "priceRank": 148,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2010,7 +2010,7 @@
     "adjustedRank": 206,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 143,
+    "priceRank": 150,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2024,7 +2024,7 @@
     "adjustedRank": 225,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 139,
+    "priceRank": 132,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2038,7 +2038,7 @@
     "adjustedRank": 147,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 160,
+    "priceRank": 138,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2052,7 +2052,7 @@
     "adjustedRank": 226,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 140,
+    "priceRank": 130,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2066,7 +2066,7 @@
     "adjustedRank": 236,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 142,
+    "priceRank": 131,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2080,7 +2080,7 @@
     "adjustedRank": 115,
     "sourceValue": 1,
     "adjustedValue": 2,
-    "priceRank": 148,
+    "priceRank": 134,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -2094,7 +2094,7 @@
     "adjustedRank": 132,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 144,
+    "priceRank": 159,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -2108,7 +2108,7 @@
     "adjustedRank": 179,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 130,
+    "priceRank": 157,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2122,7 +2122,7 @@
     "adjustedRank": 180,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 131,
+    "priceRank": 152,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2136,7 +2136,7 @@
     "adjustedRank": 207,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 136,
+    "priceRank": 151,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2150,7 +2150,7 @@
     "adjustedRank": 219,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 138,
+    "priceRank": 133,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2164,7 +2164,7 @@
     "adjustedRank": 217,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 137,
+    "priceRank": 160,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2178,7 +2178,7 @@
     "adjustedRank": 143,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 146,
+    "priceRank": 140,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2192,7 +2192,7 @@
     "adjustedRank": 170,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 126,
+    "priceRank": 145,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2206,7 +2206,7 @@
     "adjustedRank": 152,
     "sourceValue": 1,
     "adjustedValue": 1,
-    "priceRank": 128,
+    "priceRank": 156,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2220,7 +2220,7 @@
     "adjustedRank": 257,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 141,
+    "priceRank": 129,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -2234,7 +2234,7 @@
     "adjustedRank": 185,
     "sourceValue": 1,
     "adjustedValue": 0,
-    "priceRank": 134,
+    "priceRank": 154,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -2248,7 +2248,7 @@
     "adjustedRank": 148,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 206,
+    "priceRank": 191,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2262,7 +2262,7 @@
     "adjustedRank": 283,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 196,
+    "priceRank": 240,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2276,7 +2276,7 @@
     "adjustedRank": 201,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 254,
+    "priceRank": 183,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2290,7 +2290,7 @@
     "adjustedRank": 284,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 195,
+    "priceRank": 241,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2304,7 +2304,7 @@
     "adjustedRank": 235,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 207,
+    "priceRank": 208,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2318,7 +2318,7 @@
     "adjustedRank": 168,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 221,
+    "priceRank": 168,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2332,7 +2332,7 @@
     "adjustedRank": 276,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 200,
+    "priceRank": 236,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2346,7 +2346,7 @@
     "adjustedRank": 125,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 208,
+    "priceRank": 163,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2360,7 +2360,7 @@
     "adjustedRank": 107,
     "sourceValue": 0,
     "adjustedValue": 2,
-    "priceRank": 242,
+    "priceRank": 165,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2374,7 +2374,7 @@
     "adjustedRank": 129,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 214,
+    "priceRank": 161,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2388,7 +2388,7 @@
     "adjustedRank": 130,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 215,
+    "priceRank": 162,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2402,7 +2402,7 @@
     "adjustedRank": 199,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 233,
+    "priceRank": 182,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2416,7 +2416,7 @@
     "adjustedRank": 144,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 222,
+    "priceRank": 186,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2430,7 +2430,7 @@
     "adjustedRank": 161,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 227,
+    "priceRank": 173,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2444,7 +2444,7 @@
     "adjustedRank": 172,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 219,
+    "priceRank": 188,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2458,7 +2458,7 @@
     "adjustedRank": 128,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 211,
+    "priceRank": 166,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2472,7 +2472,7 @@
     "adjustedRank": 162,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 226,
+    "priceRank": 174,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2486,7 +2486,7 @@
     "adjustedRank": 158,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 229,
+    "priceRank": 171,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2500,7 +2500,7 @@
     "adjustedRank": 157,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 238,
+    "priceRank": 184,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2514,7 +2514,7 @@
     "adjustedRank": 173,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 218,
+    "priceRank": 189,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -2528,7 +2528,7 @@
     "adjustedRank": 237,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 205,
+    "priceRank": 211,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2542,7 +2542,7 @@
     "adjustedRank": 186,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 210,
+    "priceRank": 178,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -2556,7 +2556,7 @@
     "adjustedRank": 272,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 203,
+    "priceRank": 233,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2570,7 +2570,7 @@
     "adjustedRank": 253,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 176,
+    "priceRank": 218,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2584,7 +2584,7 @@
     "adjustedRank": 248,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 177,
+    "priceRank": 219,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2598,7 +2598,7 @@
     "adjustedRank": 113,
     "sourceValue": 0,
     "adjustedValue": 2,
-    "priceRank": 246,
+    "priceRank": 164,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -2612,7 +2612,7 @@
     "adjustedRank": 204,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 251,
+    "priceRank": 198,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -2626,7 +2626,7 @@
     "adjustedRank": 163,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 225,
+    "priceRank": 167,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -2640,7 +2640,7 @@
     "adjustedRank": 259,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 161,
+    "priceRank": 223,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2654,7 +2654,7 @@
     "adjustedRank": 202,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 253,
+    "priceRank": 180,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2668,7 +2668,7 @@
     "adjustedRank": 135,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 220,
+    "priceRank": 185,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2682,7 +2682,7 @@
     "adjustedRank": 208,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 249,
+    "priceRank": 196,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2696,7 +2696,7 @@
     "adjustedRank": 275,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 201,
+    "priceRank": 235,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -2710,7 +2710,7 @@
     "adjustedRank": 215,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 244,
+    "priceRank": 192,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -2724,7 +2724,7 @@
     "adjustedRank": 203,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 252,
+    "priceRank": 197,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2738,7 +2738,7 @@
     "adjustedRank": 234,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 232,
+    "priceRank": 209,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2752,7 +2752,7 @@
     "adjustedRank": 233,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 234,
+    "priceRank": 205,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2766,7 +2766,7 @@
     "adjustedRank": 288,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 191,
+    "priceRank": 245,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2780,7 +2780,7 @@
     "adjustedRank": 229,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 235,
+    "priceRank": 204,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2794,7 +2794,7 @@
     "adjustedRank": 297,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 183,
+    "priceRank": 253,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2808,7 +2808,7 @@
     "adjustedRank": 278,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 199,
+    "priceRank": 237,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2822,7 +2822,7 @@
     "adjustedRank": 239,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 164,
+    "priceRank": 215,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -2836,7 +2836,7 @@
     "adjustedRank": 196,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 231,
+    "priceRank": 181,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -2850,7 +2850,7 @@
     "adjustedRank": 166,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 223,
+    "priceRank": 169,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -2864,7 +2864,7 @@
     "adjustedRank": 165,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 224,
+    "priceRank": 170,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -2878,7 +2878,7 @@
     "adjustedRank": 176,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 216,
+    "priceRank": 175,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -2892,7 +2892,7 @@
     "adjustedRank": 205,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 250,
+    "priceRank": 199,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -2906,7 +2906,7 @@
     "adjustedRank": 228,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 236,
+    "priceRank": 202,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2934,7 +2934,7 @@
     "adjustedRank": 264,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 163,
+    "priceRank": 226,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2948,7 +2948,7 @@
     "adjustedRank": 260,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 168,
+    "priceRank": 224,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2962,7 +2962,7 @@
     "adjustedRank": 183,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 213,
+    "priceRank": 187,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2976,7 +2976,7 @@
     "adjustedRank": 293,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 186,
+    "priceRank": 250,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -2990,7 +2990,7 @@
     "adjustedRank": 285,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 194,
+    "priceRank": 242,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3004,7 +3004,7 @@
     "adjustedRank": 242,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 178,
+    "priceRank": 213,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3018,7 +3018,7 @@
     "adjustedRank": 287,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 192,
+    "priceRank": 244,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3032,7 +3032,7 @@
     "adjustedRank": 268,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 180,
+    "priceRank": 229,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3046,7 +3046,7 @@
     "adjustedRank": 227,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 237,
+    "priceRank": 203,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3060,7 +3060,7 @@
     "adjustedRank": 174,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 217,
+    "priceRank": 190,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -3074,7 +3074,7 @@
     "adjustedRank": 192,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 230,
+    "priceRank": 176,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -3088,7 +3088,7 @@
     "adjustedRank": 289,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 190,
+    "priceRank": 246,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3102,7 +3102,7 @@
     "adjustedRank": 271,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 179,
+    "priceRank": 232,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3116,7 +3116,7 @@
     "adjustedRank": 218,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 243,
+    "priceRank": 206,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3130,7 +3130,7 @@
     "adjustedRank": 263,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 165,
+    "priceRank": 225,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3144,7 +3144,7 @@
     "adjustedRank": 254,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 174,
+    "priceRank": 220,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3158,7 +3158,7 @@
     "adjustedRank": 292,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 187,
+    "priceRank": 249,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3172,7 +3172,7 @@
     "adjustedRank": 241,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 167,
+    "priceRank": 212,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3186,7 +3186,7 @@
     "adjustedRank": 160,
     "sourceValue": 0,
     "adjustedValue": 1,
-    "priceRank": 228,
+    "priceRank": 172,
     "diff": 1,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -3200,7 +3200,7 @@
     "adjustedRank": 223,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 240,
+    "priceRank": 201,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -3214,7 +3214,7 @@
     "adjustedRank": 184,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 212,
+    "priceRank": 179,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -3228,7 +3228,7 @@
     "adjustedRank": 214,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 245,
+    "priceRank": 193,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -3242,7 +3242,7 @@
     "adjustedRank": 224,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 239,
+    "priceRank": 200,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -3256,7 +3256,7 @@
     "adjustedRank": 290,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 189,
+    "priceRank": 247,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3270,7 +3270,7 @@
     "adjustedRank": 286,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 193,
+    "priceRank": 243,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3284,7 +3284,7 @@
     "adjustedRank": 298,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 182,
+    "priceRank": 254,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3298,7 +3298,7 @@
     "adjustedRank": 291,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 188,
+    "priceRank": 248,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3312,7 +3312,7 @@
     "adjustedRank": 294,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 185,
+    "priceRank": 251,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3326,7 +3326,7 @@
     "adjustedRank": 211,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 248,
+    "priceRank": 195,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -3340,7 +3340,7 @@
     "adjustedRank": 222,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 241,
+    "priceRank": 207,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -3354,7 +3354,7 @@
     "adjustedRank": 246,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 169,
+    "priceRank": 217,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -3368,7 +3368,7 @@
     "adjustedRank": 245,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 171,
+    "priceRank": 216,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -3382,7 +3382,7 @@
     "adjustedRank": 269,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 181,
+    "priceRank": 230,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3396,7 +3396,7 @@
     "adjustedRank": 258,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 170,
+    "priceRank": 222,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3410,7 +3410,7 @@
     "adjustedRank": 240,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 166,
+    "priceRank": 210,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3424,7 +3424,7 @@
     "adjustedRank": 282,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 197,
+    "priceRank": 239,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3438,7 +3438,7 @@
     "adjustedRank": 270,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 204,
+    "priceRank": 231,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3452,7 +3452,7 @@
     "adjustedRank": 243,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 173,
+    "priceRank": 214,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3466,7 +3466,7 @@
     "adjustedRank": 273,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 202,
+    "priceRank": 234,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -3480,7 +3480,7 @@
     "adjustedRank": 212,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 247,
+    "priceRank": 194,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -3494,7 +3494,7 @@
     "adjustedRank": 188,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 209,
+    "priceRank": 177,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "other"
@@ -3508,7 +3508,7 @@
     "adjustedRank": 267,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 175,
+    "priceRank": 228,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -3522,7 +3522,7 @@
     "adjustedRank": 265,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 162,
+    "priceRank": 227,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -3536,7 +3536,7 @@
     "adjustedRank": 280,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 198,
+    "priceRank": 238,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -3550,7 +3550,7 @@
     "adjustedRank": 295,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 184,
+    "priceRank": 252,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -3564,7 +3564,7 @@
     "adjustedRank": 256,
     "sourceValue": 0,
     "adjustedValue": 0,
-    "priceRank": 172,
+    "priceRank": 221,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
