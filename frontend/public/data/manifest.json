@@ -49,6 +49,47 @@
           "xlsx": "/data/2026/fpros/fpros_merged_formatted.xlsx"
         }
       ]
+    },
+    {
+      "season": 2025,
+      "sources": [
+        {
+          "id": "espn",
+          "label": "ESPN vs Adjusted",
+          "rowCount": 241,
+          "json": "/data/2025/espn/rankings.json",
+          "csv": "/data/2025/espn/merged.csv",
+          "sourceLinks": [
+            {
+              "label": "ESPN 2025 PPR300 PDF",
+              "url": "https://www.espn.com/fantasy/football/story/_/page/FFCheatSheetCent25-44507555/2025-fantasy-football-rankings-cheat-sheet-depth-charts-ppr"
+            },
+            {
+              "label": "ESPN salary-cap Google Sheet fallback",
+              "url": "https://docs.google.com/spreadsheets/d/149NUwr9QRggJrdtuk2KG_eo-jXSOjEU1XCfUSHcBINw/edit?usp=sharing"
+            },
+            {
+              "label": "ESPN Fantasy / salary cap tools",
+              "url": "https://www.espn.com/fantasy/football/"
+            }
+          ],
+          "xlsx": "/data/2025/espn/merged_formatted.xlsx"
+        },
+        {
+          "id": "fpros",
+          "label": "FantasyPros vs Adjusted",
+          "rowCount": 252,
+          "json": "/data/2025/fpros/rankings.json",
+          "csv": "/data/2025/fpros/fpros_merged.csv",
+          "sourceLinks": [
+            {
+              "label": "FantasyPros PPR rankings",
+              "url": "https://www.fantasypros.com/nfl/rankings/ppr-cheatsheets.php"
+            }
+          ],
+          "xlsx": "/data/2025/fpros/fpros_merged_formatted.xlsx"
+        }
+      ]
     }
   ]
 }

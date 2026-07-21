@@ -273,6 +273,21 @@ def build_manifest() -> dict[str, Any]:
             sources.append(entry)
         if sources:
             seasons.append({"season": season, "sources": sources})
+    # Generated outputs are intentionally ignored by git. Preserve committed
+    # historical frontend seasons when a clean workflow checkout only rebuilds
+    # the active season.
+    manifest_path = PUBLIC_DATA / "manifest.json"
+    if manifest_path.exists():
+        try:
+            existing = json.loads(manifest_path.read_text(encoding="utf-8"))
+            generated_seasons = {item["season"] for item in seasons}
+            seasons.extend(
+                item for item in existing.get("seasons", [])
+                if item.get("season") not in generated_seasons
+            )
+            seasons.sort(key=lambda item: item["season"], reverse=True)
+        except (json.JSONDecodeError, TypeError, KeyError):
+            pass
     generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     return {"generatedAt": generated_at, "seasons": seasons}
 

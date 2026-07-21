@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { DataManifest, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset } from '../types'
-import { filterRankings, sortRankings } from '../data/rankings'
+import { filterRankings, formatRank, formatSignedValue, formatValue, sortRankings, sourceLabel } from '../data/rankings'
 import { rankingId, readDraftState, writeDraftState } from '../data/draftState'
 import { Filters } from './Filters'
 import { RankingCard } from './RankingCard'
@@ -281,8 +281,14 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       {targetRows.slice(0, 12).map((row) => (
         <button type="button" key={rankingId(row)} onClick={() => toggleSet(setTargets, rankingId(row))} aria-label={`Remove ${row.player} from queue`}>
           <span className={`target-queue__pos pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span>
-          <span className="target-queue__player"><strong>{row.player}</strong><small>{row.team} · #{row.sourceRank ?? '—'} → #{row.adjustedRank ?? '—'}</small></span>
-          <span className="target-queue__diff">{typeof row.diff === 'number' ? `${row.diff > 0 ? '+' : ''}${row.diff}` : '—'}</span>
+          <span className="target-queue__player">
+            <strong>{row.player}</strong>
+            <span className="target-queue__details">
+              <small aria-label={`${sourceLabel(selectedSource)} and Adjusted rank`}>#{formatRank(row.sourceRank)} → #{formatRank(row.adjustedRank)}</small>
+              {selectedSource === 'espn' ? <small aria-label="Source and Adjusted salary">{formatValue(row.sourceValue)} → {formatValue(row.adjustedValue)}</small> : null}
+            </span>
+          </span>
+          <span className="target-queue__diff">{selectedSource === 'espn' ? formatSignedValue(row.diff) : formatRank(row.diff)}</span>
           <span className="target-queue__remove" aria-hidden="true">×</span>
         </button>
       ))}
@@ -327,6 +333,21 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           onSelectOnlyPosition={view === 'board' ? selectOnlyBoardPosition : selectOnlyPosition}
           compact
         />
+        <div className="mobile-sort-control" aria-label="Mobile sort controls">
+          <label htmlFor="mobile-sort">Sort by</label>
+          <select id="mobile-sort" value={sortKey} onChange={(event) => handleSort(event.target.value as SortKey)}>
+            <option value="player">Player</option>
+            <option value="position">Position</option>
+            <option value="sourceRank">{sourceLabel(selectedSource)} rank</option>
+            <option value="adjustedRank">Adjusted rank</option>
+            {selectedSource === 'espn' ? <option value="sourceValue">{sourceLabel(selectedSource)} price</option> : null}
+            {selectedSource === 'espn' ? <option value="adjustedValue">Adjusted price</option> : null}
+            <option value="diff">{selectedSource === 'espn' ? 'Value diff' : 'Diff'}</option>
+          </select>
+          <button type="button" className="mobile-sort-direction" onClick={() => setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')} aria-label={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`}>
+            {sortDirection === 'asc' ? '↑' : '↓'} {sortDirection === 'asc' ? 'Ascending' : 'Descending'}
+          </button>
+        </div>
         <div className="draft-toolbar__actions">
           <label className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /><span>Drafted</span></label>
           <label className="drafted-toggle mobile-actions-toggle"><input type="checkbox" aria-label="Show actions" checked={showMobileActions} onChange={(event) => setShowMobileActions(event.target.checked)} /><span>Actions</span></label>
