@@ -38,7 +38,7 @@ jobs:
           python scripts/rankings_diff_espn.py --season 2026
           python scripts/rankings_diff_fpros.py --season 2026
       - name: Check source ranking checksums
-        run: python scripts/check_source_rankings.py --copy-to-public
+        run: python scripts/check_source_rankings.py --copy-to-public --force
       - name: Prepare frontend data
         run: python scripts/prepare_frontend_data.py
       - name: Show changed generated files
