@@ -15,13 +15,14 @@ from __future__ import annotations
 
 import argparse
 import csv
+import html
 import io
 import json
 import os
 import re
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlencode
+from urllib.parse import parse_qs, urlencode, urlsplit
 from urllib.request import Request, urlopen
 
 from settings import add_common_args, input_path
@@ -33,9 +34,7 @@ YAHOO_HAYDEN_WINKS_2026_URL = (
     "2026-fantasy-football-rankings-hayden-winks-top-300-overall-"
     "players-for-half-ppr-143555896.html"
 )
-FANTASYPROS_HAYDEN_WINKS_URL = (
-    "https://www.fantasypros.com/nfl/rankings/hayden-winks-consensus-rankings.php"
-)
+FANTASYPROS_WIDGET_API_URL = "https://partners.fantasypros.com/api/v1/consensus-rankings.php"
 FANTASYPROS_BOONE_PPR_URL = (
     "https://www.fantasypros.com/nfl/rankings/"
     "justin-boone-consensus-rankings.php?position=ALL&scoring=PPR&type=draft&year=2026"
@@ -449,65 +448,6 @@ def find_adjusted_table(data: Any) -> list[dict[str, Any]]:
     return []
 
 
-def parse_ranked_html_rows(page: str) -> list[dict[str, str]]:
-    """Parse a simple ranking table from publisher HTML."""
-    def find_json_rows(value: Any) -> list[dict[str, str]]:
-        if isinstance(value, list):
-            if value and isinstance(value[0], dict):
-                keys = {str(key).casefold() for key in value[0]}
-                if {"player", "rank"}.issubset(keys):
-                    rows = []
-                    for item in value:
-                        normalized = {str(key).casefold(): item[key] for key in item}
-                        if normalized.get("rank") in (None, "", "—"):
-                            continue
-                        rows.append({
-                            "Rank": str(normalized["rank"]),
-                            "Player": str(normalized.get("player", "")),
-                            "Team": str(normalized.get("team", "")),
-                            "Pos": str(normalized.get("pos", normalized.get("position", ""))),
-                        })
-                    if rows:
-                        return sorted(rows, key=lambda row: int(float(row["Rank"])))
-            for item in value:
-                result = find_json_rows(item)
-                if result:
-                    return result
-        elif isinstance(value, dict):
-            for item in value.values():
-                result = find_json_rows(item)
-                if result:
-                    return result
-        return []
-
-    for script in re.findall(r"<script[^>]*>(.*?)</script>", page, flags=re.I | re.S):
-        try:
-            parsed, _ = json.JSONDecoder().raw_decode(script.strip())
-        except (json.JSONDecodeError, ValueError):
-            continue
-        rows = find_json_rows(parsed)
-        if len(rows) >= 100:
-            return rows
-
-    rows: list[dict[str, str]] = []
-    for table in re.findall(r"<table[^>]*>(.*?)</table>", page, flags=re.I | re.S):
-        for row in re.findall(r"<tr[^>]*>(.*?)</tr>", table, flags=re.I | re.S):
-            cell_html = re.findall(
-                r"<(?:td|th)[^>]*>(.*?)</(?:td|th)>", row, flags=re.I | re.S
-            )
-            cells = [clean_html_cell(cell) for cell in cell_html]
-            if len(cells) < 2 or not cells[0].isdigit():
-                continue
-            player = cells[1]
-            team = ""
-            position = ""
-            match = re.match(r"(.+?)\s*\(?([A-Z]{2,3})\)?\s*[-·]\s*([A-Z]{2,3})", player)
-            if match:
-                player, position, team = match.groups()
-            rows.append({"Rank": cells[0], "Player": player.strip(), "Team": team, "Pos": position})
-    return sorted(rows, key=lambda row: int(row["Rank"]))
-
-
 def write_adjusted_rows(season: int, rows: list[dict[str, str]], url: str) -> None:
     """Write the normalized adjusted ranking shape consumed by both mergers."""
     pos_counts: dict[str, int] = {}
@@ -518,7 +458,7 @@ def write_adjusted_rows(season: int, rows: list[dict[str, str]], url: str) -> No
         output_rows.append({
             "Player": row.get("Player", ""), "Rank": row.get("Rank", ""), "ADP": "",
             "Diff": "", f"Finish{season - 1}": "", "Team": row.get("Team", ""),
-            "Pos": position, "PosRank": pos_counts[position], "Notes": "", "Id": "",
+            "Pos": position, "PosRank": pos_counts[position], "Notes": "", "Id": row.get("Id", ""),
         })
     output_path = input_path(season, "adjusted_rankings.csv")
     write_csv(
@@ -532,34 +472,108 @@ def write_adjusted_rows(season: int, rows: list[dict[str, str]], url: str) -> No
     print(f"Wrote {output_path} from {url}")
 
 
-def download_hayden_winks(args: argparse.Namespace) -> None:
-    """Prefer a complete FantasyPros expert table, then fall back to Yahoo."""
-    query = urlencode(
-        {"position": "ALL", "scoring": "HALF", "type": "draft", "year": args.season}
+def extract_yahoo_ranking_widget_url(page_html: str) -> str:
+    """Extract Yahoo's embedded FantasyPros ranking widget URL.
+
+    Yahoo renders the ranking table through a ``rankingPro`` story atom. The
+    atom is serialized into the Next.js flight payload, so it is present in
+    the downloaded HTML even though the table itself is client-rendered.
+    """
+    match = re.search(
+        r"https://partners\.fantasypros\.com/external/widget/fp-widget\.php\?[^\"]+",
+        page_html,
     )
-    fantasypros_url = args.fantasypros_hayden_url or f"{FANTASYPROS_HAYDEN_WINKS_URL}?{query}"
-    fantasypros_page = fetch_bytes(fantasypros_url).decode("utf-8", "ignore")
-    rows = parse_ranked_html_rows(fantasypros_page)
-    if len(rows) < 100:
-        yahoo_url = args.yahoo_hayden_url or os.getenv("YAHOO_HAYDEN_WINKS_URL")
-        if not yahoo_url:
-            if args.season != 2026:
-                raise SystemExit(
-                    "Set YAHOO_HAYDEN_WINKS_URL or --yahoo-hayden-url for this season."
-                )
-            yahoo_url = YAHOO_HAYDEN_WINKS_2026_URL
-        page = fetch_bytes(yahoo_url).decode("utf-8", "ignore")
-        raw_path = input_path(args.season, "yahoo_hayden_winks_rankings.html")
-        raw_path.parent.mkdir(parents=True, exist_ok=True)
-        raw_path.write_text(page, encoding="utf-8")
-        rows = parse_ranked_html_rows(page)
-        if len(rows) < 100:
-            raise SystemExit(
-                "Could not find at least 100 Hayden Winks ranking rows on FantasyPros or Yahoo."
-            )
-        write_adjusted_rows(args.season, rows, yahoo_url)
-        return
-    write_adjusted_rows(args.season, rows, fantasypros_url)
+    if not match:
+        raise ValueError("Yahoo article does not contain a FantasyPros ranking widget URL.")
+
+    widget_url = html.unescape(match.group(0))
+    widget_url = re.sub(
+        r"\\u([0-9a-fA-F]{4})",
+        lambda item: chr(int(item.group(1), 16)),
+        widget_url,
+    )
+    return widget_url
+
+
+def fetch_yahoo_widget_rankings(widget_url: str) -> dict[str, Any]:
+    """Fetch the structured JSONP payload behind Yahoo's ranking widget."""
+    widget_params = parse_qs(urlsplit(widget_url).query)
+
+    def first(name: str, default: str = "") -> str:
+        return widget_params.get(name, [default])[0]
+
+    query = {
+        "callback": "rankingsDiffCallback",
+        "position": first("half_positions", "ALL"),
+        "sport": first("sport", "NFL"),
+        "year": first("year"),
+        "week": first("week", "0"),
+        "experts": "show",
+        "id": first("expert"),
+        "type": "draft",
+        "scoring": first("scoring", "HALF"),
+        "filters": first("filters"),
+        "widget": "ST",
+    }
+    endpoint = f"{FANTASYPROS_WIDGET_API_URL}?{urlencode(query)}"
+    payload = fetch_bytes(endpoint).decode("utf-8", "ignore").strip()
+    json_match = re.match(r"^[^(]+\((.*)\)\s*;?$", payload, re.DOTALL)
+    if not json_match:
+        raise ValueError("FantasyPros ranking widget returned invalid JSONP.")
+    return json.loads(json_match.group(1))
+
+
+def normalize_yahoo_widget_players(payload: dict[str, Any]) -> list[dict[str, str]]:
+    """Convert the widget's player records to the adjusted CSV shape."""
+    players = payload.get("players", [])
+    rows = []
+    for player in players:
+        rank = player.get("rank_ecr") or player.get("rank")
+        name = player.get("player_name")
+        if rank is None or not name:
+            continue
+        rows.append(
+            {
+                "Player": str(name),
+                "Rank": str(rank),
+                "Team": str(player.get("player_team_id") or ""),
+                "Pos": str(player.get("player_position_id") or ""),
+                "Id": str(player.get("player_id") or ""),
+            }
+        )
+    rows.sort(key=lambda row: int(row["Rank"]))
+    return rows
+
+
+def download_hayden_winks(args: argparse.Namespace) -> None:
+    """Fetch Hayden Winks' Yahoo rankings through Yahoo's embedded widget.
+
+    The article HTML contains the widget configuration, while the widget's
+    documented-by-client JSONP request returns the complete 300-player table.
+    This avoids scraping rendered table markup and avoids requiring an API key.
+    """
+    yahoo_url = args.yahoo_hayden_url or os.getenv("YAHOO_HAYDEN_WINKS_URL")
+    if not yahoo_url:
+        if args.season != 2026:
+            raise SystemExit("Set YAHOO_HAYDEN_WINKS_URL or --yahoo-hayden-url for this season.")
+        yahoo_url = YAHOO_HAYDEN_WINKS_2026_URL
+
+    page = fetch_bytes(yahoo_url).decode("utf-8", "ignore")
+    raw_path = input_path(args.season, "yahoo_hayden_winks_rankings.html")
+    raw_path.parent.mkdir(parents=True, exist_ok=True)
+    raw_path.write_text(page, encoding="utf-8")
+
+    widget_url = extract_yahoo_ranking_widget_url(page)
+    payload = fetch_yahoo_widget_rankings(widget_url)
+    rows = normalize_yahoo_widget_players(payload)
+    if len(rows) < 250:
+        raise SystemExit(
+            f"Yahoo's embedded ranking widget returned only {len(rows)} ranking rows; expected at least 250."
+        )
+
+    json_path = input_path(args.season, "yahoo_hayden_winks_rankings.json")
+    json_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    write_adjusted_rows(args.season, rows, yahoo_url)
 
 
 def download_espn(args: argparse.Namespace) -> None:

@@ -107,7 +107,7 @@ def highlight_positions(val):
         return "background-color: lightsteelblue"
     if str(val).startswith("QB"):
         return "background-color: lightyellow"
-    return "white"
+    return "background-color: white"
 
 
 def highlight_cell_values(col, comp_val, pos, function):

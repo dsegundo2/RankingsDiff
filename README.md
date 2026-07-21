@@ -91,13 +91,13 @@ The old third-party Google Sheet is still supported internally as a CSV fallback
 
 ### Hayden Winks adjusted rankings
 
-The preferred fetch attempts the FantasyPros Hayden Winks expert page first. FantasyPros currently exposes the expert comparison page but not a complete all-player table, so the fetcher falls back to the Yahoo Sports article and its embedded ranking data:
+The Yahoo article embeds a FantasyPros RankingPro widget. The fetcher extracts that widget configuration from the article HTML, then requests the widget's structured JSONP payload to obtain all 300 rows. This is more reliable than scraping the client-rendered table and does not require a FantasyPros API key:
 
 ```bash
 python3 scripts/download_rankings.py hayden-winks --season 2026
 ```
 
-This writes `data/raw/2026/adjusted_rankings.csv` and keeps the Yahoo HTML snapshot for repeatable parsing. Override either URL with `--fantasypros-hayden-url` or `--yahoo-hayden-url`.
+This writes `data/raw/2026/adjusted_rankings.csv` plus the Yahoo HTML and structured widget JSON snapshots for repeatable parsing. Override the article URL with `--yahoo-hayden-url`.
 
 ### Adjusted
 
