@@ -568,7 +568,8 @@ def download_hayden_winks(args: argparse.Namespace) -> None:
     rows = normalize_yahoo_widget_players(payload)
     if len(rows) < 250:
         raise SystemExit(
-            f"Yahoo's embedded ranking widget returned only {len(rows)} ranking rows; expected at least 250."
+            "Yahoo's embedded ranking widget returned only "
+            f"{len(rows)} ranking rows; expected at least 250."
         )
 
     json_path = input_path(args.season, "yahoo_hayden_winks_rankings.json")
