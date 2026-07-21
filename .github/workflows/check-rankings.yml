@@ -46,12 +46,13 @@ jobs:
       - name: Commit generated status files
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.commit_updates == 'true' }}
         run: |
-          if git diff --quiet -- data/status frontend/public/data/status frontend/public/data/manifest.json; then
-            echo "No generated status changes to commit."
+          git add data/raw/2026 data/output/2026 frontend/public/data/2026 \
+            data/status frontend/public/data/status frontend/public/data/manifest.json
+          if git diff --cached --quiet; then
+            echo "No refreshed ranking or generated status changes to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/status frontend/public/data/status frontend/public/data/manifest.json
           git commit -m "Refresh ESPN and Yahoo rankings"
           git push
