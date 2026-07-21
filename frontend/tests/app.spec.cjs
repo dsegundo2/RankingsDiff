@@ -27,7 +27,7 @@ test('season and source switching works with manifest data', async ({ page }) =>
   await page.locator('.settings-popover').getByLabel('Year').selectOption('2025')
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('espn')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.getByText('Price', { exact: true })).toBeVisible()
+  await expect(page.getByText('Value', { exact: true })).toBeVisible()
 })
 
 test('FantasyPros position view emphasizes source rank', async ({ page }) => {
@@ -68,7 +68,7 @@ test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) 
   await expect(page.locator('.table-wrap')).toBeHidden()
   await expect(page.locator('.cards-list')).toBeVisible()
   await expect(page.getByLabel('Mobile sort controls')).toBeVisible()
-  await page.getByLabel('Sort by').selectOption('player')
+  await page.getByLabel('Sort by', { exact: true }).selectOption('player')
   await expect(page.locator('.cards-list .ranking-card').first()).toContainText('A.J. Brown')
   await page.getByRole('button', { name: 'Sort descending' }).click()
   await expect(page.locator('.cards-list .ranking-card').first()).toContainText('Zay Flowers')
@@ -127,6 +127,25 @@ test('mobile 320px has no horizontal overflow in board, settings, and source che
   const sourceHeaderWidth = await page.locator('.source-checks__header').evaluate((node) => node.getBoundingClientRect().width)
   expect(sourceHeaderWidth).toBeLessThanOrEqual(288)
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
+})
+
+test('table headers stay compact across browser widths', async ({ page }) => {
+  for (const width of [768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('./')
+    await expect(page.locator('.rankings-table')).toBeVisible()
+    await expect(page.locator('.rank-heading')).toContainText('Rank')
+    await expect(page.locator('.rank-heading__sorts')).toContainText('SRC')
+    await expect(page.locator('.rank-heading__sorts')).toContainText('ADJ')
+    await expect(page.getByText('Value', { exact: true })).toBeVisible()
+    const layout = await page.evaluate(() => ({
+      overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+      headerRight: document.querySelector('.rankings-table thead')?.getBoundingClientRect().right ?? 0,
+      viewportRight: window.innerWidth
+    }))
+    expect(layout.overflow).toBe(false)
+    expect(layout.headerRight).toBeLessThanOrEqual(layout.viewportRight + 1)
+  }
 })
 
 

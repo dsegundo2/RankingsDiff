@@ -31,8 +31,8 @@ function diffSignalStyle(diff: number | undefined, isEspn: boolean): CSSProperti
   } as CSSProperties
 }
 
-function SortButton({ label, sortKey, activeKey, direction, onSort }: { label: string; sortKey: SortKey; activeKey: SortKey; direction: SortDirection; onSort: (key: SortKey) => void }) {
-  return <button className="sort-button" onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span>{direction === 'asc' ? ' ↑' : ' ↓'}</span> : null}</button>
+function SortButton({ label, sortKey, activeKey, direction, onSort, ariaLabel }: { label: string; sortKey: SortKey; activeKey: SortKey; direction: SortDirection; onSort: (key: SortKey) => void; ariaLabel?: string }) {
+  return <button className="sort-button" aria-label={ariaLabel ?? `Sort by ${label}`} title={ariaLabel ?? `Sort by ${label}`} onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span aria-hidden="true"> {direction === 'asc' ? '↑' : '↓'}</span> : null}</button>
 }
 
 export function RankingsTable({ rows, teams, source, sortKey, sortDirection, targets, drafted, onSort, onTarget, onDrafted, selectedId, onSelect }: Props) {
@@ -54,9 +54,9 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
             <th className="action-heading"><span className="sr-only">Target</span></th>
             <th className="player-heading"><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th className="num-heading rank-heading"><span>Rank</span><small className="rank-heading__sorts"><SortButton label={sourceLabel(source)} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><span>→</span><SortButton label="Adjusted" sortKey="adjustedRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></small></th>
-            {isEspn ? <th className="num-heading price-heading"><SortButton label="Price" sortKey="sourceValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><small>{sourceLabel(source)} / Adjusted</small></th> : null}
-            <th className="num-heading diff-heading"><SortButton label={isEspn ? 'Value diff' : 'Diff'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
+            <th className="num-heading rank-heading"><span>Rank</span><small className="rank-heading__sorts"><SortButton label="SRC" ariaLabel={`Sort by ${sourceLabel(source)} rank`} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><span aria-hidden="true">→</span><SortButton label="ADJ" ariaLabel="Sort by Adjusted rank" sortKey="adjustedRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></small></th>
+            {isEspn ? <th className="num-heading price-heading"><SortButton label="Value" ariaLabel={`Sort by ${sourceLabel(source)} value`} sortKey="sourceValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><small>{sourceLabel(source)} → ADJ</small></th> : null}
+            <th className="num-heading diff-heading"><SortButton label={isEspn ? 'Value Δ' : 'Diff'} ariaLabel={isEspn ? 'Sort by value difference' : 'Sort by ranking difference'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="draft-heading">Draft</th>
           </tr>
         </thead>
