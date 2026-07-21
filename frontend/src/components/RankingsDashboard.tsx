@@ -281,7 +281,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       {targetRows.slice(0, 12).map((row) => (
         <button type="button" key={rankingId(row)} onClick={() => toggleSet(setTargets, rankingId(row))} aria-label={`Remove ${row.player} from queue`}>
           <span className={`target-queue__pos pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span>
-          <span className="target-queue__player"><strong>{row.player}</strong><small>{row.team} · #{row.sourceRank ?? '—'} → #{row.underdogRank ?? '—'}</small></span>
+          <span className="target-queue__player"><strong>{row.player}</strong><small>{row.team} · #{row.sourceRank ?? '—'} → #{row.adjustedRank ?? '—'}</small></span>
           <span className="target-queue__diff">{typeof row.diff === 'number' ? `${row.diff > 0 ? '+' : ''}${row.diff}` : '—'}</span>
           <span className="target-queue__remove" aria-hidden="true">×</span>
         </button>

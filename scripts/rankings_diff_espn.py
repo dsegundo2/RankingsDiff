@@ -1,7 +1,7 @@
 # pylint: disable=wildcard-import
 # pylint: disable=unused-wildcard-import
 # pylint: disable=duplicate-code
-"""Combine ESPN and Underdog rankings."""
+"""Combine ESPN and Adjusted rankings."""
 
 import argparse
 
@@ -14,9 +14,9 @@ ESPN_AUCTION_VALUE_COLUMN_ORIGINAL = "ppr auction"
 ESPN_AUCTION_VALUE_COLUMN = "ESPN Value"
 ESPN_RANKING_COLUMN = "PPR"
 
-UNDERDOG_PLAYER_COLUMN = "Player"
-UNDERDOG_RANKING_COLUMN = "Rank"
-UNDERDOG_AUCTION_VALUE_COLUMN = "UD Value"
+ADJUSTED_PLAYER_COLUMN = "Player"
+ADJUSTED_RANKING_COLUMN = "Rank"
+ADJUSTED_AUCTION_VALUE_COLUMN = "Adjusted Value"
 
 OUTPUT_POSITION_COLUMN = "Pos"
 
@@ -24,7 +24,7 @@ OUTPUT_POSITION_COLUMN = "Pos"
 def format_merged_list(merged_list):
     """Clean up for the formatted final list by removing undesired columns and rows."""
 
-    merged_list[UNDERDOG_RANKING_COLUMN] = merged_list[UNDERDOG_RANKING_COLUMN].astype(
+    merged_list[ADJUSTED_RANKING_COLUMN] = merged_list[ADJUSTED_RANKING_COLUMN].astype(
         "Int64"
     )
     merged_list[ESPN_RANKING_COLUMN] = merged_list[ESPN_RANKING_COLUMN].astype("Int64")
@@ -33,11 +33,11 @@ def format_merged_list(merged_list):
         [
             OUTPUT_POSITION_COLUMN,
             ESPN_RANKING_COLUMN,
-            UNDERDOG_RANKING_COLUMN,
-            UNDERDOG_PLAYER_COLUMN,
+            ADJUSTED_RANKING_COLUMN,
+            ADJUSTED_PLAYER_COLUMN,
             "Team",
             ESPN_AUCTION_VALUE_COLUMN_ORIGINAL,
-            UNDERDOG_AUCTION_VALUE_COLUMN,
+            ADJUSTED_AUCTION_VALUE_COLUMN,
             "PriceRank",
         ]
     ].sort_values(by=ESPN_RANKING_COLUMN)
@@ -61,7 +61,7 @@ def create_output_files(df, output_csv, output_excel):
                     df[OUTPUT_POSITION_COLUMN],
                     get_text_color,
                 ),
-                subset=[UNDERDOG_RANKING_COLUMN],
+                subset=[ADJUSTED_RANKING_COLUMN],
             )
             .apply(
                 lambda col: highlight_cell_values(
@@ -70,13 +70,13 @@ def create_output_files(df, output_csv, output_excel):
                     df[OUTPUT_POSITION_COLUMN],
                     get_text_color_auction,
                 ),
-                subset=[UNDERDOG_AUCTION_VALUE_COLUMN],
+                subset=[ADJUSTED_AUCTION_VALUE_COLUMN],
             )
             .set_properties(**{"text-align": "center"})
         )
 
         styled_df = styled_df.map(highlight_positions, subset=[OUTPUT_POSITION_COLUMN])
-        styled_df = styled_df.format({UNDERDOG_AUCTION_VALUE_COLUMN: "${:,.0f}"}).format(
+        styled_df = styled_df.format({ADJUSTED_AUCTION_VALUE_COLUMN: "${:,.0f}"}).format(
             {ESPN_AUCTION_VALUE_COLUMN: "${:,.0f}"}
         )
         styled_df.to_excel(output_excel, engine="openpyxl", index=False)
@@ -87,7 +87,7 @@ def create_output_files(df, output_csv, output_excel):
     df[ESPN_AUCTION_VALUE_COLUMN] = df[ESPN_AUCTION_VALUE_COLUMN].apply(
         lambda x: f"${int(x):,}"
     )
-    df[UNDERDOG_AUCTION_VALUE_COLUMN] = df[UNDERDOG_AUCTION_VALUE_COLUMN].apply(
+    df[ADJUSTED_AUCTION_VALUE_COLUMN] = df[ADJUSTED_AUCTION_VALUE_COLUMN].apply(
         lambda x: f"${int(x):,}"
     )
     df.to_csv(output_csv, index=False)
@@ -108,8 +108,8 @@ def add_columns(df):
 
     lookup_map = df.set_index("PriceRank")[ESPN_AUCTION_VALUE_COLUMN_ORIGINAL].to_dict()
 
-    df[UNDERDOG_AUCTION_VALUE_COLUMN] = df[UNDERDOG_RANKING_COLUMN].map(lookup_map)
-    df[UNDERDOG_AUCTION_VALUE_COLUMN] = df[UNDERDOG_AUCTION_VALUE_COLUMN].fillna(0)
+    df[ADJUSTED_AUCTION_VALUE_COLUMN] = df[ADJUSTED_RANKING_COLUMN].map(lookup_map)
+    df[ADJUSTED_AUCTION_VALUE_COLUMN] = df[ADJUSTED_AUCTION_VALUE_COLUMN].fillna(0)
 
     return df
 
@@ -119,7 +119,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     add_common_args(parser)
     parser.add_argument("--espn-rankings", help="Path to ESPN rankings CSV.")
-    parser.add_argument("--underdog-rankings", help="Path to Underdog rankings CSV.")
+    parser.add_argument("--adjusted-rankings", help="Path to Adjusted rankings CSV.")
     parser.add_argument("--output-csv", help="Path to write merged CSV output.")
     parser.add_argument("--output-excel", help="Path to write formatted XLSX output.")
     return parser.parse_args()
@@ -133,10 +133,10 @@ def main():
         "ESPN_RANKINGS",
         input_path(args.season, "espn_rankings.csv"),
     )
-    underdog_rankings = path_from_arg_or_env(
-        args.underdog_rankings,
-        "UNDERDOG_RANKINGS",
-        input_path(args.season, "underdog_rankings.csv"),
+    adjusted_rankings = path_from_arg_or_env(
+        args.adjusted_rankings,
+        "ADJUSTED_RANKINGS",
+        input_path(args.season, "adjusted_rankings.csv"),
     )
     output_csv = path_from_arg_or_env(
         args.output_csv,
@@ -149,17 +149,17 @@ def main():
         output_path(args.season, "espn", "merged_formatted.xlsx"),
     )
 
-    ud_dataframe = load_csv_to_memory(underdog_rankings).head(args.limit)
+    adjusted_dataframe = load_csv_to_memory(adjusted_rankings).head(args.limit)
     espn_dataframe = load_csv_to_memory(espn_rankings).head(args.limit)
     espn_dataframe.columns.values[0] = ESPN_PLAYER_COLUMN
 
     espn_dataframe = remove_name_suffix(espn_dataframe, ESPN_PLAYER_COLUMN)
-    ud_dataframe = remove_name_suffix(ud_dataframe, UNDERDOG_PLAYER_COLUMN)
+    adjusted_dataframe = remove_name_suffix(adjusted_dataframe, ADJUSTED_PLAYER_COLUMN)
 
     merged_df = pd.merge(
-        ud_dataframe,
+        adjusted_dataframe,
         espn_dataframe,
-        left_on=ud_dataframe[UNDERDOG_PLAYER_COLUMN].str.lower(),
+        left_on=adjusted_dataframe[ADJUSTED_PLAYER_COLUMN].str.lower(),
         right_on=espn_dataframe[ESPN_PLAYER_COLUMN].str.lower(),
         how="inner",
     )

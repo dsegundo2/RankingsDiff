@@ -26,16 +26,16 @@ DEFAULT_MIN_INTERVAL_MINUTES = 10
 SOURCE_LABELS = {
     "fpros": "FantasyPros",
     "espn": "ESPN",
-    "underdog": "Underdog",
-    "underdog-network": "Underdog Network",
+    "adjusted": "Adjusted",
+    "yahoo-hayden-winks": "Yahoo · Hayden Winks",
     "boone-yahoo": "Justin Boone/Yahoo",
 }
 
 RAW_SOURCE_PATTERNS = {
     "fpros": ["fpros_rankings.csv", "fantasypros_public_rankings.html"],
     "espn": ["espn_rankings.csv", "espn_ppr300_cheatsheet.pdf"],
-    "underdog": ["underdog_rankings.csv"],
-    "underdog-network": ["underdog_network_rankings.html"],
+    "adjusted": ["adjusted_rankings.csv"],
+    "yahoo-hayden-winks": ["yahoo_hayden_winks_rankings.html"],
     "boone-yahoo": [
         "justin_boone_yahoo_ppr_rankings.csv",
         "fantasypros_justin_boone_yahoo_ppr.html",
@@ -183,20 +183,6 @@ def build_status(include_outputs: bool = True) -> dict[str, Any]:
             candidates, key=lambda item: (item[0], item[1], item[3], item[2].as_posix())
         )
     ]
-    seen_ids = {entry["id"] for entry in checks}
-    for previous_id, previous_entry in sorted(previous.items()):
-        if previous_id in seen_ids:
-            continue
-        checks.append(
-            {
-                **previous_entry,
-                "lastCheckedAt": checked_at,
-                "previousChecksum": previous_entry.get("currentChecksum"),
-                "currentChecksum": None,
-                "status": "error",
-                "message": "Previously tracked file is missing.",
-            }
-        )
     return {"generatedAt": checked_at, "checks": checks}
 
 

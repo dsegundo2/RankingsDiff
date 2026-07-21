@@ -6,15 +6,15 @@ import { filterRankings, sortRankings } from './rankings'
 import { getTeamAsset, hasTeamLogo, normalizeTeamAbbreviation } from './teams'
 
 const rows: RankingRow[] = [
-  { player: 'Ja\'Marr Chase', team: 'CIN', position: 'WR', sourceRank: 1, underdogRank: 3, diff: -2, positionTone: 'wr', diffTone: 'neutral' },
-  { player: 'Josh Allen', team: 'BUF', position: 'QB', sourceRank: 10, underdogRank: 6, diff: 4, positionTone: 'qb', diffTone: 'neutral' },
-  { player: 'Kyren Williams', team: 'LA', position: 'RB', sourceRank: 22, underdogRank: 41, diff: -19, positionTone: 'rb', diffTone: 'bad' }
+  { player: 'Ja\'Marr Chase', team: 'CIN', position: 'WR', sourceRank: 1, adjustedRank: 3, diff: -2, positionTone: 'wr', diffTone: 'neutral' },
+  { player: 'Josh Allen', team: 'BUF', position: 'QB', sourceRank: 10, adjustedRank: 6, diff: 4, positionTone: 'qb', diffTone: 'neutral' },
+  { player: 'Kyren Williams', team: 'LA', position: 'RB', sourceRank: 22, adjustedRank: 41, diff: -19, positionTone: 'rb', diffTone: 'bad' }
 ]
 
 describe('ranking helpers', () => {
   it('uses frontend-ready normalized ranking rows', () => {
     const generated = JSON.parse(readFileSync(join(process.cwd(), 'public/data/2026/fpros/rankings.json'), 'utf8'))
-    expect(generated[0]).toMatchObject({ player: expect.any(String), team: expect.any(String), position: expect.any(String), sourceRank: expect.any(Number), underdogRank: expect.any(Number) })
+    expect(generated[0]).toMatchObject({ player: expect.any(String), team: expect.any(String), position: expect.any(String), sourceRank: expect.any(Number), adjustedRank: expect.any(Number) })
     expect(generated[0]).not.toHaveProperty('RK')
     expect(generated[0]).not.toHaveProperty('PPR')
   })
@@ -24,13 +24,13 @@ describe('ranking helpers', () => {
     expect(generated[0]).toMatchObject({
       player: expect.any(String),
       sourceRank: expect.any(Number),
-      underdogRank: expect.any(Number),
+      adjustedRank: expect.any(Number),
       sourceValue: expect.any(Number),
-      underdogValue: expect.any(Number),
+      adjustedValue: expect.any(Number),
       priceRank: expect.any(Number)
     })
     expect(generated[0]).not.toHaveProperty('ESPN Value')
-    expect(generated[0]).not.toHaveProperty('UD Value')
+    expect(generated[0]).not.toHaveProperty('Adjusted Value')
     expect(generated[0]).not.toHaveProperty('PriceRank')
   })
 

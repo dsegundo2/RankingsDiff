@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-18T16:12:54.621586Z",
+  "generatedAt": "2026-07-21T17:52:48.133586Z",
   "seasons": [
     {
       "season": 2026,
       "sources": [
         {
           "id": "espn",
-          "label": "ESPN vs Underdog",
+          "label": "ESPN vs Adjusted",
           "rowCount": 225,
           "json": "/data/2026/espn/rankings.json",
           "csv": "/data/2026/espn/merged.csv",
@@ -24,16 +24,16 @@
               "url": "https://www.espn.com/fantasy/football/"
             },
             {
-              "label": "Underdog Network rankings",
-              "url": "https://underdognetwork.com/football/fantasy-rankings/2026-fantasy-football-rankings"
+              "label": "Yahoo \u00b7 Hayden Winks Half-PPR rankings",
+              "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html"
             }
           ],
           "xlsx": "/data/2026/espn/merged_formatted.xlsx"
         },
         {
           "id": "fpros",
-          "label": "FantasyPros vs Underdog",
-          "rowCount": 236,
+          "label": "FantasyPros vs Adjusted",
+          "rowCount": 229,
           "json": "/data/2026/fpros/rankings.json",
           "csv": "/data/2026/fpros/fpros_merged.csv",
           "sourceLinks": [
@@ -42,8 +42,8 @@
               "url": "https://www.fantasypros.com/nfl/rankings/ppr-cheatsheets.php"
             },
             {
-              "label": "Underdog Network rankings",
-              "url": "https://underdognetwork.com/football/fantasy-rankings/2026-fantasy-football-rankings"
+              "label": "Yahoo \u00b7 Hayden Winks Half-PPR rankings",
+              "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html"
             }
           ],
           "xlsx": "/data/2026/fpros/fpros_merged_formatted.xlsx"
@@ -55,8 +55,8 @@
       "sources": [
         {
           "id": "espn",
-          "label": "ESPN vs Underdog",
-          "rowCount": 268,
+          "label": "ESPN vs Adjusted",
+          "rowCount": 241,
           "json": "/data/2025/espn/rankings.json",
           "csv": "/data/2025/espn/merged.csv",
           "sourceLinks": [
@@ -77,8 +77,8 @@
         },
         {
           "id": "fpros",
-          "label": "FantasyPros vs Underdog",
-          "rowCount": 276,
+          "label": "FantasyPros vs Adjusted",
+          "rowCount": 252,
           "json": "/data/2025/fpros/rankings.json",
           "csv": "/data/2025/fpros/fpros_merged.csv",
           "sourceLinks": [

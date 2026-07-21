@@ -1,6 +1,6 @@
 # Rankings Diff
 
-Tools for comparing fantasy football rankings from Underdog against FantasyPros or ESPN.
+Tools for comparing fantasy football rankings from Adjusted against FantasyPros or ESPN.
 
 ## Yearly workflow
 
@@ -12,10 +12,10 @@ that year's input files.
 ```bash
 pip install -r requirements.txt
 
-# FantasyPros vs Underdog
+# FantasyPros vs Adjusted
 python3 scripts/rankings_diff_fpros.py --season 2026
 
-# ESPN vs Underdog
+# ESPN vs Adjusted
 python3 scripts/rankings_diff_espn.py --season 2026
 ```
 
@@ -25,13 +25,13 @@ You can override any path when testing one-off files:
 python3 scripts/rankings_diff_fpros.py \
   --season 2026 \
   --fpros-rankings data/raw/2026/fpros_rankings.csv \
-  --underdog-rankings data/raw/2026/underdog_rankings.csv
+  --adjusted-rankings data/raw/2026/adjusted_rankings.csv
 ```
 
 Expected default input names:
 
 - `data/raw/<season>/fpros_rankings.csv`
-- `data/raw/<season>/underdog_rankings.csv`
+- `data/raw/<season>/adjusted_rankings.csv`
 - `data/raw/<season>/espn_rankings.csv`
 
 Expected default outputs:
@@ -56,10 +56,10 @@ FANTASYPROS_API_KEY=... python3 scripts/download_rankings.py fantasypros --seaso
 No-key bootstrap: the downloader can also parse the public FantasyPros PPR cheat-sheet page. This path is also locked to PPR:
 
 ```bash
-python3 scripts/download_rankings.py fantasypros-public --season 2026 --write-underdog-adp-proxy
+python3 scripts/download_rankings.py fantasypros-public --season 2026 --write-adjusted-adp-proxy
 ```
 
-That writes `fpros_rankings.csv` and, with the proxy flag, an Underdog-compatible CSV sorted by FantasyPros ADP. The proxy gets the 2026 workflow running, but replace it with a true Underdog export when you want actual Underdog rankings.
+That writes `fpros_rankings.csv` and, with the proxy flag, an adjusted CSV sorted by FantasyPros ADP.
 
 
 ### Justin Boone / Yahoo on FantasyPros
@@ -89,23 +89,25 @@ ESPN_RANKINGS_URL='https://...' python3 scripts/download_rankings.py espn --seas
 
 The old third-party Google Sheet is still supported internally as a CSV fallback, but ESPN's PDF is the preferred source of truth.
 
-### Underdog
+### Hayden Winks adjusted rankings
 
-For 2026, Hayden Winks' Underdog Network article includes the rankings table in its page data:
-
-```bash
-python3 scripts/download_rankings.py underdog-network --season 2026
-```
-
-This writes `data/raw/2026/underdog_rankings.csv` with real Underdog Network ranks, ADP, position rank, team, and player IDs.
-
-Underdog also documents CSV upload/download from its web rankings screen. If the web app gives you a direct CSV download URL, use:
+The preferred fetch attempts the FantasyPros Hayden Winks expert page first. FantasyPros currently exposes the expert comparison page but not a complete all-player table, so the fetcher falls back to the Yahoo Sports article and its embedded ranking data:
 
 ```bash
-UNDERDOG_RANKINGS_URL='https://...' python3 scripts/download_rankings.py underdog --season 2026
+python3 scripts/download_rankings.py hayden-winks --season 2026
 ```
 
-If the URL requires a logged-in session, pass a cookie header with `UNDERDOG_COOKIE` or `--underdog-cookie`.
+This writes `data/raw/2026/adjusted_rankings.csv` and keeps the Yahoo HTML snapshot for repeatable parsing. Override either URL with `--fantasypros-hayden-url` or `--yahoo-hayden-url`.
+
+### Adjusted
+
+The adjusted sheet is a normalized local input. It can be fetched from any direct CSV/export URL when needed:
+
+```bash
+ADJUSTED_RANKINGS_URL='https://...' python3 scripts/download_rankings.py adjusted --season 2026
+```
+
+If the URL requires a logged-in session, pass a cookie header with `ADJUSTED_COOKIE` or `--adjusted-cookie`.
 
 ## Spreadsheet finishing touches
 

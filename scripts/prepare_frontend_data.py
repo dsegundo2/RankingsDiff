@@ -21,8 +21,8 @@ ESPN_GOOGLE_SHEET_URL = (
 )
 
 SOURCE_LABELS = {
-    "fpros": "FantasyPros vs Underdog",
-    "espn": "ESPN vs Underdog",
+    "fpros": "FantasyPros vs Adjusted",
+    "espn": "ESPN vs Adjusted",
 }
 
 CSV_NAMES = {
@@ -37,11 +37,12 @@ XLSX_NAMES = {
 
 def source_links(source: str, season: int) -> list[dict[str, str]]:
     """Return public pages that correspond to the source rankings for a sheet."""
-    underdog_2026 = {
-        "label": "Underdog Network rankings",
+    hayden_2026 = {
+        "label": "Yahoo · Hayden Winks Half-PPR rankings",
         "url": (
-            "https://underdognetwork.com/football/fantasy-rankings/"
-            "2026-fantasy-football-rankings"
+            "https://sports.yahoo.com/fantasy/article/"
+            "2026-fantasy-football-rankings-hayden-winks-top-300-overall-"
+            "players-for-half-ppr-143555896.html"
         ),
     }
     if source == "fpros":
@@ -52,7 +53,7 @@ def source_links(source: str, season: int) -> list[dict[str, str]]:
             }
         ]
         if season == 2026:
-            links.append(underdog_2026)
+            links.append(hayden_2026)
         return links
     if source == "espn":
         espn_url = (
@@ -81,7 +82,7 @@ def source_links(source: str, season: int) -> list[dict[str, str]]:
             },
         ]
         if season == 2026:
-            links.append(underdog_2026)
+            links.append(hayden_2026)
         return links
     return []
 
@@ -140,10 +141,10 @@ def diff_tone(diff: int | float | None) -> str:
 def normalize_fpros(row: dict[str, str]) -> dict[str, Any]:
     """Normalize FantasyPros output rows."""
     source_rank = parse_number(row.get("RK"))
-    underdog_rank = parse_number(row.get("Rank"))
+    adjusted_rank = parse_number(row.get("Rank"))
     diff = parse_number(row.get("Diff"))
-    if diff is None and source_rank is not None and underdog_rank is not None:
-        diff = source_rank - underdog_rank
+    if diff is None and source_rank is not None and adjusted_rank is not None:
+        diff = source_rank - adjusted_rank
     position = row.get("Position Category") or row.get("Position") or ""
     return {
         "player": row.get("Player", ""),
@@ -151,7 +152,7 @@ def normalize_fpros(row: dict[str, str]) -> dict[str, Any]:
         "position": position,
         "positionRank": row.get("Pos") or None,
         "sourceRank": source_rank,
-        "underdogRank": underdog_rank,
+        "adjustedRank": adjusted_rank,
         "diff": diff,
         "diffTone": diff_tone(diff),
         "positionTone": position_tone(position),
@@ -161,12 +162,12 @@ def normalize_fpros(row: dict[str, str]) -> dict[str, Any]:
 def normalize_espn(row: dict[str, str]) -> dict[str, Any]:
     """Normalize ESPN output rows."""
     source_rank = parse_number(row.get("PPR"))
-    underdog_rank = parse_number(row.get("Rank"))
+    adjusted_rank = parse_number(row.get("Rank"))
     source_value = parse_number(row.get("ESPN Value"))
-    underdog_value = parse_number(row.get("UD Value"))
+    adjusted_value = parse_number(row.get("Adjusted Value"))
     value_diff = None
-    if source_value is not None and underdog_value is not None:
-        value_diff = underdog_value - source_value
+    if source_value is not None and adjusted_value is not None:
+        value_diff = adjusted_value - source_value
     position = row.get("Position") or row.get("Pos") or ""
     return {
         "player": row.get("Player", ""),
@@ -174,9 +175,9 @@ def normalize_espn(row: dict[str, str]) -> dict[str, Any]:
         "position": position,
         "positionRank": row.get("Pos") or position or None,
         "sourceRank": source_rank,
-        "underdogRank": underdog_rank,
+        "adjustedRank": adjusted_rank,
         "sourceValue": source_value,
-        "underdogValue": underdog_value,
+        "adjustedValue": adjusted_value,
         "priceRank": parse_number(row.get("PriceRank")),
         "diff": value_diff,
         "diffTone": diff_tone(value_diff),
@@ -261,7 +262,7 @@ def build_manifest() -> dict[str, Any]:
                 xlsx_url = public_path(copied_xlsx)
             entry = {
                 "id": source,
-                "label": SOURCE_LABELS.get(source, f"{source.upper()} vs Underdog"),
+                "label": SOURCE_LABELS.get(source, f"{source.upper()} vs Adjusted"),
                 "rowCount": len(rows),
                 "json": public_path(rankings_path),
                 "csv": public_path(copied_csv),

@@ -39,7 +39,7 @@ QB4,37,33,Jalen Hurts,PHI (9),QB
 WR19,38,47,Terry McLaurin,WAS (12),WR
 RB13,39,41,Alvin Kamara,NO (11),RB
 RB14,41,32,James Cook,BUF (7),RB
-RB15,42,40,Kenneth WalkerI,SEA (8),RB
+RB15,42,40,Kenneth Walker,SEA (8),RB
 RB16,43,29,Omarion Hampton (R),LAC (12),RB
 WR21,44,52,Courtland Sutton,DEN (12),WR
 RB17,45,53,Breece Hall,NYJ (9),RB
@@ -135,6 +135,7 @@ QB23,134,154,Michael Penix,ATL (5),QB
 RB43,135,117,Joe Mixon,HOU (6),RB
 RB44,136,152,Tyjae Spears,TEN (10),RB
 RB45,137,163,Quinshon Judkins (R),CLE (9),RB
+WR55,138,146,Luther Burden (R),CHI (5),WR
 RB46,139,153,Trey Benson,ARI (8),RB
 WR56,140,141,Cedric Tillman,CLE (9),WR
 TE16,141,144,Kyle Pitts (?),ATL (5),TE
@@ -204,7 +205,7 @@ WR82,231,249,Jalen McMillan,TB (9),WR
 TE27,232,175,Dalton Schultz,HOU (6),TE
 QB30,233,207,Russell Wilson,NYG (14),QB
 RB69,234,222,MarShawn Lloyd,GB (5),RB
-WR83,235,236,Calvin AustinI,PIT (5),WR
+WR83,235,236,Calvin Austin,PIT (5),WR
 WR84,236,245,Tyler Lockett,TEN (10),WR
 RB70,237,190,Keaton Mitchell,BAL (7),RB
 WR85,238,250,Dontayvion Wicks,GB (5),WR
@@ -250,28 +251,3 @@ QB35,288,231,Spencer Rattler,NO (11),QB
 WR101,289,278,Diontae Johnson,FA (-),WR
 WR102,290,235,Jalen Nailor,MIN (6),WR
 RB86,291,247,Isaiah Davis,NYJ (9),RB
-TE37,302,251,Terrance Ferguson (R),LAR (8),TE
-WR106,303,200,Troy Franklin,DEN (12),WR
-WR107,306,267,Christian Watson,GB (5),WR
-WR108,307,233,Ray-Ray McCloudI,ATL (5),WR
-TE38,309,253,Noah Fant,CIN (10),TE
-WR110,311,244,Tutu Atwell,LAR (8),WR
-TE39,314,254,Tyler Higbee,LAR (8),TE
-RB95,320,270,Phil Mafah (R),DAL (10),RB
-TE40,322,271,Oronde Gadsden (R),LAC (12),TE
-WR114,326,238,Josh Reynolds,NYJ (9),WR
-TE41,329,272,Ben Sinnott,WAS (12),TE
-WR115,330,260,Noah Brown,WAS (12),WR
-WR116,331,248,KaVontae Turpin,DAL (10),WR
-TE43,333,273,Will Dissly,LAC (12),TE
-QB37,338,259,Jalen Milroe (R),SEA (8),QB
-WR118,340,219,KeAndre Lambert-Smith (R),LAC (12),WR
-WR123,349,268,Tai Felton (R),MIN (6),WR
-WR124,351,239,Olamide Zaccheaus,CHI (5),WR
-TE46,352,212,AJ Barner,SEA (8),TE
-QB38,354,258,Kirk Cousins (?),ATL (5),QB
-WR125,355,262,Marquez Valdes-Scantling,SF (14),WR
-WR126,357,265,Allen Lazard,NYJ (9),WR
-WR128,361,277,Chimere Dike (R),TEN (10),WR
-WR132,374,266,Jahan Dotson,PHI (9),WR
-QB42,393,257,Kenny Pickett,LV (8),QB

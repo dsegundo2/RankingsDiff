@@ -5,7 +5,7 @@ Official/low-friction support:
 - FantasyPros public rankings page as a no-key bootstrap fallback.
 - ESPN public PPR300 cheat-sheet PDF as a no-key salary-cap source.
 - ESPN public Google Sheet CSV export as a fallback.
-- Underdog configurable CSV URLs because its draft/rankings exports are
+- Adjusted configurable CSV URLs because its draft/rankings exports are
   not exposed as stable unauthenticated APIs in this repo.
 """
 
@@ -28,9 +28,13 @@ from settings import add_common_args, input_path
 
 FANTASYPROS_BASE_URL = "https://api.fantasypros.com/public/v2/json"
 FANTASYPROS_PUBLIC_URL = "https://www.fantasypros.com/nfl/rankings/ppr-cheatsheets.php"
-UNDERDOG_NETWORK_2026_URL = (
-    "https://underdognetwork.com/football/fantasy-rankings/"
-    "2026-fantasy-football-rankings"
+YAHOO_HAYDEN_WINKS_2026_URL = (
+    "https://sports.yahoo.com/fantasy/article/"
+    "2026-fantasy-football-rankings-hayden-winks-top-300-overall-"
+    "players-for-half-ppr-143555896.html"
+)
+FANTASYPROS_HAYDEN_WINKS_URL = (
+    "https://www.fantasypros.com/nfl/rankings/hayden-winks-consensus-rankings.php"
 )
 FANTASYPROS_BOONE_PPR_URL = (
     "https://www.fantasypros.com/nfl/rankings/"
@@ -189,8 +193,8 @@ def write_fantasypros_rows(season: int, rows: list[dict[str, Any]]) -> None:
     print(f"Wrote {output_path}")
 
 
-def write_underdog_proxy_rows(season: int, players: list[dict[str, Any]]) -> None:
-    """Bootstrap an Underdog-compatible CSV from FantasyPros ADP data."""
+def write_adjusted_proxy_rows(season: int, players: list[dict[str, Any]]) -> None:
+    """Bootstrap an Adjusted-compatible CSV from FantasyPros ADP data."""
     adp_players = [player for player in players if player.get("adp") not in (None, "")]
     adp_players.sort(key=lambda player: float(player["adp"]))
 
@@ -214,7 +218,7 @@ def write_underdog_proxy_rows(season: int, players: list[dict[str, Any]]) -> Non
             }
         )
 
-    output_path = input_path(season, "underdog_rankings.csv")
+    output_path = input_path(season, "adjusted_rankings.csv")
     write_csv(
         output_path,
         rows,
@@ -345,8 +349,8 @@ def download_fantasypros_public(args: argparse.Namespace) -> None:
         )
 
     write_fantasypros_rows(args.season, rows)
-    if args.write_underdog_adp_proxy:
-        write_underdog_proxy_rows(args.season, players)
+    if args.write_adjusted_adp_proxy:
+        write_adjusted_proxy_rows(args.season, players)
 
 
 def clean_html_cell(cell: str) -> str:
@@ -428,87 +432,134 @@ def download_fantasypros_boone(args: argparse.Namespace) -> None:
     print(f"Wrote {output_path} from {url}")
 
 
-def find_underdog_table(data: Any) -> list[dict[str, Any]]:
-    """Find the Underdog rankings table inside Next.js page data."""
+def find_adjusted_table(data: Any) -> list[dict[str, Any]]:
+    """Find the Adjusted rankings table inside Next.js page data."""
     if isinstance(data, list):
         if data and isinstance(data[0], dict) and {"Player", "Rank", "ADP"}.issubset(data[0]):
             return data
         for item in data:
-            result = find_underdog_table(item)
+            result = find_adjusted_table(item)
             if result:
                 return result
     elif isinstance(data, dict):
         for value in data.values():
-            result = find_underdog_table(value)
+            result = find_adjusted_table(value)
             if result:
                 return result
     return []
 
 
-def download_underdog_network(args: argparse.Namespace) -> None:
-    """Download Underdog Network article table rankings."""
-    url = args.underdog_network_url or os.getenv("UNDERDOG_NETWORK_URL")
-    if not url:
-        if args.season != 2026:
-            raise SystemExit(
-                "Set UNDERDOG_NETWORK_URL or --underdog-network-url for this season."
-            )
-        url = UNDERDOG_NETWORK_2026_URL
+def parse_ranked_html_rows(page: str) -> list[dict[str, str]]:
+    """Parse a simple ranking table from publisher HTML."""
+    def find_json_rows(value: Any) -> list[dict[str, str]]:
+        if isinstance(value, list):
+            if value and isinstance(value[0], dict):
+                keys = {str(key).casefold() for key in value[0]}
+                if {"player", "rank"}.issubset(keys):
+                    rows = []
+                    for item in value:
+                        normalized = {str(key).casefold(): item[key] for key in item}
+                        if normalized.get("rank") in (None, "", "—"):
+                            continue
+                        rows.append({
+                            "Rank": str(normalized["rank"]),
+                            "Player": str(normalized.get("player", "")),
+                            "Team": str(normalized.get("team", "")),
+                            "Pos": str(normalized.get("pos", normalized.get("position", ""))),
+                        })
+                    if rows:
+                        return sorted(rows, key=lambda row: int(float(row["Rank"])))
+            for item in value:
+                result = find_json_rows(item)
+                if result:
+                    return result
+        elif isinstance(value, dict):
+            for item in value.values():
+                result = find_json_rows(item)
+                if result:
+                    return result
+        return []
 
-    page = fetch_bytes(url).decode("utf-8", "ignore")
-    raw_path = input_path(args.season, "underdog_network_rankings.html")
-    raw_path.parent.mkdir(parents=True, exist_ok=True)
-    raw_path.write_text(page, encoding="utf-8")
-
-    match = re.search(
-        r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>',
-        page,
-    )
-    if not match:
-        raise SystemExit("Could not find __NEXT_DATA__ on Underdog Network page.")
-
-    table = find_underdog_table(json.loads(match.group(1)))
-    if not table:
-        raise SystemExit("Could not find Underdog rankings table data.")
-
-    rows = []
-    for player in table:
-        rank = player.get("Rank")
-        if rank in (None, ""):
+    for script in re.findall(r"<script[^>]*>(.*?)</script>", page, flags=re.I | re.S):
+        try:
+            parsed, _ = json.JSONDecoder().raw_decode(script.strip())
+        except (json.JSONDecodeError, ValueError):
             continue
-        rows.append(
-            {
-                "Player": str(player.get("Player", "")).strip(),
-                "Rank": rank,
-                "ADP": player.get("ADP", ""),
-                "Diff": "",
-                f"Finish{args.season - 1}": player.get(f"Season {args.season - 1}", ""),
-                "Team": player.get("Team", ""),
-                "Pos": player.get("Pos", ""),
-                "PosRank": player.get("PosRank", ""),
-                "Notes": "",
-                "Id": player.get("id", ""),
-            }
-        )
+        rows = find_json_rows(parsed)
+        if len(rows) >= 100:
+            return rows
 
-    output_path = input_path(args.season, "underdog_rankings.csv")
+    rows: list[dict[str, str]] = []
+    for table in re.findall(r"<table[^>]*>(.*?)</table>", page, flags=re.I | re.S):
+        for row in re.findall(r"<tr[^>]*>(.*?)</tr>", table, flags=re.I | re.S):
+            cell_html = re.findall(
+                r"<(?:td|th)[^>]*>(.*?)</(?:td|th)>", row, flags=re.I | re.S
+            )
+            cells = [clean_html_cell(cell) for cell in cell_html]
+            if len(cells) < 2 or not cells[0].isdigit():
+                continue
+            player = cells[1]
+            team = ""
+            position = ""
+            match = re.match(r"(.+?)\s*\(?([A-Z]{2,3})\)?\s*[-·]\s*([A-Z]{2,3})", player)
+            if match:
+                player, position, team = match.groups()
+            rows.append({"Rank": cells[0], "Player": player.strip(), "Team": team, "Pos": position})
+    return sorted(rows, key=lambda row: int(row["Rank"]))
+
+
+def write_adjusted_rows(season: int, rows: list[dict[str, str]], url: str) -> None:
+    """Write the normalized adjusted ranking shape consumed by both mergers."""
+    pos_counts: dict[str, int] = {}
+    output_rows = []
+    for row in rows:
+        position = row.get("Pos", "")
+        pos_counts[position] = pos_counts.get(position, 0) + 1
+        output_rows.append({
+            "Player": row.get("Player", ""), "Rank": row.get("Rank", ""), "ADP": "",
+            "Diff": "", f"Finish{season - 1}": "", "Team": row.get("Team", ""),
+            "Pos": position, "PosRank": pos_counts[position], "Notes": "", "Id": "",
+        })
+    output_path = input_path(season, "adjusted_rankings.csv")
     write_csv(
         output_path,
-        rows,
+        output_rows,
         [
-            "Player",
-            "Rank",
-            "ADP",
-            "Diff",
-            f"Finish{args.season - 1}",
-            "Team",
-            "Pos",
-            "PosRank",
-            "Notes",
-            "Id",
+            "Player", "Rank", "ADP", "Diff", f"Finish{season - 1}", "Team",
+            "Pos", "PosRank", "Notes", "Id",
         ],
     )
     print(f"Wrote {output_path} from {url}")
+
+
+def download_hayden_winks(args: argparse.Namespace) -> None:
+    """Prefer a complete FantasyPros expert table, then fall back to Yahoo."""
+    query = urlencode(
+        {"position": "ALL", "scoring": "HALF", "type": "draft", "year": args.season}
+    )
+    fantasypros_url = args.fantasypros_hayden_url or f"{FANTASYPROS_HAYDEN_WINKS_URL}?{query}"
+    fantasypros_page = fetch_bytes(fantasypros_url).decode("utf-8", "ignore")
+    rows = parse_ranked_html_rows(fantasypros_page)
+    if len(rows) < 100:
+        yahoo_url = args.yahoo_hayden_url or os.getenv("YAHOO_HAYDEN_WINKS_URL")
+        if not yahoo_url:
+            if args.season != 2026:
+                raise SystemExit(
+                    "Set YAHOO_HAYDEN_WINKS_URL or --yahoo-hayden-url for this season."
+                )
+            yahoo_url = YAHOO_HAYDEN_WINKS_2026_URL
+        page = fetch_bytes(yahoo_url).decode("utf-8", "ignore")
+        raw_path = input_path(args.season, "yahoo_hayden_winks_rankings.html")
+        raw_path.parent.mkdir(parents=True, exist_ok=True)
+        raw_path.write_text(page, encoding="utf-8")
+        rows = parse_ranked_html_rows(page)
+        if len(rows) < 100:
+            raise SystemExit(
+                "Could not find at least 100 Hayden Winks ranking rows on FantasyPros or Yahoo."
+            )
+        write_adjusted_rows(args.season, rows, yahoo_url)
+        return
+    write_adjusted_rows(args.season, rows, fantasypros_url)
 
 
 def download_espn(args: argparse.Namespace) -> None:
@@ -531,18 +582,18 @@ def download_espn(args: argparse.Namespace) -> None:
     print(f"Wrote {csv_path} from {csv_url}")
 
 
-def download_underdog(args: argparse.Namespace) -> None:
-    """Download Underdog rankings from a caller-provided CSV URL."""
-    url = args.underdog_url or os.getenv("UNDERDOG_RANKINGS_URL")
+def download_adjusted(args: argparse.Namespace) -> None:
+    """Download Adjusted rankings from a caller-provided CSV URL."""
+    url = args.adjusted_url or os.getenv("ADJUSTED_RANKINGS_URL")
     if not url:
-        raise SystemExit("Set UNDERDOG_RANKINGS_URL or pass --underdog-url.")
+        raise SystemExit("Set ADJUSTED_RANKINGS_URL or pass --adjusted-url.")
 
     headers = {}
-    cookie = args.underdog_cookie or os.getenv("UNDERDOG_COOKIE")
+    cookie = args.adjusted_cookie or os.getenv("ADJUSTED_COOKIE")
     if cookie:
         headers["Cookie"] = cookie
 
-    output_path = input_path(args.season, "underdog_rankings.csv")
+    output_path = input_path(args.season, "adjusted_rankings.csv")
     download_file(url, output_path, headers=headers)
     print(f"Wrote {output_path}")
 
@@ -558,8 +609,8 @@ def parse_args() -> argparse.Namespace:
             "fantasypros-public",
             "fpros-boone",
             "espn",
-            "underdog",
-            "underdog-network",
+            "adjusted",
+            "hayden-winks",
             "all",
         ],
         help="Which input to download.",
@@ -574,17 +625,20 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--fantasypros-boone-url", help="Justin Boone FantasyPros PPR URL.")
     parser.add_argument(
-        "--write-underdog-adp-proxy",
+        "--write-adjusted-adp-proxy",
         action="store_true",
-        help="For fantasypros-public only: write an Underdog-compatible ADP proxy CSV.",
+        help="For fantasypros-public only: write an Adjusted-compatible ADP proxy CSV.",
     )
     parser.add_argument("--espn-url", help="Direct ESPN CSV/export URL.")
     parser.add_argument("--espn-pdf-url", help="Direct ESPN PPR300 PDF URL.")
-    parser.add_argument("--underdog-network-url", help="Underdog Network article URL.")
-    parser.add_argument("--underdog-url", help="Direct Underdog CSV/export URL.")
     parser.add_argument(
-        "--underdog-cookie",
-        help="Cookie header for authenticated Underdog export URLs.",
+        "--fantasypros-hayden-url", help="FantasyPros Hayden Winks expert rankings URL."
+    )
+    parser.add_argument("--yahoo-hayden-url", help="Yahoo Hayden Winks rankings article URL.")
+    parser.add_argument("--adjusted-url", help="Direct Adjusted CSV/export URL.")
+    parser.add_argument(
+        "--adjusted-cookie",
+        help="Cookie header for authenticated Adjusted export URLs.",
     )
     return parser.parse_args()
 
@@ -600,10 +654,10 @@ def main() -> None:
         download_fantasypros_boone(args)
     if args.source in {"espn", "all"}:
         download_espn(args)
-    if args.source == "underdog-network":
-        download_underdog_network(args)
-    if args.source in {"underdog", "all"}:
-        download_underdog(args)
+    if args.source == "hayden-winks":
+        download_hayden_winks(args)
+    if args.source in {"adjusted", "all"}:
+        download_adjusted(args)
 
 
 if __name__ == "__main__":

@@ -119,7 +119,7 @@ def highlight_cell_values(col, comp_val, pos, function):
 
 
 def remove_kicker_defense(dataframe, position_column_name):
-    """Remove Kickers and Defense from the list since missing from underdog"""
+    """Remove Kickers and Defense from the list since missing from adjusted"""
     result = dataframe.drop(
         dataframe[dataframe[position_column_name].str.startswith("DST", na=False)].index
     )
@@ -145,29 +145,30 @@ def calculate_positional_bias(
     top_n=150,
     position_col="Pos",
     espn_value_col="PPR",
-    ud_value_col="Rank",
+    adjusted_value_col="Rank",
 ):
     """
-    Calculate the average (UD Value - ESPN Value) for each position within the top `top_n` rows
-    ordered by the ESPN rank column (`PPR`). Returns a dict mapping position -> average diff.
+    Calculate the average (Adjusted Value - ESPN Value) for each position within
+    the top `top_n` rows ordered by the ESPN rank column (`PPR`). Returns a dict
+    mapping position -> average diff.
 
     Parameters
     ----------
     combined_rankings : pandas.DataFrame
-        DataFrame containing at least the columns [position_col, espn_value_col, ud_value_col].
+        DataFrame containing at least the position, source, and adjusted columns.
     top_n : int, optional
         Number of top rows (by `rank_col`) to consider. Default is 200.
     position_col : str, optional
         Column name for player position. Default is "Pos".
     espn_value_col : str, optional
         Column name for ESPN auction/value. Default is "ESPN Value".
-    ud_value_col : str, optional
-        Column name for UD auction/value. Default is "UD Value".
+    adjusted_value_col : str, optional
+        Column name for Adjusted auction/value. Default is "Adjusted Value".
 
     Returns
     -------
     dict
-        Mapping of position (e.g., "RB", "WR", etc.) to average (UD - ESPN) value difference,
+        Mapping of position (e.g., "RB", "WR", etc.) to average (Adjusted - ESPN) value difference,
         rounded to 2 decimals. Returns an empty dict if required columns are missing.
     """
     if not isinstance(combined_rankings, pd.DataFrame):
@@ -181,18 +182,18 @@ def calculate_positional_bias(
     else:
         df = df.head(top_n)
 
-    required = {position_col, espn_value_col, ud_value_col}
+    required = {position_col, espn_value_col, adjusted_value_col}
     if not required.issubset(df.columns):
         return {}
 
     # Coerce possible currency-formatted strings to numerics safely
     # df["_espn_val_num"] = safe_int_convert(df[espn_value_col])
-    # df["_ud_val_num"] = safe_int_convert(df[ud_value_col])
+    # df["_adjusted_val_num"] = safe_int_convert(df[adjusted_value_col])
 
-    # Positive means UD market likes the position/player more than ESPN (on average)
-    df["_diff_ud_minus_espn"] = df[espn_value_col] - df[ud_value_col]
+    # Positive means Adjusted market likes the position/player more than ESPN (on average)
+    df["_diff_adjusted_minus_espn"] = df[espn_value_col] - df[adjusted_value_col]
 
     # Compute mean diff per position
-    bias_series = df.groupby(position_col)["_diff_ud_minus_espn"].mean().round(2)
+    bias_series = df.groupby(position_col)["_diff_adjusted_minus_espn"].mean().round(2)
 
     return bias_series.to_dict()

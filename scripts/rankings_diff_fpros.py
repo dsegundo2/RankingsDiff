@@ -1,7 +1,7 @@
 # pylint: disable=wildcard-import
 # pylint: disable=unused-wildcard-import
 # pylint: disable=duplicate-code
-"""Combine FantasyPros and Underdog rankings."""
+"""Combine FantasyPros and Adjusted rankings."""
 
 import argparse
 
@@ -12,14 +12,14 @@ from utils import *
 FPROS_PLAYER_COLUMN = "PLAYER NAME"
 FPROS_RANK_COLUMN = "RK"
 
-UNDERDOG_PLAYER_COLUMN = "Player"
-UNDERDOG_RANK_COLUMN = "Rank"
+ADJUSTED_PLAYER_COLUMN = "Player"
+ADJUSTED_RANK_COLUMN = "Rank"
 
 
 def format_merged_list(merged_list):
     """Clean up for the formatted final list by removing undesired columns and rows."""
 
-    merged_list[UNDERDOG_RANK_COLUMN] = merged_list[UNDERDOG_RANK_COLUMN].astype(
+    merged_list[ADJUSTED_RANK_COLUMN] = merged_list[ADJUSTED_RANK_COLUMN].astype(
         "Int64"
     )
     merged_list[FPROS_RANK_COLUMN] = merged_list[FPROS_RANK_COLUMN].astype("Int64")
@@ -41,7 +41,7 @@ def format_merged_list(merged_list):
     merged_list = merged_list.drop(columns=["Notes"])
 
     merged_list = merged_list[
-        ["POS", FPROS_RANK_COLUMN, UNDERDOG_RANK_COLUMN, "Player", "Team (Bye)", "Pos"]
+        ["POS", FPROS_RANK_COLUMN, ADJUSTED_RANK_COLUMN, "Player", "Team (Bye)", "Pos"]
     ].sort_values(by=FPROS_RANK_COLUMN)
 
     return merged_list.rename(
@@ -64,7 +64,7 @@ def create_output_files(df, output_csv, output_excel):
             lambda col: highlight_cell_values(
                 col, df[FPROS_RANK_COLUMN], df["Pos"], get_text_color
             ),
-            subset=[UNDERDOG_RANK_COLUMN],
+            subset=[ADJUSTED_RANK_COLUMN],
         ).set_properties(**{"text-align": "center"})
 
         styled_df = styled_df.map(highlight_positions, subset=["Pos"])
@@ -86,7 +86,7 @@ def format_bye(value):
 
 def add_columns(df):
     """Add columns to view the difference of certain columns."""
-    df["Diff"] = df.eval(f"{FPROS_RANK_COLUMN}-{UNDERDOG_RANK_COLUMN}")
+    df["Diff"] = df.eval(f"{FPROS_RANK_COLUMN}-{ADJUSTED_RANK_COLUMN}")
     bye_column = first_existing_column(df, ["BYE", "BYE WEEK"])
     bye_values = df[bye_column].map(format_bye)
     df["Team (Bye)"] = df["TEAM"] + " (" + bye_values + ")"
@@ -99,7 +99,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     add_common_args(parser)
     parser.add_argument("--fpros-rankings", help="Path to FantasyPros rankings CSV.")
-    parser.add_argument("--underdog-rankings", help="Path to Underdog rankings CSV.")
+    parser.add_argument("--adjusted-rankings", help="Path to Adjusted rankings CSV.")
     parser.add_argument("--output-csv", help="Path to write merged CSV output.")
     parser.add_argument("--output-excel", help="Path to write formatted XLSX output.")
     return parser.parse_args()
@@ -113,10 +113,10 @@ def main():
         "FPROS_RANKINGS",
         input_path(args.season, "fpros_rankings.csv"),
     )
-    underdog_rankings = path_from_arg_or_env(
-        args.underdog_rankings,
-        "UNDERDOG_RANKINGS",
-        input_path(args.season, "underdog_rankings.csv"),
+    adjusted_rankings = path_from_arg_or_env(
+        args.adjusted_rankings,
+        "ADJUSTED_RANKINGS",
+        input_path(args.season, "adjusted_rankings.csv"),
     )
     output_csv = path_from_arg_or_env(
         args.output_csv,
@@ -129,16 +129,16 @@ def main():
         output_path(args.season, "fpros", "fpros_merged_formatted.xlsx"),
     )
 
-    ud_dataframe = load_csv_to_memory(underdog_rankings).head(args.limit)
+    adjusted_dataframe = load_csv_to_memory(adjusted_rankings).head(args.limit)
     fpros_dataframe = load_csv_to_memory(fpros_rankings).head(args.limit)
 
     fpros_dataframe = remove_name_suffix(fpros_dataframe, FPROS_PLAYER_COLUMN)
-    ud_dataframe = remove_name_suffix(ud_dataframe, UNDERDOG_PLAYER_COLUMN)
+    adjusted_dataframe = remove_name_suffix(adjusted_dataframe, ADJUSTED_PLAYER_COLUMN)
 
     merged_df = pd.merge(
-        ud_dataframe,
+        adjusted_dataframe,
         fpros_dataframe,
-        left_on=ud_dataframe[UNDERDOG_PLAYER_COLUMN].str.lower(),
+        left_on=adjusted_dataframe[ADJUSTED_PLAYER_COLUMN].str.lower(),
         right_on=fpros_dataframe[FPROS_PLAYER_COLUMN].str.lower(),
         how="inner",
     )
