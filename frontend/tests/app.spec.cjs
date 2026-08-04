@@ -148,6 +148,20 @@ test('table headers stay compact across browser widths', async ({ page }) => {
   }
 })
 
+test('desktop table stays inside the board column beside the target queue', async ({ page }) => {
+  await page.setViewportSize({ width: 2048, height: 900 })
+  await page.goto('./')
+  await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
+  const layout = await page.evaluate(() => {
+    const table = document.querySelector('.table-wrap')?.getBoundingClientRect()
+    const queue = document.querySelector('.target-queue')?.getBoundingClientRect()
+    return { tableRight: table?.right ?? 0, queueLeft: queue?.left ?? 0, viewportRight: window.innerWidth, overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth }
+  })
+  expect(layout.overflow).toBe(false)
+  expect(layout.tableRight).toBeLessThanOrEqual(layout.queueLeft - 8)
+  expect(layout.queueLeft).toBeLessThan(layout.viewportRight)
+})
+
 
 test('target queue is controlled from settings and works in both views', async ({ page }) => {
   await page.goto('./')
