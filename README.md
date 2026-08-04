@@ -1,6 +1,6 @@
 # Rankings Diff
 
-Tools for comparing fantasy football rankings from Adjusted against FantasyPros or ESPN.
+Tools for comparing fantasy football rankings from Yahoo's current adjusted rankings against FantasyPros or ESPN.
 
 ## Yearly workflow
 
@@ -12,10 +12,10 @@ that year's input files.
 ```bash
 pip install -r requirements.txt
 
-# FantasyPros vs Adjusted
+# FantasyPros vs Yahoo adjusted rankings
 python3 scripts/rankings_diff_fpros.py --season 2026
 
-# ESPN vs Adjusted
+# ESPN vs Yahoo adjusted rankings
 python3 scripts/rankings_diff_espn.py --season 2026
 ```
 
@@ -53,24 +53,14 @@ Preferred: FantasyPros offers an official API for consensus rankings. The repo i
 FANTASYPROS_API_KEY=... python3 scripts/download_rankings.py fantasypros --season 2026
 ```
 
-No-key bootstrap: the downloader can also parse the public FantasyPros PPR cheat-sheet page. This path is also locked to PPR:
+No-key bootstrap: the downloader can also parse the public FantasyPros PPR cheat-sheet page. This path is locked to PPR:
 
 ```bash
-python3 scripts/download_rankings.py fantasypros-public --season 2026 --write-adjusted-adp-proxy
+python3 scripts/download_rankings.py fantasypros-public --season 2026
 ```
 
-That writes `fpros_rankings.csv` and, with the proxy flag, an adjusted CSV sorted by FantasyPros ADP.
+That writes `fpros_rankings.csv`. Yahoo's Hayden Winks ranking table is the only adjusted-ranking source.
 
-
-### Justin Boone / Yahoo on FantasyPros
-
-FantasyPros lists Justin Boone as Yahoo Sports expert ID `317`. The official API supports expert filters, but requires an API key for filtered expert data. Without an API key, the downloader can grab the publicly exposed Boone-vs-ECR PPR comparison table:
-
-```bash
-python3 scripts/download_rankings.py fpros-boone --season 2026
-```
-
-This writes `data/raw/2026/justin_boone_yahoo_ppr_rankings.csv`. Note that this public comparison page contains Boone ranks where FantasyPros shows a material difference vs. ECR; it is not a complete export of every Boone rank.
 
 ### ESPN
 
@@ -89,7 +79,7 @@ ESPN_RANKINGS_URL='https://...' python3 scripts/download_rankings.py espn --seas
 
 The old third-party Google Sheet is still supported internally as a CSV fallback, but ESPN's PDF is the preferred source of truth.
 
-### Hayden Winks adjusted rankings
+### Yahoo adjusted rankings
 
 The Yahoo article embeds a FantasyPros RankingPro widget. The fetcher extracts that widget configuration from the article HTML, then requests the widget's structured JSONP payload to obtain all 300 rows. This is more reliable than scraping the client-rendered table and does not require a FantasyPros API key:
 
@@ -98,16 +88,6 @@ python3 scripts/download_rankings.py hayden-winks --season 2026
 ```
 
 This writes `data/raw/2026/adjusted_rankings.csv` plus the Yahoo HTML and structured widget JSON snapshots for repeatable parsing. Override the article URL with `--yahoo-hayden-url`.
-
-### Adjusted
-
-The adjusted sheet is a normalized local input. It can be fetched from any direct CSV/export URL when needed:
-
-```bash
-ADJUSTED_RANKINGS_URL='https://...' python3 scripts/download_rankings.py adjusted --season 2026
-```
-
-If the URL requires a logged-in session, pass a cookie header with `ADJUSTED_COOKIE` or `--adjusted-cookie`.
 
 ## Spreadsheet finishing touches
 
@@ -132,7 +112,7 @@ python3 scripts/check_source_rankings.py --copy-to-public
 python3 scripts/prepare_frontend_data.py
 ```
 
-`check_source_rankings.py` writes checksum status to `data/status/source_checks.json` and mirrors it to `frontend/public/data/status/source_checks.json` for the static UI. It records `lastCheckedAt`, `lastChangedAt`, previous/current checksums, source labels, season/source, and `changed`/`unchanged` status. The current implementation checks repository files only, so it does not need private API keys.
+`check_source_rankings.py` writes checksum status to `data/status/source_checks.json` and mirrors it to `frontend/public/data/status/source_checks.json` for the static UI. It records `lastCheckedAt`, `lastChangedAt`, previous/current checksums, source labels, season/source, and `changed`/`unchanged` status. The Yahoo adjusted checksum is based on the normalized ranking CSV, not article markup, so article-only edits do not look like ranking changes.
 
 On GitHub Pages the frontend is static and cannot write back to the repository. Use the **Check source rankings** GitHub Actions workflow (`workflow_dispatch`) from the UI's “Run refresh workflow” link. If you explicitly set `commit_updates=true`, the workflow commits generated status/static data updates back to the branch; otherwise it only reports changes in the Actions log.
 

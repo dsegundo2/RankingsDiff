@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       commit_updates:
-        description: Commit generated status/static data back to the current branch when checks change
+        description: Commit refreshed Yahoo-adjusted rankings and generated static data
         required: true
         default: 'false'
         type: choice
@@ -31,7 +31,7 @@ jobs:
           pip install -r requirements.txt pylint pandas openpyxl
       - name: Download fresh ESPN rankings
         run: python scripts/download_rankings.py espn --season 2026
-      - name: Download fresh Yahoo / Hayden Winks rankings
+      - name: Download fresh Yahoo adjusted rankings
         run: python scripts/download_rankings.py hayden-winks --season 2026
       - name: Rebuild comparison datasets
         run: |
@@ -43,8 +43,8 @@ jobs:
         run: python scripts/prepare_frontend_data.py
       - name: Show changed generated files
         run: git status --short data/status frontend/public/data/status frontend/public/data/manifest.json
-      - name: Commit generated status files
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.commit_updates == 'true' }}
+      - name: Commit refreshed rankings and generated data
+        if: ${{ github.event_name == 'schedule' || inputs.commit_updates == 'true' }}
         run: |
           git add data/raw/2026 frontend/public/data/2026 \
             data/status frontend/public/data/status frontend/public/data/manifest.json
@@ -54,10 +54,10 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "Refresh ESPN and Yahoo rankings"
+          git commit -m "Refresh ESPN and Yahoo adjusted rankings"
           git push
       - name: Deploy refreshed frontend data
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.commit_updates == 'true' }}
+        if: ${{ github.event_name == 'schedule' || inputs.commit_updates == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run pages.yml --ref main

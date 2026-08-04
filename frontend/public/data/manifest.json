@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T18:33:42.908516Z",
+  "generatedAt": "2026-08-04T00:21:23.609891Z",
   "seasons": [
     {
       "season": 2026,
@@ -7,7 +7,7 @@
         {
           "id": "espn",
           "label": "ESPN vs Adjusted",
-          "rowCount": 255,
+          "rowCount": 254,
           "json": "/data/2026/espn/rankings.json",
           "csv": "/data/2026/espn/merged.csv",
           "sourceLinks": [
@@ -33,7 +33,7 @@
         {
           "id": "fpros",
           "label": "FantasyPros vs Adjusted",
-          "rowCount": 249,
+          "rowCount": 256,
           "json": "/data/2026/fpros/rankings.json",
           "csv": "/data/2026/fpros/fpros_merged.csv",
           "sourceLinks": [

@@ -2,11 +2,10 @@
 
 Official/low-friction support:
 - FantasyPros official API using FANTASYPROS_API_KEY.
-- FantasyPros public rankings page as a no-key bootstrap fallback.
+- FantasyPros public rankings page as a no-key bootstrap.
 - ESPN public PPR300 cheat-sheet PDF as a no-key salary-cap source.
 - ESPN public Google Sheet CSV export as a fallback.
-- Adjusted configurable CSV URLs because its draft/rankings exports are
-  not exposed as stable unauthenticated APIs in this repo.
+- Yahoo's Hayden Winks rankings article as the adjusted-ranking source.
 """
 
 # pylint: disable=too-many-locals
@@ -35,10 +34,6 @@ YAHOO_HAYDEN_WINKS_2026_URL = (
     "players-for-half-ppr-143555896.html"
 )
 FANTASYPROS_WIDGET_API_URL = "https://partners.fantasypros.com/api/v1/consensus-rankings.php"
-FANTASYPROS_BOONE_PPR_URL = (
-    "https://www.fantasypros.com/nfl/rankings/"
-    "justin-boone-consensus-rankings.php?position=ALL&scoring=PPR&type=draft&year=2026"
-)
 FANTASYPROS_SCORING = "PPR"
 ESPN_PPR300_PDF_URL = (
     "https://g.espncdn.com/s/ffldraftkit/26/"
@@ -192,51 +187,6 @@ def write_fantasypros_rows(season: int, rows: list[dict[str, Any]]) -> None:
     print(f"Wrote {output_path}")
 
 
-def write_adjusted_proxy_rows(season: int, players: list[dict[str, Any]]) -> None:
-    """Bootstrap an Adjusted-compatible CSV from FantasyPros ADP data."""
-    adp_players = [player for player in players if player.get("adp") not in (None, "")]
-    adp_players.sort(key=lambda player: float(player["adp"]))
-
-    rows = []
-    pos_counts: dict[str, int] = {}
-    for rank, player in enumerate(adp_players, start=1):
-        position = player["position"]
-        pos_counts[position] = pos_counts.get(position, 0) + 1
-        rows.append(
-            {
-                "Player": player["name"],
-                "Rank": rank,
-                "ADP": player["adp"],
-                "Diff": "",
-                f"Finish{season - 1}": "",
-                "Team": player["team"],
-                "Pos": position,
-                "PosRank": pos_counts[position],
-                "Notes": "",
-                "Id": player.get("id", ""),
-            }
-        )
-
-    output_path = input_path(season, "adjusted_rankings.csv")
-    write_csv(
-        output_path,
-        rows,
-        [
-            "Player",
-            "Rank",
-            "ADP",
-            "Diff",
-            f"Finish{season - 1}",
-            "Team",
-            "Pos",
-            "PosRank",
-            "Notes",
-            "Id",
-        ],
-    )
-    print(f"Wrote {output_path} from FantasyPros ADP as a bootstrap proxy")
-
-
 def download_fantasypros(args: argparse.Namespace) -> None:
     """Download FantasyPros consensus rankings from the official API."""
     api_key = args.fantasypros_api_key or os.getenv("FANTASYPROS_API_KEY")
@@ -348,106 +298,6 @@ def download_fantasypros_public(args: argparse.Namespace) -> None:
         )
 
     write_fantasypros_rows(args.season, rows)
-    if args.write_adjusted_adp_proxy:
-        write_adjusted_proxy_rows(args.season, players)
-
-
-def clean_html_cell(cell: str) -> str:
-    """Strip tags and normalize whitespace from an HTML table cell."""
-    text = re.sub(r"<.*?>", " ", cell, flags=re.S)
-    return re.sub(r"\s+", " ", text).strip()
-
-
-def parse_player_team_position(value: str) -> tuple[str, str, str]:
-    """Parse cells like 'Cam Skattebo NYG - RB'."""
-    if " - " not in value:
-        return value.strip(), "", ""
-    left, position = value.rsplit(" - ", 1)
-    bits = left.rsplit(" ", 1)
-    if len(bits) == 1:
-        return bits[0].strip(), "", position.strip()
-    return bits[0].strip(), bits[1].strip(), position.strip()
-
-
-def parse_boone_rows(page: str) -> list[dict[str, str]]:
-    """Parse Justin Boone PPR rows from the FantasyPros comparison tables."""
-    rows = []
-    table_pattern = re.compile(r"<table[^>]*player-table[^>]*>(.*?)</table>", re.S)
-    row_pattern = re.compile(r"<tr[^>]*>\s*(<td.*?</tr>)", re.S)
-    cell_pattern = re.compile(r"<td[^>]*>(.*?)</td>", re.S)
-
-    for table_html in table_pattern.findall(page):
-        header = clean_html_cell(table_html[: table_html.find("</thead>")])
-        boone_rank_first = "Justin Boone's Rank Player ECR" in header
-        ecr_rank_first = "Expert Consensus's Rank Player Justin Boone's Rank" in header
-        if not boone_rank_first and not ecr_rank_first:
-            continue
-
-        direction = "Boone higher than ECR" if boone_rank_first else "ECR higher than Boone"
-        for row_html in row_pattern.findall(table_html):
-            cells = [clean_html_cell(cell) for cell in cell_pattern.findall(row_html)]
-            if len(cells) < 4 or not cells[0].isdigit() or not cells[2].isdigit():
-                continue
-            player, team, position = parse_player_team_position(cells[1])
-            boone_rank = cells[0] if boone_rank_first else cells[2]
-            ecr_rank = cells[2] if boone_rank_first else cells[0]
-            rows.append(
-                {
-                    "Rank": boone_rank,
-                    "Player": player,
-                    "Team": team,
-                    "Pos": position,
-                    "ECR": ecr_rank,
-                    "Diff": cells[3],
-                    "Direction": direction,
-                }
-            )
-
-    rows.sort(key=lambda row: int(row["Rank"]))
-    return rows
-
-
-def download_fantasypros_boone(args: argparse.Namespace) -> None:
-    """Download Justin Boone's Yahoo PPR rankings exposed by FantasyPros."""
-    if args.season != 2026 and not args.fantasypros_boone_url:
-        raise SystemExit("Set --fantasypros-boone-url for Boone rankings outside 2026.")
-    url = args.fantasypros_boone_url or FANTASYPROS_BOONE_PPR_URL
-    page = fetch_bytes(url).decode("utf-8", "ignore")
-
-    raw_path = input_path(args.season, "fantasypros_justin_boone_yahoo_ppr.html")
-    raw_path.parent.mkdir(parents=True, exist_ok=True)
-    raw_path.write_text(page, encoding="utf-8")
-
-    rows = parse_boone_rows(page)
-    if not rows:
-        raise SystemExit("Could not find Justin Boone ranking rows on FantasyPros page.")
-
-    output_path = input_path(args.season, "justin_boone_yahoo_ppr_rankings.csv")
-    write_csv(
-        output_path,
-        rows,
-        ["Rank", "Player", "Team", "Pos", "ECR", "Diff", "Direction"],
-    )
-    print(f"Wrote {output_path} from {url}")
-
-
-def find_adjusted_table(data: Any) -> list[dict[str, Any]]:
-    """Find the Adjusted rankings table inside Next.js page data."""
-    if isinstance(data, list):
-        if data and isinstance(data[0], dict) and {"Player", "Rank", "ADP"}.issubset(data[0]):
-            return data
-        for item in data:
-            result = find_adjusted_table(item)
-            if result:
-                return result
-    elif isinstance(data, dict):
-        for value in data.values():
-            result = find_adjusted_table(value)
-            if result:
-                return result
-    return []
-
-
 def write_adjusted_rows(season: int, rows: list[dict[str, str]], url: str) -> None:
     """Write the normalized adjusted ranking shape consumed by both mergers."""
     pos_counts: dict[str, int] = {}
@@ -597,22 +447,6 @@ def download_espn(args: argparse.Namespace) -> None:
     print(f"Wrote {csv_path} from {csv_url}")
 
 
-def download_adjusted(args: argparse.Namespace) -> None:
-    """Download Adjusted rankings from a caller-provided CSV URL."""
-    url = args.adjusted_url or os.getenv("ADJUSTED_RANKINGS_URL")
-    if not url:
-        raise SystemExit("Set ADJUSTED_RANKINGS_URL or pass --adjusted-url.")
-
-    headers = {}
-    cookie = args.adjusted_cookie or os.getenv("ADJUSTED_COOKIE")
-    if cookie:
-        headers["Cookie"] = cookie
-
-    output_path = input_path(args.season, "adjusted_rankings.csv")
-    download_file(url, output_path, headers=headers)
-    print(f"Wrote {output_path}")
-
-
 def parse_args() -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -622,9 +456,7 @@ def parse_args() -> argparse.Namespace:
         choices=[
             "fantasypros",
             "fantasypros-public",
-            "fpros-boone",
             "espn",
-            "adjusted",
             "hayden-winks",
             "all",
         ],
@@ -638,23 +470,12 @@ def parse_args() -> argparse.Namespace:
         choices=[FANTASYPROS_SCORING],
         help="FantasyPros scoring is intentionally locked to PPR.",
     )
-    parser.add_argument("--fantasypros-boone-url", help="Justin Boone FantasyPros PPR URL.")
-    parser.add_argument(
-        "--write-adjusted-adp-proxy",
-        action="store_true",
-        help="For fantasypros-public only: write an Adjusted-compatible ADP proxy CSV.",
-    )
     parser.add_argument("--espn-url", help="Direct ESPN CSV/export URL.")
     parser.add_argument("--espn-pdf-url", help="Direct ESPN PPR300 PDF URL.")
     parser.add_argument(
         "--fantasypros-hayden-url", help="FantasyPros Hayden Winks expert rankings URL."
     )
     parser.add_argument("--yahoo-hayden-url", help="Yahoo Hayden Winks rankings article URL.")
-    parser.add_argument("--adjusted-url", help="Direct Adjusted CSV/export URL.")
-    parser.add_argument(
-        "--adjusted-cookie",
-        help="Cookie header for authenticated Adjusted export URLs.",
-    )
     return parser.parse_args()
 
 
@@ -665,14 +486,10 @@ def main() -> None:
         download_fantasypros(args)
     if args.source == "fantasypros-public":
         download_fantasypros_public(args)
-    if args.source == "fpros-boone":
-        download_fantasypros_boone(args)
     if args.source in {"espn", "all"}:
         download_espn(args)
     if args.source == "hayden-winks":
         download_hayden_winks(args)
-    if args.source in {"adjusted", "all"}:
-        download_adjusted(args)
 
 
 if __name__ == "__main__":
