@@ -854,3 +854,50 @@ tbody tr.is-drafted { opacity: .48; }
 @media (max-width: 360px) {
   .drafted-toggle { font-size: .72rem; }
 }
+
+/* Final split-window overrides must come after the mobile-first rules above. */
+@media (min-width: 561px) and (max-width: 760px) {
+  .dashboard { width: min(100% - 24px, 900px); padding: var(--space-3) 0 32px; }
+  .hero, .search-panel, .draft-toolbar { margin-inline: 0; }
+  .recent-draft { padding: var(--space-2); }
+  .recent-draft__header p { display: none; }
+  .recent-draft__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-1); margin-top: var(--space-2); }
+  .recent-draft__list li { min-height: 64px; padding: var(--space-1) var(--space-2); gap: var(--space-1); }
+  .recent-draft__player strong { font-size: .8rem; }
+  .recent-draft__list .team-badge { width: 26px; height: 26px; flex-basis: 26px; }
+  .recent-draft__list .team-badge img { width: 20px; height: 20px; }
+  .header-search--standalone input { min-height: 44px; }
+  .search-meta { align-items: center; flex-direction: row; margin-top: var(--space-1); }
+
+  .draft-toolbar { grid-template-columns: 42px 82px minmax(0, 1fr) auto; gap: var(--space-1); padding: var(--space-1); }
+  .draft-toolbar > .settings-icon-trigger { grid-column: 1; grid-row: 1; width: 42px; height: 42px; }
+  .draft-toolbar > .view-mode-toggle { grid-column: 2; grid-row: 1; min-width: 0; width: auto; }
+  .draft-toolbar > .filters--compact { grid-column: 3; grid-row: 1; width: 100%; padding: 0; }
+  .draft-toolbar > .draft-toolbar__actions { grid-column: 4; grid-row: 1; gap: var(--space-1); }
+  .drafted-toggle { width: auto; min-height: 38px; gap: var(--space-1); padding-inline: var(--space-1); font-size: .78rem; }
+  .drafted-toggle span { max-width: 62px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .filters--compact .position-filter-wrap { width: 100%; flex-direction: row; align-items: center; gap: var(--space-1); }
+  .filters--compact .filter-label { display: none; }
+  .filters--compact .position-pills { display: grid; width: 100%; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-1); }
+  .filters--compact .position-pills button { min-width: 0; min-height: 34px; padding-inline: var(--space-1); font-size: .7rem; }
+  .mobile-sort-control { display: none; }
+
+  .draft-board-layout { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: var(--space-2); }
+  .draft-board-layout > div { width: auto; }
+  .target-queue { order: initial; position: sticky; top: var(--space-2); padding: var(--space-2); }
+  .target-queue p { font-size: .78rem; }
+  .table-wrap { display: block; width: 100%; margin-inline: 0; overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow) ; }
+  .cards-list { display: none; }
+  .rankings-table th, .rankings-table td { padding: 7px 6px; }
+  .rankings-table .player-cell__inner { gap: 7px; }
+  .rankings-table .player-cell .team-badge { width: 28px; height: 28px; flex-basis: 28px; }
+  .rankings-table .player-cell .team-badge img { width: 21px; height: 21px; }
+  .rankings-table .player-cell strong { font-size: .78rem; }
+  .rankings-table .player-cell__inner > div > span { font-size: .62rem; }
+  .rankings-table .col-position { width: 48px; }
+  .rankings-table .col-rank { width: 66px; }
+  .rankings-table .col-diff { width: 42px; }
+  .rankings-table .col-draft { width: 54px; }
+  .rankings-table .rank-heading small, .rankings-table .price-heading, .rankings-table .price-cell { display: none; }
+  .rankings-table .draft-action { min-width: 48px; padding-inline: 3px; font-size: .66rem; }
+}

@@ -530,3 +530,12 @@ test('spacing options preview renders layout ideas', async ({ page }) => {
   expect(await page.locator('.name strong, .gradient-card h4, .mobile-card h4, .mobile-row strong, .lane-row strong').allTextContents()).not.toContain('…')
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
+
+test('split browser width keeps the condensed rankings board layout', async ({ page }) => {
+  await page.setViewportSize({ width: 640, height: 900 })
+  await page.goto('./')
+  await expect(page.locator('.table-wrap')).toBeVisible()
+  await expect(page.locator('.cards-list')).toBeHidden()
+  await expect(page.getByLabel('Recent draft picks')).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
+})
