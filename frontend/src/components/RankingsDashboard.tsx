@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { DataManifest, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset } from '../types'
 import { filterRankings, formatRank, formatSignedValue, formatValue, sortRankings, sourceLabel } from '../data/rankings'
-import { rankingId, readDraftState, writeDraftState } from '../data/draftState'
+import { rankingId, readDraftShare, readDraftState, writeDraftState } from '../data/draftState'
 import { Filters } from './Filters'
 import { RankingCard } from './RankingCard'
 import { RankingsTable } from './RankingsTable'
@@ -87,10 +87,12 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   useEffect(() => {
     setHydratedStorageKey('')
     const state = readDraftState(storageKey)
-    setTargets(new Set(state.targets))
-    setDrafted(new Set(state.drafted))
+    const shared = readDraftShare(new URLSearchParams(window.location.search).get('draft'))
+    const initialState = shared?.season === selectedSeason && shared.source === selectedSource ? shared : state
+    setTargets(new Set(initialState.targets))
+    setDrafted(new Set(initialState.drafted))
     setHydratedStorageKey(storageKey)
-  }, [storageKey])
+  }, [selectedSeason, selectedSource, storageKey])
 
   useEffect(() => {
     setHydratedViewKey('')
@@ -347,8 +349,12 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       <section className="search-panel" aria-label="Player search">
         <label className="header-search header-search--standalone">
           <span>Search players</span>
-          <input data-player-search ref={searchInputRef} value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />
+          <div className="search-input-wrap">
+            <input data-player-search ref={searchInputRef} value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />
+            {search ? <button className="search-clear" type="button" onClick={() => { setSearch(''); searchInputRef.current?.focus() }} aria-label="Clear player search">×</button> : null}
+          </div>
         </label>
+        <div className="search-meta" aria-live="polite"><span>{visibleRows.length.toLocaleString()} player{visibleRows.length === 1 ? '' : 's'} showing</span><span className="search-meta__hint">Click a player to select · Enter drafts · ↑↓ moves</span></div>
       </section>
 
       <section className="draft-toolbar" aria-label="Draft board controls">

@@ -27,7 +27,7 @@ export function RankingCard({ row, teams, source, targeted = false, drafted = fa
   const team = normalizeTeamAbbreviation(row.team)
   const asset = getTeamAsset(teams, team)
   return (
-    <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''} ${selected ? 'is-selected' : ''}`} style={diffSignalStyle(row.diff, source === 'espn')} onClick={onSelect} aria-selected={selected} data-ranking-id={rankingId(row)}>
+    <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''} ${selected ? 'is-selected' : ''}`} style={diffSignalStyle(row.diff, source === 'espn')} onClick={onSelect} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect?.() } }} aria-label={`${row.player}, ${row.positionRank ?? row.position}, ${drafted ? 'drafted' : 'available'}`} role="button" tabIndex={0} aria-pressed={selected} data-ranking-id={rankingId(row)}>
       <div className="ranking-card__header"><div className="player-line">
         <TeamBadge team={team} asset={asset} />
         <div>

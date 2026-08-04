@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
-import { createDraftFile, parseDraftFile } from '../data/draftState'
+import { createDraftFile, createDraftShareUrl, parseDraftFile } from '../data/draftState'
 
 type Props = {
   season: number
@@ -52,10 +52,26 @@ export function DraftStateControls({ season, source, targets, drafted, onRestore
     }
   }
 
+  async function shareDraft(): Promise<void> {
+    const url = createDraftShareUrl(season, source, { targets: [...targets], drafted: [...drafted] })
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: `RankingsDiff ${season} draft`, text: 'Open this RankingsDiff draft board', url })
+        setMessage('Share sheet opened.')
+      } else {
+        await navigator.clipboard.writeText(url)
+        setMessage('Draft link copied. Open it on your other Safari device.')
+      }
+    } catch {
+      // A cancelled share sheet is not an error worth surfacing.
+    }
+  }
+
   return (
     <div className="draft-state-controls">
       <div className="draft-state-controls__buttons">
         <button type="button" className="secondary-action" onClick={downloadDraft}>Save draft</button>
+        <button type="button" className="secondary-action" onClick={shareDraft}>Share link</button>
         <button type="button" className="secondary-action" onClick={() => inputRef.current?.click()}>Restore draft</button>
         <button type="button" className="clear-draft-action" onClick={() => setClearOpen(true)}>Clear draft</button>
         <input ref={inputRef} className="sr-only" type="file" accept="application/json,.json" onChange={restoreDraft} aria-label="Upload draft JSON" />

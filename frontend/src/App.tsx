@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { DataManifest, RankingRow, SourceCheckPayload, TeamAsset } from './types'
 import { RankingsDashboard } from './components/RankingsDashboard'
 import { withBasePath } from './data/paths'
+import { readDraftShare } from './data/draftState'
 
 const emptyManifest: DataManifest = { generatedAt: '', seasons: [] }
 
@@ -60,10 +61,11 @@ export default function App() {
       setTeams(loadedTeams)
       setSourceChecks(loadedChecks)
       const firstSeason = loadedManifest.seasons[0]
+      const sharedDraft = readDraftShare(new URLSearchParams(window.location.search).get('draft'))
       let saved: { season?: number; source?: string } = {}
       try { saved = JSON.parse(localStorage.getItem('rankingsdiff:sheet:v1') ?? '{}') as typeof saved } catch { /* Ignore stale preferences. */ }
-      const savedSeason = loadedManifest.seasons.find((item) => item.season === saved.season) ?? firstSeason
-      const savedSource = savedSeason?.sources.find((item) => item.id === saved.source) ?? savedSeason?.sources[0]
+      const savedSeason = loadedManifest.seasons.find((item) => item.season === sharedDraft?.season) ?? loadedManifest.seasons.find((item) => item.season === saved.season) ?? firstSeason
+      const savedSource = savedSeason?.sources.find((item) => item.id === (sharedDraft?.source ?? saved.source)) ?? savedSeason?.sources[0]
       setSelectedSeason(savedSeason?.season ?? 0)
       setSelectedSource(savedSource?.id ?? '')
     }).catch((reason) => {

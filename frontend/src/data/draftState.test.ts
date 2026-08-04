@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createDraftFile, parseDraftFile, rankingId, readDraftState, writeDraftState } from './draftState'
+import { createDraftFile, createDraftShareUrl, parseDraftFile, rankingId, readDraftShare, readDraftState, writeDraftState } from './draftState'
 
 describe('draft state', () => {
   beforeEach(() => localStorage.clear())
@@ -33,5 +33,11 @@ describe('draft state', () => {
 
   it('rejects files without stable player keys', () => {
     expect(() => parseDraftFile('{"version":2}')).toThrow(/valid RankingsDiff/)
+  })
+
+  it('round-trips a portable cross-device draft link', () => {
+    const url = createDraftShareUrl(2026, 'espn', { targets: ["ja'marr chase|cin"], drafted: ['jahmyr gibbs|det'] })
+    const shared = readDraftShare(new URL(url).searchParams.get('draft'))
+    expect(shared).toEqual({ season: 2026, source: 'espn', targets: ["ja'marr chase|cin"], drafted: ['jahmyr gibbs|det'] })
   })
 })

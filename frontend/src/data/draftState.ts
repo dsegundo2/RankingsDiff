@@ -1,6 +1,7 @@
 import type { RankingRow } from '../types'
 
 export type DraftState = { targets: string[]; drafted: string[] }
+export type SharedDraft = DraftState & { season: number; source: string }
 export type DraftFile = {
   version: 1
   exportedAt: string
@@ -58,5 +59,28 @@ export function parseDraftFile(contents: string): DraftFile {
       targets: stringList(parsed.players.targets),
       drafted: stringList(parsed.players.drafted)
     }
+  }
+}
+
+/** Encode a draft into a portable URL so a user can move the board between Safari devices. */
+export function createDraftShareUrl(season: number, source: string, state: DraftState): string {
+  const payload: SharedDraft = { season, source, targets: stringList(state.targets), drafted: stringList(state.drafted) }
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '')
+  const url = new URL(window.location.href)
+  url.searchParams.set('draft', encoded)
+  return url.toString()
+}
+
+export function readDraftShare(value: string | null): SharedDraft | undefined {
+  if (!value) return undefined
+  try {
+    const base64 = value.replace(/-/g, '+').replace(/_/g, '/')
+    const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=')
+    const parsed = JSON.parse(decodeURIComponent(escape(atob(padded)))) as Partial<SharedDraft>
+    if (typeof parsed.season !== 'number' || typeof parsed.source !== 'string') return undefined
+    return { season: parsed.season, source: parsed.source, targets: stringList(parsed.targets), drafted: stringList(parsed.drafted) }
+  } catch {
+    return undefined
   }
 }
