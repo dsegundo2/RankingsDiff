@@ -170,7 +170,17 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       }
       if (event.key === 'Enter' && selectedId) {
         event.preventDefault()
+        const isDrafting = !drafted.has(selectedId)
         toggleDrafted(selectedId)
+        if (isDrafting) {
+          const selectedRow = navigationRows.find((row) => rankingId(row) === selectedId)
+          const laneRows = view === 'positions' && selectedRow
+            ? navigationRows.filter((row) => row.position.toUpperCase() === selectedRow.position.toUpperCase())
+            : navigationRows
+          const selectedIndex = laneRows.findIndex((row) => rankingId(row) === selectedId)
+          const nextRow = laneRows[selectedIndex + 1]
+          if (nextRow) setSelectedId(rankingId(nextRow))
+        }
         return
       }
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {

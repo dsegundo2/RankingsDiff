@@ -216,12 +216,13 @@ test('click selection supports arrows and enter drafting in board and position v
   await firstBoardRow.click()
   await page.keyboard.press('Enter')
   await expect(page.getByRole('button', { name: 'Undo drafted Jahmyr Gibbs' }).first()).toBeVisible()
-
-  await page.keyboard.press('ArrowDown')
   const secondBoardRow = page.locator('.rankings-table tbody tr').nth(1)
   await expect(secondBoardRow).toHaveClass(/is-selected/)
   await page.keyboard.press('Enter')
   await expect(page.getByRole('button', { name: 'Undo drafted Bijan Robinson' }).first()).toBeVisible()
+
+  const thirdBoardRow = page.locator('.rankings-table tbody tr').nth(2)
+  await expect(thirdBoardRow).toHaveClass(/is-selected/)
 
   await page.getByRole('checkbox', { name: 'By position' }).check()
   const firstRunningBack = page.locator('.position-lane--rb .position-player').first()
@@ -234,9 +235,10 @@ test('click selection supports arrows and enter drafting in board and position v
   await expect(firstWideReceiver).toHaveClass(/is-selected/)
   await page.keyboard.press('Enter')
   await expect(page.getByRole('button', { name: 'Undo drafted Puka Nacua' }).first()).toBeVisible()
+  await expect(page.locator('.position-lane--wr .position-player').nth(1)).toHaveClass(/is-selected/)
 
   await page.keyboard.press('ArrowLeft')
-  await expect(page.locator('.position-lane--rb .position-player').first()).toHaveClass(/is-selected/)
+  await expect(page.locator('.position-lane--rb .position-player').nth(1)).toHaveClass(/is-selected/)
   await page.keyboard.press('Escape')
   await expect(page.locator('.position-player.is-selected')).toHaveCount(0)
 })
