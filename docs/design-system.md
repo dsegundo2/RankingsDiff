@@ -155,6 +155,8 @@ There are no dedicated chart components today. If charts or diagrams are added:
 - Selected, hover, focus, and pressed states must be visible.
 - Do not add new navigation structures unless the app gains genuinely separate workflows.
 
+Settings uses a split-view navigation pattern when it contains multiple peer areas: a compact leading menu identifies the active pane, while the content area shows only the related controls. On narrow screens, the menu becomes a two-column section picker so the settings remain reachable without horizontal overflow.
+
 ## Modals and dialogs
 
 Existing dialogs include settings and draft clearing confirmation.

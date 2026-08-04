@@ -12,10 +12,13 @@ test('dashboard renders and exposes settings downloads', async ({ page }) => {
   await expect(page.locator('.team-badge').first()).toBeVisible()
   await expect(page.getByText(/Looking at/)).toBeVisible()
   await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Snapshots/ }).click()
   await expect(page.getByRole('link', { name: 'CSV' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'XLSX' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Save draft' })).toBeVisible()
+  await page.getByRole('button', { name: /^Ranking checks/ }).click()
   await expect(page.getByRole('link', { name: 'Run refresh workflow' })).toBeVisible()
+  await page.getByRole('button', { name: /^Current sheet/ }).click()
   await expect(page.getByLabel('Position colors')).toHaveCount(0)
   const sourceLinkRadius = await page.getByRole('link', { name: /ESPN 2026 PPR300 PDF/ }).evaluate((link) => getComputedStyle(link).borderRadius)
   expect(parseFloat(sourceLinkRadius)).toBeLessThanOrEqual(10)
@@ -24,6 +27,7 @@ test('dashboard renders and exposes settings downloads', async ({ page }) => {
 test('season and source switching works with manifest data', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Current sheet/ }).click()
   await page.locator('.settings-popover').getByLabel('Year').selectOption('2025')
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('espn')
   await page.getByRole('button', { name: 'Close settings' }).click()
@@ -33,6 +37,7 @@ test('season and source switching works with manifest data', async ({ page }) =>
 test('FantasyPros position view emphasizes source rank', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Current sheet/ }).click()
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await page.getByRole('checkbox', { name: 'By position' }).check()
@@ -124,7 +129,9 @@ test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) 
   await expect(page.locator('.position-board')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Settings' })).toBeVisible()
   await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Snapshots/ }).click()
   await expect(page.getByRole('button', { name: 'Save draft' })).toBeVisible()
+  await page.getByRole('button', { name: /^Ranking checks/ }).click()
   await expect(page.getByRole('link', { name: 'Run refresh workflow' })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
@@ -156,6 +163,7 @@ test('mobile 320px has no horizontal overflow in board, settings, and source che
   await expect(page.locator('.cards-list')).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
   await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Ranking checks/ }).click()
   await expect(page.getByRole('heading', { name: 'Ranking change checks' })).toBeVisible()
   const sourceHeaderWidth = await page.locator('.source-checks__header').evaluate((node) => node.getBoundingClientRect().width)
   expect(sourceHeaderWidth).toBeLessThanOrEqual(288)
@@ -220,12 +228,14 @@ test('target queue is controlled from settings and works in both views', async (
   await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
 
   await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
   await page.getByRole('checkbox', { name: 'Show target queue' }).uncheck()
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.getByLabel('Target queue', { exact: true })).toHaveCount(0)
   await expect(page.locator('.draft-board-layout')).toHaveClass(/draft-board-layout--queue-hidden/)
 
   await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
   await page.getByRole('checkbox', { name: 'Show target queue' }).check()
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
@@ -233,6 +243,22 @@ test('target queue is controlled from settings and works in both views', async (
   await page.setViewportSize({ width: 390, height: 900 })
   await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
+})
+
+test('display settings can hide and restore the recent draft log', async ({ page }) => {
+  await page.goto('./')
+  await expect(page.getByLabel('Recent draft picks')).toBeVisible()
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  await page.getByRole('checkbox', { name: 'Show draft log' }).uncheck()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.getByLabel('Recent draft picks')).toHaveCount(0)
+
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  await page.getByRole('checkbox', { name: 'Show draft log' }).check()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.getByLabel('Recent draft picks')).toBeVisible()
 })
 
 test('targets and drafted state persist per sheet', async ({ page }) => {
@@ -380,6 +406,7 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
   await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
 
   await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Snapshots/ }).click()
   const downloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Save draft' }).click()
   const download = await downloadPromise

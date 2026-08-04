@@ -38,6 +38,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [drafted, setDrafted] = useState<Set<string>>(new Set())
   const [showDrafted, setShowDrafted] = useState(true)
   const [showTargetQueue, setShowTargetQueue] = useState(true)
+  const [showDraftLog, setShowDraftLog] = useState(true)
   const [showMobileActions, setShowMobileActions] = useState(true)
   const [hydratedStorageKey, setHydratedStorageKey] = useState('')
   const [hydratedViewKey, setHydratedViewKey] = useState('')
@@ -111,7 +112,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   useEffect(() => {
     setHydratedViewKey('')
     try {
-      const saved = JSON.parse(localStorage.getItem(viewStorageKey) ?? '{}') as Partial<{ search: string; position: PositionFilter; sortKey: SortKey; sortDirection: SortDirection; view: ViewMode; boardPositions: PositionKey[]; positionViews: PositionKey[]; showDrafted: boolean; showTargetQueue: boolean; showMobileActions: boolean }>
+      const saved = JSON.parse(localStorage.getItem(viewStorageKey) ?? '{}') as Partial<{ search: string; position: PositionFilter; sortKey: SortKey; sortDirection: SortDirection; view: ViewMode; boardPositions: PositionKey[]; positionViews: PositionKey[]; showDrafted: boolean; showTargetQueue: boolean; showDraftLog: boolean; showMobileActions: boolean }>
       if (typeof saved.search === 'string') setSearch(saved.search)
       if (saved.position && ['ALL', 'QB', 'RB', 'WR', 'TE'].includes(saved.position)) setPosition(saved.position)
       if (saved.sortKey) setSortKey(saved.sortKey)
@@ -121,6 +122,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       if (Array.isArray(saved.positionViews)) setPositionViews(new Set(saved.positionViews.filter((value): value is PositionKey => allPositionKeys.has(value))))
       if (typeof saved.showDrafted === 'boolean') setShowDrafted(saved.showDrafted)
       if (typeof saved.showTargetQueue === 'boolean') setShowTargetQueue(saved.showTargetQueue)
+      if (typeof saved.showDraftLog === 'boolean') setShowDraftLog(saved.showDraftLog)
       if (typeof saved.showMobileActions === 'boolean') setShowMobileActions(saved.showMobileActions)
     } catch { /* Ignore stale or manually edited view preferences. */ }
     setHydratedViewKey(viewStorageKey)
@@ -128,8 +130,8 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
 
   useEffect(() => {
     if (hydratedViewKey !== viewStorageKey) return
-    localStorage.setItem(viewStorageKey, JSON.stringify({ search, position, sortKey, sortDirection, view, boardPositions: [...boardPositions], positionViews: [...positionViews], showDrafted, showTargetQueue, showMobileActions }))
-  }, [hydratedViewKey, viewStorageKey, search, position, sortKey, sortDirection, view, boardPositions, positionViews, showDrafted, showTargetQueue, showMobileActions])
+    localStorage.setItem(viewStorageKey, JSON.stringify({ search, position, sortKey, sortDirection, view, boardPositions: [...boardPositions], positionViews: [...positionViews], showDrafted, showTargetQueue, showDraftLog, showMobileActions }))
+  }, [hydratedViewKey, viewStorageKey, search, position, sortKey, sortDirection, view, boardPositions, positionViews, showDrafted, showTargetQueue, showDraftLog, showMobileActions])
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
@@ -378,7 +380,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         </div>
       </section>
 
-      <RecentDraftPanel rows={rows} drafted={drafted} source={selectedSource} />
+      {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} source={selectedSource} /> : null}
 
       <section className="search-panel" aria-label="Player search">
         <label className="header-search header-search--standalone">
@@ -460,11 +462,13 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         visibleCount={visibleRows.length}
         targetCount={targetRows.length}
         showTargetQueue={showTargetQueue}
+        showDraftLog={showDraftLog}
         targets={targets}
         drafted={drafted}
         onRestoreDraft={restoreDraft}
         onClearDraft={clearDraft}
         onShowTargetQueue={setShowTargetQueue}
+        onShowDraftLog={setShowDraftLog}
         onSeason={handleSeasonFromSettings}
         onSource={handleSourceFromSettings}
         onClose={() => setSettingsOpen(false)}
