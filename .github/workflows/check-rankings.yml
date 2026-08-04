@@ -46,7 +46,19 @@ jobs:
       - name: Commit refreshed rankings and generated data
         if: ${{ github.event_name == 'schedule' || inputs.commit_updates == 'true' }}
         run: |
-          git add data/raw/2026 frontend/public/data/2026 \
+          if ! python - <<'PY'
+          import json
+          from pathlib import Path
+
+          checks = json.loads(Path("data/status/source_checks.json").read_text())["checks"]
+          if not any(check["kind"] == "raw" and check["status"] == "changed" for check in checks):
+              print("No source ranking values changed; leaving timestamps and snapshots uncommitted.")
+              raise SystemExit(1)
+          PY
+          then
+            exit 0
+          fi
+          git add data/raw/2026/adjusted_rankings.csv frontend/public/data/2026 \
             data/status frontend/public/data/status frontend/public/data/manifest.json
           if git diff --cached --quiet; then
             echo "No refreshed ranking or generated status changes to commit."
