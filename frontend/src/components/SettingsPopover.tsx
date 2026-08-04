@@ -25,12 +25,14 @@ type Props = {
   targetCount: number
   showTargetQueue: boolean
   showDraftLog: boolean
+  stickyWorkbench: boolean
   targets: Set<string>
   drafted: Set<string>
   onRestoreDraft: (targets: string[], drafted: string[]) => void
   onClearDraft: () => void
   onShowTargetQueue: (value: boolean) => void
   onShowDraftLog: (value: boolean) => void
+  onShowStickyWorkbench: (value: boolean) => void
   onSeason: (value: number) => void
   onSource: (value: string) => void
   onClose: () => void
@@ -52,7 +54,7 @@ function SourceLinks({ links }: { links?: SourceLink[] }) {
   )
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDraftLog, targets, drafted, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDraftLog, onSeason, onSource, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDraftLog, stickyWorkbench, targets, drafted, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDraftLog, onShowStickyWorkbench, onSeason, onSource, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('sheet')
   if (!open) return null
   const currentSeason = manifest.seasons.find((season) => season.season === selectedSeason) ?? manifest.seasons[0]
@@ -117,6 +119,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
               <div className="settings-preference-list">
                 <label className="settings-preference-card"><span><strong>Target queue</strong><small>{targetCount.toLocaleString()} shortlisted player{targetCount === 1 ? '' : 's'}</small></span><span className="drafted-toggle"><input type="checkbox" checked={showTargetQueue} onChange={(event) => onShowTargetQueue(event.target.checked)} /> Show target queue</span></label>
                 <label className="settings-preference-card"><span><strong>Recent draft log</strong><small>Show the latest picks above player search.</small></span><span className="drafted-toggle"><input type="checkbox" checked={showDraftLog} onChange={(event) => onShowDraftLog(event.target.checked)} /> Show draft log</span></label>
+                <label className="settings-preference-card"><span><strong>Sticky workbench</strong><small>Keep the draft log, search, and board controls visible while you scroll.</small></span><span className="drafted-toggle"><input type="checkbox" checked={stickyWorkbench} onChange={(event) => onShowStickyWorkbench(event.target.checked)} /> Keep controls up top</span></label>
               </div>
             </section> : null}
           </div>

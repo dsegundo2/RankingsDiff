@@ -20,10 +20,8 @@ export function RecentDraftPanel({ rows, drafted, teams }: Props) {
         {picks.slice(0, 5).map((row, index) => {
           const team = normalizeTeamAbbreviation(row.team)
           return <li key={rankingId(row)}>
-            <span className="recent-draft__pick">{index === 0 ? 'Last pick' : `Pick ${picks.length - index}`}</span>
-            <span className={`recent-draft__pos pos-${row.positionTone ?? 'other'}`}>{row.position}</span>
-            <TeamBadge team={team} asset={getTeamAsset(teams, team)} />
-            <span className="recent-draft__player"><strong>{row.player}</strong><small>{row.team}</small></span>
+            <div className="recent-draft__meta"><span className="recent-draft__pick">{index === 0 ? 'Last pick' : `Pick ${picks.length - index}`}</span><span className={`recent-draft__pos pos-${row.positionTone ?? 'other'}`}>{row.position}</span></div>
+            <div className="recent-draft__player"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><span><strong>{row.player}</strong><small>{row.team}</small></span></div>
           </li>
         })}
       </ol> : null}

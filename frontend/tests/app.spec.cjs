@@ -128,6 +128,19 @@ test('position filters show live drafted counts', async ({ page }) => {
   await expect(count('WR')).toHaveText('0')
 })
 
+test('position view keyboard shortcuts toggle individual lanes', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await page.getByRole('heading', { name: 'RankingsDiff' }).click()
+  await expect(page.getByRole('heading', { name: 'Running backs' })).toBeVisible()
+  await page.keyboard.press('r')
+  await expect(page.getByRole('heading', { name: 'Running backs' })).toHaveCount(0)
+  await page.keyboard.press('w')
+  await expect(page.getByRole('heading', { name: 'Wide receivers' })).toHaveCount(0)
+  await page.keyboard.press('r')
+  await expect(page.getByRole('heading', { name: 'Running backs' })).toBeVisible()
+})
+
 test('recent picks stay horizontal, show five, and omit source rank', async ({ page }) => {
   await page.goto('./')
   for (let index = 0; index < 6; index += 1) {
@@ -291,7 +304,14 @@ test('display settings can hide and restore the recent draft log', async ({ page
   await expect(page.getByLabel('Recent draft picks')).toBeVisible()
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByRole('button', { name: /^Display/ }).click()
+  await page.getByRole('checkbox', { name: 'Keep controls up top' }).check()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('.dashboard-workbench--sticky')).toBeVisible()
+
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
   await page.getByRole('checkbox', { name: 'Show draft log' }).uncheck()
+  await page.getByRole('checkbox', { name: 'Keep controls up top' }).uncheck()
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.getByLabel('Recent draft picks')).toHaveCount(0)
 
