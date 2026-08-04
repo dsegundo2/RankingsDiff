@@ -78,8 +78,10 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
               >
                 <td className="row-action"><button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button></td>
                 <td className="player-cell">
-                  <TeamBadge team={team} asset={asset} />
-                  <div><strong>{row.player}</strong><span>{team}</span></div>
+                  <div className="player-cell__inner">
+                    <TeamBadge team={team} asset={asset} />
+                    <div><strong>{row.player}</strong><span>{team}</span></div>
+                  </div>
                 </td>
                 <td className="position-cell"><span className={`pos-chip pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span></td>
                 <td className="num rank-cell"><span className="rank-pair"><strong>{formatRank(row.sourceRank)}</strong><span>→</span><strong>{formatRank(row.adjustedRank)}</strong></span></td>

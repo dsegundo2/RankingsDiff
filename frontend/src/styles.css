@@ -154,10 +154,10 @@ tbody tr:last-child td { border-bottom: 0; }
 tbody tr.is-drafted { opacity: .48; }
 .sort-button { border: 0; padding: 0; color: inherit; background: transparent; font: inherit; letter-spacing: inherit; text-transform: inherit; }
 .action-heading, .row-action { width: 48px; text-align: center; }
-.player-cell, .player-line { display: flex; min-width: 190px; gap: 12px; align-items: center; }
-.player-cell > div > strong, .player-cell > div > span, .player-line > div > strong, .player-line > div > span { display: block; }
-.player-cell > div > strong, .player-line > div > strong { font-weight: 800; }
-.player-cell > div > span, .player-line > div > span { margin-top: 2px; color: var(--muted); font-size: .84rem; }
+.player-cell__inner, .player-line { display: flex; min-width: 190px; gap: 12px; align-items: center; }
+.player-cell__inner > div > strong, .player-cell__inner > div > span, .player-line > div > strong, .player-line > div > span { display: block; }
+.player-cell__inner > div > strong, .player-line > div > strong { font-weight: 800; }
+.player-cell__inner > div > span, .player-line > div > span { margin-top: 2px; color: var(--muted); font-size: .84rem; }
 .team-badge { --team-color: var(--accent); display: flex; width: 36px; height: 36px; flex: 0 0 36px; align-items: center; justify-content: center; overflow: hidden; border: 1px solid color-mix(in srgb, var(--team-color) 24%, var(--line)); border-radius: 11px; background: var(--panel-soft); }
 .team-badge img { display: block; width: 28px; height: 28px; margin: 0; object-fit: contain; object-position: 50% 50%; }
 .team-badge--fallback { color: var(--ink); font-size: .7rem; font-weight: 800; }
@@ -299,8 +299,7 @@ tbody tr.is-drafted { opacity: .48; }
 .rankings-table th, .rankings-table td { min-width: 0; }
 .rankings-table thead th:first-child, .rankings-table thead th:last-child { border-radius: 0; }
 .rankings-table th:nth-child(3), .rankings-table td:nth-child(3) { text-align: center; }
-.rankings-table .player-cell { min-width: 0; }
-.rankings-table .player-cell > div { min-width: 0; }
+.rankings-table .player-cell, .rankings-table .player-cell__inner { min-width: 0; }
 .rankings-table .player-cell strong, .rankings-table .player-cell span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mobile-player-meta { display: none; }
 .player-heading { padding-left: 54px; }
@@ -325,7 +324,7 @@ tbody tr.is-drafted { opacity: .48; }
   .rankings-table .col-diff { width: 62px; }
   .rankings-table .col-draft { width: 66px; }
   .rankings-table th, .rankings-table td { padding-inline: 8px; }
-  .rankings-table .player-cell { gap: 8px; min-width: 0; }
+  .rankings-table .player-cell__inner { gap: 8px; min-width: 0; }
   .rankings-table .player-cell strong { font-size: .9rem; }
   .rankings-table .player-cell span { font-size: .74rem; }
   .rankings-table .team-badge { width: 32px; height: 32px; flex-basis: 32px; }
@@ -392,11 +391,11 @@ tbody tr.is-drafted { opacity: .48; }
   .rankings-table .col-diff { width: 44px; }
   .rankings-table .col-draft { width: 54px; }
   .rankings-table th, .rankings-table td { padding: 8px 7px; }
-  .rankings-table .player-cell { min-width: 0; gap: 10px; }
+  .rankings-table .player-cell__inner { min-width: 0; gap: 10px; }
   .rankings-table .player-cell .team-badge { display: flex; width: 28px; height: 28px; flex-basis: 28px; border-radius: 8px; }
   .rankings-table .player-cell .team-badge img { width: 22px; height: 22px; }
   .rankings-table .player-cell strong { overflow: visible; text-overflow: clip; white-space: normal; font-size: .82rem; line-height: 1.15; }
-  .rankings-table .player-cell > div > span { display: block; margin-top: 3px; font-size: .64rem; }
+  .rankings-table .player-cell__inner > div > span { display: block; margin-top: 3px; font-size: .64rem; }
   .rankings-table .player-heading { padding-left: 7px; }
   .rankings-table .rank-heading small, .rankings-table .price-heading, .rankings-table .price-cell { display: none; }
   .rankings-table .rank-pair { gap: 3px; font-size: .72rem; }
