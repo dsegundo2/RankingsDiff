@@ -306,6 +306,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         return
       }
       const positionShortcuts: Record<string, PositionFilter> = { a: 'ALL', q: 'QB', r: 'RB', w: 'WR', t: 'TE' }
+      if (shortcut === 'p') {
+        event.preventDefault()
+        setView((current) => current === 'positions' ? 'board' : 'positions')
+        return
+      }
       const nextPosition = positionShortcuts[shortcut]
       if (nextPosition) {
         event.preventDefault()

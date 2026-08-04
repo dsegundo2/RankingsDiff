@@ -141,6 +141,16 @@ test('position view keyboard shortcuts toggle individual lanes', async ({ page }
   await expect(page.getByRole('heading', { name: 'Running backs' })).toBeVisible()
 })
 
+test('P toggles the position view', async ({ page }) => {
+  await page.goto('./')
+  const byPosition = page.getByRole('checkbox', { name: 'By position' })
+  await page.getByRole('heading', { name: 'RankingsDiff' }).click()
+  await page.keyboard.press('p')
+  await expect(byPosition).toBeChecked()
+  await page.keyboard.press('p')
+  await expect(byPosition).not.toBeChecked()
+})
+
 test('recent picks stay horizontal, show five, and omit source rank', async ({ page }) => {
   await page.goto('./')
   for (let index = 0; index < 6; index += 1) {
@@ -151,7 +161,7 @@ test('recent picks stay horizontal, show five, and omit source rank', async ({ p
   await expect(list).toContainText('Last pick')
   await expect(list).not.toContainText('source rank')
   await expect(list.locator('li')).toHaveCount(5)
-  expect(await list.evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(' ').length)).toBe(5)
+  expect(await list.evaluate((node) => getComputedStyle(node).display)).toBe('flex')
 })
 
 test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) => {

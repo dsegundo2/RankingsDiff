@@ -861,8 +861,8 @@ tbody tr.is-drafted { opacity: .48; }
   .hero, .search-panel, .draft-toolbar { margin-inline: 0; }
   .recent-draft { padding: var(--space-2); }
   .recent-draft__header p { display: none; }
-  .recent-draft__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-1); margin-top: var(--space-2); }
-  .recent-draft__list li { min-height: 64px; padding: var(--space-1) var(--space-2); gap: var(--space-1); }
+  .recent-draft__list { gap: var(--space-1); margin-top: var(--space-2); }
+  .recent-draft__list li { flex-basis: min(210px, 42vw); min-height: 64px; padding: var(--space-1) var(--space-2); gap: var(--space-1); }
   .recent-draft__player strong { font-size: .8rem; }
   .recent-draft__list .team-badge { width: 26px; height: 26px; flex-basis: 26px; }
   .recent-draft__list .team-badge img { width: 20px; height: 20px; }
@@ -900,4 +900,12 @@ tbody tr.is-drafted { opacity: .48; }
   .rankings-table .col-draft { width: 54px; }
   .rankings-table .rank-heading small, .rankings-table .price-heading, .rankings-table .price-cell { display: none; }
   .rankings-table .draft-action { min-width: 48px; padding-inline: 3px; font-size: .66rem; }
+}
+
+/* The draft log is chronological: keep all five picks on one horizontal
+   track and let the user swipe/scroll to reveal older picks. */
+.recent-draft__list { display: flex; overflow-x: auto; gap: var(--space-2); scrollbar-width: thin; }
+.recent-draft__list li { flex: 0 0 clamp(150px, 18vw, 220px); }
+@media (max-width: 760px) {
+  .recent-draft__list li { flex-basis: min(82vw, 300px); }
 }
