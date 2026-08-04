@@ -62,6 +62,34 @@ test('command-k focuses search and position filters rows', async ({ page }) => {
   await expect(page.getByText('No players match the current filters.')).toBeVisible()
 })
 
+test('search keyboard drafting clears the query and keeps search ready', async ({ page }) => {
+  await page.goto('./')
+  const search = page.getByPlaceholder(/Ja'Marr/)
+  await search.fill('Ja\'Marr')
+  await page.keyboard.press('ArrowDown')
+  await expect(page.locator('.rankings-table tbody tr.is-selected')).toContainText("Ja'Marr Chase")
+  await page.keyboard.press('Meta+Enter')
+  await expect(search).toHaveValue('')
+  await expect(search).toBeFocused()
+  await expect(page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first()).toBeVisible()
+
+  await search.fill('Bijan')
+  await page.getByRole('button', { name: 'Mark drafted Bijan Robinson' }).first().click()
+  await expect(search).toHaveValue('')
+  await expect(search).toBeFocused()
+})
+
+test('recent picks use one readable vertical column without source rank', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
+  await page.getByRole('button', { name: 'Mark drafted Bijan Robinson' }).first().click()
+  const list = page.locator('.recent-draft__list')
+  await expect(list).toBeVisible()
+  await expect(list).toContainText('Last pick')
+  await expect(list).not.toContainText('source rank')
+  expect(await list.evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(' ').length)).toBe(1)
+})
+
 test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 })
   await page.goto('./')

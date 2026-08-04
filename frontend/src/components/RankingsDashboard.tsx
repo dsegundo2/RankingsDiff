@@ -69,6 +69,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   }, [positionRows, positionViews, showDrafted, drafted])
   const navigationRows = view === 'board' ? visibleRows : visiblePositionRows
 
+  function focusSearchForNextPlayer() {
+    searchInputRef.current?.focus()
+    searchInputRef.current?.select()
+  }
+
   const toggleDrafted = useCallback((id: string) => {
     setDrafted((current) => {
       const next = new Set(current)
@@ -83,6 +88,15 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       return next
     })
   }, [])
+
+  const draftPlayer = useCallback((id: string) => {
+    const isDrafting = !drafted.has(id)
+    toggleDrafted(id)
+    if (isDrafting && search.trim()) {
+      setSearch('')
+      window.requestAnimationFrame(focusSearchForNextPlayer)
+    }
+  }, [drafted, search, toggleDrafted])
 
   useEffect(() => {
     setHydratedStorageKey('')
@@ -139,6 +153,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     function handleKeydown(event: KeyboardEvent) {
       const target = event.target instanceof HTMLElement ? event.target : null
       const isTyping = target?.matches('input, textarea, select, [contenteditable="true"]') ?? false
+      const isPlayerSearch = target === searchInputRef.current
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault()
         const input = searchInputRef.current ?? document.querySelector<HTMLInputElement>('[data-player-search]')
@@ -158,6 +173,18 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           return
         }
       }
+      if (isPlayerSearch && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+        if (!navigationRows.length) return
+        event.preventDefault()
+        setSelectedId(rankingId(navigationRows[event.key === 'ArrowDown' ? 0 : navigationRows.length - 1]))
+        return
+      }
+      if (isPlayerSearch && (event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+        if (!navigationRows.length) return
+        event.preventDefault()
+        draftPlayer(rankingId(navigationRows[0]))
+        return
+      }
       if (isTyping || event.metaKey || event.ctrlKey || event.altKey) return
       const shortcut = event.key.toLowerCase()
       if (shortcut === ',') {
@@ -173,7 +200,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       if (event.key === 'Enter' && selectedId) {
         event.preventDefault()
         const isDrafting = !drafted.has(selectedId)
-        toggleDrafted(selectedId)
+        draftPlayer(selectedId)
         if (isDrafting) {
           const selectedRow = navigationRows.find((row) => rankingId(row) === selectedId)
           const laneRows = view === 'positions' && selectedRow
@@ -236,7 +263,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     }
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [boardPositions, drafted, navigationRows, position, positionViews, selectedId, toggleDrafted, view])
+  }, [boardPositions, drafted, draftPlayer, navigationRows, position, positionViews, selectedId, toggleDrafted, view])
 
   function handleSort(key: SortKey) {
     if (key === sortKey) setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')
@@ -401,11 +428,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`}>
           <div>
-            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />
+            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={draftPlayer} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
                 const id = rankingId(row)
-                return <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} targeted={targets.has(id)} drafted={drafted.has(id)} selected={selectedId === id} onSelect={() => setSelectedId(id)} onTarget={() => toggleSet(setTargets, id)} onDrafted={() => toggleDrafted(id)} />
+                return <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} targeted={targets.has(id)} drafted={drafted.has(id)} selected={selectedId === id} onSelect={() => setSelectedId(id)} onTarget={() => toggleSet(setTargets, id)} onDrafted={() => draftPlayer(id)} />
               })}
             </section>
           </div>
@@ -413,7 +440,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`}>
-          <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={toggleDrafted} />
+          <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={(id) => toggleSet(setTargets, id)} onDrafted={draftPlayer} />
           {targetQueue}
         </div>
       )}
