@@ -345,6 +345,30 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
   await expect(page.getByText('Draft restored.')).toBeVisible()
 })
 
+test('recent picks show newest first with total and suggested values', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: "Mark drafted Jahmyr Gibbs" }).first().click()
+  await page.getByRole('button', { name: "Mark drafted Bijan Robinson" }).first().click()
+  const log = page.getByLabel('Recent draft picks')
+  await expect(log).toContainText('Recent picks')
+  await expect(log.locator('li').first()).toContainText('Bijan Robinson')
+  await expect(log.locator('li').nth(1)).toContainText('Jahmyr Gibbs')
+  await expect(log.locator('li').first()).toContainText('$55')
+  await expect(log.locator('li').first()).toContainText('suggested')
+})
+
+test('draft view and filters survive refresh', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await page.getByRole('button', { name: 'WR', exact: true }).dblclick()
+  await page.getByPlaceholder(/Ja'Marr/).fill('London')
+  await page.reload()
+  await expect(page.getByRole('checkbox', { name: 'By position' })).toBeChecked()
+  await expect(page.getByRole('button', { name: 'WR', exact: true })).toHaveClass(/active/)
+  await expect(page.getByPlaceholder(/Ja'Marr/)).toHaveValue('London')
+  await expect(page.getByRole('heading', { name: 'Wide receivers' })).toBeVisible()
+})
+
 test('spacing options preview renders layout ideas', async ({ page }) => {
   await page.goto('./spacing-options.html')
   await expect(page.getByRole('heading', { name: 'Full-name layouts for rankings' })).toBeVisible()

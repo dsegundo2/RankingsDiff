@@ -60,8 +60,12 @@ export default function App() {
       setTeams(loadedTeams)
       setSourceChecks(loadedChecks)
       const firstSeason = loadedManifest.seasons[0]
-      setSelectedSeason(firstSeason?.season ?? 0)
-      setSelectedSource(firstSeason?.sources[0]?.id ?? '')
+      let saved: { season?: number; source?: string } = {}
+      try { saved = JSON.parse(localStorage.getItem('rankingsdiff:sheet:v1') ?? '{}') as typeof saved } catch { /* Ignore stale preferences. */ }
+      const savedSeason = loadedManifest.seasons.find((item) => item.season === saved.season) ?? firstSeason
+      const savedSource = savedSeason?.sources.find((item) => item.id === saved.source) ?? savedSeason?.sources[0]
+      setSelectedSeason(savedSeason?.season ?? 0)
+      setSelectedSource(savedSource?.id ?? '')
     }).catch((reason) => {
       if (reason?.name !== 'AbortError') setError(reason instanceof Error ? reason.message : 'Failed to load data')
     }).finally(() => {
@@ -70,6 +74,10 @@ export default function App() {
     })
     return () => { window.clearTimeout(timeout); controller.abort() }
   }, [retryKey])
+
+  useEffect(() => {
+    if (selectedSeason && selectedSource) localStorage.setItem('rankingsdiff:sheet:v1', JSON.stringify({ season: selectedSeason, source: selectedSource }))
+  }, [selectedSeason, selectedSource])
 
   const selectedMeta = useMemo(() => {
     const season = manifest.seasons.find((item) => item.season === selectedSeason) ?? manifest.seasons[0]

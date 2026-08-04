@@ -580,6 +580,12 @@ tbody tr.is-drafted { opacity: .48; }
 .ranking-card { cursor: pointer; }
 
 @media (max-width: 760px) {
+  .recent-draft { margin-inline: 0; border-inline: 0; border-radius: 0; }
+  .recent-draft__list { display: flex; overflow-x: auto; margin-inline: calc(var(--space-2) * -1); padding-inline: var(--space-2); scroll-snap-type: x mandatory; }
+  .recent-draft__list li { flex: 0 0 min(82vw, 300px); scroll-snap-align: start; }
+}
+
+@media (max-width: 760px) {
   .position-lane__columns { display: none; }
   .position-player { grid-template-columns: minmax(0, 1fr) 64px; grid-template-areas: "identity draft" "metric draft" "diff draft"; min-height: 72px; gap: var(--space-1) var(--space-2); align-items: center; padding-block: var(--space-3); }
   .position-player__identity { grid-area: identity; }
@@ -741,6 +747,22 @@ tbody tr.is-drafted { opacity: .48; }
   font-weight: 900;
 }
 .settings-icon-trigger:hover { border-color: rgba(79,93,228,.55); box-shadow: 0 12px 24px rgba(79,93,228,.24); }
+
+/* Recent draft log: keep pick order visible without competing with the board. */
+.recent-draft { margin: 0 0 var(--space-3); padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgba(255,255,255,.82); box-shadow: var(--shadow-md); }
+.recent-draft__header { display: flex; justify-content: space-between; gap: var(--space-4); align-items: flex-start; }
+.recent-draft h2 { margin: 4px 0 2px; font-size: 1.05rem; letter-spacing: -.025em; }
+.recent-draft p { margin: 0; color: var(--muted); font-size: .78rem; }
+.recent-draft__count { display: grid; min-width: 34px; height: 34px; place-items: center; border-radius: var(--radius-pill); color: var(--accent); background: var(--accent-soft); font-variant-numeric: tabular-nums; }
+.recent-draft__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2); margin: var(--space-3) 0 0; padding: 0; list-style: none; }
+.recent-draft__list li { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; gap: var(--space-2); align-items: center; min-width: 0; padding: var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel); }
+.recent-draft__pick, .recent-draft__player small, .recent-draft__values small { color: var(--muted); font-size: .68rem; }
+.recent-draft__pick { font-variant-numeric: tabular-nums; }
+.recent-draft__pos { min-width: 28px; padding: 3px 5px; border-radius: var(--radius-sm); font-size: .66rem; font-weight: 850; text-align: center; }
+.recent-draft__player, .recent-draft__values { min-width: 0; }
+.recent-draft__player strong, .recent-draft__player small, .recent-draft__values strong, .recent-draft__values small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.recent-draft__values { text-align: right; font-variant-numeric: tabular-nums; }
+.recent-draft__values strong { font-size: .82rem; }
 
 @media (min-width: 761px) {
   .hero--compact { grid-template-columns: minmax(0, 1fr); align-items: start; margin-bottom: var(--space-3); }

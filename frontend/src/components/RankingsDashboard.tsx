@@ -8,6 +8,7 @@ import { RankingCard } from './RankingCard'
 import { RankingsTable } from './RankingsTable'
 import { SettingsPopover } from './SettingsPopover'
 import { PositionBoard } from './PositionBoard'
+import { RecentDraftPanel } from './RecentDraftPanel'
 
 type ViewMode = 'board' | 'positions'
 type PositionKey = Exclude<PositionFilter, 'ALL'>
@@ -39,10 +40,12 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [showTargetQueue, setShowTargetQueue] = useState(true)
   const [showMobileActions, setShowMobileActions] = useState(true)
   const [hydratedStorageKey, setHydratedStorageKey] = useState('')
+  const [hydratedViewKey, setHydratedViewKey] = useState('')
   const searchInputRef = useRef<HTMLInputElement>(null)
   const season = manifest.seasons.find((item) => item.season === selectedSeason) ?? manifest.seasons[0]
   const source = season?.sources.find((item) => item.id === selectedSource) ?? season?.sources[0]
   const storageKey = `rankingsdiff:draft:v1:${selectedSeason}:${selectedSource}`
+  const viewStorageKey = `rankingsdiff:view:v1:${selectedSeason}:${selectedSource}`
   const filteredRows = useMemo(() => {
     const searchedRows = filterRankings(rows, search, 'ALL')
     if (view === 'positions' || boardPositions.size === allPositionKeys.size) return searchedRows
@@ -88,6 +91,29 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     setDrafted(new Set(state.drafted))
     setHydratedStorageKey(storageKey)
   }, [storageKey])
+
+  useEffect(() => {
+    setHydratedViewKey('')
+    try {
+      const saved = JSON.parse(localStorage.getItem(viewStorageKey) ?? '{}') as Partial<{ search: string; position: PositionFilter; sortKey: SortKey; sortDirection: SortDirection; view: ViewMode; boardPositions: PositionKey[]; positionViews: PositionKey[]; showDrafted: boolean; showTargetQueue: boolean; showMobileActions: boolean }>
+      if (typeof saved.search === 'string') setSearch(saved.search)
+      if (saved.position && ['ALL', 'QB', 'RB', 'WR', 'TE'].includes(saved.position)) setPosition(saved.position)
+      if (saved.sortKey) setSortKey(saved.sortKey)
+      if (saved.sortDirection === 'asc' || saved.sortDirection === 'desc') setSortDirection(saved.sortDirection)
+      if (saved.view === 'board' || saved.view === 'positions') setView(saved.view)
+      if (Array.isArray(saved.boardPositions)) setBoardPositions(new Set(saved.boardPositions.filter((value): value is PositionKey => allPositionKeys.has(value))))
+      if (Array.isArray(saved.positionViews)) setPositionViews(new Set(saved.positionViews.filter((value): value is PositionKey => allPositionKeys.has(value))))
+      if (typeof saved.showDrafted === 'boolean') setShowDrafted(saved.showDrafted)
+      if (typeof saved.showTargetQueue === 'boolean') setShowTargetQueue(saved.showTargetQueue)
+      if (typeof saved.showMobileActions === 'boolean') setShowMobileActions(saved.showMobileActions)
+    } catch { /* Ignore stale or manually edited view preferences. */ }
+    setHydratedViewKey(viewStorageKey)
+  }, [viewStorageKey])
+
+  useEffect(() => {
+    if (hydratedViewKey !== viewStorageKey) return
+    localStorage.setItem(viewStorageKey, JSON.stringify({ search, position, sortKey, sortDirection, view, boardPositions: [...boardPositions], positionViews: [...positionViews], showDrafted, showTargetQueue, showMobileActions }))
+  }, [hydratedViewKey, viewStorageKey, search, position, sortKey, sortDirection, view, boardPositions, positionViews, showDrafted, showTargetQueue, showMobileActions])
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
@@ -353,6 +379,8 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           <label className="drafted-toggle mobile-actions-toggle"><input type="checkbox" aria-label="Show actions" checked={showMobileActions} onChange={(event) => setShowMobileActions(event.target.checked)} /><span>Actions</span></label>
         </div>
       </section>
+
+      <RecentDraftPanel rows={rows} drafted={drafted} source={selectedSource} />
 
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`}>
