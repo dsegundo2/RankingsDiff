@@ -56,8 +56,3 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git commit -m "Refresh ESPN and Yahoo adjusted rankings"
           git push
-      - name: Deploy refreshed frontend data
-        if: ${{ github.event_name == 'schedule' || inputs.commit_updates == 'true' }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --ref main
