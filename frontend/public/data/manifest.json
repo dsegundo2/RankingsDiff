@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T00:21:23.609891Z",
+  "generatedAt": "2026-08-04T00:23:18.626996Z",
   "seasons": [
     {
       "season": 2026,
@@ -7,7 +7,7 @@
         {
           "id": "espn",
           "label": "ESPN vs Adjusted",
-          "rowCount": 254,
+          "rowCount": 255,
           "json": "/data/2026/espn/rankings.json",
           "csv": "/data/2026/espn/merged.csv",
           "sourceLinks": [
