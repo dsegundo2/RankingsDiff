@@ -162,6 +162,19 @@ test('desktop table stays inside the board column beside the target queue', asyn
   expect(layout.queueLeft).toBeLessThan(layout.viewportRight)
 })
 
+test('diff values use a flat treatment instead of looking like input boxes', async ({ page }) => {
+  await page.goto('./')
+  const diff = page.locator('.diff-value').first()
+  await expect(diff).toBeVisible()
+  const style = await diff.evaluate((node) => {
+    const computed = getComputedStyle(node)
+    return { border: computed.border, radius: computed.borderRadius, display: computed.display }
+  })
+  expect(style.border).toMatch(/0px/)
+  expect(style.radius).toBe('0px')
+  expect(style.display).toBe('inline-flex')
+})
+
 
 test('target queue is controlled from settings and works in both views', async ({ page }) => {
   await page.goto('./')

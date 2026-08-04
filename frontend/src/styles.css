@@ -311,10 +311,11 @@ tbody tr.is-drafted { opacity: .48; }
 .rank-pair span { color: var(--muted); font-weight: 700; }
 .stacked-price { display: grid; gap: 2px; justify-items: end; font-variant-numeric: tabular-nums; }
 .stacked-price small { color: var(--muted); font-size: .68rem; font-weight: 750; }
-.diff-cell { border-radius: 8px; }
-.diff-cell.diff-positive { color: var(--good); }
-.diff-cell.diff-negative { color: var(--danger); }
-.diff-cell.diff-neutral { color: var(--muted); }
+.diff-cell { white-space: nowrap; }
+.diff-value { display: inline-flex; min-width: 50px; justify-content: flex-end; padding: 4px 0; font-variant-numeric: tabular-nums; }
+.diff-cell.diff-positive .diff-value { color: var(--good); }
+.diff-cell.diff-negative .diff-value { color: var(--danger); }
+.diff-cell.diff-neutral .diff-value { color: var(--muted); }
 
 @media (min-width: 761px) and (max-width: 1100px) {
   .rankings-table .col-action { width: 40px; }
