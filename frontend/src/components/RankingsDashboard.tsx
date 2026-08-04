@@ -161,6 +161,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         input?.select()
         return
       }
+      if (event.key === '/' && !isTyping && !event.metaKey && !event.ctrlKey && !event.altKey) {
+        event.preventDefault()
+        focusSearchForNextPlayer()
+        return
+      }
       if (event.key === 'Escape') {
         setSettingsOpen(false)
         if (isTyping) {
@@ -179,7 +184,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         setSelectedId(rankingId(navigationRows[event.key === 'ArrowDown' ? 0 : navigationRows.length - 1]))
         return
       }
-      if (isPlayerSearch && (event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+      if (isPlayerSearch && event.key === 'Enter') {
         if (!navigationRows.length) return
         event.preventDefault()
         draftPlayer(rankingId(navigationRows[0]))
@@ -373,6 +378,8 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         </div>
       </section>
 
+      <RecentDraftPanel rows={rows} drafted={drafted} source={selectedSource} />
+
       <section className="search-panel" aria-label="Player search">
         <label className="header-search header-search--standalone">
           <span>Search players</span>
@@ -422,8 +429,6 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           <label className="drafted-toggle mobile-actions-toggle"><input type="checkbox" aria-label="Show actions" checked={showMobileActions} onChange={(event) => setShowMobileActions(event.target.checked)} /><span>Actions</span></label>
         </div>
       </section>
-
-      <RecentDraftPanel rows={rows} drafted={drafted} source={selectedSource} />
 
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`}>

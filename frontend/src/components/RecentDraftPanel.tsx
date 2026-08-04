@@ -16,7 +16,7 @@ export function RecentDraftPanel({ rows, drafted, source }: Props) {
         <strong className="recent-draft__count">{picks.length}</strong>
       </div>
       {picks.length ? <ol className="recent-draft__list">
-        {picks.slice(0, 8).map((row, index) => {
+        {picks.slice(0, 5).map((row, index) => {
           const suggested = row.adjustedValue ?? row.sourceValue
           const paid = row.sourceValue ?? row.adjustedValue
           return <li key={rankingId(row)}>
