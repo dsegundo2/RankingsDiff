@@ -1,12 +1,14 @@
-import type { PositionFilter, RankingRow, SortDirection, SortKey } from '../types'
+import type { PositionFilter, RankingRow, SortDirection, SortKey, TeamAsset } from '../types'
+import { getTeamAsset } from './teams'
 
-export function filterRankings(rows: RankingRow[], search: string, position: PositionFilter): RankingRow[] {
+export function filterRankings(rows: RankingRow[], search: string, position: PositionFilter, teams?: Record<string, TeamAsset>): RankingRow[] {
   const query = search.trim().toLowerCase()
   return rows.filter((row) => {
     const matchesPosition = position === 'ALL' || row.position.toUpperCase() === position
     if (!matchesPosition) return false
     if (!query) return true
-    return [row.player, row.team, row.position, row.positionRank, row.notes]
+    const team = getTeamAsset(teams ?? {}, row.team)
+    return [row.player, row.team, team?.displayName, team?.shortDisplayName, row.position, row.positionRank, row.notes]
       .filter(Boolean)
       .some((value) => String(value).toLowerCase().includes(query))
   })

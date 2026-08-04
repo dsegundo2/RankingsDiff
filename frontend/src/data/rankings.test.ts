@@ -39,6 +39,21 @@ describe('ranking helpers', () => {
     expect(filterRankings(rows, '', 'QB').map((row) => row.player)).toEqual(['Josh Allen'])
   })
 
+  it('filters by team abbreviation, city, or nickname', () => {
+    const teamRows: RankingRow[] = [
+      { player: 'Jahmyr Gibbs', team: 'DET', position: 'RB' },
+      { player: 'Amon-Ra St. Brown', team: 'DET', position: 'WR' },
+      { player: 'Josh Allen', team: 'BUF', position: 'QB' }
+    ]
+    const teams = {
+      DET: { id: '8', abbreviation: 'DET', displayName: 'Detroit Lions', shortDisplayName: 'Lions' },
+      BUF: { id: '4', abbreviation: 'BUF', displayName: 'Buffalo Bills', shortDisplayName: 'Bills' }
+    }
+    expect(filterRankings(teamRows, 'DET', 'ALL', teams).map((row) => row.player)).toEqual(['Jahmyr Gibbs', 'Amon-Ra St. Brown'])
+    expect(filterRankings(teamRows, 'Detroit', 'ALL', teams)).toHaveLength(2)
+    expect(filterRankings(teamRows, 'Lions', 'ALL', teams)).toHaveLength(2)
+  })
+
   it('sorts numeric and text fields', () => {
     expect(sortRankings(rows, 'sourceRank', 'desc')[0].player).toBe('Kyren Williams')
     expect(sortRankings(rows, 'player', 'asc')[0].player).toBe('Ja\'Marr Chase')

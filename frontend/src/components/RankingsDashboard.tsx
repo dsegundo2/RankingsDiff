@@ -48,10 +48,10 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const storageKey = `rankingsdiff:draft:v1:${selectedSeason}:${selectedSource}`
   const viewStorageKey = `rankingsdiff:view:v1:${selectedSeason}:${selectedSource}`
   const filteredRows = useMemo(() => {
-    const searchedRows = filterRankings(rows, search, 'ALL')
+    const searchedRows = filterRankings(rows, search, 'ALL', teams)
     if (view === 'positions' || boardPositions.size === allPositionKeys.size) return searchedRows
     return searchedRows.filter((row) => boardPositions.has(row.position.toUpperCase() as PositionKey))
-  }, [rows, search, view, boardPositions])
+  }, [rows, search, teams, view, boardPositions])
   const visibleRows = useMemo(() => sortRankings(filteredRows, sortKey, sortDirection).filter((row) => showDrafted || !drafted.has(rankingId(row))), [filteredRows, sortKey, sortDirection, showDrafted, drafted])
   const targetRows = useMemo(() => sortRankings(rows.filter((row) => targets.has(rankingId(row)) && !drafted.has(rankingId(row))), 'sourceRank', 'asc'), [rows, targets, drafted])
   const targetSummary = useMemo(() => {

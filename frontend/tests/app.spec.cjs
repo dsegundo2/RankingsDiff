@@ -87,6 +87,17 @@ test('slash focuses search and Enter drafts the first match', async ({ page }) =
   await expect(search).toBeFocused()
 })
 
+test('player search matches team city and nickname', async ({ page }) => {
+  await page.goto('./')
+  const search = page.getByPlaceholder(/Ja'Marr/)
+  await search.fill('Lions')
+  await expect(page.getByText('Jahmyr Gibbs').first()).toBeVisible()
+  await expect(page.getByText('Amon-Ra St. Brown').first()).toBeVisible()
+  await search.fill('Detroit')
+  await expect(page.getByText('Jahmyr Gibbs').first()).toBeVisible()
+  await expect(page.getByText('Amon-Ra St. Brown').first()).toBeVisible()
+})
+
 test('recent picks stay horizontal, show five, and omit source rank', async ({ page }) => {
   await page.goto('./')
   for (let index = 0; index < 6; index += 1) {
