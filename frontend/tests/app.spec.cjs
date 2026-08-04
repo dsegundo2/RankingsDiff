@@ -98,6 +98,25 @@ test('player search matches team city and nickname', async ({ page }) => {
   await expect(page.getByText('Amon-Ra St. Brown').first()).toBeVisible()
 })
 
+test('command-z undoes and command-shift-z redoes draft and target actions', async ({ page }) => {
+  await page.goto('./')
+  const draft = page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first()
+  await draft.click()
+  await expect(page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first()).toBeVisible()
+  await page.keyboard.press('Meta+z')
+  await expect(page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first()).toBeVisible()
+  await page.keyboard.press('Meta+Shift+z')
+  await expect(page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first()).toBeVisible()
+
+  const target = page.getByRole('button', { name: "Target Josh Allen" }).first()
+  await target.click()
+  await expect(page.getByRole('button', { name: "Remove target Josh Allen" }).first()).toBeVisible()
+  await page.keyboard.press('Meta+z')
+  await expect(page.getByRole('button', { name: "Target Josh Allen" }).first()).toBeVisible()
+  await page.keyboard.press('Meta+Shift+z')
+  await expect(page.getByRole('button', { name: "Remove target Josh Allen" }).first()).toBeVisible()
+})
+
 test('recent picks stay horizontal, show five, and omit source rank', async ({ page }) => {
   await page.goto('./')
   for (let index = 0; index < 6; index += 1) {
@@ -445,7 +464,7 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
   await expect(page.getByText('Draft restored.')).toBeVisible()
 })
 
-test('recent picks show newest first with total and suggested values', async ({ page }) => {
+test('recent picks show newest first with team logos and expanded names', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: "Mark drafted Jahmyr Gibbs" }).first().click()
   await page.getByRole('button', { name: "Mark drafted Bijan Robinson" }).first().click()
@@ -453,8 +472,8 @@ test('recent picks show newest first with total and suggested values', async ({ 
   await expect(log).toContainText('Recent picks')
   await expect(log.locator('li').first()).toContainText('Bijan Robinson')
   await expect(log.locator('li').nth(1)).toContainText('Jahmyr Gibbs')
-  await expect(log.locator('li').first()).toContainText('$55')
-  await expect(log.locator('li').first()).toContainText('suggested')
+  await expect(log.locator('li').first().locator('.team-badge')).toBeVisible()
+  await expect(log.locator('li').first()).not.toContainText('$55')
 })
 
 test('draft view and filters survive refresh', async ({ page }) => {
