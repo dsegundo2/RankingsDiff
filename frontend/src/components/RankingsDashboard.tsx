@@ -64,6 +64,18 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     }, {})
     return ['RB', 'WR', 'QB', 'TE'].filter((key) => positions[key]).map((key) => `${positions[key]} ${key}`).join(' · ')
   }, [targetRows])
+  const draftedCounts = useMemo(() => {
+    const counts: Record<PositionFilter, number> = { ALL: 0, RB: 0, WR: 0, QB: 0, TE: 0 }
+    rows.forEach((row) => {
+      if (!drafted.has(rankingId(row))) return
+      const positionKey = row.position.toUpperCase() as PositionFilter
+      if (positionKey in counts) {
+        counts[positionKey] += 1
+        counts.ALL += 1
+      }
+    })
+    return counts
+  }, [rows, drafted])
   const positionRows = useMemo(() => sortRankings(filteredRows, 'sourceRank', 'asc'), [filteredRows])
   const visiblePositionRows = useMemo(() => {
     return ['RB', 'WR', 'QB', 'TE']
@@ -434,6 +446,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           showPositions={view === 'board'}
           onTogglePosition={view === 'board' ? toggleBoardPosition : togglePositionView}
           onSelectOnlyPosition={view === 'board' ? selectOnlyBoardPosition : selectOnlyPosition}
+          draftedCounts={draftedCounts}
           compact
         />
         <div className="mobile-sort-control" aria-label="Mobile sort controls">

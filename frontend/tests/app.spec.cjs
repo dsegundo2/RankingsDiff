@@ -117,6 +117,17 @@ test('command-z undoes and command-shift-z redoes draft and target actions', asy
   await expect(page.getByRole('button', { name: "Remove target Josh Allen" }).first()).toBeVisible()
 })
 
+test('position filters show live drafted counts', async ({ page }) => {
+  await page.goto('./')
+  const count = (position) => page.getByRole('button', { name: position, exact: true }).locator('.position-pill__count')
+  await expect(count('ALL')).toHaveText('0')
+  await expect(count('RB')).toHaveText('0')
+  await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
+  await expect(count('ALL')).toHaveText('1')
+  await expect(count('RB')).toHaveText('1')
+  await expect(count('WR')).toHaveText('0')
+})
+
 test('recent picks stay horizontal, show five, and omit source rank', async ({ page }) => {
   await page.goto('./')
   for (let index = 0; index < 6; index += 1) {
