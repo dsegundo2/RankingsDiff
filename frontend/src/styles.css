@@ -643,6 +643,54 @@ tbody tr.is-drafted { opacity: .48; }
   .recent-draft__list li { flex: 0 0 min(82vw, 300px); scroll-snap-align: start; }
 }
 
+/* Settings polish: one clear surface, flatter pane content, and balanced tool cards. */
+.settings-layer { place-items: center; padding: clamp(16px, 4vh, 40px) 16px; }
+.settings-popover { max-height: calc(100dvh - 32px); overflow: auto; padding: 24px; border-radius: var(--radius-xl); }
+.settings-header { margin-bottom: 20px; }
+.settings-header h2 { margin-top: 6px; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.065em; }
+.settings-header p { max-width: 680px; font-size: .95rem; }
+.settings-split-view { grid-template-columns: 204px minmax(0, 1fr); gap: 24px; }
+.settings-sidebar { padding-right: 16px; }
+.settings-nav-item { min-height: 58px; padding: 9px 10px; }
+.settings-nav-item strong { font-size: .84rem; }
+.settings-content__heading { padding-inline: 0; }
+.settings-content__heading h3 { margin-top: 5px; font-size: 1.65rem; letter-spacing: -.045em; }
+.settings-content__heading p { font-size: .86rem; }
+.settings-section { margin-top: 16px; padding: 16px; border-radius: 14px; box-shadow: none; }
+.settings-section__copy { margin-bottom: 14px; }
+.settings-section__copy h3 { font-size: 1.1rem; }
+.settings-tools-grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 12px; }
+.download-panel--compact { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: center; min-height: 100%; padding: 16px; border-radius: 12px; }
+.settings-tools-grid .draft-state-controls { display: grid; gap: 12px; align-content: start; padding: 16px; border-radius: 12px; }
+.settings-tools-grid .draft-state-controls__buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.settings-tools-grid .draft-state-controls__buttons button { min-width: 0; }
+.settings-tools-grid .draft-state-controls__buttons button:last-child { grid-column: 1 / -1; }
+.settings-tools-grid .draft-state-message { max-width: none; }
+.source-checks { margin-top: 16px; padding: 0; border: 0; background: transparent; box-shadow: none; }
+.source-checks__header { padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.source-checks__header h2 { font-size: 1.1rem; }
+.source-checks__header p { max-width: 720px; font-size: .84rem; }
+.source-checks__meta { margin: 12px 0; font-size: .76rem; }
+.source-checks__list { max-height: min(52vh, 460px); }
+.source-check { grid-template-columns: minmax(190px, .8fr) minmax(0, 1.2fr); padding: 12px; background: var(--panel); box-shadow: none; }
+.settings-preference-card { padding: 14px; background: var(--panel); }
+
+@media (max-width: 760px) {
+  .settings-layer { place-items: start center; padding: 8px; }
+  .settings-popover { max-height: calc(100dvh - 16px); padding: 16px; }
+  .settings-header { margin-bottom: 16px; }
+  .settings-header h2 { font-size: 2.15rem; }
+  .settings-header p { font-size: .84rem; }
+  .settings-split-view { gap: 16px; }
+  .settings-sidebar { gap: 5px; }
+  .settings-nav-item { min-height: 58px; }
+  .settings-section { margin-top: 12px; padding: 13px; }
+  .settings-tools-grid { grid-template-columns: 1fr; }
+  .download-panel--compact { min-height: auto; }
+  .source-checks__header { gap: 12px; }
+  .source-check { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 760px) {
   .position-lane__columns { display: none; }
   .position-player { grid-template-columns: minmax(0, 1fr) 64px; grid-template-areas: "identity draft" "metric draft" "diff draft"; min-height: 72px; gap: var(--space-1) var(--space-2); align-items: center; padding-block: var(--space-3); }
