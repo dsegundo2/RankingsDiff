@@ -1,6 +1,7 @@
 import type { RankingRow } from '../types'
 
 export type DraftState = { targets: string[]; drafted: string[] }
+export type AuctionDraftState = { prices: Record<string, number>; slots: Record<string, string> }
 export type SharedDraft = DraftState & { season: number; source: string }
 export type DraftFile = {
   version: 1
@@ -27,6 +28,21 @@ export function readDraftState(key: string): DraftState {
 }
 
 export function writeDraftState(key: string, state: DraftState): void {
+  localStorage.setItem(key, JSON.stringify(state))
+}
+
+export function readAuctionDraftState(key: string): AuctionDraftState {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(key) ?? '{}') as Partial<AuctionDraftState>
+    const prices = Object.fromEntries(Object.entries(parsed.prices ?? {}).filter(([, value]) => typeof value === 'number' && Number.isFinite(value) && value >= 0))
+    const slots = Object.fromEntries(Object.entries(parsed.slots ?? {}).filter(([, value]) => typeof value === 'string' && value.length > 0))
+    return { prices, slots }
+  } catch {
+    return { prices: {}, slots: {} }
+  }
+}
+
+export function writeAuctionDraftState(key: string, state: AuctionDraftState): void {
   localStorage.setItem(key, JSON.stringify(state))
 }
 
