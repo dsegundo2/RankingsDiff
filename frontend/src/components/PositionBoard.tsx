@@ -73,7 +73,7 @@ export function PositionBoard({ rows, positions: selectedPositions, teams, targe
                     </div>
                     <span className="position-player__difference" title={isEspn ? 'ESPN to Adjusted value difference' : 'FantasyPros to Adjusted rank difference'}>{isEspn ? formatSignedValue(row.diff) : rankDifference(row.diff)}</span>
                     <button className={`icon-action target-action ${targets.has(id) ? 'active' : ''}`} type="button" aria-label={`${targets.has(id) ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={targets.has(id)} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button>
-                    <button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undo' : 'Draft'}</button>
+                    <button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'On roster' : 'Mine'}</button>
                   </div>
                 )
               })}

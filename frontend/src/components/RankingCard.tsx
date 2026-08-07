@@ -40,7 +40,7 @@ export function RankingCard({ row, teams, source, targeted = false, drafted = fa
         <div><dt>Adjusted</dt><dd>{formatRank(row.adjustedRank)}</dd></div>
         <div><dt>{source === 'espn' ? 'Salary cap diff' : 'Diff'}</dt><dd>{source === 'espn' ? `${formatSignedValue(row.diff)} (${formatValue(row.sourceValue)} / ${formatValue(row.adjustedValue)})` : formatRank(row.diff)}</dd></div>
       </dl>
-      <div className="ranking-card__actions"><button className={`target-action ${targeted ? 'active' : ''}`} type="button" aria-label={`${targeted ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={targeted} onClick={(event) => { event.stopPropagation(); onTarget?.() }}>★ {targeted ? 'Targeted' : 'Target'}</button><button className={`draft-action ${drafted ? 'active' : ''}`} type="button" aria-label={`${drafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted?.() }}>{drafted ? 'Undo drafted' : 'Mark drafted'}</button></div>
+      <div className="ranking-card__actions"><button className={`target-action ${targeted ? 'active' : ''}`} type="button" aria-label={`${targeted ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={targeted} onClick={(event) => { event.stopPropagation(); onTarget?.() }}>★ {targeted ? 'Targeted' : 'Target'}</button><button className={`draft-action ${drafted ? 'active' : ''}`} type="button" aria-label={`${drafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted?.() }}>{drafted ? 'On roster' : 'Mine'}</button></div>
     </article>
   )
 }

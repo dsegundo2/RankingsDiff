@@ -87,7 +87,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
                 <td className="num rank-cell"><span className="rank-pair"><strong>{formatRank(row.sourceRank)}</strong><span>→</span><strong>{formatRank(row.adjustedRank)}</strong></span></td>
                 {isEspn ? <td className="num price-cell"><span className="stacked-price"><strong>{formatValue(row.sourceValue)}</strong><small>Adjusted {formatValue(row.adjustedValue)}</small></span></td> : null}
                 <td className={`num emphasis diff-cell ${typeof row.diff === 'number' && row.diff > 0 ? 'diff-positive' : typeof row.diff === 'number' && row.diff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{isEspn ? formatSignedValue(row.diff) : formatRank(row.diff)}</span></td>
-                <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undo' : 'Draft'}</button></td>
+                <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'On roster' : 'Mine'}</button></td>
               </tr>
             )
           })}
