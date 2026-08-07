@@ -14,8 +14,10 @@ type Props = {
   onSort: (key: SortKey) => void
   targets: Set<string>
   drafted: Set<string>
+  mine: Set<string>
   onTarget: (id: string) => void
   onDrafted: (id: string) => void
+  onMine: (id: string) => void
   selectedId?: string
   onSelect?: (id: string) => void
 }
@@ -35,7 +37,7 @@ function SortButton({ label, sortKey, activeKey, direction, onSort, ariaLabel }:
   return <button className="sort-button" aria-label={ariaLabel ?? `Sort by ${label}`} title={ariaLabel ?? `Sort by ${label}`} onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span aria-hidden="true"> {direction === 'asc' ? '↑' : '↓'}</span> : null}</button>
 }
 
-export function RankingsTable({ rows, teams, source, sortKey, sortDirection, targets, drafted, onSort, onTarget, onDrafted, selectedId, onSelect }: Props) {
+export function RankingsTable({ rows, teams, source, sortKey, sortDirection, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect }: Props) {
   const isEspn = source === 'espn'
   return (
     <div className="table-wrap">
@@ -47,6 +49,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
           <col className="col-rank" />
           {isEspn ? <col className="col-money" /> : null}
           <col className="col-diff" />
+          <col className="col-mine" />
           <col className="col-draft" />
         </colgroup>
         <thead>
@@ -57,6 +60,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
             <th className="num-heading rank-heading"><span>Rank</span><small className="rank-heading__sorts"><SortButton label="SRC" ariaLabel={`Sort by ${sourceLabel(source)} rank`} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><span aria-hidden="true">→</span><SortButton label="ADJ" ariaLabel="Sort by Adjusted rank" sortKey="adjustedRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></small></th>
             {isEspn ? <th className="num-heading price-heading"><SortButton label="Value" ariaLabel={`Sort by ${sourceLabel(source)} value`} sortKey="sourceValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><small>{sourceLabel(source)} → ADJ</small></th> : null}
             <th className="num-heading diff-heading"><SortButton label={isEspn ? 'Value Δ' : 'Diff'} ariaLabel={isEspn ? 'Sort by value difference' : 'Sort by ranking difference'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
+            <th className="mine-heading">Mine</th>
             <th className="draft-heading">Draft</th>
           </tr>
         </thead>
@@ -67,6 +71,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
             const id = rankingId(row)
             const isTarget = targets.has(id)
             const isDrafted = drafted.has(id)
+            const isMine = mine.has(id)
             return (
               <tr
                 key={`${row.player}-${row.team}-${row.sourceRank}`}
@@ -87,7 +92,8 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
                 <td className="num rank-cell"><span className="rank-pair"><strong>{formatRank(row.sourceRank)}</strong><span>→</span><strong>{formatRank(row.adjustedRank)}</strong></span></td>
                 {isEspn ? <td className="num price-cell"><span className="stacked-price"><strong>{formatValue(row.sourceValue)}</strong><small>Adjusted {formatValue(row.adjustedValue)}</small></span></td> : null}
                 <td className={`num emphasis diff-cell ${typeof row.diff === 'number' && row.diff > 0 ? 'diff-positive' : typeof row.diff === 'number' && row.diff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{isEspn ? formatSignedValue(row.diff) : formatRank(row.diff)}</span></td>
-                <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'On roster' : 'Mine'}</button></td>
+                <td className="mine-cell">{isDrafted ? <button className={`mine-action ${isMine ? 'active' : ''}`} type="button" aria-label={`${isMine ? 'Remove' : 'Add'} ${row.player} ${isMine ? 'from' : 'to'} my roster`} aria-pressed={isMine} onClick={(event) => { event.stopPropagation(); onMine(id) }}>{isMine ? '✓' : '+'}</button> : <span className="mine-placeholder" aria-hidden="true">—</span>}</td>
+                <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undraft' : 'Draft'}</button></td>
               </tr>
             )
           })}

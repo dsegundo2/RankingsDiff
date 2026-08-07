@@ -11,10 +11,12 @@ type Props = {
   teams: Record<string, TeamAsset>
   targets: Set<string>
   drafted: Set<string>
+  mine: Set<string>
   isEspn: boolean
   showDrafted: boolean
   onTarget: (id: string) => void
   onDrafted: (id: string) => void
+  onMine: (id: string) => void
   selectedId?: string
   onSelect?: (id: string) => void
 }
@@ -37,7 +39,7 @@ function rankDifference(diff?: number): string {
   return `${diff > 0 ? '+' : ''}${diff}`
 }
 
-export function PositionBoard({ rows, positions: selectedPositions, teams, targets, drafted, isEspn, showDrafted, onTarget, onDrafted, selectedId, onSelect }: Props) {
+export function PositionBoard({ rows, positions: selectedPositions, teams, targets, drafted, mine, isEspn, showDrafted, onTarget, onDrafted, onMine, selectedId, onSelect }: Props) {
   const visiblePositions = positions.filter((position) => selectedPositions.has(position))
   if (!visiblePositions.length) return <div className="empty-state position-board-empty">Choose one or more positions to compare side by side.</div>
   return (
@@ -73,7 +75,8 @@ export function PositionBoard({ rows, positions: selectedPositions, teams, targe
                     </div>
                     <span className="position-player__difference" title={isEspn ? 'ESPN to Adjusted value difference' : 'FantasyPros to Adjusted rank difference'}>{isEspn ? formatSignedValue(row.diff) : rankDifference(row.diff)}</span>
                     <button className={`icon-action target-action ${targets.has(id) ? 'active' : ''}`} type="button" aria-label={`${targets.has(id) ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={targets.has(id)} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button>
-                    <button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'On roster' : 'Mine'}</button>
+                    {isDrafted ? <button className={`mine-action ${mine.has(id) ? 'active' : ''}`} type="button" aria-label={`${mine.has(id) ? 'Remove' : 'Add'} ${row.player} ${mine.has(id) ? 'from' : 'to'} my roster`} aria-pressed={mine.has(id)} onClick={(event) => { event.stopPropagation(); onMine(id) }}>{mine.has(id) ? '✓' : '+'}</button> : null}
+                    <button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undraft' : 'Draft'}</button>
                   </div>
                 )
               })}

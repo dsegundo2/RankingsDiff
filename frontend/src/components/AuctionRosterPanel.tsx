@@ -67,6 +67,6 @@ export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTarge
           </div>
         </div>
       })}
-    </div></> : <p className="auction-roster-panel__empty">Click Mine on a player to add them here, then enter the price or round.</p>}
+    </div></> : <p className="auction-roster-panel__empty">Use Draft first, then tap + in the Mine column for players you won.</p>}
   </aside>
 }

@@ -12,7 +12,7 @@ import { AuctionRosterPanel } from './AuctionRosterPanel'
 
 type ViewMode = 'board' | 'positions'
 type PositionKey = Exclude<PositionFilter, 'ALL'>
-type DraftSnapshot = { targets: string[]; drafted: string[]; prices: Record<string, number>; slots: Record<string, string> }
+type DraftSnapshot = { targets: string[]; drafted: string[]; mine: string[]; prices: Record<string, number>; slots: Record<string, string> }
 const allPositionKeys = new Set<PositionKey>(['RB', 'WR', 'QB', 'TE'])
 const benchSlots = ['BENCH1', 'BENCH2', 'BENCH3', 'BENCH4', 'BENCH5']
 
@@ -45,6 +45,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [positionViews, setPositionViews] = useState<Set<PositionKey>>(new Set(['RB', 'WR', 'QB', 'TE']))
   const [targets, setTargets] = useState<Set<string>>(new Set())
   const [drafted, setDrafted] = useState<Set<string>>(new Set())
+  const [mine, setMine] = useState<Set<string>>(new Set())
   const [draftPrices, setDraftPrices] = useState<Record<string, number>>({})
   const [draftSlots, setDraftSlots] = useState<Record<string, string>>({})
   const [showDrafted, setShowDrafted] = useState(true)
@@ -56,7 +57,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [hydratedStorageKey, setHydratedStorageKey] = useState('')
   const [hydratedViewKey, setHydratedViewKey] = useState('')
   const searchInputRef = useRef<HTMLInputElement>(null)
-  const historyRef = useRef<DraftSnapshot[]>([{ targets: [], drafted: [], prices: {}, slots: {} }])
+  const historyRef = useRef<DraftSnapshot[]>([{ targets: [], drafted: [], mine: [], prices: {}, slots: {} }])
   const historyIndexRef = useRef(0)
   const season = manifest.seasons.find((item) => item.season === selectedSeason) ?? manifest.seasons[0]
   const source = season?.sources.find((item) => item.id === selectedSource) ?? season?.sources[0]
@@ -103,9 +104,9 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     searchInputRef.current?.select()
   }
 
-  const applyDraftState = useCallback((nextTargets: Set<string>, nextDrafted: Set<string>, nextPrices = draftPrices, nextSlots = draftSlots, record = true) => {
+  const applyDraftState = useCallback((nextTargets: Set<string>, nextDrafted: Set<string>, nextPrices = draftPrices, nextSlots = draftSlots, nextMine = mine, record = true) => {
     if (record) {
-      const snapshot: DraftSnapshot = { targets: [...nextTargets], drafted: [...nextDrafted], prices: nextPrices, slots: nextSlots }
+      const snapshot: DraftSnapshot = { targets: [...nextTargets], drafted: [...nextDrafted], mine: [...nextMine], prices: nextPrices, slots: nextSlots }
       const current = historyRef.current[historyIndexRef.current]
       if (JSON.stringify(current) !== JSON.stringify(snapshot)) {
         historyRef.current = [...historyRef.current.slice(0, historyIndexRef.current + 1), snapshot].slice(-100)
@@ -114,9 +115,10 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     }
     setTargets(nextTargets)
     setDrafted(nextDrafted)
+    setMine(nextMine)
     setDraftPrices(nextPrices)
     setDraftSlots(nextSlots)
-  }, [draftPrices, draftSlots])
+  }, [draftPrices, draftSlots, mine])
 
   const toggleDrafted = useCallback((id: string) => {
     const wasDrafted = drafted.has(id)
@@ -125,17 +127,33 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     else nextDrafted.add(id)
     const nextTargets = new Set(targets)
     nextTargets.delete(id)
+    const nextMine = new Set(mine)
     const nextPrices = { ...draftPrices }
     const nextSlots = { ...draftSlots }
     if (wasDrafted) {
+      nextMine.delete(id)
+      delete nextPrices[id]
+      delete nextSlots[id]
+    }
+    applyDraftState(nextTargets, nextDrafted, nextPrices, nextSlots, nextMine)
+  }, [applyDraftState, drafted, draftPrices, draftSlots, mine, targets])
+
+  const toggleMine = useCallback((id: string) => {
+    if (!drafted.has(id)) return
+    const nextMine = new Set(mine)
+    const nextPrices = { ...draftPrices }
+    const nextSlots = { ...draftSlots }
+    if (nextMine.has(id)) {
+      nextMine.delete(id)
       delete nextPrices[id]
       delete nextSlots[id]
     } else {
+      nextMine.add(id)
       const row = rows.find((candidate) => rankingId(candidate) === id)
-      if (row) nextSlots[id] = autoRosterSlot(row, nextDrafted, draftSlots)
+      if (row) nextSlots[id] = autoRosterSlot(row, drafted, draftSlots)
     }
-    applyDraftState(nextTargets, nextDrafted, nextPrices, nextSlots)
-  }, [applyDraftState, drafted, draftPrices, draftSlots, rows, targets])
+    applyDraftState(new Set(targets), new Set(drafted), nextPrices, nextSlots, nextMine)
+  }, [applyDraftState, drafted, draftPrices, draftSlots, mine, rows, targets])
 
   const toggleTarget = useCallback((id: string) => {
     const nextTargets = new Set(targets)
@@ -158,7 +176,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     if (nextIndex < 0 || nextIndex >= historyRef.current.length) return
     historyIndexRef.current = nextIndex
     const snapshot = historyRef.current[nextIndex]
-    applyDraftState(new Set(snapshot.targets), new Set(snapshot.drafted), snapshot.prices, snapshot.slots, false)
+    applyDraftState(new Set(snapshot.targets), new Set(snapshot.drafted), snapshot.prices, snapshot.slots, new Set(snapshot.mine), false)
   }, [applyDraftState])
 
   useEffect(() => {
@@ -169,9 +187,10 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     const initialState = shared?.season === selectedSeason && shared.source === selectedSource ? shared : state
     setTargets(new Set(initialState.targets))
     setDrafted(new Set(initialState.drafted))
+    setMine(new Set(auctionState.mine.filter((id) => initialState.drafted.includes(id))))
     setDraftPrices(auctionState.prices)
     setDraftSlots(auctionState.slots)
-    historyRef.current = [{ targets: [...initialState.targets], drafted: [...initialState.drafted], prices: auctionState.prices, slots: auctionState.slots }]
+    historyRef.current = [{ targets: [...initialState.targets], drafted: [...initialState.drafted], mine: auctionState.mine, prices: auctionState.prices, slots: auctionState.slots }]
     historyIndexRef.current = 0
     setHydratedStorageKey(storageKey)
   }, [auctionStorageKey, selectedSeason, selectedSource, storageKey])
@@ -209,8 +228,8 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
-    writeAuctionDraftState(auctionStorageKey, { prices: draftPrices, slots: draftSlots })
-  }, [auctionStorageKey, draftPrices, draftSlots, hydratedStorageKey, storageKey])
+    writeAuctionDraftState(auctionStorageKey, { mine: [...mine], prices: draftPrices, slots: draftSlots })
+  }, [auctionStorageKey, draftPrices, draftSlots, hydratedStorageKey, mine, storageKey])
 
   useEffect(() => {
     if (!selectedId) return
@@ -417,11 +436,11 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   }
 
   function restoreDraft(nextTargets: string[], nextDrafted: string[]) {
-    applyDraftState(new Set(nextTargets), new Set(nextDrafted), {}, {})
+    applyDraftState(new Set(nextTargets), new Set(nextDrafted), {}, {}, new Set())
   }
 
   function clearDraft() {
-    applyDraftState(new Set(), new Set(), {}, {})
+    applyDraftState(new Set(), new Set(), {}, {}, new Set())
   }
 
   function updateDraftPrice(id: string, value: number | undefined) {
@@ -537,20 +556,20 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <div>
-            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} />
+            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
                 const id = rankingId(row)
-                return <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} targeted={targets.has(id)} drafted={drafted.has(id)} selected={selectedId === id} onSelect={() => setSelectedId(id)} onTarget={() => toggleTarget(id)} onDrafted={() => draftPlayer(id)} />
+                return <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} targeted={targets.has(id)} drafted={drafted.has(id)} mine={mine.has(id)} selected={selectedId === id} onSelect={() => setSelectedId(id)} onTarget={() => toggleTarget(id)} onDrafted={() => draftPlayer(id)} onMine={() => toggleMine(id)} />
               })}
             </section>
           </div>
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} drafted={drafted} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onSlot={updateDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onSlot={updateDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
-          <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} />
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} drafted={drafted} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onSlot={updateDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onSlot={updateDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       )}
       <SettingsPopover
