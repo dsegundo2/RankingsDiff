@@ -171,7 +171,8 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .icon-action { display: inline-grid; width: 34px; height: 34px; place-items: center; padding: 0; border: 1px solid transparent; border-radius: 10px; color: #8b96a8; background: transparent; font-size: 1.05rem; line-height: 1; }
 .icon-action:hover { border-color: var(--target-hover-border); color: var(--target); background: var(--target-hover); }
 .target-action.active { border-color: var(--target-border); color: var(--target); background: var(--target-soft); }
-.draft-action { min-width: 52px; padding: 7px 10px; font-size: .76rem; white-space: nowrap; }
+.draft-action { min-width: 52px; padding: 7px 8px; font-size: .76rem; white-space: nowrap; }
+.rankings-table .draft-action { min-width: 0; width: 100%; padding-inline: 4px; font-size: .7rem; }
 .draft-action:hover { border-color: var(--accent); color: var(--accent); }
 .draft-action.active { color: var(--ink); background: var(--accent-soft); }
 .target-queue { position: sticky; top: 12px; overflow: hidden; border-radius: 18px; padding: 14px; box-shadow: 0 12px 34px rgba(28, 39, 69, .09); }
@@ -314,7 +315,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .rankings-table .col-money { width: 82px; }
 .rankings-table .col-diff { width: 66px; }
 .rankings-table .col-mine { width: 52px; }
-.rankings-table .col-draft { width: 76px; }
+.rankings-table .col-draft { width: 68px; }
 .rankings-table--fpros .col-rank { width: 112px; }
 .num-heading, .draft-heading { text-align: right; }
 .num-heading .sort-button { width: 100%; text-align: right; }
@@ -418,6 +419,11 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .auction-slot__identity small { margin-top: 2px; color: var(--muted); font-size: .61rem; }
 .auction-slot__empty { color: var(--muted); font-size: .68rem; }
 .auction-slot__value { color: var(--ink); font-size: .68rem; font-weight: 850; font-variant-numeric: tabular-nums; }
+.auction-slot__controls { display: flex; min-width: 0; gap: 4px; align-items: center; }
+.auction-slot__select, .auction-slot__price { min-width: 0; height: 28px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--panel); font-size: .64rem; font-weight: 800; }
+.auction-slot__select { width: 54px; padding: 3px 2px; }
+.auction-slot__price { width: 42px; padding: 3px 4px; text-align: right; font-variant-numeric: tabular-nums; }
+.auction-slot__select:focus, .auction-slot__price:focus { outline: 3px solid rgba(79,93,228,.18); outline-offset: 1px; border-color: var(--accent); }
 .auction-bench { margin-top: 8px; padding-top: 2px; border-top: 1px solid var(--line); }
 .auction-bench .auction-roster-panel__section-heading { margin-top: 10px; }
 .auction-bench .auction-slot { min-height: 32px; }

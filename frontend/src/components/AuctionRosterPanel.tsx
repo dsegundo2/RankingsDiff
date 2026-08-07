@@ -1,12 +1,10 @@
-import type { RankingRow, RankingSource, TeamAsset } from '../types'
+import type { RankingRow, RankingSource } from '../types'
 import { rankingId } from '../data/draftState'
 import { formatRank, formatValue } from '../data/rankings'
-import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
-import { TeamBadge } from './TeamBadge'
+import { normalizeTeamAbbreviation } from '../data/teams'
 
 type Props = {
   rows: RankingRow[]
-  teams: Record<string, TeamAsset>
   drafted: Set<string>
   targetRows: RankingRow[]
   showTargetQueue: boolean
@@ -22,7 +20,7 @@ type Props = {
 const starterSlots = ['QB1', 'RB1', 'RB2', 'WR1', 'WR2', 'TE1', 'FLEX']
 const benchSlots = ['BENCH1', 'BENCH2', 'BENCH3', 'BENCH4', 'BENCH5']
 
-export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTargetQueue, mode, source, prices, slots, onPrice, onSlot, onTarget }: Props) {
+export function AuctionRosterPanel({ rows, drafted, targetRows, showTargetQueue, mode, source, prices, slots, onPrice, onSlot, onTarget }: Props) {
   const rowById = new Map(rows.map((row) => [rankingId(row), row]))
   const picks = [...drafted].map((id) => ({ id, row: rowById.get(id) })).filter((pick): pick is { id: string; row: RankingRow } => Boolean(pick.row))
   const spent = picks.reduce((total, pick) => total + (prices[pick.id] ?? 0), 0)
@@ -30,6 +28,16 @@ export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTarge
 
   function slotName(slot: string): string {
     return slot.startsWith('BENCH') ? `Bench ${slot.slice(5)}` : slot
+  }
+
+  function pickControls(id: string, row: RankingRow) {
+    const valueLabel = mode === 'auction' ? 'Price paid' : 'Draft round'
+    return <div className="auction-slot__controls">
+      <select className="auction-slot__select" aria-label={`Roster slot for ${row.player}`} value={slots[id] ?? ''} onChange={(event) => onSlot(id, event.target.value)}>
+        {[...starterSlots, ...benchSlots].map((slot) => <option key={slot} value={slot}>{slotName(slot)}</option>)}
+      </select>
+      <input className="auction-slot__price" aria-label={`${valueLabel} for ${row.player}`} type="number" min="0" step="1" inputMode="numeric" placeholder={mode === 'auction' ? '$' : '#'} value={prices[id] ?? ''} onChange={(event) => onPrice(id, event.target.value === '' ? undefined : Number(event.target.value))} />
+    </div>
   }
 
   return <aside className="auction-roster-panel" aria-label="My draft roster">
@@ -47,26 +55,15 @@ export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTarge
       })}</div> : <p className="auction-roster-panel__empty">Target players to keep a short list here.</p>}
     </section> : null}
     <section className="auction-roster-panel__roster" aria-label="Roster slots">
-      <div className="auction-roster-panel__section-heading"><strong>My roster</strong><span>auto-fills</span></div>
+      <div className="auction-roster-panel__section-heading"><strong>My roster</strong><span>Draft → + Mine</span></div>
       <div className="auction-roster-panel__list">
       {starterSlots.map((slot) => {
         const pick = picks.find(({ id }) => slots[id] === slot)
-        return <div className={`auction-slot${pick ? ' is-filled' : ''}`} key={slot}><span className="auction-slot__label">{slot}</span>{pick ? <><div className="auction-slot__identity"><strong>{pick.row.player}</strong><small>{normalizeTeamAbbreviation(pick.row.team)}</small></div><span className="auction-slot__value">{prices[pick.id] !== undefined ? `$${prices[pick.id]}` : '—'}</span></> : <span className="auction-slot__empty">Open</span>}</div>
+        return <div className={`auction-slot${pick ? ' is-filled' : ''}`} key={slot}><span className="auction-slot__label">{slot}</span>{pick ? <><div className="auction-slot__identity"><strong>{pick.row.player}</strong><small>{normalizeTeamAbbreviation(pick.row.team)}</small></div>{pickControls(pick.id, pick.row)}</> : <span className="auction-slot__empty">Open</span>}</div>
       })}
       </div>
-      <div className="auction-bench"><div className="auction-roster-panel__section-heading"><strong>Bench</strong><span>when no starter spot remains</span></div>{benchSlots.map((slot) => { const pick = picks.find(({ id }) => slots[id] === slot); return <div className={`auction-slot${pick ? ' is-filled' : ''}`} key={slot}><span className="auction-slot__label">{slotName(slot)}</span>{pick ? <><div className="auction-slot__identity"><strong>{pick.row.player}</strong><small>{normalizeTeamAbbreviation(pick.row.team)}</small></div><span className="auction-slot__value">{prices[pick.id] !== undefined ? `$${prices[pick.id]}` : '—'}</span></> : <span className="auction-slot__empty">Open</span>}</div> })}</div>
+      <div className="auction-bench"><div className="auction-roster-panel__section-heading"><strong>Bench</strong><span>fallback slots</span></div>{benchSlots.map((slot) => { const pick = picks.find(({ id }) => slots[id] === slot); return <div className={`auction-slot${pick ? ' is-filled' : ''}`} key={slot}><span className="auction-slot__label">{slotName(slot)}</span>{pick ? <><div className="auction-slot__identity"><strong>{pick.row.player}</strong><small>{normalizeTeamAbbreviation(pick.row.team)}</small></div>{pickControls(pick.id, pick.row)}</> : <span className="auction-slot__empty">Open</span>}</div> })}</div>
     </section>
-    {picks.length ? <><div className="auction-roster-panel__section-heading auction-pick-details"><strong>Draft details</strong><span>price / round and placement</span></div><div className="auction-roster-panel__list">
-      {picks.map(({ id, row }) => {
-        const team = normalizeTeamAbbreviation(row.team)
-        return <div className="auction-pick" key={id}>
-          <div className="auction-pick__identity"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><span><strong>{row.player}</strong><small>{team} · {row.position}</small></span></div>
-          <div className="auction-pick__controls">
-            <label><span>{mode === 'auction' ? 'Price' : 'Round'}</span><input aria-label={`${mode === 'auction' ? 'Price paid' : 'Draft round'} for ${row.player}`} type="number" min="0" step="1" inputMode="numeric" placeholder={mode === 'auction' ? '$' : '#'} value={prices[id] ?? ''} onChange={(event) => onPrice(id, event.target.value === '' ? undefined : Number(event.target.value))} /></label>
-            <label><span>Slot</span><select aria-label={`Roster slot for ${row.player}`} value={slots[id] ?? ''} onChange={(event) => onSlot(id, event.target.value)}><option value="">Choose</option>{[...starterSlots, ...benchSlots].map((slot) => <option key={slot} value={slot}>{slotName(slot)}</option>)}</select></label>
-          </div>
-        </div>
-      })}
-    </div></> : <p className="auction-roster-panel__empty">Use Draft first, then tap + in the Mine column for players you won.</p>}
+    {!picks.length ? <p className="auction-roster-panel__empty">Draft a player, then tap + in the Mine column to add them here.</p> : null}
   </aside>
 }
