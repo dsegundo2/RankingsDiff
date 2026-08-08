@@ -587,7 +587,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <div>
-            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
+            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
                 const id = rankingId(row)

@@ -147,7 +147,8 @@ h1 { margin: 4px 0 5px; font-size: clamp(2.7rem, 4.5vw, 4.5rem); line-height: .9
 .table-wrap { max-width: 100%; overflow: visible; border-radius: 18px; box-shadow: 0 12px 34px rgba(28,39,69,.09); }
 .draft-board-layout > div { min-width: 0; }
 .rankings-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-th { position: sticky; top: 0; z-index: 5; padding: 12px 13px; border-bottom: 1px solid var(--line); color: var(--muted); background: rgba(239,243,251,.97); box-shadow: 0 1px 0 var(--line); backdrop-filter: blur(12px); font-size: .75rem; font-weight: 800; letter-spacing: .055em; text-align: left; text-transform: uppercase; }
+th { position: static; z-index: 5; padding: 12px 13px; border-bottom: 1px solid var(--line); color: var(--muted); background: rgba(239,243,251,.97); box-shadow: 0 1px 0 var(--line); backdrop-filter: blur(12px); font-size: .75rem; font-weight: 800; letter-spacing: .055em; text-align: left; text-transform: uppercase; }
+.rankings-table--sticky-headers th { position: sticky; top: 0; }
 thead th:first-child { border-top-left-radius: 18px; }
 thead th:last-child { border-top-right-radius: 18px; }
 td { position: relative; z-index: 1; padding: 11px 13px; border-bottom: 1px solid var(--line); background: transparent; }
@@ -908,7 +909,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   background: rgba(255,255,255,.76);
   box-shadow: var(--shadow-md);
 }
-.dashboard-workbench--sticky { position: sticky; top: 0; z-index: 10; margin-inline: calc(var(--space-2) * -1); padding: var(--space-2) var(--space-2) 0; background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(18px); }
+.dashboard-workbench--sticky { margin-inline: calc(var(--space-2) * -1); padding: var(--space-2) var(--space-2) 0; background: color-mix(in srgb, var(--surface) 94%, transparent); }
 .dashboard-workbench--sticky .draft-toolbar { margin-bottom: var(--space-2); }
 .header-search--standalone { padding-inline: 0; }
 .header-search--standalone input { min-height: 52px; }

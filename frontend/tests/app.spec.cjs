@@ -493,6 +493,13 @@ test('draft board position filters can combine positions', async ({ page }) => {
 
 test('table headings stick while draft rows scroll', async ({ page }) => {
   await page.goto('./')
+  await expect(page.locator('.rankings-table th').first()).toHaveCSS('position', 'static')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  await page.getByLabel('Keep controls up top').check()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('.dashboard-workbench')).not.toHaveCSS('position', 'sticky')
+  await expect(page.locator('.rankings-table').first()).toHaveClass(/sticky-headers/)
   await expect(page.locator('.rankings-table th').first()).toHaveCSS('position', 'sticky')
   await page.locator('.rankings-table tbody tr').nth(30).scrollIntoViewIfNeeded()
   expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0)

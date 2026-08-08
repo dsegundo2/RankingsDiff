@@ -20,6 +20,7 @@ type Props = {
   onMine: (id: string) => void
   selectedId?: string
   onSelect?: (id: string) => void
+  stickyHeaders?: boolean
 }
 
 function diffSignalStyle(diff: number | undefined, isEspn: boolean): CSSProperties {
@@ -37,11 +38,11 @@ function SortButton({ label, sortKey, activeKey, direction, onSort, ariaLabel }:
   return <button className="sort-button" aria-label={ariaLabel ?? `Sort by ${label}`} title={ariaLabel ?? `Sort by ${label}`} onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span aria-hidden="true"> {direction === 'asc' ? '↑' : '↓'}</span> : null}</button>
 }
 
-export function RankingsTable({ rows, teams, source, sortKey, sortDirection, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect }: Props) {
+export function RankingsTable({ rows, teams, source, sortKey, sortDirection, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false }: Props) {
   const isEspn = source === 'espn'
   return (
     <div className="table-wrap">
-      <table className={`rankings-table ${isEspn ? 'rankings-table--espn' : 'rankings-table--fpros'}`}>
+      <table className={`rankings-table ${isEspn ? 'rankings-table--espn' : 'rankings-table--fpros'}${stickyHeaders ? ' rankings-table--sticky-headers' : ''}`}>
         <colgroup>
           <col className="col-action" />
           <col className="col-player" />
