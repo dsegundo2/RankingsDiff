@@ -372,7 +372,7 @@ test('click selection supports arrows and enter drafting in board and position v
   await firstRunningBack.click()
   await expect(firstRunningBack).toHaveClass(/is-selected/)
   await page.keyboard.press('f')
-  await expect(page.getByRole('button', { name: 'Remove target Jahmyr Gibbs' }).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Remove Jahmyr Gibbs from my roster' }).first()).toBeVisible()
   await page.keyboard.press('ArrowRight')
   const firstWideReceiver = page.locator('.position-lane--wr .position-player').first()
   await expect(firstWideReceiver).toHaveClass(/is-selected/)

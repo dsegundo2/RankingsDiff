@@ -304,7 +304,8 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       }
       if (shortcut === 'f' && selectedId) {
         event.preventDefault()
-        toggleTarget(selectedId)
+        if (drafted.has(selectedId)) toggleMine(selectedId)
+        else toggleTarget(selectedId)
         return
       }
       if (event.key === 'Enter' && selectedId) {
@@ -381,7 +382,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     }
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [boardPositions, drafted, draftPlayer, moveDraftHistory, navigationRows, position, positionViews, selectedId, toggleDrafted, toggleTarget, view])
+  }, [boardPositions, drafted, draftPlayer, moveDraftHistory, navigationRows, position, positionViews, selectedId, toggleDrafted, toggleMine, toggleTarget, view])
 
   function handleSort(key: SortKey) {
     if (key === sortKey) setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')

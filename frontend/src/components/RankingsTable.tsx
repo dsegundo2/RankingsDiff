@@ -49,18 +49,16 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
           <col className="col-rank" />
           {isEspn ? <col className="col-money" /> : null}
           <col className="col-diff" />
-          <col className="col-mine" />
           <col className="col-draft" />
         </colgroup>
         <thead>
           <tr>
-            <th className="action-heading"><span className="sr-only">Target</span></th>
+            <th className="action-heading" title="Favorite before drafting; add to my roster after drafting"><span className="action-heading__label">Mine</span><span className="sr-only">Favorite or my roster</span></th>
             <th className="player-heading"><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="num-heading rank-heading"><span>Rank</span><small className="rank-heading__sorts"><SortButton label="SRC" ariaLabel={`Sort by ${sourceLabel(source)} rank`} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><span aria-hidden="true">→</span><SortButton label="ADJ" ariaLabel="Sort by Adjusted rank" sortKey="adjustedRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></small></th>
             {isEspn ? <th className="num-heading price-heading"><SortButton label="Value" ariaLabel={`Sort by ${sourceLabel(source)} value`} sortKey="sourceValue" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><small>{sourceLabel(source)} → ADJ</small></th> : null}
             <th className="num-heading diff-heading"><SortButton label={isEspn ? 'Value Δ' : 'Diff'} ariaLabel={isEspn ? 'Sort by value difference' : 'Sort by ranking difference'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th className="mine-heading">Mine</th>
             <th className="draft-heading">Draft</th>
           </tr>
         </thead>
@@ -81,7 +79,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
                 aria-selected={selectedId === id}
                 data-ranking-id={id}
               >
-                <td className="row-action"><button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button></td>
+                <td className="row-action">{isDrafted ? <button className={`mine-action ${isMine ? 'active' : ''}`} type="button" aria-label={`${isMine ? 'Remove' : 'Add'} ${row.player} ${isMine ? 'from' : 'to'} my roster`} aria-pressed={isMine} onClick={(event) => { event.stopPropagation(); onMine(id) }}>{isMine ? '✓' : '+'}</button> : <button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button>}</td>
                 <td className="player-cell">
                   <div className="player-cell__inner">
                     <TeamBadge team={team} asset={asset} />
@@ -92,7 +90,6 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
                 <td className="num rank-cell"><span className="rank-pair"><strong>{formatRank(row.sourceRank)}</strong><span>→</span><strong>{formatRank(row.adjustedRank)}</strong></span></td>
                 {isEspn ? <td className="num price-cell"><span className="stacked-price"><strong>{formatValue(row.sourceValue)}</strong><small>Adjusted {formatValue(row.adjustedValue)}</small></span></td> : null}
                 <td className={`num emphasis diff-cell ${typeof row.diff === 'number' && row.diff > 0 ? 'diff-positive' : typeof row.diff === 'number' && row.diff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{isEspn ? formatSignedValue(row.diff) : formatRank(row.diff)}</span></td>
-                <td className="mine-cell">{isDrafted ? <button className={`mine-action ${isMine ? 'active' : ''}`} type="button" aria-label={`${isMine ? 'Remove' : 'Add'} ${row.player} ${isMine ? 'from' : 'to'} my roster`} aria-pressed={isMine} onClick={(event) => { event.stopPropagation(); onMine(id) }}>{isMine ? '✓' : '+'}</button> : <span className="mine-placeholder" aria-hidden="true">—</span>}</td>
                 <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undo' : 'Draft'}</button></td>
               </tr>
             )
