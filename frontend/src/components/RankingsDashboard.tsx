@@ -534,7 +534,6 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     <main className={`dashboard ${showMobileActions ? '' : 'mobile-actions-hidden'}`}>
       <section className="hero hero--compact">
         <div>
-          <span className="eyebrow">Fantasy football</span>
           <h1>RankingsDiff</h1>
           <div className="view-summary" aria-live="polite">
             Looking at <strong>{selectedSeason}</strong> · <strong>{source?.label ?? selectedSource}</strong>
@@ -547,13 +546,12 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
 
       <section className="search-panel" aria-label="Player search">
         <label className="header-search header-search--standalone">
-          <span>Search players</span>
+          <span className="sr-only">Search players</span>
           <div className="search-input-wrap">
             <input data-player-search ref={searchInputRef} value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />
             {search ? <button className="search-clear" type="button" onClick={() => { setSearch(''); searchInputRef.current?.focus() }} aria-label="Clear player search">×</button> : null}
           </div>
         </label>
-        <div className="search-meta" aria-live="polite"><span>{visibleRows.length.toLocaleString()} player{visibleRows.length === 1 ? '' : 's'} showing</span><span className="search-meta__hint">Click a player to select · Enter drafts · ↑↓ moves</span></div>
       </section>
 
       <section className="draft-toolbar" aria-label="Draft board controls">

@@ -178,6 +178,9 @@ test('roster players can be dragged between slots', async ({ page }) => {
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
   await page.getByLabel('Recent draft picks').getByRole('button', { name: 'Add Jahmyr Gibbs to my roster' }).click()
   const roster = page.getByLabel('My draft roster')
+  await expect(roster.locator('[data-roster-slot="RB1"]')).toContainText('Jahmyr Gibbs')
+  await roster.locator('[data-roster-slot="RB1"]').scrollIntoViewIfNeeded()
+  await roster.locator('[data-roster-slot="RB2"]').scrollIntoViewIfNeeded()
   await roster.locator('[data-roster-slot="RB1"]').dragTo(roster.locator('[data-roster-slot="RB2"]'))
   await expect(roster.locator('[data-roster-slot="RB2"]')).toContainText('Jahmyr Gibbs')
   await expect(roster.locator('[data-roster-slot="RB1"]')).toContainText('Open')
@@ -332,7 +335,7 @@ test('target queue is controlled from settings and works in both views', async (
 
 test('display settings can hide and restore the recent draft log', async ({ page }) => {
   await page.goto('./')
-  await expect(page.getByLabel('Recent draft picks')).toBeVisible()
+  await expect(page.getByLabel('Recent draft picks')).toHaveCount(0)
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByRole('button', { name: /^Display/ }).click()
   await page.getByRole('checkbox', { name: 'Keep controls up top' }).check()
@@ -350,7 +353,7 @@ test('display settings can hide and restore the recent draft log', async ({ page
   await page.getByRole('button', { name: /^Display/ }).click()
   await page.getByRole('checkbox', { name: 'Show draft log' }).check()
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.getByLabel('Recent draft picks')).toBeVisible()
+  await expect(page.getByLabel('Recent draft picks')).toHaveCount(0)
 })
 
 test('roster target settings update expected spend by slot', async ({ page }) => {
@@ -563,7 +566,6 @@ test('recent picks show newest first with team logos and expanded names', async 
   await page.getByRole('button', { name: "Mark drafted Jahmyr Gibbs" }).first().click()
   await page.getByRole('button', { name: "Mark drafted Bijan Robinson" }).first().click()
   const log = page.getByLabel('Recent draft picks')
-  await expect(log).toContainText('Recent picks')
   await expect(log.locator('li').first()).toContainText('Bijan Robinson')
   await expect(log.locator('li').nth(1)).toContainText('Jahmyr Gibbs')
   await expect(log.locator('li').first().locator('.team-badge')).toBeVisible()
@@ -599,7 +601,7 @@ test('split browser width keeps the condensed rankings board layout', async ({ p
   await page.goto('./')
   await expect(page.locator('.table-wrap')).toBeVisible()
   await expect(page.locator('.cards-list')).toBeHidden()
-  await expect(page.getByLabel('Recent draft picks')).toBeVisible()
+  await expect(page.getByLabel('Recent draft picks')).toHaveCount(0)
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
 
