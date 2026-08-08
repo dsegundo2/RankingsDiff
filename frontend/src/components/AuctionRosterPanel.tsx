@@ -49,6 +49,10 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
     return `$${Number.isInteger(rounded) ? rounded : rounded.toFixed(1)}`
   }
 
+  function slotTargetText(slot: string): string {
+    return mode === 'auction' ? ` · target ${targetForSlot(slot)}` : ''
+  }
+
   function beginPrice(id: string): void {
     setEditingPriceId(id)
     setPriceDraft(prices[id] === undefined ? '' : String(prices[id]))
@@ -90,7 +94,7 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
     const team = pick ? normalizeTeamAbbreviation(pick.row.team) : ''
     return <div className={`auction-slot${pick ? ' is-filled' : ''}${dropSlot === slot ? ' is-drop-target' : ''}`} key={slot} data-roster-slot={slot} draggable={Boolean(pick)} aria-label={pick ? `${pick.row.player} in ${slotName(slot)}, draggable` : `${slotName(slot)} open, drop a player here`} onDragStart={pick ? (event) => handleDragStart(pick.id, event) : undefined} onDragEnd={() => { setDraggingId(null); setDropSlot(null) }} onDragOver={(event) => { event.preventDefault(); setDropSlot(slot) }} onDrop={(event) => handleDrop(slot, event)}>
       <span className="auction-slot__label">{slotName(slot)}</span>
-      {pick ? <><div className="auction-slot__identity"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><span><strong>{pick.row.player}</strong><small>{team} · target {targetForSlot(slot)}</small></span></div>{pickControls(pick.id, pick.row)}</> : <span className="auction-slot__empty">Open · target {targetForSlot(slot)}</span>}
+      {pick ? <><div className="auction-slot__identity"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><span><strong>{pick.row.player}</strong><small>{team}{slotTargetText(slot)}</small></span></div>{pickControls(pick.id, pick.row)}</> : <span className="auction-slot__empty">Open{slotTargetText(slot)}</span>}
     </div>
   }
 
@@ -109,7 +113,7 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
       })}</div> : <p className="auction-roster-panel__empty">Target players to keep a short list here.</p>}
     </section> : null}
     <section className="auction-roster-panel__roster" aria-label="Roster slots">
-      <div className="auction-roster-panel__section-heading"><strong>My roster</strong><span>{pace >= 0 ? `Under target ${pace === 0 ? '$0' : `$${Math.round(pace)}`}` : `Over target $${Math.abs(Math.round(pace))}`}</span></div>
+      <div className="auction-roster-panel__section-heading"><strong>My roster</strong>{mode === 'auction' ? <span>{pace >= 0 ? `Under target ${pace === 0 ? '$0' : `$${Math.round(pace)}`}` : `Over target $${Math.abs(Math.round(pace))}`}</span> : null}</div>
       <div className="auction-roster-panel__list">
       {starterSlots.map(renderSlot)}
       </div>

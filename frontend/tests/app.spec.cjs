@@ -608,3 +608,12 @@ test('settings shows only the active source pages', async ({ page }) => {
   await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
   await expect(links).toContainText(['ESPN 2026 PPR300 PDF', 'Yahoo · Hayden Winks Half-PPR rankings'])
 })
+
+test('snake roster hides auction target amounts', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByLabel('Sheet').selectOption('fpros')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.getByLabel('My draft roster')).toContainText('Draft mode')
+  await expect(page.getByLabel('My draft roster')).not.toContainText(/Under target|Over target|target \$/)
+})
