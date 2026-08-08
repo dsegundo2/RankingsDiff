@@ -108,12 +108,12 @@ export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTarge
       })}</div> : <p className="auction-roster-panel__empty">Target players to keep a short list here.</p>}
     </section> : null}
     <section className="auction-roster-panel__roster" aria-label="Roster slots">
-      <div className="auction-roster-panel__section-heading"><strong>My roster</strong><span>Drag to move · {pace >= 0 ? `under target ${pace === 0 ? '$0' : `$${Math.round(pace)}`}` : `over target $${Math.abs(Math.round(pace))}`}</span></div>
+      <div className="auction-roster-panel__section-heading"><strong>My roster</strong><span>{pace >= 0 ? `Under target ${pace === 0 ? '$0' : `$${Math.round(pace)}`}` : `Over target $${Math.abs(Math.round(pace))}`}</span></div>
       <div className="auction-roster-panel__list">
       {starterSlots.map(renderSlot)}
       </div>
       <div className="auction-bench"><div className="auction-roster-panel__section-heading"><strong>Bench</strong><span>fallback slots</span></div>{benchSlots.map(renderSlot)}</div>
     </section>
-    {!picks.length ? <p className="auction-roster-panel__empty">Draft a player, then tap + in the Mine column to add them here.</p> : null}
+    {!picks.length ? <p className="auction-roster-panel__empty">No players on roster yet.</p> : null}
   </aside>
 }
