@@ -24,6 +24,13 @@ function autoRosterSlot(row: RankingRow, drafted: Set<string>, slots: Record<str
   const eligible = position === 'QB' ? ['QB1'] : position === 'RB' ? ['RB1', 'RB2', 'FLEX'] : position === 'WR' ? ['WR1', 'WR2', 'FLEX'] : position === 'TE' ? ['TE1', 'FLEX'] : []
   return [...eligible, ...benchSlots].find((slot) => !occupied.has(slot)) ?? benchSlots[benchSlots.length - 1]
 }
+
+function firstAvailableDraftRound(mine: Set<string>, prices: Record<string, number>): number {
+  const usedRounds = new Set([...mine].map((id) => prices[id]).filter((round): round is number => Number.isInteger(round) && round > 0))
+  let round = 1
+  while (usedRounds.has(round)) round += 1
+  return round
+}
 type Props = {
   manifest: DataManifest
   rows: RankingRow[]
@@ -169,10 +176,13 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     } else {
       nextMine.add(id)
       const row = rows.find((candidate) => rankingId(candidate) === id)
-      if (row) nextSlots[id] = autoRosterSlot(row, drafted, draftSlots)
+      if (row) {
+        nextSlots[id] = autoRosterSlot(row, drafted, draftSlots)
+        if (selectedSource !== 'espn') nextPrices[id] = firstAvailableDraftRound(mine, draftPrices)
+      }
     }
     applyDraftState(new Set(targets), new Set(drafted), nextPrices, nextSlots, nextMine)
-  }, [applyDraftState, drafted, draftPrices, draftSlots, mine, rows, targets])
+  }, [applyDraftState, drafted, draftPrices, draftSlots, mine, rows, selectedSource, targets])
 
   const toggleTarget = useCallback((id: string) => {
     const nextTargets = new Set(targets)
@@ -204,12 +214,19 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     const auctionState = readAuctionDraftState(auctionStorageKey)
     const shared = readDraftShare(new URLSearchParams(window.location.search).get('draft'))
     const initialState = shared?.season === selectedSeason && shared.source === selectedSource ? shared : state
+    const initialMine = new Set(auctionState.mine.filter((id) => initialState.drafted.includes(id)))
+    const initialPrices = { ...auctionState.prices }
+    if (selectedSource !== 'espn') {
+      initialMine.forEach((id) => {
+        if (initialPrices[id] === undefined) initialPrices[id] = firstAvailableDraftRound(initialMine, initialPrices)
+      })
+    }
     setTargets(new Set(initialState.targets))
     setDrafted(new Set(initialState.drafted))
-    setMine(new Set(auctionState.mine.filter((id) => initialState.drafted.includes(id))))
-    setDraftPrices(auctionState.prices)
+    setMine(initialMine)
+    setDraftPrices(initialPrices)
     setDraftSlots(auctionState.slots)
-    historyRef.current = [{ targets: [...initialState.targets], drafted: [...initialState.drafted], mine: auctionState.mine, prices: auctionState.prices, slots: auctionState.slots }]
+    historyRef.current = [{ targets: [...initialState.targets], drafted: [...initialState.drafted], mine: [...initialMine], prices: initialPrices, slots: auctionState.slots }]
     historyIndexRef.current = 0
     setHydratedStorageKey(storageKey)
   }, [auctionStorageKey, selectedSeason, selectedSource, storageKey])

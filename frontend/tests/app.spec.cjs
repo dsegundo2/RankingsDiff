@@ -635,3 +635,20 @@ test('snake roster hides auction target amounts', async ({ page }) => {
   await expect(page.getByLabel('My draft roster')).toContainText('Draft mode')
   await expect(page.getByLabel('My draft roster')).not.toContainText(/Under target|Over target|target \$/)
 })
+
+test('snake roster assigns the first available draft round', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByLabel('Sheet').selectOption('fpros')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+
+  const rows = page.locator('.rankings-table--fpros tbody tr')
+  const roster = page.getByLabel('My draft roster')
+  for (let index = 0; index < 4; index += 1) {
+    const player = await rows.nth(index).locator('.player-cell strong').textContent()
+    if (!player) throw new Error('Expected a player name')
+    await rows.nth(index).getByRole('button', { name: `Mark drafted ${player}` }).click()
+    await page.getByRole('button', { name: `Add ${player} to my roster` }).first().click()
+    await expect(roster.getByRole('button', { name: `Edit draft round for ${player}` })).toContainText(`R${index + 1}`)
+  }
+})
