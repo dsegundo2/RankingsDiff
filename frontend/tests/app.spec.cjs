@@ -351,6 +351,15 @@ test('display settings can hide and restore the recent draft log', async ({ page
   await expect(page.getByLabel('Recent draft picks')).toBeVisible()
 })
 
+test('roster target settings update expected spend by slot', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Roster targets/ }).click()
+  await page.getByLabel('Expected price for RB1').fill('60')
+  await page.getByLabel('Close settings').click()
+  await expect(page.getByLabel('My draft roster')).toContainText('target $60')
+})
+
 test('targets and drafted state persist per sheet', async ({ page }) => {
   await page.goto('./')
   const target = page.getByRole('button', { name: "Target Ja'Marr Chase" }).first()

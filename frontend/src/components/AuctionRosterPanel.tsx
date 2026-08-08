@@ -1,6 +1,7 @@
 import { useState, type DragEvent } from 'react'
 import type { RankingRow, RankingSource, TeamAsset } from '../types'
 import { rankingId } from '../data/draftState'
+import { DEFAULT_ROSTER_TARGETS, rosterTargetLabel, type RosterTargetGoals } from '../data/rosterTargets'
 import { formatRank, formatValue } from '../data/rankings'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
@@ -8,6 +9,7 @@ import { TeamBadge } from './TeamBadge'
 type Props = {
   rows: RankingRow[]
   teams: Record<string, TeamAsset>
+  targetGoals: RosterTargetGoals
   drafted: Set<string>
   targetRows: RankingRow[]
   showTargetQueue: boolean
@@ -22,9 +24,8 @@ type Props = {
 
 const starterSlots = ['QB1', 'RB1', 'RB2', 'WR1', 'WR2', 'TE1', 'FLEX']
 const benchSlots = ['BENCH1', 'BENCH2', 'BENCH3', 'BENCH4', 'BENCH5']
-const targetGoals: Record<string, number> = { QB1: 15, RB1: 50, RB2: 20, WR1: 35, WR2: 20, TE1: 15, FLEX: 10, BENCH1: 5, BENCH2: 4, BENCH3: 4, BENCH4: 3, BENCH5: 2 }
 
-export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTargetQueue, mode, source, prices, slots, onPrice, onMoveSlot, onTarget }: Props) {
+export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRows, showTargetQueue, mode, source, prices, slots, onPrice, onMoveSlot, onTarget }: Props) {
   const [editingPriceId, setEditingPriceId] = useState<string | null>(null)
   const [priceDraft, setPriceDraft] = useState('')
   const [draggingId, setDraggingId] = useState<string | null>(null)
@@ -34,16 +35,16 @@ export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTarge
   const spent = picks.reduce((total, pick) => total + (prices[pick.id] ?? 0), 0)
   const remaining = 200 - spent
   const pricedPicks = picks.filter(({ id }) => prices[id] !== undefined)
-  const pace = pricedPicks.reduce((total, { id }) => total + (targetGoals[slots[id]] ?? 0) - (prices[id] ?? 0), 0)
+  const pace = pricedPicks.reduce((total, { id }) => total + (targetGoals[slots[id]] ?? DEFAULT_ROSTER_TARGETS[slots[id]] ?? 0) - (prices[id] ?? 0), 0)
   const positionsRemaining = Math.max(1, starterSlots.length + benchSlots.length - pricedPicks.length)
   const targetAdjustment = pace / positionsRemaining
 
   function slotName(slot: string): string {
-    return slot.startsWith('BENCH') ? `Bench ${slot.slice(5)}` : slot
+    return rosterTargetLabel(slot)
   }
 
   function targetForSlot(slot: string): string {
-    const value = (targetGoals[slot] ?? 0) + targetAdjustment
+    const value = (targetGoals[slot] ?? DEFAULT_ROSTER_TARGETS[slot] ?? 0) + targetAdjustment
     const rounded = Math.round(value * 10) / 10
     return `$${Number.isInteger(rounded) ? rounded : rounded.toFixed(1)}`
   }

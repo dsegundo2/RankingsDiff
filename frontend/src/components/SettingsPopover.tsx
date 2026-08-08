@@ -3,14 +3,16 @@ import type { DataManifest, SourceCheckPayload, SourceLink, SourceManifest } fro
 import { DownloadPanel } from './DownloadPanel'
 import { DraftStateControls } from './DraftStateControls'
 import { SourceChecksPanel } from './SourceChecksPanel'
+import { rosterTargetLabel, ROSTER_TARGET_SLOTS, type RosterTargetGoals } from '../data/rosterTargets'
 
-type SettingsPane = 'sheet' | 'snapshots' | 'checks' | 'display'
+type SettingsPane = 'sheet' | 'snapshots' | 'checks' | 'display' | 'roster'
 
 const panes: Array<{ id: SettingsPane; label: string; description: string; icon: string }> = [
   { id: 'sheet', label: 'Current sheet', description: 'Year, source, and source pages', icon: '▦' },
   { id: 'snapshots', label: 'Snapshots', description: 'Downloads and draft backups', icon: '↓' },
   { id: 'checks', label: 'Ranking checks', description: 'Source health and refreshes', icon: '✓' },
-  { id: 'display', label: 'Display', description: 'Choose what stays visible', icon: '◫' }
+  { id: 'display', label: 'Display', description: 'Choose what stays visible', icon: '◫' },
+  { id: 'roster', label: 'Roster targets', description: 'Expected spend by slot', icon: '$' },
 ]
 
 type Props = {
@@ -29,6 +31,7 @@ type Props = {
   stickyWorkbench: boolean
   targets: Set<string>
   drafted: Set<string>
+  targetGoals: RosterTargetGoals
   onRestoreDraft: (targets: string[], drafted: string[]) => void
   onClearDraft: () => void
   onShowTargetQueue: (value: boolean) => void
@@ -37,6 +40,7 @@ type Props = {
   onShowStickyWorkbench: (value: boolean) => void
   onSeason: (value: number) => void
   onSource: (value: string) => void
+  onTargetGoals: (value: RosterTargetGoals) => void
   onClose: () => void
 }
 
@@ -56,7 +60,7 @@ function SourceLinks({ links }: { links?: SourceLink[] }) {
   )
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDraftLog, showRosterPanel, stickyWorkbench, targets, drafted, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onSeason, onSource, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDraftLog, showRosterPanel, stickyWorkbench, targets, drafted, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onSeason, onSource, onTargetGoals, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('sheet')
   if (!open) return null
   const currentSeason = manifest.seasons.find((season) => season.season === selectedSeason) ?? manifest.seasons[0]
@@ -115,6 +119,13 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
             </section> : null}
 
             {activePane === 'checks' ? <SourceChecksPanel checks={sourceChecks} /> : null}
+
+            {activePane === 'roster' ? <section className="settings-section settings-section--tools">
+              <div className="settings-section__copy"><span className="eyebrow">Roster targets</span><h3>Expected spend by slot</h3><p>Set your opening auction targets. The roster panel adjusts open-slot targets as you enter prices.</p></div>
+              <div className="roster-target-settings" aria-label="Roster target values">
+                {ROSTER_TARGET_SLOTS.map((slot) => <label className="roster-target-setting" key={slot}><span>{rosterTargetLabel(slot)}</span><span className="roster-target-setting__input"><span>$</span><input aria-label={`Expected price for ${rosterTargetLabel(slot)}`} type="number" min="0" step="1" inputMode="numeric" value={targetGoals[slot] ?? 0} onChange={(event) => onTargetGoals({ ...targetGoals, [slot]: Math.max(0, Number(event.target.value) || 0) })} /></span></label>)}
+              </div>
+            </section> : null}
 
             {activePane === 'display' ? <section className="settings-section settings-section--tools">
               <div className="settings-section__copy"><span className="eyebrow">Display</span><h3>Keep the dashboard focused</h3><p>Choose which supporting panels remain visible while you work the draft board.</p></div>

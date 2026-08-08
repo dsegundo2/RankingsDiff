@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { DataManifest, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset } from '../types'
 import { filterRankings, formatRank, formatSignedValue, formatValue, sortRankings, sourceLabel } from '../data/rankings'
 import { rankingId, readAuctionDraftState, readDraftShare, readDraftState, writeAuctionDraftState, writeDraftState } from '../data/draftState'
+import { DEFAULT_ROSTER_TARGETS, type RosterTargetGoals } from '../data/rosterTargets'
 import { Filters } from './Filters'
 import { RankingCard } from './RankingCard'
 import { RankingsTable } from './RankingsTable'
@@ -48,6 +49,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [mine, setMine] = useState<Set<string>>(new Set())
   const [draftPrices, setDraftPrices] = useState<Record<string, number>>({})
   const [draftSlots, setDraftSlots] = useState<Record<string, string>>({})
+  const [targetGoals, setTargetGoals] = useState<RosterTargetGoals>(DEFAULT_ROSTER_TARGETS)
   const [showDrafted, setShowDrafted] = useState(true)
   const [showTargetQueue, setShowTargetQueue] = useState(true)
   const [showDraftLog, setShowDraftLog] = useState(true)
@@ -56,6 +58,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [showMobileActions, setShowMobileActions] = useState(true)
   const [hydratedStorageKey, setHydratedStorageKey] = useState('')
   const [hydratedViewKey, setHydratedViewKey] = useState('')
+  const [hydratedTargetKey, setHydratedTargetKey] = useState('')
   const searchInputRef = useRef<HTMLInputElement>(null)
   const historyRef = useRef<DraftSnapshot[]>([{ targets: [], drafted: [], mine: [], prices: {}, slots: {} }])
   const historyIndexRef = useRef(0)
@@ -64,6 +67,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const storageKey = `rankingsdiff:draft:v1:${selectedSeason}:${selectedSource}`
   const auctionStorageKey = `rankingsdiff:auction:v1:${selectedSeason}:${selectedSource}`
   const viewStorageKey = `rankingsdiff:view:v1:${selectedSeason}:${selectedSource}`
+  const targetStorageKey = `rankingsdiff:roster-targets:v1:${selectedSeason}:${selectedSource}`
   const filteredRows = useMemo(() => {
     const searchedRows = filterRankings(rows, search, 'ALL', teams)
     if (view === 'positions' || boardPositions.size === allPositionKeys.size) return searchedRows
@@ -194,6 +198,26 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
     historyIndexRef.current = 0
     setHydratedStorageKey(storageKey)
   }, [auctionStorageKey, selectedSeason, selectedSource, storageKey])
+
+  useEffect(() => {
+    setHydratedTargetKey('')
+    try {
+      const saved = JSON.parse(localStorage.getItem(targetStorageKey) ?? '{}') as Record<string, unknown>
+      const next = { ...DEFAULT_ROSTER_TARGETS }
+      Object.keys(next).forEach((slot) => {
+        if (typeof saved[slot] === 'number' && Number.isFinite(saved[slot])) next[slot] = Math.max(0, saved[slot] as number)
+      })
+      setTargetGoals(next)
+    } catch {
+      setTargetGoals(DEFAULT_ROSTER_TARGETS)
+    }
+    setHydratedTargetKey(targetStorageKey)
+  }, [targetStorageKey])
+
+  useEffect(() => {
+    if (hydratedTargetKey !== targetStorageKey) return
+    localStorage.setItem(targetStorageKey, JSON.stringify(targetGoals))
+  }, [hydratedTargetKey, targetGoals, targetStorageKey])
 
   useEffect(() => {
     setHydratedViewKey('')
@@ -570,12 +594,12 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
               })}
             </section>
           </div>
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       )}
       <SettingsPopover
@@ -594,6 +618,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         stickyWorkbench={stickyWorkbench}
         targets={targets}
         drafted={drafted}
+        targetGoals={targetGoals}
         onRestoreDraft={restoreDraft}
         onClearDraft={clearDraft}
         onShowTargetQueue={setShowTargetQueue}
@@ -602,6 +627,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         onShowStickyWorkbench={setStickyWorkbench}
         onSeason={handleSeasonFromSettings}
         onSource={handleSourceFromSettings}
+        onTargetGoals={setTargetGoals}
         onClose={() => setSettingsOpen(false)}
       />
     </main>
