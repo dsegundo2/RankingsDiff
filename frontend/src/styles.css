@@ -369,6 +369,8 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   .rankings-table .team-badge { width: 32px; height: 32px; flex-basis: 32px; }
   .rankings-table .team-badge img { width: 24px; height: 24px; }
   .rankings-table .rank-pair { gap: 3px; font-size: .84rem; }
+  .rankings-table .rank-heading__sorts { gap: 0; }
+  .rankings-table .rank-heading__sorts .sort-button { padding-inline: 1px; font-size: .55rem; }
   .rankings-table .stacked-price { font-size: .86rem; }
   .rankings-table .stacked-price small { font-size: .62rem; }
   .rankings-table .draft-action { min-width: 56px; padding-inline: 6px; }

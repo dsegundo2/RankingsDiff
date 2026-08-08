@@ -8,5 +8,5 @@ export const DEFAULT_ROSTER_TARGETS: RosterTargetGoals = {
 }
 
 export function rosterTargetLabel(slot: string): string {
-  return slot.startsWith('BENCH') ? `Bench ${slot.slice(5)}` : slot
+  return slot.startsWith('BENCH') ? `BN${slot.slice(5)}` : slot
 }

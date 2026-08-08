@@ -57,8 +57,8 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
             <th className="action-heading" title="Favorite before drafting; add to my roster after drafting"><span className="action-heading__label">Mine</span><span className="sr-only">Favorite or my roster</span></th>
             <th className="player-heading"><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th className="num-heading rank-heading"><span>Rank</span><small className="rank-heading__sorts"><SortButton label="Source" ariaLabel={`Sort by ${sourceLabel(source)} rank`} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><span aria-hidden="true">→</span><SortButton label="Adjusted" ariaLabel="Sort by Adjusted rank" sortKey="adjustedRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></small></th>
-            {isEspn ? <th className="num-heading price-heading"><span>Value</span><small>{sourceLabel(source)} → Adjusted</small></th> : null}
+            <th className="num-heading rank-heading"><span>Rank</span><small className="rank-heading__sorts"><SortButton label="SRC" ariaLabel={`Sort by ${sourceLabel(source)} rank`} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><span aria-hidden="true">→</span><SortButton label="Adj" ariaLabel="Sort by Adjusted rank" sortKey="adjustedRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></small></th>
+            {isEspn ? <th className="num-heading price-heading"><span>Value</span><small>{sourceLabel(source)} → Adj</small></th> : null}
             <th className="num-heading diff-heading"><SortButton label="Delta" ariaLabel={isEspn ? 'Sort by value delta' : 'Sort by ranking delta'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><small>{isEspn ? 'Value' : 'Rank'}</small></th>
             <th className="draft-heading">Draft</th>
           </tr>
