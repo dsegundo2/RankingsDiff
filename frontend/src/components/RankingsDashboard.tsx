@@ -10,6 +10,7 @@ import { SettingsPopover } from './SettingsPopover'
 import { PositionBoard } from './PositionBoard'
 import { RecentDraftPanel } from './RecentDraftPanel'
 import { AuctionRosterPanel } from './AuctionRosterPanel'
+import { withBasePath } from '../data/paths'
 
 type ViewMode = 'board' | 'positions'
 type PositionKey = Exclude<PositionFilter, 'ALL'>
@@ -556,7 +557,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
 
       <section className="draft-toolbar" aria-label="Draft board controls">
         <button className="settings-icon-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-label="Settings" aria-haspopup="dialog" title={`${selectedSeason} · ${source?.label ?? selectedSource} · ${visibleRows.length.toLocaleString()} showing`}>
-          <span aria-hidden="true">⚙</span>
+          <img src={withBasePath('/assets/settings.svg')} alt="" aria-hidden="true" />
         </button>
         <label className="drafted-toggle view-mode-toggle"><input type="checkbox" aria-label="By position" checked={view === 'positions'} onChange={(event) => setView(event.target.checked ? 'positions' : 'board')} /><span className="desktop-label">Position</span><span className="mobile-label">Pos</span></label>
         <Filters

@@ -935,6 +935,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   font-size: 1.25rem;
   font-weight: 900;
 }
+.settings-icon-trigger img { width: 25px; height: 25px; display: block; filter: brightness(0) invert(1); }
 .settings-icon-trigger:hover { border-color: rgba(79,93,228,.55); box-shadow: 0 12px 24px rgba(79,93,228,.24); }
 
 /* Recent draft log: keep pick order visible without competing with the board. */
