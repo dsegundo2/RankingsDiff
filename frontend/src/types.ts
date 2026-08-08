@@ -9,6 +9,7 @@ export type RankingRow = {
   positionRank?: string
   sourceRank?: number
   adjustedRank?: number
+  adjustedRankHalfPpr?: number
   diff?: number
   sourceValue?: number
   adjustedValue?: number
@@ -42,6 +43,17 @@ export type SourceManifest = {
   csv: string
   xlsx?: string
   sourceLinks?: SourceLink[]
+  adjustedProfiles?: AdjustedProfile[]
+}
+
+export type AdjustedProfile = {
+  id: 'full-ppr' | 'half-ppr' | string
+  label: string
+  shortLabel?: string
+  sourceUpdated?: string | null
+  sourceUpdatedAt?: string | null
+  observedAt?: string | null
+  sourceUrl?: string
 }
 
 export type SeasonManifest = {

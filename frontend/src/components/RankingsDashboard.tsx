@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { DataManifest, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset } from '../types'
+import type { AdjustedProfile, DataManifest, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset } from '../types'
 import { filterRankings, formatRank, formatSignedValue, formatValue, sortRankings, sourceLabel } from '../data/rankings'
 import { rankingId, readAuctionDraftState, readDraftShare, readDraftState, writeAuctionDraftState, writeDraftState } from '../data/draftState'
 import { DEFAULT_ROSTER_TARGETS, type RosterTargetGoals } from '../data/rosterTargets'
@@ -30,11 +30,14 @@ type Props = {
   sourceChecks?: SourceCheckPayload
   selectedSeason: number
   selectedSource: string
+  adjustedProfiles: AdjustedProfile[]
+  selectedAdjustedProfile: string
+  onAdjustedProfile: (profile: string) => void
   onSeason: (season: number) => void
   onSource: (source: string) => void
 }
 
-export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selectedSeason, selectedSource, onSeason, onSource }: Props) {
+export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selectedSeason, selectedSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, onSeason, onSource }: Props) {
   const [search, setSearch] = useState('')
   const [position, setPosition] = useState<PositionFilter>('ALL')
   const [sortKey, setSortKey] = useState<SortKey>('sourceRank')
@@ -608,6 +611,9 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         selectedSeason={selectedSeason}
         selectedSource={source?.id ?? selectedSource}
         currentSource={source}
+        adjustedProfiles={adjustedProfiles}
+        selectedAdjustedProfile={selectedAdjustedProfile}
+        onAdjustedProfile={onAdjustedProfile}
         sourceChecks={sourceChecks}
         generatedAt={manifest.generatedAt}
         visibleCount={visibleRows.length}

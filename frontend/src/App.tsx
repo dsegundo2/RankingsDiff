@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { DataManifest, RankingRow, SourceCheckPayload, TeamAsset } from './types'
+import type { AdjustedProfile, DataManifest, RankingRow, SourceCheckPayload, TeamAsset } from './types'
 import { RankingsDashboard } from './components/RankingsDashboard'
 import { withBasePath } from './data/paths'
 import { readDraftShare } from './data/draftState'
@@ -41,6 +41,7 @@ export default function App() {
   const [sourceChecks, setSourceChecks] = useState<SourceCheckPayload | undefined>()
   const [selectedSeason, setSelectedSeason] = useState<number>(0)
   const [selectedSource, setSelectedSource] = useState<string>('')
+  const [selectedAdjustedProfile, setSelectedAdjustedProfile] = useState('full-ppr')
   const [error, setError] = useState<string>('')
   const [manifestLoading, setManifestLoading] = useState(true)
   const [, setRowsLoading] = useState(true)
@@ -62,12 +63,13 @@ export default function App() {
       setSourceChecks(loadedChecks)
       const firstSeason = loadedManifest.seasons[0]
       const sharedDraft = readDraftShare(new URLSearchParams(window.location.search).get('draft'))
-      let saved: { season?: number; source?: string } = {}
+      let saved: { season?: number; source?: string; adjustedProfile?: string } = {}
       try { saved = JSON.parse(localStorage.getItem('rankingsdiff:sheet:v1') ?? '{}') as typeof saved } catch { /* Ignore stale preferences. */ }
       const savedSeason = loadedManifest.seasons.find((item) => item.season === sharedDraft?.season) ?? loadedManifest.seasons.find((item) => item.season === saved.season) ?? firstSeason
       const savedSource = savedSeason?.sources.find((item) => item.id === (sharedDraft?.source ?? saved.source)) ?? savedSeason?.sources[0]
       setSelectedSeason(savedSeason?.season ?? 0)
       setSelectedSource(savedSource?.id ?? '')
+      setSelectedAdjustedProfile(saved.adjustedProfile ?? 'full-ppr')
     }).catch((reason) => {
       if (reason?.name !== 'AbortError') setError(reason instanceof Error ? reason.message : 'Failed to load data')
     }).finally(() => {
@@ -78,13 +80,15 @@ export default function App() {
   }, [retryKey])
 
   useEffect(() => {
-    if (selectedSeason && selectedSource) localStorage.setItem('rankingsdiff:sheet:v1', JSON.stringify({ season: selectedSeason, source: selectedSource }))
-  }, [selectedSeason, selectedSource])
+    if (selectedSeason && selectedSource) localStorage.setItem('rankingsdiff:sheet:v1', JSON.stringify({ season: selectedSeason, source: selectedSource, adjustedProfile: selectedAdjustedProfile }))
+  }, [selectedAdjustedProfile, selectedSeason, selectedSource])
 
   const selectedMeta = useMemo(() => {
     const season = manifest.seasons.find((item) => item.season === selectedSeason) ?? manifest.seasons[0]
     return season?.sources.find((item) => item.id === selectedSource) ?? season?.sources[0]
   }, [manifest, selectedSeason, selectedSource])
+  const adjustedProfiles = selectedMeta?.adjustedProfiles ?? []
+  const selectedProfile: AdjustedProfile | undefined = adjustedProfiles.find((profile) => profile.id === selectedAdjustedProfile) ?? adjustedProfiles[0]
 
   useEffect(() => {
     if (!selectedMeta) return
@@ -111,5 +115,6 @@ export default function App() {
   if (error) return <ErrorState message={error} onRetry={() => { setRows([]); setRowsLoading(true); setHasLoadedRows(false); setRetryKey((current) => current + 1) }} />
   if (manifestLoading || !manifest.seasons.length || !selectedSource || !hasLoadedRows) return <LoadingState detail={manifestLoading ? undefined : `Loading ${selectedMeta?.label ?? 'the selected source'} rankings…`} />
 
-  return <RankingsDashboard manifest={manifest} rows={rows} teams={teams} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} onSeason={handleSeason} onSource={setSelectedSource} />
+  const displayedRows = rows.map((row) => selectedProfile?.id === 'half-ppr' ? { ...row, adjustedRank: row.adjustedRankHalfPpr ?? row.adjustedRank } : row)
+  return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} />
 }

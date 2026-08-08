@@ -21,8 +21,8 @@ ESPN_GOOGLE_SHEET_URL = (
 )
 
 SOURCE_LABELS = {
-    "fpros": "FantasyPros vs Adjusted",
-    "espn": "ESPN vs Adjusted",
+    "fpros": "FantasyPros vs Yahoo",
+    "espn": "ESPN vs Yahoo",
 }
 
 CSV_NAMES = {
@@ -54,6 +54,7 @@ def source_links(source: str, season: int) -> list[dict[str, str]]:
         ]
         if season == 2026:
             links.append(hayden_2026)
+            links.append({"label": "Yahoo · Consensus Full-PPR rankings", "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html"})
         return links
     if source == "espn":
         espn_url = (
@@ -83,6 +84,7 @@ def source_links(source: str, season: int) -> list[dict[str, str]]:
         ]
         if season == 2026:
             links.append(hayden_2026)
+            links.append({"label": "Yahoo · Consensus Full-PPR rankings", "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html"})
         return links
     return []
 
@@ -153,6 +155,7 @@ def normalize_fpros(row: dict[str, str]) -> dict[str, Any]:
         "positionRank": row.get("Pos") or None,
         "sourceRank": source_rank,
         "adjustedRank": adjusted_rank,
+        "adjustedRankHalfPpr": parse_number(row.get("Adjusted Rank Half PPR")),
         "diff": diff,
         "diffTone": diff_tone(diff),
         "positionTone": position_tone(position),
@@ -176,6 +179,7 @@ def normalize_espn(row: dict[str, str]) -> dict[str, Any]:
         "positionRank": row.get("Pos") or position or None,
         "sourceRank": source_rank,
         "adjustedRank": adjusted_rank,
+        "adjustedRankHalfPpr": parse_number(row.get("Adjusted Rank Half PPR")),
         "sourceValue": source_value,
         "adjustedValue": adjusted_value,
         "priceRank": parse_number(row.get("PriceRank")),
@@ -268,6 +272,16 @@ def build_manifest() -> dict[str, Any]:
                 "csv": public_path(copied_csv),
                 "sourceLinks": source_links(source, season),
             }
+            if season == 2026:
+                metadata_path = ROOT / "data" / "raw" / str(season) / "adjusted_rankings_metadata.json"
+                if metadata_path.exists():
+                    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+                    half_url = "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html"
+                    full_url = "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html"
+                    entry["adjustedProfiles"] = [
+                        {**metadata.get("sources", {}).get("full-ppr", {}), "id": "full-ppr", "label": "Full PPR · Hayden Winks", "shortLabel": "Full PPR", "sourceUrl": full_url, "observedAt": metadata.get("observedAt")},
+                        {**metadata.get("sources", {}).get("half-ppr", {}), "id": "half-ppr", "label": "Half PPR · Hayden Winks", "shortLabel": "Half PPR", "sourceUrl": half_url, "observedAt": metadata.get("observedAt")},
+                    ]
             if xlsx_url:
                 entry["xlsx"] = xlsx_url
             sources.append(entry)

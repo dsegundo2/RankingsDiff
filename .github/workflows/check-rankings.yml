@@ -32,7 +32,7 @@ jobs:
       - name: Download fresh ESPN rankings
         run: python scripts/download_rankings.py espn --season 2026
       - name: Download fresh Yahoo adjusted rankings
-        run: python scripts/download_rankings.py hayden-winks --season 2026
+        run: python scripts/download_rankings.py yahoo-adjusted --season 2026
       - name: Rebuild comparison datasets
         run: |
           python scripts/rankings_diff_espn.py --season 2026
@@ -58,7 +58,7 @@ jobs:
           then
             exit 0
           fi
-          git add data/raw/2026/adjusted_rankings.csv frontend/public/data/2026 \
+          git add data/raw/2026/adjusted_full_ppr.csv data/raw/2026/adjusted_half_ppr.csv data/raw/2026/adjusted_rankings_metadata.json frontend/public/data/2026 \
             data/status frontend/public/data/status frontend/public/data/manifest.json
           if git diff --cached --quiet; then
             echo "No refreshed ranking or generated status changes to commit."

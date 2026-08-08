@@ -16,6 +16,7 @@ ESPN_RANKING_COLUMN = "PPR"
 
 ADJUSTED_PLAYER_COLUMN = "Player"
 ADJUSTED_RANKING_COLUMN = "Rank"
+HALF_ADJUSTED_RANKING_COLUMN = "Adjusted Rank Half PPR"
 ADJUSTED_AUCTION_VALUE_COLUMN = "Adjusted Value"
 
 OUTPUT_POSITION_COLUMN = "Pos"
@@ -39,6 +40,7 @@ def format_merged_list(merged_list):
             ESPN_AUCTION_VALUE_COLUMN_ORIGINAL,
             ADJUSTED_AUCTION_VALUE_COLUMN,
             "PriceRank",
+            HALF_ADJUSTED_RANKING_COLUMN,
         ]
     ].sort_values(by=ESPN_RANKING_COLUMN)
 
@@ -136,7 +138,7 @@ def main():
     adjusted_rankings = path_from_arg_or_env(
         args.adjusted_rankings,
         "ADJUSTED_RANKINGS",
-        input_path(args.season, "adjusted_rankings.csv"),
+        input_path(args.season, "adjusted_full_ppr.csv"),
     )
     output_csv = path_from_arg_or_env(
         args.output_csv,
@@ -150,11 +152,14 @@ def main():
     )
 
     adjusted_dataframe = load_csv_to_memory(adjusted_rankings).head(args.limit)
+    half_adjusted_path = input_path(args.season, "adjusted_half_ppr.csv")
+    half_adjusted_dataframe = load_csv_to_memory(half_adjusted_path).head(args.limit)
     espn_dataframe = load_csv_to_memory(espn_rankings).head(args.limit)
     espn_dataframe.columns.values[0] = ESPN_PLAYER_COLUMN
 
     espn_dataframe = remove_name_suffix(espn_dataframe, ESPN_PLAYER_COLUMN)
     adjusted_dataframe = remove_name_suffix(adjusted_dataframe, ADJUSTED_PLAYER_COLUMN)
+    half_adjusted_dataframe = remove_name_suffix(half_adjusted_dataframe, ADJUSTED_PLAYER_COLUMN)
 
     merged_df = pd.merge(
         adjusted_dataframe,
@@ -165,6 +170,8 @@ def main():
     )
 
     merged_df = add_columns(merged_df)
+    half_lookup = dict(zip(half_adjusted_dataframe[ADJUSTED_PLAYER_COLUMN].str.lower(), half_adjusted_dataframe[ADJUSTED_RANKING_COLUMN]))
+    merged_df[HALF_ADJUSTED_RANKING_COLUMN] = merged_df[ADJUSTED_PLAYER_COLUMN].str.lower().map(half_lookup)
     merged_df = format_merged_list(merged_df)
 
     print("DEBUG: Top 10 rows of merged_df after add_columns:")

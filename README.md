@@ -25,13 +25,13 @@ You can override any path when testing one-off files:
 python3 scripts/rankings_diff_fpros.py \
   --season 2026 \
   --fpros-rankings data/raw/2026/fpros_rankings.csv \
-  --adjusted-rankings data/raw/2026/adjusted_rankings.csv
+  --adjusted-rankings data/raw/2026/adjusted_full_ppr.csv
 ```
 
 Expected default input names:
 
 - `data/raw/<season>/fpros_rankings.csv`
-- `data/raw/<season>/adjusted_rankings.csv`
+- `data/raw/<season>/adjusted_full_ppr.csv` and `adjusted_half_ppr.csv`
 - `data/raw/<season>/espn_rankings.csv`
 
 Expected default outputs:
@@ -84,10 +84,10 @@ The old third-party Google Sheet is still supported internally as a CSV fallback
 The Yahoo article embeds a FantasyPros RankingPro widget. The fetcher extracts that widget configuration from the article HTML, then requests the widget's structured JSONP payload to obtain all 300 rows. This is more reliable than scraping the client-rendered table and does not require a FantasyPros API key:
 
 ```bash
-python3 scripts/download_rankings.py hayden-winks --season 2026
+python3 scripts/download_rankings.py yahoo-adjusted --season 2026
 ```
 
-This writes `data/raw/2026/adjusted_rankings.csv` plus the Yahoo HTML and structured widget JSON snapshots for repeatable parsing. Override the article URL with `--yahoo-hayden-url`.
+This writes separate full-PPR and half-PPR Yahoo snapshots, metadata for the source-stated and observed update times, plus the structured widget JSON used for repeatable parsing. Full PPR selects Hayden Winks's individual column from the Yahoo consensus widget. Override the article URLs with `--yahoo-hayden-url` and `--yahoo-full-ppr-url`.
 
 ## Spreadsheet finishing touches
 

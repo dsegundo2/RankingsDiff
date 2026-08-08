@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { DataManifest, SourceCheckPayload, SourceLink, SourceManifest } from '../types'
+import type { AdjustedProfile, DataManifest, SourceCheckPayload, SourceLink, SourceManifest } from '../types'
 import { DownloadPanel } from './DownloadPanel'
 import { DraftStateControls } from './DraftStateControls'
 import { SourceChecksPanel } from './SourceChecksPanel'
@@ -21,6 +21,9 @@ type Props = {
   selectedSeason: number
   selectedSource: string
   currentSource?: SourceManifest
+  adjustedProfiles: AdjustedProfile[]
+  selectedAdjustedProfile: string
+  onAdjustedProfile: (profile: string) => void
   sourceChecks?: SourceCheckPayload
   generatedAt?: string
   visibleCount: number
@@ -60,7 +63,7 @@ function SourceLinks({ links }: { links?: SourceLink[] }) {
   )
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDraftLog, showRosterPanel, stickyWorkbench, targets, drafted, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onSeason, onSource, onTargetGoals, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDraftLog, showRosterPanel, stickyWorkbench, targets, drafted, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onSeason, onSource, onTargetGoals, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('sheet')
   if (!open) return null
   const currentSeason = manifest.seasons.find((season) => season.season === selectedSeason) ?? manifest.seasons[0]
@@ -102,6 +105,13 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
                   <select value={selectedSeason} onChange={(event) => onSeason(Number(event.target.value))}>
                     {manifest.seasons.map((season) => <option key={season.season} value={season.season}>{season.season}</option>)}
                   </select>
+                </label>
+                <label className="select-field select-field--pretty">
+                  <span>Adjusted rankings</span>
+                  <select value={selectedAdjustedProfile} onChange={(event) => onAdjustedProfile(event.target.value)}>
+                    {adjustedProfiles.map((profile) => <option key={profile.id} value={profile.id}>{profile.label}</option>)}
+                  </select>
+                  {adjustedProfiles.find((profile) => profile.id === selectedAdjustedProfile)?.sourceUpdated ? <small>Source updated {adjustedProfiles.find((profile) => profile.id === selectedAdjustedProfile)?.sourceUpdated} · observed {adjustedProfiles.find((profile) => profile.id === selectedAdjustedProfile)?.observedAt?.slice(0, 10)}</small> : null}
                 </label>
                 <label className="select-field select-field--pretty">
                   <span>Sheet</span>

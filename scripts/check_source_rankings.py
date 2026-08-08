@@ -26,13 +26,15 @@ DEFAULT_MIN_INTERVAL_MINUTES = 10
 SOURCE_LABELS = {
     "fpros": "FantasyPros",
     "espn": "ESPN",
-    "adjusted": "Yahoo · Hayden Winks adjusted rankings",
+    "adjusted-half-ppr": "Yahoo · Hayden Winks Half-PPR",
+    "adjusted-full-ppr": "Yahoo · Hayden Winks Full-PPR column",
 }
 
 RAW_SOURCE_PATTERNS = {
     "fpros": ["fpros_rankings.csv", "fantasypros_public_rankings.html"],
     "espn": ["espn_rankings.csv", "espn_ppr300_cheatsheet.pdf"],
-    "adjusted": ["adjusted_rankings.csv"],
+    "adjusted-half-ppr": ["adjusted_half_ppr.csv"],
+    "adjusted-full-ppr": ["adjusted_full_ppr.csv"],
 }
 
 OUTPUT_SOURCE_FILES = {

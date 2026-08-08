@@ -577,3 +577,15 @@ test('split browser width keeps the condensed rankings board layout', async ({ p
   await expect(page.getByLabel('Recent draft picks')).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
+
+test('adjusted rankings switch between full PPR Winks and half PPR Winks', async ({ page }) => {
+  await page.goto('./')
+  await page.getByPlaceholder(/Ja'Marr/).fill('Amon-Ra')
+  await expect(page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1)).toHaveText('8')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await expect(page.getByLabel('Adjusted rankings')).toHaveValue('full-ppr')
+  await expect(page.getByText(/Source updated 2026\/08\/06/)).toBeVisible()
+  await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1)).toHaveText('7')
+})

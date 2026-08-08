@@ -19,6 +19,7 @@ import io
 import json
 import os
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlencode, urlsplit
@@ -32,6 +33,10 @@ YAHOO_HAYDEN_WINKS_2026_URL = (
     "https://sports.yahoo.com/fantasy/article/"
     "2026-fantasy-football-rankings-hayden-winks-top-300-overall-"
     "players-for-half-ppr-143555896.html"
+)
+YAHOO_FULL_PPR_2026_URL = (
+    "https://sports.yahoo.com/fantasy/article/"
+    "2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html"
 )
 FANTASYPROS_WIDGET_API_URL = "https://partners.fantasypros.com/api/v1/consensus-rankings.php"
 FANTASYPROS_SCORING = "PPR"
@@ -298,7 +303,7 @@ def download_fantasypros_public(args: argparse.Namespace) -> None:
         )
 
     write_fantasypros_rows(args.season, rows)
-def write_adjusted_rows(season: int, rows: list[dict[str, str]], url: str) -> None:
+def write_adjusted_rows(season: int, rows: list[dict[str, str]], url: str, filename: str) -> None:
     """Write the normalized adjusted ranking shape consumed by both mergers."""
     pos_counts: dict[str, int] = {}
     output_rows = []
@@ -310,7 +315,7 @@ def write_adjusted_rows(season: int, rows: list[dict[str, str]], url: str) -> No
             "Diff": "", f"Finish{season - 1}": "", "Team": row.get("Team", ""),
             "Pos": position, "PosRank": pos_counts[position], "Notes": "", "Id": row.get("Id", ""),
         })
-    output_path = input_path(season, "adjusted_rankings.csv")
+    output_path = input_path(season, filename)
     write_csv(
         output_path,
         output_rows,
@@ -373,12 +378,12 @@ def fetch_yahoo_widget_rankings(widget_url: str) -> dict[str, Any]:
     return json.loads(json_match.group(1))
 
 
-def normalize_yahoo_widget_players(payload: dict[str, Any]) -> list[dict[str, str]]:
+def normalize_yahoo_widget_players(payload: dict[str, Any], expert_id: str | None = None) -> list[dict[str, str]]:
     """Convert the widget's player records to the adjusted CSV shape."""
     players = payload.get("players", [])
     rows = []
     for player in players:
-        rank = player.get("rank_ecr") or player.get("rank")
+        rank = (player.get("experts", {}).get(expert_id) if expert_id else None) or player.get("rank_ecr") or player.get("rank")
         name = player.get("player_name")
         if rank is None or not name:
             continue
@@ -395,36 +400,45 @@ def normalize_yahoo_widget_players(payload: dict[str, Any]) -> list[dict[str, st
     return rows
 
 
-def download_hayden_winks(args: argparse.Namespace) -> None:
+def download_yahoo_adjusted(args: argparse.Namespace) -> None:
     """Fetch Hayden Winks' Yahoo rankings through Yahoo's embedded widget.
 
     The article HTML contains the widget configuration, while the widget's
     documented-by-client JSONP request returns the complete 300-player table.
     This avoids scraping rendered table markup and avoids requiring an API key.
     """
-    yahoo_url = args.yahoo_hayden_url or os.getenv("YAHOO_HAYDEN_WINKS_URL")
-    if not yahoo_url:
-        if args.season != 2026:
-            raise SystemExit("Set YAHOO_HAYDEN_WINKS_URL or --yahoo-hayden-url for this season.")
-        yahoo_url = YAHOO_HAYDEN_WINKS_2026_URL
+    if args.season != 2026 and not args.yahoo_hayden_url:
+        raise SystemExit("Yahoo adjusted sources are currently configured for 2026.")
+    sources = [
+        ("half-ppr", args.yahoo_hayden_url or YAHOO_HAYDEN_WINKS_2026_URL, "adjusted_half_ppr.csv"),
+        ("full-ppr", args.yahoo_full_ppr_url or YAHOO_FULL_PPR_2026_URL, "adjusted_full_ppr.csv"),
+    ]
+    metadata = {"observedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"), "sources": {}}
+    for profile, yahoo_url, filename in sources:
+        page = fetch_bytes(yahoo_url).decode("utf-8", "ignore")
+        raw_path = input_path(args.season, f"yahoo_{profile}_rankings.html")
+        raw_path.parent.mkdir(parents=True, exist_ok=True)
+        raw_path.write_text(page, encoding="utf-8")
+        payload = fetch_yahoo_widget_rankings(extract_yahoo_ranking_widget_url(page))
+        rows = normalize_yahoo_widget_players(payload, "7666" if profile == "full-ppr" else None)
+        if len(rows) < 250:
+            raise SystemExit(f"Yahoo {profile} returned only {len(rows)} ranking rows; expected at least 250.")
+        input_path(args.season, f"yahoo_{profile}_rankings.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        write_adjusted_rows(args.season, rows, yahoo_url, filename)
+        winks_updated_at = payload.get("expert_pub", {}).get("7666")
+        metadata["sources"][profile] = {
+            "url": yahoo_url,
+            "label": "Hayden Winks" if profile == "half-ppr" else "Hayden Winks column",
+            "sourceUpdated": winks_updated_at[:10].replace("-", "/") if winks_updated_at else payload.get("last_updated"),
+            "sourceUpdatedAt": winks_updated_at,
+            "rowCount": len(rows),
+        }
+    input_path(args.season, "adjusted_rankings_metadata.json").write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
 
-    page = fetch_bytes(yahoo_url).decode("utf-8", "ignore")
-    raw_path = input_path(args.season, "yahoo_hayden_winks_rankings.html")
-    raw_path.parent.mkdir(parents=True, exist_ok=True)
-    raw_path.write_text(page, encoding="utf-8")
 
-    widget_url = extract_yahoo_ranking_widget_url(page)
-    payload = fetch_yahoo_widget_rankings(widget_url)
-    rows = normalize_yahoo_widget_players(payload)
-    if len(rows) < 250:
-        raise SystemExit(
-            "Yahoo's embedded ranking widget returned only "
-            f"{len(rows)} ranking rows; expected at least 250."
-        )
-
-    json_path = input_path(args.season, "yahoo_hayden_winks_rankings.json")
-    json_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    write_adjusted_rows(args.season, rows, yahoo_url)
+def download_hayden_winks(args: argparse.Namespace) -> None:
+    """Backward-compatible alias for the two Yahoo adjusted profiles."""
+    download_yahoo_adjusted(args)
 
 
 def download_espn(args: argparse.Namespace) -> None:
@@ -458,12 +472,14 @@ def parse_args() -> argparse.Namespace:
             "fantasypros-public",
             "espn",
             "hayden-winks",
+            "yahoo-adjusted",
             "all",
         ],
         help="Which input to download.",
     )
     parser.add_argument("--fantasypros-api-key", help="FantasyPros API key.")
     parser.add_argument("--fantasypros-position", default="ALL", help="FantasyPros position.")
+    parser.add_argument("--yahoo-full-ppr-url", help="Yahoo full-PPR rankings article URL.")
     parser.add_argument(
         "--fantasypros-scoring",
         default=FANTASYPROS_SCORING,
@@ -488,7 +504,7 @@ def main() -> None:
         download_fantasypros_public(args)
     if args.source in {"espn", "all"}:
         download_espn(args)
-    if args.source == "hayden-winks":
+    if args.source in {"hayden-winks", "yahoo-adjusted", "all"}:
         download_hayden_winks(args)
 
 
