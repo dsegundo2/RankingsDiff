@@ -738,7 +738,15 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .auction-shortlist__item { border-color: color-mix(in srgb, var(--target-border) 72%, var(--line)); border-radius: var(--radius-md); }
 .auction-roster-panel__roster { margin-top: var(--space-2); }
 .auction-roster-panel__roster > .auction-roster-panel__list { gap: 6px; }
-.auction-slot { min-height: 40px; padding: 7px 8px; border-radius: var(--radius-md); }
+.auction-shortlist__list { gap: 5px; }
+.auction-shortlist__item { grid-template-columns: 48px minmax(0,1fr) 18px; min-height: 0; padding: 7px 8px; line-height: 1.15; }
+.auction-shortlist__item strong { font-size: .82rem; }
+.auction-shortlist__item small { font-size: .68rem; }
+.auction-shortlist__item .target-queue__details { margin-top: 2px; }
+.auction-shortlist__item .target-queue__details small { font-size: .66rem; }
+.auction-slot { min-height: 38px; padding: 6px 8px; border-radius: var(--radius-md); line-height: 1.15; }
+.auction-slot__identity strong { font-size: .74rem; }
+.auction-slot__identity small { font-size: .64rem; }
 .auction-bench { margin-top: var(--space-4); }
 
 @media (max-width: 900px) {
@@ -756,6 +764,16 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   .draft-toolbar > .settings-icon-trigger, .draft-toolbar > .view-mode-toggle, .draft-toolbar > .draft-toolbar__actions { grid-column: auto; grid-row: auto; }
   .draft-toolbar__actions { justify-self: stretch; }
   .auction-roster-panel .target-queue--embedded { width: calc(100% + 32px); margin-inline: -16px; padding-inline: var(--space-3); }
+  .auction-roster-panel { padding: var(--space-3); }
+  .auction-roster-panel__budget { margin: var(--space-3) 0; padding: 8px 10px; }
+  .auction-roster-panel__section-heading { margin: var(--space-3) 0 var(--space-2); }
+  .auction-bench { margin-top: var(--space-3); }
+  .settings-preference-card { flex-direction: row; align-items: center; gap: var(--space-3); padding: var(--space-3); }
+  .settings-preference-card > span:first-child { flex: 1 1 auto; min-width: 0; }
+  .settings-preference-card > .drafted-toggle { flex: 0 0 auto; width: auto; min-height: 40px; justify-content: flex-end; white-space: nowrap; }
+  .settings-split-view { grid-template-columns: minmax(0, 1fr) !important; gap: var(--space-4); }
+  .settings-sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; padding: 0 0 var(--space-3); border-right: 0; border-bottom: 1px solid var(--line); }
+  .settings-content { width: 100%; min-width: 0; }
 }
 @media (max-width: 360px) {
   .search-panel .position-pills { gap: var(--space-1); }
