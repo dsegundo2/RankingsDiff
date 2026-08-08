@@ -47,13 +47,17 @@ type Props = {
   onClose: () => void
 }
 
-function SourceLinks({ links }: { links?: SourceLink[] }) {
+function SourceLinks({ links, adjustedProfiles, selectedAdjustedProfile }: { links?: SourceLink[]; adjustedProfiles: AdjustedProfile[]; selectedAdjustedProfile: string }) {
   if (!links?.length) return null
+  const selectedProfile = adjustedProfiles.find((profile) => profile.id === selectedAdjustedProfile) ?? adjustedProfiles[0]
+  const sourceLink = links.find((link) => !adjustedProfiles.some((profile) => profile.sourceUrl === link.url)) ?? links[0]
+  const profileLink = selectedProfile?.sourceUrl ? links.find((link) => link.url === selectedProfile.sourceUrl) ?? { label: selectedProfile.label, url: selectedProfile.sourceUrl } : undefined
+  const visibleLinks = [sourceLink, profileLink].filter((link, index, all): link is SourceLink => Boolean(link) && all.findIndex((candidate) => candidate?.url === link?.url) === index)
   return (
     <div className="source-links" aria-label="Ranking source pages">
       <span>Source pages</span>
       <div>
-        {links.map((link) => (
+        {visibleLinks.map((link) => (
           <a key={link.url} href={link.url} target="_blank" rel="noreferrer">
             <span>{link.label}</span><span aria-hidden="true">↗</span>
           </a>
@@ -120,7 +124,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
                   </select>
                 </label>
               </div>
-              <SourceLinks links={currentSource?.sourceLinks} />
+              <SourceLinks links={currentSource?.sourceLinks} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedAdjustedProfile} />
             </section> : null}
 
             {activePane === 'snapshots' ? <section className="settings-section settings-section--tools">

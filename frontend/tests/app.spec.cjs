@@ -598,3 +598,13 @@ test('adjusted rankings switch between full PPR Winks and half PPR Winks', async
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1)).toHaveText('7')
 })
+
+test('settings shows only the active source pages', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  const links = page.getByLabel('Ranking source pages').locator('a')
+  await expect(links).toHaveCount(2)
+  await expect(links).toContainText(['ESPN 2026 PPR300 PDF', 'Yahoo · Consensus Full-PPR rankings'])
+  await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
+  await expect(links).toContainText(['ESPN 2026 PPR300 PDF', 'Yahoo · Hayden Winks Half-PPR rankings'])
+})
