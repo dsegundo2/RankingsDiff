@@ -3,6 +3,7 @@ import type { AdjustedProfile, DataManifest, RankingRow, SourceCheckPayload, Tea
 import { RankingsDashboard } from './components/RankingsDashboard'
 import { withBasePath } from './data/paths'
 import { readDraftShare } from './data/draftState'
+import { ThemeMockups } from './components/ThemeMockups'
 
 const emptyManifest: DataManifest = { generatedAt: '', seasons: [] }
 
@@ -34,7 +35,7 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   </main>
 }
 
-export default function App() {
+function AppData() {
   const [manifest, setManifest] = useState<DataManifest>(emptyManifest)
   const [teams, setTeams] = useState<Record<string, TeamAsset>>({})
   const [rows, setRows] = useState<RankingRow[]>([])
@@ -117,4 +118,9 @@ export default function App() {
 
   const displayedRows = rows.map((row) => selectedProfile?.id === 'half-ppr' ? { ...row, adjustedRank: row.adjustedRankHalfPpr ?? row.adjustedRank } : row)
   return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} />
+}
+
+export default function App() {
+  if (window.location.pathname.endsWith('/mockups')) return <ThemeMockups />
+  return <AppData />
 }

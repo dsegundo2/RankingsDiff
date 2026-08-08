@@ -556,6 +556,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           <div className="view-summary" aria-live="polite">
             Looking at <strong>{selectedSeason}</strong> · <strong>{source?.label ?? selectedSource}</strong>
           </div>
+          <a className="theme-lab-link" href="./mockups">Explore theme directions <span aria-hidden="true">↗</span></a>
         </div>
       </section>
 
