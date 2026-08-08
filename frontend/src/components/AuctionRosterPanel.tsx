@@ -112,7 +112,7 @@ export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTarge
       <div className="auction-roster-panel__list">
       {starterSlots.map(renderSlot)}
       </div>
-      <div className="auction-bench"><div className="auction-roster-panel__section-heading"><strong>Bench</strong><span>fallback slots</span></div>{benchSlots.map(renderSlot)}</div>
+      <div className="auction-bench"><div className="auction-roster-panel__section-heading"><strong>Bench</strong></div>{benchSlots.map(renderSlot)}</div>
     </section>
     {!picks.length ? <p className="auction-roster-panel__empty">No players on roster yet.</p> : null}
   </aside>
