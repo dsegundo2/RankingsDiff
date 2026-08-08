@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type DragEvent } from 'react'
 import type { RankingRow, RankingSource, TeamAsset } from '../types'
 import { rankingId } from '../data/draftState'
 import { formatRank, formatValue } from '../data/rankings'
@@ -16,7 +16,7 @@ type Props = {
   prices: Record<string, number>
   slots: Record<string, string>
   onPrice: (id: string, value: number | undefined) => void
-  onSlot: (id: string, value: string) => void
+  onMoveSlot: (id: string, value: string) => void
   onTarget: (id: string) => void
 }
 
@@ -24,9 +24,11 @@ const starterSlots = ['QB1', 'RB1', 'RB2', 'WR1', 'WR2', 'TE1', 'FLEX']
 const benchSlots = ['BENCH1', 'BENCH2', 'BENCH3', 'BENCH4', 'BENCH5']
 const targetGoals: Record<string, number> = { QB1: 15, RB1: 50, RB2: 20, WR1: 35, WR2: 20, TE1: 15, FLEX: 10, BENCH1: 5, BENCH2: 4, BENCH3: 4, BENCH4: 3, BENCH5: 2 }
 
-export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTargetQueue, mode, source, prices, slots, onPrice, onSlot, onTarget }: Props) {
+export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTargetQueue, mode, source, prices, slots, onPrice, onMoveSlot, onTarget }: Props) {
   const [editingPriceId, setEditingPriceId] = useState<string | null>(null)
   const [priceDraft, setPriceDraft] = useState('')
+  const [draggingId, setDraggingId] = useState<string | null>(null)
+  const [dropSlot, setDropSlot] = useState<string | null>(null)
   const rowById = new Map(rows.map((row) => [rankingId(row), row]))
   const picks = [...drafted].map((id) => ({ id, row: rowById.get(id) })).filter((pick): pick is { id: string; row: RankingRow } => Boolean(pick.row))
   const spent = picks.reduce((total, pick) => total + (prices[pick.id] ?? 0), 0)
@@ -68,10 +70,27 @@ export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTarge
     return <div className="auction-slot__controls">{priceControl(id, row)}</div>
   }
 
-  function slotControl(id: string, slot: string, row: RankingRow) {
-    return <select className="auction-slot__label auction-slot__select" aria-label={`Roster slot for ${row.player}`} value={slots[id] ?? slot} onChange={(event) => onSlot(id, event.target.value)}>
-      {[...starterSlots, ...benchSlots].map((option) => <option key={option} value={option}>{slotName(option)}</option>)}
-    </select>
+  function handleDragStart(id: string, event: DragEvent<HTMLDivElement>): void {
+    setDraggingId(id)
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData('text/plain', id)
+  }
+
+  function handleDrop(slot: string, event: DragEvent<HTMLDivElement>): void {
+    event.preventDefault()
+    const id = event.dataTransfer.getData('text/plain') || draggingId
+    if (id) onMoveSlot(id, slot)
+    setDraggingId(null)
+    setDropSlot(null)
+  }
+
+  function renderSlot(slot: string) {
+    const pick = picks.find(({ id }) => slots[id] === slot)
+    const team = pick ? normalizeTeamAbbreviation(pick.row.team) : ''
+    return <div className={`auction-slot${pick ? ' is-filled' : ''}${dropSlot === slot ? ' is-drop-target' : ''}`} key={slot} data-roster-slot={slot} draggable={Boolean(pick)} aria-label={pick ? `${pick.row.player} in ${slotName(slot)}, draggable` : `${slotName(slot)} open, drop a player here`} onDragStart={pick ? (event) => handleDragStart(pick.id, event) : undefined} onDragEnd={() => { setDraggingId(null); setDropSlot(null) }} onDragOver={(event) => { event.preventDefault(); setDropSlot(slot) }} onDrop={(event) => handleDrop(slot, event)}>
+      <span className="auction-slot__label">{slotName(slot)}</span>
+      {pick ? <><div className="auction-slot__identity"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><span><strong>{pick.row.player}</strong><small>{team} · target {targetForSlot(slot)}</small></span></div>{pickControls(pick.id, pick.row)}</> : <span className="auction-slot__empty">Open · target {targetForSlot(slot)}</span>}
+    </div>
   }
 
   return <aside className="auction-roster-panel" aria-label="My draft roster">
@@ -89,14 +108,11 @@ export function AuctionRosterPanel({ rows, teams, drafted, targetRows, showTarge
       })}</div> : <p className="auction-roster-panel__empty">Target players to keep a short list here.</p>}
     </section> : null}
     <section className="auction-roster-panel__roster" aria-label="Roster slots">
-      <div className="auction-roster-panel__section-heading"><strong>My roster</strong><span>{pace >= 0 ? `Under target ${pace === 0 ? '$0' : `$${Math.round(pace)}`}` : `Over target $${Math.abs(Math.round(pace))}`}</span></div>
+      <div className="auction-roster-panel__section-heading"><strong>My roster</strong><span>Drag to move · {pace >= 0 ? `under target ${pace === 0 ? '$0' : `$${Math.round(pace)}`}` : `over target $${Math.abs(Math.round(pace))}`}</span></div>
       <div className="auction-roster-panel__list">
-      {starterSlots.map((slot) => {
-        const pick = picks.find(({ id }) => slots[id] === slot)
-        return <div className={`auction-slot${pick ? ' is-filled' : ''}`} key={slot}>{pick ? slotControl(pick.id, slot, pick.row) : <span className="auction-slot__label">{slot}</span>}{pick ? <><div className="auction-slot__identity"><TeamBadge team={normalizeTeamAbbreviation(pick.row.team)} asset={getTeamAsset(teams, normalizeTeamAbbreviation(pick.row.team))} /><span><strong>{pick.row.player}</strong><small>{normalizeTeamAbbreviation(pick.row.team)} · target {targetForSlot(slot)}</small></span></div>{pickControls(pick.id, pick.row)}</> : <span className="auction-slot__empty">Open · target {targetForSlot(slot)}</span>}</div>
-      })}
+      {starterSlots.map(renderSlot)}
       </div>
-      <div className="auction-bench"><div className="auction-roster-panel__section-heading"><strong>Bench</strong><span>fallback slots</span></div>{benchSlots.map((slot) => { const pick = picks.find(({ id }) => slots[id] === slot); return <div className={`auction-slot${pick ? ' is-filled' : ''}`} key={slot}>{pick ? slotControl(pick.id, slot, pick.row) : <span className="auction-slot__label">{slotName(slot)}</span>}{pick ? <><div className="auction-slot__identity"><TeamBadge team={normalizeTeamAbbreviation(pick.row.team)} asset={getTeamAsset(teams, normalizeTeamAbbreviation(pick.row.team))} /><span><strong>{pick.row.player}</strong><small>{normalizeTeamAbbreviation(pick.row.team)} · target {targetForSlot(slot)}</small></span></div>{pickControls(pick.id, pick.row)}</> : <span className="auction-slot__empty">Open · target {targetForSlot(slot)}</span>}</div> })}</div>
+      <div className="auction-bench"><div className="auction-roster-panel__section-heading"><strong>Bench</strong><span>fallback slots</span></div>{benchSlots.map(renderSlot)}</div>
     </section>
     {!picks.length ? <p className="auction-roster-panel__empty">Draft a player, then tap + in the Mine column to add them here.</p> : null}
   </aside>

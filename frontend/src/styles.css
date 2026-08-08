@@ -410,6 +410,9 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .auction-roster-panel__roster > .auction-roster-panel__list { gap: 5px; }
 .auction-slot { display: grid; grid-template-columns: 48px minmax(0,1fr) auto; gap: 7px; align-items: center; min-height: 36px; padding: 6px 7px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--panel-soft); }
 .auction-slot.is-filled { border-color: color-mix(in srgb, var(--good) 34%, var(--line)); background: var(--good-soft); }
+.auction-slot.is-filled { cursor: grab; }
+.auction-slot.is-filled:active { cursor: grabbing; }
+.auction-slot.is-drop-target { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent); }
 .auction-slot__label { display: inline-flex; min-width: 43px; justify-content: center; padding: 4px 4px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); background: var(--panel); font-size: .62rem; font-weight: 900; }
 .auction-slot.is-filled .auction-slot__label { border-color: color-mix(in srgb, var(--good) 35%, var(--line)); color: var(--good); }
 .auction-slot__identity { display: flex; min-width: 0; gap: 5px; align-items: center; }

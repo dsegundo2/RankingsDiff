@@ -173,6 +173,16 @@ test('recent picks can add a hidden drafted player to my roster', async ({ page 
   await expect(page.getByRole('button', { name: 'Remove Jahmyr Gibbs from my roster' }).first()).toBeVisible()
 })
 
+test('roster players can be dragged between slots', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
+  await page.getByLabel('Recent draft picks').getByRole('button', { name: 'Add Jahmyr Gibbs to my roster' }).click()
+  const roster = page.getByLabel('My draft roster')
+  await roster.locator('[data-roster-slot="RB1"]').dragTo(roster.locator('[data-roster-slot="RB2"]'))
+  await expect(roster.locator('[data-roster-slot="RB2"]')).toContainText('Jahmyr Gibbs')
+  await expect(roster.locator('[data-roster-slot="RB1"]')).toContainText('Open')
+})
+
 test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 })
   await page.goto('./')
