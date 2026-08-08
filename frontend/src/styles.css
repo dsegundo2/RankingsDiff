@@ -696,6 +696,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   .recent-draft { margin-inline: 0; border-inline: 0; border-radius: 0; }
   .recent-draft__list { display: flex; overflow-x: auto; margin-inline: calc(var(--space-2) * -1); padding-inline: var(--space-2); scroll-snap-type: x mandatory; }
   .recent-draft__list li { flex: 0 0 min(82vw, 300px); scroll-snap-align: start; }
+  .recent-draft__mine { opacity: 1; }
 }
 
 /* Settings polish: one clear surface, flatter pane content, and balanced tool cards. */
@@ -929,6 +930,10 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .recent-draft__list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-2); margin: var(--space-3) 0 0; padding: 0; list-style: none; }
 .recent-draft__list li { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); align-items: center; min-width: 0; min-height: 78px; padding: var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel); }
 .recent-draft__meta { display: flex; min-width: 0; justify-content: space-between; gap: var(--space-2); align-items: center; }
+.recent-draft__mine { display: inline-grid; width: 26px; height: 26px; place-items: center; margin-left: auto; border: 1px solid transparent; border-radius: var(--radius-sm); color: var(--muted); background: transparent; font-size: 1rem; font-weight: 900; opacity: 0; transition: opacity .15s ease, border-color .15s ease, color .15s ease, background .15s ease; }
+.recent-draft__list li:hover .recent-draft__mine, .recent-draft__mine:focus-visible, .recent-draft__mine.active { opacity: 1; }
+.recent-draft__mine:hover, .recent-draft__mine:focus-visible { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.recent-draft__mine.active { border-color: color-mix(in srgb, var(--good) 40%, var(--line)); color: var(--good); background: var(--good-soft); }
 .recent-draft__pick, .recent-draft__player small { color: var(--muted); font-size: .68rem; }
 .recent-draft__pick { font-variant-numeric: tabular-nums; }
 .recent-draft__pos { min-width: 28px; padding: 3px 5px; border-radius: var(--radius-sm); font-size: .66rem; font-weight: 850; text-align: center; }

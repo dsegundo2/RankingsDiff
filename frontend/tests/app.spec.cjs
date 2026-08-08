@@ -164,6 +164,15 @@ test('recent picks stay horizontal, show five, and omit source rank', async ({ p
   expect(await list.evaluate((node) => getComputedStyle(node).display)).toBe('flex')
 })
 
+test('recent picks can add a hidden drafted player to my roster', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
+  await page.getByRole('checkbox', { name: 'Drafted' }).uncheck()
+  await page.getByRole('button', { name: 'Add Jahmyr Gibbs to my roster' }).first().click()
+  await expect(page.getByLabel('My draft roster')).toContainText('Jahmyr Gibbs')
+  await expect(page.getByRole('button', { name: 'Remove Jahmyr Gibbs from my roster' }).first()).toBeVisible()
+})
+
 test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 })
   await page.goto('./')

@@ -500,7 +500,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       </section>
 
       <div className={`dashboard-workbench${stickyWorkbench ? ' dashboard-workbench--sticky' : ''}`}>
-      {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} teams={teams} /> : null}
+      {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} mine={mine} teams={teams} onMine={toggleMine} /> : null}
 
       <section className="search-panel" aria-label="Player search">
         <label className="header-search header-search--standalone">
