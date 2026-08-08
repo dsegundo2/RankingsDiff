@@ -63,6 +63,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const [hydratedViewKey, setHydratedViewKey] = useState('')
   const [hydratedTargetKey, setHydratedTargetKey] = useState('')
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const workbenchRef = useRef<HTMLDivElement>(null)
   const historyRef = useRef<DraftSnapshot[]>([{ targets: [], drafted: [], mine: [], prices: {}, slots: {} }])
   const historyIndexRef = useRef(0)
   const season = manifest.seasons.find((item) => item.season === selectedSeason) ?? manifest.seasons[0]
@@ -71,6 +72,16 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
   const auctionStorageKey = `rankingsdiff:auction:v1:${selectedSeason}:${selectedSource}`
   const viewStorageKey = `rankingsdiff:view:v1:${selectedSeason}:${selectedSource}`
   const targetStorageKey = `rankingsdiff:roster-targets:v1:${selectedSeason}:${selectedSource}`
+
+  useEffect(() => {
+    const workbench = workbenchRef.current
+    if (!workbench) return
+    const updateHeight = () => workbench.parentElement?.style.setProperty('--sticky-workbench-height', `${workbench.getBoundingClientRect().height}px`)
+    updateHeight()
+    const observer = new ResizeObserver(updateHeight)
+    observer.observe(workbench)
+    return () => observer.disconnect()
+  }, [showDraftLog, stickyWorkbench, showMobileActions, view, selectedSeason, selectedSource])
   const filteredRows = useMemo(() => {
     const searchedRows = filterRankings(rows, search, 'ALL', teams)
     if (view === 'positions' || boardPositions.size === allPositionKeys.size) return searchedRows
@@ -531,7 +542,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
         </div>
       </section>
 
-      <div className={`dashboard-workbench${stickyWorkbench ? ' dashboard-workbench--sticky' : ''}`}>
+      <div ref={workbenchRef} className={`dashboard-workbench${stickyWorkbench ? ' dashboard-workbench--sticky' : ''}`}>
       {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} mine={mine} teams={teams} onMine={toggleMine} /> : null}
 
       <section className="search-panel" aria-label="Player search">
@@ -585,7 +596,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
       </div>
 
       {view === 'board' ? (
-        <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
+        <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <div>
             <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} />
             <section className="cards-list" aria-label="Mobile rankings cards">
@@ -598,7 +609,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
           <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       ) : (
-        <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
+        <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
           <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
