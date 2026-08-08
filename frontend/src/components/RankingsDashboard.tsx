@@ -571,9 +571,7 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
             <option value="position">Position</option>
             <option value="sourceRank">{sourceLabel(selectedSource)} rank</option>
             <option value="adjustedRank">Adjusted rank</option>
-            {selectedSource === 'espn' ? <option value="sourceValue">{sourceLabel(selectedSource)} price</option> : null}
-            {selectedSource === 'espn' ? <option value="adjustedValue">Adjusted price</option> : null}
-            <option value="diff">{selectedSource === 'espn' ? 'Value diff' : 'Diff'}</option>
+            <option value="diff">Delta</option>
           </select>
           <button type="button" className="mobile-sort-direction" onClick={() => setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')} aria-label={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`}>
             {sortDirection === 'asc' ? '↑' : '↓'} {sortDirection === 'asc' ? 'Ascending' : 'Descending'}

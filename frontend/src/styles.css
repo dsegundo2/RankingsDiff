@@ -339,7 +339,8 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .rankings-table .player-cell strong, .rankings-table .player-cell span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mobile-player-meta { display: none; }
 .player-heading { padding-left: 54px; }
-.rank-heading small, .price-heading small { display: block; margin-top: 3px; color: var(--muted); font-size: .58rem; font-weight: 750; letter-spacing: 0; text-transform: none; }
+.rank-heading small, .price-heading small, .diff-heading small { display: block; margin-top: 3px; color: var(--muted); font-size: .58rem; font-weight: 750; letter-spacing: 0; line-height: 1.1; text-transform: none; }
+.diff-heading > .sort-button { display: inline-block; }
 .rank-heading__sorts { display: inline-flex; gap: 3px; align-items: center; justify-content: flex-end; white-space: nowrap; }
 .rank-heading__sorts .sort-button { width: auto; border: 0; border-radius: 5px; padding: 1px 2px; color: var(--muted); background: transparent; font-size: .6rem; font-weight: 850; }
 .rank-heading__sorts .sort-button:hover, .rank-heading__sorts .sort-button:focus-visible { color: var(--accent); background: var(--accent-soft); }
