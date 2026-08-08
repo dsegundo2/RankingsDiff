@@ -565,12 +565,12 @@ export function RankingsDashboard({ manifest, rows, teams, sourceChecks, selecte
               })}
             </section>
           </div>
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onSlot={updateDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onSlot={updateDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onSlot={updateDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onSlot={updateDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       )}
       <SettingsPopover

@@ -412,7 +412,10 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .auction-slot.is-filled { border-color: color-mix(in srgb, var(--good) 34%, var(--line)); background: var(--good-soft); }
 .auction-slot__label { display: inline-flex; min-width: 43px; justify-content: center; padding: 4px 4px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); background: var(--panel); font-size: .62rem; font-weight: 900; }
 .auction-slot.is-filled .auction-slot__label { border-color: color-mix(in srgb, var(--good) 35%, var(--line)); color: var(--good); }
-.auction-slot__identity { min-width: 0; }
+.auction-slot__identity { display: flex; min-width: 0; gap: 5px; align-items: center; }
+.auction-slot__identity > span { min-width: 0; }
+.auction-slot__identity .team-badge { width: 24px; height: 24px; flex-basis: 24px; border-radius: 7px; }
+.auction-slot__identity .team-badge img { width: 18px; height: 18px; }
 .auction-slot__identity strong, .auction-slot__identity small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .auction-slot__identity strong { font-size: .7rem; }
 .auction-slot__identity small { margin-top: 2px; color: var(--muted); font-size: .61rem; }
@@ -421,8 +424,12 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .auction-slot__controls { display: flex; min-width: 0; gap: 4px; align-items: center; }
 .auction-slot__select, .auction-slot__price { min-width: 0; height: 28px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--panel); font-size: .64rem; font-weight: 800; }
 .auction-slot__select { width: 54px; padding: 3px 2px; }
-.auction-slot__price { width: 42px; padding: 3px 4px; text-align: right; font-variant-numeric: tabular-nums; }
-.auction-slot__select:focus, .auction-slot__price:focus { outline: 3px solid rgba(79,93,228,.18); outline-offset: 1px; border-color: var(--accent); }
+.auction-slot__label.auction-slot__select { width: 48px; min-width: 48px; padding-inline: 2px; }
+.auction-slot__price-display, .auction-slot__price-input { width: 44px; min-height: 28px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--panel); font-size: .66rem; font-weight: 850; text-align: center; font-variant-numeric: tabular-nums; }
+.auction-slot__price-display { padding: 4px 2px; }
+.auction-slot__price-display:hover, .auction-slot__price-display:focus-visible { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.auction-slot__price-input { padding: 3px 4px; text-align: right; }
+.auction-slot__price-input:focus { outline: 3px solid rgba(79,93,228,.18); outline-offset: 1px; border-color: var(--accent); }
 .auction-bench { margin-top: 8px; padding-top: 2px; border-top: 1px solid var(--line); }
 .auction-bench .auction-roster-panel__section-heading { margin-top: 10px; }
 .auction-bench .auction-slot { min-height: 32px; }
