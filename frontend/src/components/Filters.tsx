@@ -24,8 +24,8 @@ export function Filters({ search, position, searchInputRef, onSearch, onPosition
   return (
     <section className={`filters filters--quick${compact ? ' filters--compact' : ''}`} aria-label="Rankings filters">
       {showSearch ? <label className="search-field">
-        <span>Search players</span>
-        <input data-player-search ref={searchInputRef} value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />
+        <span className="filters__search-label">Search players</span>
+        <input data-player-search ref={searchInputRef} value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Search by player or team" />
       </label> : null}
       {showPositions ? <div className="position-filter-wrap">
         <div className="position-pills" aria-label="Position filters">

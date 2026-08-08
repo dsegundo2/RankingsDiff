@@ -571,38 +571,24 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       <div ref={workbenchRef} className={`dashboard-workbench${stickyWorkbench ? ' dashboard-workbench--sticky' : ''}`}>
       {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} mine={mine} teams={teams} onMine={toggleMine} /> : null}
 
-      <section className="search-panel" aria-label="Player search">
-        <label className="header-search header-search--standalone">
-          <span className="sr-only">Search players</span>
-          <div className="search-input-wrap">
-            <input data-player-search ref={searchInputRef} value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Ja'Marr, CIN, RB…" />
-            {search ? <button className="search-clear" type="button" onClick={() => { setSearch(''); searchInputRef.current?.focus() }} aria-label="Clear player search">×</button> : null}
-          </div>
-        </label>
-      </section>
-
-      <section className="draft-toolbar" aria-label="Draft board controls">
-        <button className="settings-icon-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-label="Settings" aria-haspopup="dialog" title={`${selectedSeason} · ${source?.label ?? selectedSource} · ${visibleRows.length.toLocaleString()} showing`}>
-          <img src={withBasePath('/assets/settings.svg')} alt="" aria-hidden="true" />
-        </button>
-        <label className="drafted-toggle view-mode-toggle"><input type="checkbox" aria-label="By position" checked={view === 'positions'} onChange={(event) => setView(event.target.checked ? 'positions' : 'board')} /><span className="desktop-label">Position</span><span className="mobile-label">Pos</span></label>
+      <section className="search-panel" aria-label="Player search and filters">
         <Filters
           search={search}
           position={position}
+          searchInputRef={searchInputRef}
           onSearch={setSearch}
           onPosition={view === 'board' ? handleBoardPosition : setPosition}
-          showSearch={false}
           multiSelect={view === 'board'}
           selectedPositions={view === 'board' ? boardPositions : positionViews}
-          showPositions={view === 'board'}
+          showPositions
           onTogglePosition={view === 'board' ? toggleBoardPosition : togglePositionView}
           onSelectOnlyPosition={view === 'board' ? selectOnlyBoardPosition : selectOnlyPosition}
           draftedCounts={draftedCounts}
           compact
         />
-        <div className="mobile-sort-control" aria-label="Mobile sort controls">
-          <label htmlFor="mobile-sort">Sort by</label>
-          <select id="mobile-sort" value={sortKey} onChange={(event) => handleSort(event.target.value as SortKey)}>
+        <div className="search-sort-control" aria-label="Mobile sort controls">
+          <label htmlFor="search-sort">Sort by</label>
+          <select id="search-sort" value={sortKey} onChange={(event) => handleSort(event.target.value as SortKey)}>
             <option value="player">Player</option>
             <option value="position">Position</option>
             <option value="sourceRank">{sourceLabel(selectedSource)} rank</option>
@@ -610,10 +596,17 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
             <option value="yahooProjection">Yahoo projection</option>
             <option value="diff">Delta</option>
           </select>
-          <button type="button" className="mobile-sort-direction" onClick={() => setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')} aria-label={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`}>
-            {sortDirection === 'asc' ? '↑' : '↓'} {sortDirection === 'asc' ? 'Ascending' : 'Descending'}
+          <button type="button" className="search-sort-direction" onClick={() => setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')} aria-label={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`}>
+            {sortDirection === 'asc' ? '↑' : '↓'}
           </button>
         </div>
+      </section>
+
+      <section className="draft-toolbar" aria-label="Draft board controls">
+        <button className="settings-icon-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-label="Settings" aria-haspopup="dialog" title={`${selectedSeason} · ${source?.label ?? selectedSource} · ${visibleRows.length.toLocaleString()} showing`}>
+          <img src={withBasePath('/assets/settings.svg')} alt="" aria-hidden="true" />
+        </button>
+        <label className="drafted-toggle view-mode-toggle"><input type="checkbox" aria-label="By position" checked={view === 'positions'} onChange={(event) => setView(event.target.checked ? 'positions' : 'board')} /><span className="desktop-label">Position</span><span className="mobile-label">Pos</span></label>
         <div className="draft-toolbar__actions">
           <label className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /><span>Drafted</span></label>
           <label className="drafted-toggle mobile-actions-toggle"><input type="checkbox" aria-label="Show actions" checked={showMobileActions} onChange={(event) => setShowMobileActions(event.target.checked)} /><span>Actions</span></label>
