@@ -322,6 +322,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .rankings-table .col-position { width: 72px; }
 .rankings-table .col-rank { width: 112px; }
 .rankings-table .col-money { width: 82px; }
+.rankings-table .col-yahoo-projection { width: 94px; }
 .rankings-table .col-diff { width: 66px; }
 .rankings-table .col-draft { width: 68px; }
 .rankings-table--fpros .col-rank { width: 112px; }
@@ -342,6 +343,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .mobile-player-meta { display: none; }
 .player-heading { padding-left: 54px; }
 .rank-heading small, .price-heading small, .diff-heading small { display: block; margin-top: 3px; color: var(--muted); font-size: .58rem; font-weight: 750; letter-spacing: 0; line-height: 1.1; text-transform: none; }
+.yahoo-projection-heading small { display: block; margin-top: 3px; color: var(--muted); font-size: .58rem; font-weight: 750; letter-spacing: 0; line-height: 1.1; text-transform: none; }
 .diff-heading > .sort-button { display: inline-block; }
 .rank-heading__sorts { display: inline-flex; gap: 3px; align-items: center; justify-content: flex-end; white-space: nowrap; }
 .rank-heading__sorts .sort-button { width: auto; border: 0; border-radius: 5px; padding: 1px 2px; color: var(--muted); background: transparent; font-size: .6rem; font-weight: 850; }
@@ -361,6 +363,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   .rankings-table .col-position { width: 62px; }
   .rankings-table .col-rank { width: 98px; }
   .rankings-table .col-money { width: 78px; }
+  .rankings-table .col-yahoo-projection { width: 88px; }
   .rankings-table .col-diff { width: 62px; }
   .rankings-table .col-draft { width: 66px; }
   .rankings-table th, .rankings-table td { padding-inline: 8px; }
@@ -508,6 +511,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   .rankings-table .col-position { width: 46px; }
   .rankings-table .col-rank { width: 68px; }
   .rankings-table .col-money { width: 0; }
+  .rankings-table .col-yahoo-projection { width: 86px; }
   .rankings-table .col-diff { width: 44px; }
   .rankings-table .col-draft { width: 54px; }
   .rankings-table th, .rankings-table td { padding: 8px 7px; }
@@ -518,6 +522,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   .rankings-table .player-cell__inner > div > span { display: block; margin-top: 3px; font-size: .64rem; }
   .rankings-table .player-heading { padding-left: 7px; }
   .rankings-table .rank-heading small, .rankings-table .price-heading, .rankings-table .price-cell { display: none; }
+  .rankings-table .yahoo-projection-heading small { display: none; }
   .rankings-table .rank-pair { gap: 3px; font-size: .72rem; }
   .rankings-table .position-cell { display: table-cell; }
   .rankings-table .position-cell .pos-chip { min-width: 38px; padding: 5px 4px; font-size: .66rem; }

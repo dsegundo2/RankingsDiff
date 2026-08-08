@@ -14,10 +14,24 @@ export type RankingRow = {
   sourceValue?: number
   adjustedValue?: number
   priceRank?: number
+  yahooProjection?: number
   notes?: string
   diffTone?: DiffTone
   positionTone?: PositionTone
 }
+
+export type YahooProjection = {
+  player?: string
+  team?: string
+  week1Ppr?: number
+  week1HalfPpr?: number
+  seasonPpr?: number
+  seasonHalfPpr?: number
+  weeklyAvgPpr?: number
+  weeklyAvgHalfPpr?: number
+}
+
+export type YahooProjectionMap = Record<string, YahooProjection>
 
 export type TeamAsset = {
   id: string
@@ -59,6 +73,7 @@ export type AdjustedProfile = {
 export type SeasonManifest = {
   season: number
   sources: SourceManifest[]
+  yahooProjections?: string
 }
 
 export type DataManifest = {
@@ -66,7 +81,7 @@ export type DataManifest = {
   seasons: SeasonManifest[]
 }
 
-export type SortKey = 'sourceRank' | 'adjustedRank' | 'diff' | 'player' | 'position' | 'sourceValue' | 'adjustedValue' | 'priceRank'
+export type SortKey = 'sourceRank' | 'adjustedRank' | 'diff' | 'player' | 'position' | 'sourceValue' | 'adjustedValue' | 'priceRank' | 'yahooProjection'
 export type SortDirection = 'asc' | 'desc'
 
 export type RankingSource = 'fpros' | 'espn' | string

@@ -652,3 +652,41 @@ test('snake roster assigns the first available draft round', async ({ page }) =>
     await expect(roster.getByRole('button', { name: `Edit draft round for ${player}` })).toContainText(`R${index + 1}`)
   }
 })
+
+test('Yahoo projection column can be hidden from display settings', async ({ page }) => {
+  await page.goto('./')
+  await page.evaluate(() => localStorage.clear())
+  await page.reload()
+  await expect(page.getByRole('columnheader', { name: /Yahoo proj/ })).toBeVisible()
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  await page.getByRole('checkbox', { name: 'Show Yahoo projections' }).uncheck()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.getByRole('columnheader', { name: /Yahoo proj/ })).toHaveCount(0)
+})
+
+test('Yahoo projections render the selected scoring format and are searchable', async ({ page }) => {
+  await page.route('**/data/manifest.json', async (route) => {
+    const response = await route.fetch()
+    const manifest = await response.json()
+    manifest.seasons[0].yahooProjections = '/data/test-yahoo-projections.json'
+    await route.fulfill({ response, json: manifest })
+  })
+  await page.route('**/data/test-yahoo-projections.json', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify([{ player: 'Bijan Robinson', team: 'ATL', week1Ppr: 20.5, week1HalfPpr: 18.5, weeklyAvgPpr: 14.2, weeklyAvgHalfPpr: 12.1 }])
+    })
+  })
+  await page.goto('./')
+  const row = page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first()
+  await expect(row.locator('.yahoo-projection-cell')).toContainText('20.50')
+  await expect(row.locator('.yahoo-projection-cell')).toContainText('14.2 avg')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByText('Adjusted rankings').locator('..').getByRole('combobox').selectOption('half-ppr')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(row.locator('.yahoo-projection-cell')).toContainText('18.50')
+  await expect(row.locator('.yahoo-projection-cell')).toContainText('12.1 avg')
+  await page.getByPlaceholder(/Ja'Marr/).fill('Bijan')
+  await expect(page.locator('tbody tr')).toHaveCount(1)
+})

@@ -239,6 +239,13 @@ def build_manifest() -> dict[str, Any]:
         except ValueError:
             continue
         sources = []
+        yahoo_projection_path = ROOT / "data" / "raw" / str(season) / "yahoo_projections.json"
+        yahoo_projection_public_path = None
+        if yahoo_projection_path.exists():
+            yahoo_projection_target = PUBLIC_DATA / str(season) / "yahoo" / "projections.json"
+            yahoo_projection_target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(yahoo_projection_path, yahoo_projection_target)
+            yahoo_projection_public_path = public_path(yahoo_projection_target)
         for source_dir in sorted(p for p in season_dir.iterdir() if p.is_dir()):
             source = source_dir.name
             csv_name = CSV_NAMES.get(source, f"{source}_merged.csv")
@@ -286,7 +293,10 @@ def build_manifest() -> dict[str, Any]:
                 entry["xlsx"] = xlsx_url
             sources.append(entry)
         if sources:
-            seasons.append({"season": season, "sources": sources})
+            season_entry = {"season": season, "sources": sources}
+            if yahoo_projection_public_path:
+                season_entry["yahooProjections"] = yahoo_projection_public_path
+            seasons.append(season_entry)
     # Generated outputs are intentionally ignored by git. Preserve committed
     # historical frontend seasons when a clean workflow checkout only rebuilds
     # the active season.

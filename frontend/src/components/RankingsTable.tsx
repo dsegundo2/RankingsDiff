@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import type { RankingRow, RankingSource, SortDirection, SortKey, TeamAsset } from '../types'
+import type { RankingRow, RankingSource, SortDirection, SortKey, TeamAsset, YahooProjection } from '../types'
 import { formatRank, formatSignedValue, formatValue, sourceLabel } from '../data/rankings'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
@@ -21,6 +21,9 @@ type Props = {
   selectedId?: string
   onSelect?: (id: string) => void
   stickyHeaders?: boolean
+  showYahooProjections: boolean
+  yahooProjectionMode: 'full' | 'half'
+  yahooProjectionFor: (row: RankingRow) => YahooProjection | undefined
 }
 
 function diffSignalStyle(diff: number | undefined, isEspn: boolean): CSSProperties {
@@ -38,7 +41,7 @@ function SortButton({ label, sortKey, activeKey, direction, onSort, ariaLabel }:
   return <button className="sort-button" aria-label={ariaLabel ?? `Sort by ${label}`} title={ariaLabel ?? `Sort by ${label}`} onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span aria-hidden="true"> {direction === 'asc' ? '↑' : '↓'}</span> : null}</button>
 }
 
-export function RankingsTable({ rows, teams, source, sortKey, sortDirection, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false }: Props) {
+export function RankingsTable({ rows, teams, source, sortKey, sortDirection, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false, showYahooProjections, yahooProjectionMode, yahooProjectionFor }: Props) {
   const isEspn = source === 'espn'
   return (
     <div className="table-wrap">
@@ -49,6 +52,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
           <col className="col-position" />
           <col className="col-rank" />
           {isEspn ? <col className="col-money" /> : null}
+          {showYahooProjections ? <col className="col-yahoo-projection" /> : null}
           <col className="col-diff" />
           <col className="col-draft" />
         </colgroup>
@@ -59,6 +63,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="num-heading rank-heading"><span>Rank</span><small className="rank-heading__sorts"><SortButton label="SRC" ariaLabel={`Sort by ${sourceLabel(source)} rank`} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><span aria-hidden="true">→</span><SortButton label="Adj" ariaLabel="Sort by Adjusted rank" sortKey="adjustedRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></small></th>
             {isEspn ? <th className="num-heading price-heading"><span>Value</span><small>{sourceLabel(source)} → Adj</small></th> : null}
+            {showYahooProjections ? <th className="num-heading yahoo-projection-heading"><SortButton label="Yahoo proj" sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><small>W1 · Wk avg</small></th> : null}
             <th className="num-heading diff-heading"><SortButton label="Delta" ariaLabel={isEspn ? 'Sort by value delta' : 'Sort by ranking delta'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><small>{isEspn ? 'Value' : 'Rank'}</small></th>
             <th className="draft-heading">Draft</th>
           </tr>
@@ -71,6 +76,10 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
             const isTarget = targets.has(id)
             const isDrafted = drafted.has(id)
             const isMine = mine.has(id)
+            const projection = yahooProjectionFor(row)
+            const week1Projection = yahooProjectionMode === 'half' ? projection?.week1HalfPpr : projection?.week1Ppr
+            const weeklyAverage = yahooProjectionMode === 'half' ? projection?.weeklyAvgHalfPpr : projection?.weeklyAvgPpr
+            const weeklyAverageFallback = yahooProjectionMode === 'half' ? projection?.seasonHalfPpr : projection?.seasonPpr
             return (
               <tr
                 key={`${row.player}-${row.team}-${row.sourceRank}`}
@@ -90,6 +99,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, tar
                 <td className="position-cell"><span className={`pos-chip pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span></td>
                 <td className="num rank-cell"><span className="rank-pair"><strong>{formatRank(row.sourceRank)}</strong><span>→</span><strong>{formatRank(row.adjustedRank)}</strong></span></td>
                 {isEspn ? <td className="num price-cell"><span className="stacked-price"><strong>{formatValue(row.sourceValue)}</strong><small>Adjusted {formatValue(row.adjustedValue)}</small></span></td> : null}
+                {showYahooProjections ? <td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{typeof week1Projection === 'number' ? week1Projection.toFixed(2) : '—'}</strong><small>{typeof weeklyAverage === 'number' ? `${weeklyAverage.toFixed(1)} avg` : typeof weeklyAverageFallback === 'number' ? `${(weeklyAverageFallback / 17).toFixed(1)} avg` : 'No data'}</small></span></td> : null}
                 <td className={`num emphasis diff-cell ${typeof row.diff === 'number' && row.diff > 0 ? 'diff-positive' : typeof row.diff === 'number' && row.diff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{isEspn ? formatSignedValue(row.diff) : formatRank(row.diff)}</span></td>
                 <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undo' : 'Draft'}</button></td>
               </tr>

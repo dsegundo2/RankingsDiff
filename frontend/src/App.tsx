@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { AdjustedProfile, DataManifest, RankingRow, SourceCheckPayload, TeamAsset } from './types'
+import type { AdjustedProfile, DataManifest, RankingRow, SourceCheckPayload, TeamAsset, YahooProjection, YahooProjectionMap } from './types'
 import { RankingsDashboard } from './components/RankingsDashboard'
 import { withBasePath } from './data/paths'
 import { readDraftShare } from './data/draftState'
@@ -11,6 +11,36 @@ async function fetchJson<T>(path: string, signal?: AbortSignal): Promise<T> {
   const response = await fetch(withBasePath(path), { signal })
   if (!response.ok) throw new Error(`Unable to load ${path}`)
   return response.json() as Promise<T>
+}
+
+function normalizeYahooProjections(payload: unknown): YahooProjectionMap {
+  const items = Array.isArray(payload)
+    ? payload
+    : payload && typeof payload === 'object' && Array.isArray((payload as { players?: unknown }).players)
+      ? (payload as { players: unknown[] }).players
+      : payload && typeof payload === 'object'
+        ? Object.entries(payload as Record<string, unknown>).map(([id, value]) => ({ id, ...(value as object) }))
+        : []
+  return items.reduce<YahooProjectionMap>((result, item) => {
+    if (!item || typeof item !== 'object') return result
+    const value = item as YahooProjection & { id?: string; name?: string; fullName?: string; position?: string; teamAbbr?: string }
+    const keyParts = value.id?.split('|')
+    const player = value.player ?? value.name ?? value.fullName ?? keyParts?.[0]
+    const team = value.team ?? value.teamAbbr ?? keyParts?.[1]
+    if (!player || !team) return result
+    const id = `${player.trim().toLowerCase()}|${team.trim().toLowerCase().split(/\s|\(/)[0]}`
+    result[id] = {
+      player,
+      team,
+      week1Ppr: value.week1Ppr ?? (value as { week1?: number }).week1,
+      week1HalfPpr: value.week1HalfPpr,
+      seasonPpr: value.seasonPpr,
+      seasonHalfPpr: value.seasonHalfPpr,
+      weeklyAvgPpr: value.weeklyAvgPpr,
+      weeklyAvgHalfPpr: value.weeklyAvgHalfPpr
+    }
+    return result
+  }, {})
 }
 
 function LoadingState({ detail = 'Preparing your rankings board…' }: { detail?: string }) {
@@ -39,6 +69,7 @@ function AppData() {
   const [manifest, setManifest] = useState<DataManifest>(emptyManifest)
   const [teams, setTeams] = useState<Record<string, TeamAsset>>({})
   const [rows, setRows] = useState<RankingRow[]>([])
+  const [yahooProjections, setYahooProjections] = useState<YahooProjectionMap>({})
   const [sourceChecks, setSourceChecks] = useState<SourceCheckPayload | undefined>()
   const [selectedSeason, setSelectedSeason] = useState<number>(0)
   const [selectedSource, setSelectedSource] = useState<string>('')
@@ -96,8 +127,13 @@ function AppData() {
     const controller = new AbortController()
     const timeout = window.setTimeout(() => controller.abort(), 12000)
     setRowsLoading(true)
-    fetchJson<RankingRow[]>(selectedMeta.json, controller.signal).then((loadedRows) => {
+    const seasonMeta = manifest.seasons.find((item) => item.season === selectedSeason)
+    const projectionRequest = seasonMeta?.yahooProjections
+      ? fetchJson<unknown>(seasonMeta.yahooProjections, controller.signal).then(normalizeYahooProjections).catch(() => ({} as YahooProjectionMap))
+      : Promise.resolve({} as YahooProjectionMap)
+    Promise.all([fetchJson<RankingRow[]>(selectedMeta.json, controller.signal), projectionRequest]).then(([loadedRows, loadedProjections]) => {
       setRows(loadedRows)
+      setYahooProjections(loadedProjections)
       setRowsLoading(false)
       setHasLoadedRows(true)
     }).catch((reason) => {
@@ -105,7 +141,7 @@ function AppData() {
       setRowsLoading(false)
     }).finally(() => window.clearTimeout(timeout))
     return () => { window.clearTimeout(timeout); controller.abort() }
-  }, [selectedMeta, retryKey])
+  }, [manifest, selectedMeta, selectedSeason, retryKey])
 
   function handleSeason(season: number) {
     setSelectedSeason(season)
@@ -117,7 +153,7 @@ function AppData() {
   if (manifestLoading || !manifest.seasons.length || !selectedSource || !hasLoadedRows) return <LoadingState detail={manifestLoading ? undefined : `Loading ${selectedMeta?.label ?? 'the selected source'} rankings…`} />
 
   const displayedRows = rows.map((row) => selectedProfile?.id === 'half-ppr' ? { ...row, adjustedRank: row.adjustedRankHalfPpr ?? row.adjustedRank } : row)
-  return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} />
+  return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} />
 }
 
 export default function App() {

@@ -1,6 +1,13 @@
 import type { PositionFilter, RankingRow, SortDirection, SortKey, TeamAsset } from '../types'
 import { getTeamAsset } from './teams'
 
+export function yahooProjectionId(player: string, team: string): string {
+  // Rankings exports may include the bye week (for example, "ATL (11)").
+  // Yahoo's player feed only uses the abbreviation, so keep both sides on the
+  // same stable player/team key.
+  return `${player.trim().toLowerCase()}|${team.trim().toLowerCase().split(/\s|\(/)[0]}`
+}
+
 export function filterRankings(rows: RankingRow[], search: string, position: PositionFilter, teams?: Record<string, TeamAsset>): RankingRow[] {
   const query = search.trim().toLowerCase()
   return rows.filter((row) => {
@@ -8,7 +15,7 @@ export function filterRankings(rows: RankingRow[], search: string, position: Pos
     if (!matchesPosition) return false
     if (!query) return true
     const team = getTeamAsset(teams ?? {}, row.team)
-    return [row.player, row.team, team?.displayName, team?.shortDisplayName, row.position, row.positionRank, row.notes]
+    return [row.player, row.team, team?.displayName, team?.shortDisplayName, row.position, row.positionRank, row.notes, row.yahooProjection]
       .filter(Boolean)
       .some((value) => String(value).toLowerCase().includes(query))
   })
