@@ -68,7 +68,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   const [showRosterPanel, setShowRosterPanel] = useState(true)
   const [stickyWorkbench, setStickyWorkbench] = useState(false)
   const [showMobileActions, setShowMobileActions] = useState(true)
-  const [showYahooProjections, setShowYahooProjections] = useState(true)
+  const [showYahooProjections, setShowYahooProjections] = useState(false)
   const [hydratedStorageKey, setHydratedStorageKey] = useState('')
   const [hydratedViewKey, setHydratedViewKey] = useState('')
   const [hydratedTargetKey, setHydratedTargetKey] = useState('')

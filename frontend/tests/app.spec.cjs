@@ -689,16 +689,23 @@ test('snake roster assigns the first available draft round', async ({ page }) =>
   }
 })
 
-test('Yahoo projection column can be hidden from display settings', async ({ page }) => {
+test('Yahoo projection column is hidden by default and can be toggled', async ({ page }) => {
   await page.goto('./')
   await page.evaluate(() => localStorage.clear())
   await page.reload()
   await expect(page.locator('.rankings-table')).toBeVisible()
+  await expect(page.locator('.yahoo-projection-heading')).toHaveCount(0)
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByRole('button', { name: /^Display/ }).click()
   const yahooToggle = page.getByRole('checkbox', { name: 'Show Yahoo projections' })
-  if (!(await yahooToggle.isChecked())) await yahooToggle.check()
+  await expect(yahooToggle).not.toBeChecked()
+  await yahooToggle.check()
   await expect(yahooToggle).toBeChecked()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('.yahoo-projection-heading')).toHaveCount(1)
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  await page.getByRole('checkbox', { name: 'Show Yahoo projections' }).uncheck()
   await yahooToggle.uncheck()
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('.yahoo-projection-heading')).toHaveCount(0)
