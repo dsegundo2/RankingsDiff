@@ -103,7 +103,7 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
       <div><span className="eyebrow">My draft</span><h2>Roster slots</h2></div>
       <strong className="auction-roster-panel__count">{picks.length}</strong>
     </div>
-    <div className="auction-roster-panel__budget"><span>{mode === 'auction' ? 'Budget remaining' : 'Draft mode'}</span><strong className={mode === 'auction' && remaining < 0 ? 'is-negative' : ''}>{mode === 'auction' ? `$${remaining}` : 'Snake'}</strong><small>{mode === 'auction' ? 'of $200' : 'rounds'}</small></div>
+    {mode === 'auction' ? <div className="auction-roster-panel__budget"><span>Budget remaining</span><strong className={remaining < 0 ? 'is-negative' : ''}>${remaining}</strong><small>of $200</small></div> : <div className="auction-roster-panel__mode"><span className="eyebrow">Draft format</span><strong>Snake draft</strong><small>Round-based</small></div>}
     {showTargetQueue ? <section className="auction-shortlist target-queue target-queue--embedded" aria-label="Target queue">
       <div className="auction-roster-panel__section-heading"><strong>Shortlist</strong><span>{targetRows.length}</span></div>
       {targetRows.length ? <div className="auction-shortlist__list">{targetRows.slice(0, 6).map((row) => {

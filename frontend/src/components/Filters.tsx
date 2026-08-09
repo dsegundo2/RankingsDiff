@@ -21,6 +21,9 @@ type Props = {
 }
 
 export function Filters({ search, position, searchInputRef, onSearch, onPosition, onSelectOnlyPosition, showSearch = true, multiSelect = false, showPositions = true, selectedPositions, onTogglePosition, draftedCounts, compact = false }: Props) {
+  const selectedPosition = multiSelect
+    ? selectedPositions?.size === 4 ? 'ALL' : selectedPositions?.size === 1 ? [...selectedPositions][0] : 'ALL'
+    : position
   return (
     <section className={`filters filters--quick${compact ? ' filters--compact' : ''}`} aria-label="Rankings filters">
       {showSearch ? <label className="search-field">
@@ -28,6 +31,12 @@ export function Filters({ search, position, searchInputRef, onSearch, onPosition
         <input data-player-search ref={searchInputRef} value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Search by player or team" />
       </label> : null}
       {showPositions ? <div className="position-filter-wrap">
+        <label className="position-select-wrap">
+          <span className="sr-only">Position filter</span>
+          <select className="position-select" aria-label="Position filter" value={selectedPosition} onChange={(event) => onPosition(event.target.value as PositionFilter)}>
+            {positions.map((pos) => <option key={pos} value={pos}>{pos === 'ALL' ? 'All positions' : pos}{draftedCounts ? ` · ${draftedCounts[pos]}` : ''}</option>)}
+          </select>
+        </label>
         <div className="position-pills" aria-label="Position filters">
           {positions.map((pos) => {
             const active = multiSelect

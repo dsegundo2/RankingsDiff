@@ -1376,9 +1376,26 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .auction-roster-panel__budget { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--space-2); align-items: baseline; min-height: 58px; }
 .auction-roster-panel__budget strong { font-size: 1.35rem; line-height: 1; letter-spacing: -.03em; }
 .auction-roster-panel__budget > small { margin-left: 0; }
+.auction-roster-panel__mode { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px var(--space-2); align-items: center; margin: var(--space-4) 0; padding: var(--space-3) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel-soft); }
+.auction-roster-panel__mode .eyebrow { grid-column: 1 / -1; font-size: .64rem; }
+.auction-roster-panel__mode strong { color: var(--ink); font-size: 1.1rem; font-weight: 850; letter-spacing: -.025em; }
+.auction-roster-panel__mode small { color: var(--muted); font-size: .76rem; font-weight: 800; white-space: nowrap; }
 .auction-roster-panel .target-queue--embedded { width: auto; margin-inline: 0; padding-inline: 0; }
 .auction-roster-panel__empty { width: 100%; }
 
 @media (max-width: 760px) {
   .draft-board-layout { margin-top: var(--space-2); }
+  .auction-roster-panel__mode { margin: var(--space-3) 0; padding: var(--space-3); }
+}
+
+/* Compact selectors keep the toolbar readable at tablet widths without
+   removing any keyboard shortcuts or position-filter behavior. */
+.position-select-wrap { display: none; min-width: 0; }
+.position-select { width: 100%; min-height: 40px; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 8px 30px 8px 10px; color: var(--ink); background: var(--panel); font-size: .78rem; font-weight: 800; }
+.position-select:focus { outline: 3px solid rgba(79, 93, 228, .2); outline-offset: 1px; border-color: var(--accent); }
+@media (max-width: 1100px) {
+  .search-panel .position-filter-wrap { min-width: 0; }
+  .search-panel .position-select-wrap { display: block; flex: 1 1 auto; }
+  .search-panel .position-pills { display: none; }
+  .search-panel .shortcut-help { flex: 0 0 30px; }
 }
