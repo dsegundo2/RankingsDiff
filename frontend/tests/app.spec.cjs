@@ -160,6 +160,7 @@ test('recent picks stay horizontal, show five, and omit source rank', async ({ p
   const list = page.locator('.recent-draft__list')
   await expect(list).toBeVisible()
   await expect(list).toContainText('Last pick')
+  await expect(list).not.toContainText('Pick 5')
   await expect(list).not.toContainText('source rank')
   await expect(list.locator('li')).toHaveCount(5)
   expect(await list.evaluate((node) => getComputedStyle(node).display)).toBe('flex')

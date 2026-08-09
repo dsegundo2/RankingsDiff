@@ -1217,9 +1217,12 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 }
 .recent-draft__meta { min-height: 24px; }
 .recent-draft__player { gap: var(--space-2); }
+.recent-draft__identity { display: grid; min-width: 0; flex: 1 1 auto; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-1); align-items: center; }
+.recent-draft__identity small { grid-column: 1 / -1; }
 .recent-draft__player strong { font-size: .84rem; }
 .recent-draft__list .team-badge { width: 28px; height: 28px; flex-basis: 28px; }
 .recent-draft__list .team-badge img { width: 21px; height: 21px; }
+.recent-draft__mine { display: inline-grid; width: 28px; height: 28px; place-items: center; margin-left: 0; opacity: 1; }
 
 @media (max-width: 560px) {
   .recent-draft { margin-inline: 0; padding: var(--space-2); }
