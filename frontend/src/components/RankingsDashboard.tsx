@@ -562,9 +562,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         <div>
           <h1>RankingsDiff</h1>
           <div className="view-summary" aria-live="polite">
-            Looking at <strong>{selectedSeason}</strong> · <strong>{source?.label ?? selectedSource}</strong>
+            Looking at <strong>{selectedSeason}</strong> · <strong>{source?.label ?? selectedSource}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong>
           </div>
-          <a className="theme-lab-link" href="./mockups">Explore theme directions <span aria-hidden="true">↗</span></a>
         </div>
       </section>
 
@@ -596,7 +595,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
             <option value="yahooProjection">Yahoo projection</option>
             <option value="diff">Delta</option>
           </select>
-          <button type="button" className="search-sort-direction" onClick={() => setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')} aria-label={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`}>
+          <button type="button" className="search-sort-direction" onClick={() => setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')} aria-label={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`} title={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`}>
             {sortDirection === 'asc' ? '↑' : '↓'}
           </button>
         </div>

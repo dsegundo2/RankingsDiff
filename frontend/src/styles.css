@@ -71,7 +71,6 @@ a { color: inherit; }
 
 /* Brand and snapshot */
 .hero { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(620px, 1.8fr); gap: 24px; align-items: end; margin-bottom: 12px; }
-.theme-lab-link { display: inline-flex; gap: 6px; align-items: center; margin-top: 12px; color: var(--accent); font-size: .78rem; font-weight: 800; text-decoration: none; }.theme-lab-link:hover { text-decoration: underline; }
 .eyebrow { display: block; color: var(--accent); font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 h1 { margin: 4px 0 5px; font-size: clamp(2.7rem, 4.5vw, 4.5rem); line-height: .9; letter-spacing: -.07em; }
 .view-summary { display: flex; gap: 7px; align-items: center; color: var(--muted); font-weight: 650; }
@@ -718,17 +717,37 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .search-panel .position-pills { gap: 6px; flex-wrap: nowrap; }
 .search-panel .position-pills button { min-height: 40px; padding-inline: 11px; }
 .search-sort-control { display: grid; grid-template-columns: auto minmax(150px, auto) 36px; gap: 7px; align-items: center; }
-.search-sort-control label { color: var(--muted); font-size: .7rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
-.search-sort-control select, .search-sort-direction { min-height: 40px; border: 1px solid var(--line); border-radius: var(--radius-md); color: var(--ink); background: var(--panel); font-size: .78rem; font-weight: 800; }
-.search-sort-control select { min-width: 0; padding: 8px 28px 8px 10px; }
-.search-sort-direction { display: grid; width: 36px; place-items: center; padding: 0; color: var(--accent); }
+.search-sort-control {
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
+  min-height: 48px;
+  padding: 4px 4px 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--panel-soft);
+}
+.search-sort-control label { color: var(--muted); font-size: .68rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.search-sort-control select { min-width: 150px; border: 0; border-radius: var(--radius-md); padding: 8px 26px 8px 8px; color: var(--ink); background: var(--panel); font-size: .78rem; font-weight: 800; }
+.search-sort-control select:focus { outline: 3px solid rgba(79, 93, 228, .2); outline-offset: 1px; }
+.search-sort-direction { display: grid; width: 36px; height: 36px; place-items: center; padding: 0; border: 1px solid transparent; border-radius: var(--radius-md); color: var(--accent); background: transparent; font-size: 1rem; font-weight: 900; }
 .search-sort-direction:hover { border-color: var(--accent); background: var(--accent-soft); }
+
+@media (max-width: 760px) {
+  .search-sort-control { display: grid; grid-template-columns: auto minmax(0, 1fr) 42px; width: 100%; padding: 4px 4px 4px 10px; }
+  .search-sort-control select { width: 100%; min-width: 0; min-height: 40px; }
+  .search-sort-direction { width: 42px; height: 40px; }
+}
 .draft-toolbar { grid-template-columns: auto auto minmax(0, 1fr); }
 .draft-toolbar__actions { justify-self: end; }
 .auction-roster-panel { padding: var(--space-4); background: var(--panel); box-shadow: var(--shadow-md); }
 .auction-roster-panel__header h2 { margin-top: 5px; font-size: 1.25rem; letter-spacing: -.04em; }
 .auction-roster-panel__count { min-width: 34px; height: 34px; }
 .auction-roster-panel__budget { margin: var(--space-4) 0; padding: 10px 12px; border-radius: var(--radius-lg); text-transform: none; }
+.auction-roster-panel__budget > span,
+.auction-roster-panel__budget > small { color: var(--muted); font-size: .84rem; font-weight: 800; line-height: 1.2; }
+.auction-roster-panel__budget > span { flex: 1 1 auto; }
+.auction-roster-panel__budget > small { margin-left: auto; white-space: nowrap; }
 .auction-roster-panel__budget strong { color: var(--accent); }
 .auction-roster-panel__budget strong.is-negative { color: var(--danger); }
 .auction-roster-panel__section-heading { margin: var(--space-4) 0 var(--space-2); }
@@ -744,6 +763,47 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .auction-shortlist__item small { font-size: .68rem; }
 .auction-shortlist__item .target-queue__details { margin-top: 2px; }
 .auction-shortlist__item .target-queue__details small { font-size: .66rem; }
+.auction-shortlist__item > span:last-child {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--target) 25%, var(--line));
+  border-radius: 50%;
+  color: var(--target);
+  background: var(--panel);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.auction-shortlist__item:hover > span:last-child,
+.auction-shortlist__item:focus-visible > span:last-child {
+  border-color: var(--target);
+  color: var(--ink);
+  background: var(--target-soft);
+}
+.auction-shortlist__item > .auction-shortlist__remove {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--target);
+  -webkit-mask: url('/assets/remove-circle.svg') center / contain no-repeat;
+  mask: url('/assets/remove-circle.svg') center / contain no-repeat;
+}
+.auction-shortlist__item:hover > .auction-shortlist__remove,
+.auction-shortlist__item:focus-visible > .auction-shortlist__remove {
+  border: 0;
+  background-color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  .auction-roster-panel .target-queue--embedded {
+    width: auto;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
 .auction-slot { min-height: 38px; padding: 6px 8px; border-radius: var(--radius-md); line-height: 1.15; }
 .auction-slot__identity strong { font-size: .74rem; }
 .auction-slot__identity small { font-size: .64rem; }
@@ -1142,6 +1202,91 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .recent-draft__list li { flex: 0 0 clamp(150px, 18vw, 220px); }
 @media (max-width: 760px) {
   .recent-draft__list li { flex-basis: min(82vw, 300px); }
+}
+
+/* Final recent-pick layout: use the available width on larger screens, then
+   switch to a compact swipe track only when cards can no longer stay useful. */
+.recent-draft { padding: var(--space-2); }
+.recent-draft__list { gap: var(--space-2); overflow-x: visible; }
+.recent-draft__list li {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 64px;
+  padding: var(--space-2);
+  gap: var(--space-1);
+}
+.recent-draft__meta { min-height: 24px; }
+.recent-draft__player { gap: var(--space-2); }
+.recent-draft__player strong { font-size: .84rem; }
+.recent-draft__list .team-badge { width: 28px; height: 28px; flex-basis: 28px; }
+.recent-draft__list .team-badge img { width: 21px; height: 21px; }
+
+@media (max-width: 560px) {
+  .recent-draft { margin-inline: 0; padding: var(--space-2); }
+  .recent-draft__list {
+    margin-inline: calc(var(--space-2) * -1);
+    padding-inline: var(--space-2);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+  .recent-draft__list li {
+    flex: 0 0 min(78vw, 292px);
+    scroll-snap-align: start;
+  }
+  .recent-draft__mine { opacity: 1; }
+}
+
+/* Recent picks are intentionally a single compact rail at every viewport.
+   The next card peeking into view makes the horizontal interaction discoverable
+   without creating a tall, uneven block above the rankings. */
+.recent-draft__list {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overscroll-behavior-inline: contain;
+}
+.recent-draft__list li { flex: 0 0 clamp(210px, 20vw, 280px) !important; }
+@media (max-width: 560px) {
+  .recent-draft__list li { flex-basis: min(78vw, 292px) !important; }
+}
+
+/* Desktop workbench: search, filters, sort, and draft state belong to one
+   control strip. Smaller screens keep the existing stacked layout so nothing
+   becomes cramped or horizontally clipped. */
+@media (min-width: 1101px) {
+  .dashboard-workbench:not(.dashboard-workbench--sticky) {
+    display: grid;
+    grid-template-columns: auto auto minmax(220px, .8fr) minmax(360px, 1.45fr) auto auto;
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, .76);
+    box-shadow: var(--shadow-md);
+  }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) > .recent-draft {
+    grid-column: 1 / -1;
+    margin: 0 0 var(--space-1);
+  }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) > .search-panel,
+  .dashboard-workbench:not(.dashboard-workbench--sticky) > .draft-toolbar {
+    display: contents;
+  }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) > .search-panel > .filters,
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .draft-toolbar__actions {
+    display: contents;
+  }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .settings-icon-trigger { grid-column: 1; grid-row: 2; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .view-mode-toggle { grid-column: 2; grid-row: 2; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-field { grid-column: 3; grid-row: 2; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .position-filter-wrap { grid-column: 4; grid-row: 2; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-sort-control { grid-column: 5; grid-row: 2; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .drafted-toggle:not(.view-mode-toggle) { grid-column: 6; grid-row: 2; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-panel { margin: 0; padding: 0; border: 0; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-panel .position-pills { flex-wrap: nowrap; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-sort-control { min-width: max-content; }
 }
 
 /* Theme lab: isolated mockups for the next visual direction. These tokens mirror

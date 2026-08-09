@@ -11,6 +11,7 @@ test('dashboard renders and exposes settings downloads', async ({ page }) => {
   await expect(page.getByRole('button', { name: /Settings/ })).toBeVisible()
   await expect(page.locator('.team-badge').first()).toBeVisible()
   await expect(page.getByText(/Looking at/)).toBeVisible()
+  await expect(page.getByText('Full PPR', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByRole('button', { name: /^Snapshots/ }).click()
   await expect(page.getByRole('link', { name: 'CSV' })).toBeVisible()
@@ -89,7 +90,7 @@ test('slash focuses search and Enter drafts the first match', async ({ page }) =
 
 test('player search matches team city and nickname', async ({ page }) => {
   await page.goto('./')
-  const search = page.getByPlaceholder(/Ja'Marr/)
+  const search = page.getByPlaceholder('Search by player or team')
   await search.fill('Lions')
   await expect(page.getByText('Jahmyr Gibbs').first()).toBeVisible()
   await expect(page.getByText('Amon-Ra St. Brown').first()).toBeVisible()
@@ -199,7 +200,7 @@ test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) 
   await expect(page.locator('.ranking-card').filter({ hasText: 'Jahmyr Gibbs' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Target Jahmyr Gibbs' }).first()).toBeVisible()
   await page.getByRole('button', { name: 'Target Jahmyr Gibbs' }).last().click()
-  await expect(page.locator('.target-queue__details').last()).toContainText('$57 → $57')
+  await expect(page.getByLabel('Target queue', { exact: true }).last()).toContainText('$57 → $57')
   const queueBox = await page.getByLabel('Target queue', { exact: true }).evaluate((node) => {
     const rect = node.getBoundingClientRect()
     return { left: rect.left, right: rect.right, width: rect.width }
@@ -576,11 +577,11 @@ test('draft view and filters survive refresh', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('checkbox', { name: 'By position' }).check()
   await page.getByRole('button', { name: 'WR', exact: true }).dblclick()
-  await page.getByPlaceholder(/Ja'Marr/).fill('London')
+  await page.getByPlaceholder('Search by player or team').fill('London')
   await page.reload()
   await expect(page.getByRole('checkbox', { name: 'By position' })).toBeChecked()
   await expect(page.getByRole('button', { name: 'WR', exact: true })).toHaveClass(/active/)
-  await expect(page.getByPlaceholder(/Ja'Marr/)).toHaveValue('London')
+  await expect(page.getByPlaceholder('Search by player or team')).toHaveValue('London')
   await expect(page.getByRole('heading', { name: 'Wide receivers' })).toBeVisible()
 })
 
@@ -607,7 +608,7 @@ test('split browser width keeps the condensed rankings board layout', async ({ p
 
 test('adjusted rankings switch between full PPR Winks and half PPR Winks', async ({ page }) => {
   await page.goto('./')
-  await page.getByPlaceholder(/Ja'Marr/).fill('Amon-Ra')
+  await page.getByPlaceholder('Search by player or team').fill('Amon-Ra')
   await expect(page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1)).toHaveText('8')
   await page.getByRole('button', { name: /Settings/ }).click()
   await expect(page.getByLabel('Adjusted rankings')).toHaveValue('full-ppr')
@@ -687,6 +688,6 @@ test('Yahoo projections render the selected scoring format and are searchable', 
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(row.locator('.yahoo-projection-cell')).toContainText('18.50')
   await expect(row.locator('.yahoo-projection-cell')).toContainText('12.1 avg')
-  await page.getByPlaceholder(/Ja'Marr/).fill('Bijan')
+  await page.getByPlaceholder('Search by player or team').fill('Bijan')
   await expect(page.locator('tbody tr')).toHaveCount(1)
 })
