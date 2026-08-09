@@ -474,6 +474,16 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     setPositionViews(new Set([value]))
   }
 
+  function handlePositionViewFilter(value: PositionFilter) {
+    if (value === 'ALL') {
+      setPosition('ALL')
+      setPositionViews(new Set(allPositionKeys))
+      return
+    }
+    togglePositionView(value)
+    setPosition(value)
+  }
+
   function toggleBoardPosition(value: PositionKey) {
     setBoardPositions((current) => {
       if (current.size === allPositionKeys.size) return new Set([value])
@@ -576,8 +586,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
           position={position}
           searchInputRef={searchInputRef}
           onSearch={setSearch}
-          onPosition={view === 'board' ? handleBoardPosition : setPosition}
-          multiSelect={view === 'board'}
+          onPosition={view === 'board' ? handleBoardPosition : handlePositionViewFilter}
+          multiSelect
           selectedPositions={view === 'board' ? boardPositions : positionViews}
           showPositions
           onTogglePosition={view === 'board' ? toggleBoardPosition : togglePositionView}
@@ -605,7 +615,6 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         <button className="settings-icon-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-label="Settings" aria-haspopup="dialog" title={`${selectedSeason} · ${source?.label ?? selectedSource} · ${visibleRows.length.toLocaleString()} showing`}>
           <img src={withBasePath('/assets/settings.svg')} alt="" aria-hidden="true" />
         </button>
-        <label className="drafted-toggle view-mode-toggle"><input type="checkbox" aria-label="By position" checked={view === 'positions'} onChange={(event) => setView(event.target.checked ? 'positions' : 'board')} /><span className="desktop-label">Position</span><span className="mobile-label">Pos</span></label>
         <div className="draft-toolbar__actions">
           <label className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /><span>Drafted</span></label>
           <label className="drafted-toggle mobile-actions-toggle"><input type="checkbox" aria-label="Show actions" checked={showMobileActions} onChange={(event) => setShowMobileActions(event.target.checked)} /><span>Actions</span></label>
@@ -650,6 +659,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         showRosterPanel={showRosterPanel}
         stickyWorkbench={stickyWorkbench}
         showYahooProjections={showYahooProjections}
+        viewMode={view}
         targets={targets}
         drafted={drafted}
         targetGoals={targetGoals}
@@ -660,6 +670,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         onShowRosterPanel={setShowRosterPanel}
         onShowStickyWorkbench={setStickyWorkbench}
         onShowYahooProjections={setShowYahooProjections}
+        onViewMode={(value) => setView(value)}
         onSeason={handleSeasonFromSettings}
         onSource={handleSourceFromSettings}
         onTargetGoals={setTargetGoals}

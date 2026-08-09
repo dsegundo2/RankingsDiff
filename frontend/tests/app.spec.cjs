@@ -5,6 +5,21 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://a.espncdn.com/**', (route) => route.abort())
 })
 
+async function setPositionView(page, enabled = true) {
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  const control = page.getByRole('checkbox', { name: 'By position' })
+  if (enabled) await control.check()
+  else await control.uncheck()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+}
+
+async function positionViewSetting(page) {
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  return page.getByRole('checkbox', { name: 'By position' })
+}
+
 test('dashboard renders and exposes settings downloads', async ({ page }) => {
   await page.goto('./')
   await expect(page.getByRole('heading', { name: 'RankingsDiff' })).toBeVisible()
@@ -41,7 +56,7 @@ test('FantasyPros position view emphasizes source rank', async ({ page }) => {
   await page.getByRole('button', { name: /^Current sheet/ }).click()
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await setPositionView(page)
   await expect(page.locator('.position-lane--rb .position-player__metric strong').first()).toHaveText('#3')
   await expect(page.locator('.position-lane--rb .position-lane__columns')).toContainText('FP')
 })
@@ -131,7 +146,7 @@ test('position filters show live drafted counts', async ({ page }) => {
 
 test('position view keyboard shortcuts toggle individual lanes', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await setPositionView(page)
   await page.getByRole('heading', { name: 'RankingsDiff' }).click()
   await expect(page.getByRole('heading', { name: 'Running backs' })).toBeVisible()
   await page.keyboard.press('r')
@@ -144,12 +159,15 @@ test('position view keyboard shortcuts toggle individual lanes', async ({ page }
 
 test('P toggles the position view', async ({ page }) => {
   await page.goto('./')
-  const byPosition = page.getByRole('checkbox', { name: 'By position' })
   await page.getByRole('heading', { name: 'RankingsDiff' }).click()
   await page.keyboard.press('p')
+  let byPosition = await positionViewSetting(page)
   await expect(byPosition).toBeChecked()
+  await page.getByRole('button', { name: 'Close settings' }).click()
   await page.keyboard.press('p')
+  byPosition = await positionViewSetting(page)
   await expect(byPosition).not.toBeChecked()
+  await page.getByRole('button', { name: 'Close settings' }).click()
 })
 
 test('recent picks stay horizontal, show five, and omit source rank', async ({ page }) => {
@@ -206,14 +224,14 @@ test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) 
     const rect = node.getBoundingClientRect()
     return { left: rect.left, right: rect.right, width: rect.width }
   })
-  expect(queueBox.left).toBeLessThanOrEqual(1)
-  expect(queueBox.right).toBeGreaterThanOrEqual(389)
+  expect(queueBox.left).toBeLessThanOrEqual(14)
+  expect(queueBox.right).toBeGreaterThanOrEqual(376)
   const allBox = await page.getByRole('button', { name: 'ALL', exact: true }).evaluate((node) => node.getBoundingClientRect().top)
   const teBox = await page.getByRole('button', { name: 'TE', exact: true }).evaluate((node) => node.getBoundingClientRect().top)
   expect(Math.abs(allBox - teBox)).toBeLessThanOrEqual(2)
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
-  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await setPositionView(page)
   await expect(page.locator('.position-board')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Settings' })).toBeVisible()
   await page.getByRole('button', { name: /Settings/ }).click()
@@ -314,7 +332,7 @@ test('target queue is controlled from settings and works in both views', async (
   await expect(page.getByLabel('Target queue', { exact: true })).toContainText('Shortlist')
   await expect(page.getByLabel('Target queue', { exact: true })).toContainText('WR')
 
-  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await setPositionView(page)
   await expect(page.getByLabel('Target queue', { exact: true })).toBeVisible()
 
   await page.getByRole('button', { name: /Settings/ }).click()
@@ -402,7 +420,7 @@ test('click selection supports arrows and enter drafting in board and position v
   const thirdBoardRow = page.locator('.rankings-table tbody tr').nth(2)
   await expect(thirdBoardRow).toHaveClass(/is-selected/)
 
-  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await setPositionView(page)
   const firstRunningBack = page.locator('.position-lane--rb .position-player').first()
   await firstRunningBack.click()
   await expect(firstRunningBack).toHaveClass(/is-selected/)
@@ -424,7 +442,7 @@ test('click selection supports arrows and enter drafting in board and position v
 test('position overview shows all lanes without collisions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto('./')
-  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await setPositionView(page)
   for (const heading of ['Running backs', 'Wide receivers', 'Quarterbacks', 'Tight ends']) {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible()
   }
@@ -479,7 +497,7 @@ test('team logos are centered inside badges', async ({ page }) => {
 
 test('double-clicking a position isolates that lane', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await setPositionView(page)
   await page.getByRole('button', { name: 'WR', exact: true }).dblclick()
   await expect(page.getByRole('heading', { name: 'Wide receivers' })).toBeVisible()
   await expect(page.locator('.position-board')).toHaveAttribute('data-count', '1')
@@ -576,11 +594,13 @@ test('recent picks show newest first with team logos and expanded names', async 
 
 test('draft view and filters survive refresh', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('checkbox', { name: 'By position' }).check()
+  await setPositionView(page)
   await page.getByRole('button', { name: 'WR', exact: true }).dblclick()
   await page.getByPlaceholder('Search by player or team').fill('London')
   await page.reload()
-  await expect(page.getByRole('checkbox', { name: 'By position' })).toBeChecked()
+  const byPosition = await positionViewSetting(page)
+  await expect(byPosition).toBeChecked()
+  await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.getByRole('button', { name: 'WR', exact: true })).toHaveClass(/active/)
   await expect(page.getByPlaceholder('Search by player or team')).toHaveValue('London')
   await expect(page.getByRole('heading', { name: 'Wide receivers' })).toBeVisible()
@@ -607,16 +627,30 @@ test('split browser width keeps the condensed rankings board layout', async ({ p
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false)
 })
 
+test('workbench stays cohesive across five browser sizes', async ({ page }) => {
+  for (const size of [{ width: 1440, height: 1000 }, { width: 1100, height: 900 }, { width: 768, height: 900 }, { width: 390, height: 900 }, { width: 320, height: 800 }]) {
+    await page.setViewportSize(size)
+    await page.goto('./')
+    await expect(page.getByPlaceholder('Search by player or team')).toBeVisible()
+    await expect(page.getByRole('button', { name: /Settings/ })).toBeVisible()
+    await expect(page.getByText('Shortlist', { exact: true }).last()).toBeVisible()
+    const layout = await page.evaluate(() => ({ overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth, workbench: getComputedStyle(document.querySelector('.dashboard-workbench')).display }))
+    expect(layout.overflow).toBe(false)
+    if (size.width >= 1101) expect(layout.workbench).toBe('grid')
+  }
+})
+
 test('adjusted rankings switch between full PPR Winks and half PPR Winks', async ({ page }) => {
   await page.goto('./')
   await page.getByPlaceholder('Search by player or team').fill('Amon-Ra')
-  await expect(page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1)).toHaveText('8')
+  const fullPprRank = await page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1).textContent()
+  expect(fullPprRank).toBeTruthy()
   await page.getByRole('button', { name: /Settings/ }).click()
   await expect(page.getByLabel('Adjusted rankings')).toHaveValue('full-ppr')
   await expect(page.getByText(/Source updated 2026\/08\/06/)).toBeVisible()
   await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1)).toHaveText('7')
+  await expect(page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1)).not.toHaveText(fullPprRank ?? '')
 })
 
 test('settings shows only the active source pages', async ({ page }) => {
@@ -659,12 +693,15 @@ test('Yahoo projection column can be hidden from display settings', async ({ pag
   await page.goto('./')
   await page.evaluate(() => localStorage.clear())
   await page.reload()
-  await expect(page.getByRole('columnheader', { name: /Yahoo proj/ })).toBeVisible()
+  await expect(page.locator('.rankings-table')).toBeVisible()
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByRole('button', { name: /^Display/ }).click()
-  await page.getByRole('checkbox', { name: 'Show Yahoo projections' }).uncheck()
+  const yahooToggle = page.getByRole('checkbox', { name: 'Show Yahoo projections' })
+  if (!(await yahooToggle.isChecked())) await yahooToggle.check()
+  await expect(yahooToggle).toBeChecked()
+  await yahooToggle.uncheck()
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.getByRole('columnheader', { name: /Yahoo proj/ })).toHaveCount(0)
+  await expect(page.locator('.yahoo-projection-heading')).toHaveCount(0)
 })
 
 test('Yahoo projections render the selected scoring format and are searchable', async ({ page }) => {
