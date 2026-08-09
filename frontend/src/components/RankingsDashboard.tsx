@@ -572,7 +572,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         <div>
           <h1>RankingsDiff</h1>
           <div className="view-summary" aria-live="polite">
-            Looking at <strong>{selectedSeason}</strong> · <strong>{source?.label ?? selectedSource}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong>
+            Looking at <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{selectedSource === 'espn' ? 'Auction' : 'Snake'}</strong>
           </div>
         </div>
       </section>

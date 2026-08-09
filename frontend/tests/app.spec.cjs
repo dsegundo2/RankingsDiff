@@ -667,7 +667,7 @@ test('snake roster hides auction target amounts', async ({ page }) => {
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.getByLabel('My draft roster')).toContainText('Snake draft')
+  await expect(page.locator('.view-summary')).toContainText('Snake')
   await expect(page.getByLabel('My draft roster')).not.toContainText(/Under target|Over target|target \$/)
 })
 
