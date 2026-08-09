@@ -20,6 +20,14 @@ async function positionViewSetting(page) {
   return page.getByRole('checkbox', { name: 'By position' })
 }
 
+async function openCurrentSheet(page) {
+  await page.getByRole('button', { name: /^Current sheet/ }).click()
+}
+
+async function openSnapshots(page) {
+  await page.getByRole('button', { name: /^Snapshots/ }).click()
+}
+
 test('dashboard renders and exposes settings downloads', async ({ page }) => {
   await page.goto('./')
   await expect(page.getByRole('heading', { name: 'RankingsDiff' })).toBeVisible()
@@ -73,7 +81,7 @@ test('command-k focuses search and position filters rows', async ({ page }) => {
   await expect(page.getByPlaceholder(/Search by player or team/)).not.toBeFocused()
   await page.keyboard.press('KeyW')
   await expect(page.getByRole('button', { name: 'WR' })).toHaveClass(/active/)
-  await expect(page.getByLabel(/Keyboard shortcuts/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /Settings/ })).toBeVisible()
 
   await page.keyboard.press(',')
   await expect(page.getByRole('dialog', { name: 'Settings' })).toBeVisible()
@@ -170,6 +178,20 @@ test('P toggles the position view', async ({ page }) => {
   await page.getByRole('button', { name: 'Close settings' }).click()
 })
 
+test('D toggles drafted players and Display is the default settings pane', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
+  await expect(page.getByText('Jahmyr Gibbs').first()).toBeVisible()
+  await page.getByRole('heading', { name: 'RankingsDiff' }).click()
+  await page.keyboard.press('d')
+  await expect(page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first()).toHaveCount(0)
+  await page.keyboard.press('d')
+  await expect(page.getByRole('button', { name: 'Undo drafted Jahmyr Gibbs' }).first()).toBeVisible()
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await expect(page.getByRole('button', { name: /^Display/ })).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByRole('checkbox', { name: 'Show drafted' })).toBeChecked()
+})
+
 test('recent picks stay horizontal, show five, and omit source rank', async ({ page }) => {
   await page.goto('./')
   for (let index = 0; index < 6; index += 1) {
@@ -187,7 +209,10 @@ test('recent picks stay horizontal, show five, and omit source rank', async ({ p
 test('recent picks can add a hidden drafted player to my roster', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
-  await page.getByRole('checkbox', { name: 'Drafted' }).uncheck()
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await expect(page.getByRole('button', { name: /^Display/ })).toHaveAttribute('aria-current', 'page')
+  await page.getByRole('checkbox', { name: 'Show drafted' }).uncheck()
+  await page.getByRole('button', { name: 'Close settings' }).click()
   await page.getByRole('button', { name: 'Add Jahmyr Gibbs to my roster' }).first().click()
   await expect(page.getByLabel('My draft roster')).toContainText('Jahmyr Gibbs')
   await expect(page.getByRole('button', { name: 'Remove Jahmyr Gibbs from my roster' }).first()).toBeVisible()
@@ -246,6 +271,7 @@ test('mobile FantasyPros cards stretch and actions can be hidden', async ({ page
   await page.setViewportSize({ width: 390, height: 900 })
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('.cards-list')).toBeVisible()
@@ -571,6 +597,7 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
   await expect(page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first()).toBeVisible()
 
   await page.getByRole('button', { name: /Settings/ }).click()
+  await openSnapshots(page)
   await page.getByLabel('Upload draft JSON').setInputFiles({
     name: 'saved-draft.json',
     mimeType: 'application/json',
@@ -645,6 +672,7 @@ test('adjusted rankings switch between full PPR Winks and half PPR Winks', async
   const fullPprRank = await page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1).textContent()
   expect(fullPprRank).toBeTruthy()
   await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
   await expect(page.getByLabel('Adjusted rankings')).toHaveValue('full-ppr')
   await expect(page.getByText(/Source updated 2026\/08\/06/)).toBeVisible()
   await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
@@ -655,6 +683,7 @@ test('adjusted rankings switch between full PPR Winks and half PPR Winks', async
 test('settings shows only the active source pages', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
   const links = page.getByLabel('Ranking source pages').locator('a')
   await expect(links).toHaveCount(2)
   await expect(links).toContainText(['ESPN 2026 PPR300 PDF', 'Yahoo · Consensus Full-PPR rankings'])
@@ -665,6 +694,7 @@ test('settings shows only the active source pages', async ({ page }) => {
 test('snake roster hides auction target amounts', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
   await page.getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('.view-summary')).toContainText('Snake')
@@ -674,6 +704,7 @@ test('snake roster hides auction target amounts', async ({ page }) => {
 test('snake roster assigns the first available draft round', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
   await page.getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
 

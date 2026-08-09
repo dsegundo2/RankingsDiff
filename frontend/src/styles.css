@@ -1473,6 +1473,26 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .settings-tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .settings-preference-list { gap: var(--space-2); }
 .settings-preference-card { padding: var(--space-3); }
+.settings-preference-card kbd { display: inline-grid; min-width: 22px; height: 22px; place-items: center; margin-left: 3px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; color: var(--muted); background: var(--panel-soft); font-size: .68rem; font-weight: 850; line-height: 1; }
+
+/* The remaining workbench controls share one optical baseline. */
+@media (min-width: 761px) {
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .settings-icon-trigger,
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-field input,
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .position-select,
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-sort-control,
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-sort-control select,
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-sort-direction,
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .drafted-toggle {
+    min-height: 48px;
+    height: 48px;
+  }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-field,
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .position-filter-wrap { align-self: stretch; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-field { display: flex; align-items: center; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-field input { width: 100%; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-sort-control { padding-block: 0; }
+}
 
 @media (max-width: 760px) {
   .settings-layer { padding: var(--space-2); }

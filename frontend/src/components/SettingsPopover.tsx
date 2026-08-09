@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { AdjustedProfile, DataManifest, SourceCheckPayload, SourceLink, SourceManifest } from '../types'
 import { DownloadPanel } from './DownloadPanel'
 import { DraftStateControls } from './DraftStateControls'
@@ -29,6 +29,7 @@ type Props = {
   visibleCount: number
   targetCount: number
   showTargetQueue: boolean
+  showDrafted: boolean
   showDraftLog: boolean
   showRosterPanel: boolean
   stickyWorkbench: boolean
@@ -40,6 +41,7 @@ type Props = {
   onRestoreDraft: (targets: string[], drafted: string[]) => void
   onClearDraft: () => void
   onShowTargetQueue: (value: boolean) => void
+  onShowDrafted: (value: boolean) => void
   onShowDraftLog: (value: boolean) => void
   onShowRosterPanel: (value: boolean) => void
   onShowStickyWorkbench: (value: boolean) => void
@@ -71,8 +73,11 @@ function SourceLinks({ links, adjustedProfiles, selectedAdjustedProfile }: { lin
   )
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, viewMode, targets, drafted, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onViewMode, onSeason, onSource, onTargetGoals, onClose }: Props) {
-  const [activePane, setActivePane] = useState<SettingsPane>('sheet')
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, viewMode, targets, drafted, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onViewMode, onSeason, onSource, onTargetGoals, onClose }: Props) {
+  const [activePane, setActivePane] = useState<SettingsPane>('display')
+  useEffect(() => {
+    if (open) setActivePane('display')
+  }, [open])
   if (!open) return null
   const currentSeason = manifest.seasons.find((season) => season.season === selectedSeason) ?? manifest.seasons[0]
 
@@ -149,6 +154,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
               <div className="settings-section__copy"><span className="eyebrow">Display</span><h3>Keep the dashboard focused</h3><p>Choose which supporting panels remain visible while you work the draft board.</p></div>
               <div className="settings-preference-list">
                 <label className="settings-preference-card"><span><strong>Position view</strong><small>Group the board into QB, RB, WR, and TE lanes.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="By position" checked={viewMode === 'positions'} onChange={(event) => onViewMode(event.target.checked ? 'positions' : 'board')} /> Show position view</span></label>
+                <label className="settings-preference-card"><span><strong>Drafted players</strong><small>Keep drafted players in the rankings list while you work.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => onShowDrafted(event.target.checked)} /> Show drafted <kbd>D</kbd></span></label>
                 <label className="settings-preference-card"><span><strong>My roster panel</strong><small>Show the shortlist above every roster slot, including empty slots.</small></span><span className="drafted-toggle"><input type="checkbox" checked={showRosterPanel} onChange={(event) => onShowRosterPanel(event.target.checked)} /> Show my roster</span></label>
                 <label className="settings-preference-card"><span><strong>Target queue</strong><small>{targetCount.toLocaleString()} shortlisted player{targetCount === 1 ? '' : 's'}</small></span><span className="drafted-toggle"><input type="checkbox" checked={showTargetQueue} onChange={(event) => onShowTargetQueue(event.target.checked)} /> Show target queue</span></label>
                 <label className="settings-preference-card"><span><strong>Recent draft log</strong><small>Show the latest picks above player search.</small></span><span className="drafted-toggle"><input type="checkbox" checked={showDraftLog} onChange={(event) => onShowDraftLog(event.target.checked)} /> Show draft log</span></label>

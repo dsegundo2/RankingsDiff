@@ -361,6 +361,11 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       }
       if (isTyping || event.metaKey || event.ctrlKey || event.altKey) return
       const shortcut = event.key.toLowerCase()
+      if (shortcut === 'd') {
+        event.preventDefault()
+        setShowDrafted((current) => !current)
+        return
+      }
       if (shortcut === ',') {
         event.preventDefault()
         setSettingsOpen(true)
@@ -616,7 +621,6 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
           <img src={withBasePath('/assets/settings.svg')} alt="" aria-hidden="true" />
         </button>
         <div className="draft-toolbar__actions">
-          <label className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => setShowDrafted(event.target.checked)} /><span>Drafted</span></label>
           <label className="drafted-toggle mobile-actions-toggle"><input type="checkbox" aria-label="Show actions" checked={showMobileActions} onChange={(event) => setShowMobileActions(event.target.checked)} /><span>Actions</span></label>
         </div>
       </section>
@@ -655,6 +659,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         visibleCount={visibleRows.length}
         targetCount={targetRows.length}
         showTargetQueue={showTargetQueue}
+        showDrafted={showDrafted}
         showDraftLog={showDraftLog}
         showRosterPanel={showRosterPanel}
         stickyWorkbench={stickyWorkbench}
@@ -666,6 +671,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         onRestoreDraft={restoreDraft}
         onClearDraft={clearDraft}
         onShowTargetQueue={setShowTargetQueue}
+        onShowDrafted={setShowDrafted}
         onShowDraftLog={setShowDraftLog}
         onShowRosterPanel={setShowRosterPanel}
         onShowStickyWorkbench={setStickyWorkbench}

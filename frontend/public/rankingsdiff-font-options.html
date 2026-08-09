@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RankingsDiff · Title font options</title>
+  <style>
+    :root { --ink:#152033; --muted:#667085; --surface:#f5f7fb; --panel:#fff; --line:#dfe5ef; --accent:#4f5de4; --accent-soft:#eef0ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:radial-gradient(circle at 15% 0%,#e9ebff,transparent 34rem),var(--surface); font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { width:min(1120px,calc(100% - 32px)); margin:0 auto; padding:48px 0 64px; }
+    .eyebrow { color:var(--accent); font-size:.72rem; font-weight:850; letter-spacing:.13em; text-transform:uppercase; }
+    h1 { margin:8px 0 10px; font-size:clamp(2.1rem,5vw,4rem); letter-spacing:-.06em; line-height:.95; }
+    .intro { max-width:660px; margin:0 0 28px; color:var(--muted); line-height:1.5; }
+    .options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .option { display:grid; gap:14px; min-width:0; padding:20px; border:1px solid var(--line); border-radius:18px; background:rgba(255,255,255,.9); box-shadow:0 10px 30px rgba(28,39,69,.07); }
+    .option--wide { grid-column:1/-1; }
+    .option__meta { display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    .option__meta strong { font-size:.95rem; }
+    .option__meta span { color:var(--muted); font-size:.72rem; font-weight:750; }
+    .wordmark { overflow:hidden; font-size:clamp(2.7rem,6vw,4.5rem); font-weight:900; letter-spacing:-.07em; line-height:.9; white-space:nowrap; text-overflow:ellipsis; }
+    .wordmark--current { font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .wordmark--editorial { font-family:Georgia,"Times New Roman",serif; font-weight:800; letter-spacing:-.075em; }
+    .wordmark--grotesk { font-family:"Arial Black","Helvetica Neue",Arial,sans-serif; font-weight:900; letter-spacing:-.09em; }
+    .wordmark--condensed { font-family:"Arial Narrow","Roboto Condensed","Helvetica Neue",Arial,sans-serif; font-weight:900; letter-spacing:-.055em; }
+    .wordmark--tech { font-family:"Trebuchet MS","Helvetica Neue",Arial,sans-serif; font-weight:900; letter-spacing:-.08em; }
+    .note { margin:0; color:var(--muted); font-size:.82rem; line-height:1.45; }
+    .tag { justify-self:start; padding:5px 8px; border-radius:999px; color:var(--accent); background:var(--accent-soft); font-size:.68rem; font-weight:850; }
+    @media (max-width:700px) { main { padding-top:28px; } .options { grid-template-columns:1fr; } .option--wide { grid-column:auto; } .wordmark { font-size:clamp(2.5rem,14vw,4rem); } }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="eyebrow">RankingsDiff · title exploration</span>
+    <h1>Five ways to make the wordmark cooler</h1>
+    <p class="intro">The title size is intentionally locked to the current scale. These options only explore personality through the font family, weight, and tracking so the dashboard stays dense and professional.</p>
+    <section class="options" aria-label="RankingsDiff title font options">
+      <article class="option option--wide"><div class="option__meta"><strong>01 · Current system sans</strong><span>Baseline</span></div><div class="wordmark wordmark--current">RankingsDiff</div><p class="note">The safest option: crisp, neutral, and consistent with the dashboard UI.</p><span class="tag">Keep as reference</span></article>
+      <article class="option"><div class="option__meta"><strong>02 · Editorial serif</strong><span>Distinctive</span></div><div class="wordmark wordmark--editorial">RankingsDiff</div><p class="note">Adds a confident magazine-like voice without changing the footprint.</p></article>
+      <article class="option"><div class="option__meta"><strong>03 · Heavy grotesk</strong><span>Bold</span></div><div class="wordmark wordmark--grotesk">RankingsDiff</div><p class="note">A punchier sports identity with strong shelf presence.</p></article>
+      <article class="option"><div class="option__meta"><strong>04 · Condensed command</strong><span>Efficient</span></div><div class="wordmark wordmark--condensed">RankingsDiff</div><p class="note">Feels more like a draft-room command center and preserves horizontal space.</p></article>
+      <article class="option"><div class="option__meta"><strong>05 · Friendly tech</strong><span>Approachable</span></div><div class="wordmark wordmark--tech">RankingsDiff</div><p class="note">A slightly warmer alternative that still feels analytical and fast.</p></article>
+    </section>
+  </main>
+</body>
+</html>

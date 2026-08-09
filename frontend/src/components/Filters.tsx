@@ -52,9 +52,6 @@ export function Filters({ search, position, searchInputRef, onSearch, onPosition
             </button>
           })}
         </div>
-        <span className="shortcut-help" tabIndex={0} aria-label="Keyboard shortcuts: Command K searches. A shows all. Q filters quarterback. R filters running back. W filters wide receiver. T filters tight end. Escape leaves search.">?
-          <span role="tooltip">⌘K search · A all · Q QB · R RB · W WR · T TE · Esc leaves search</span>
-        </span>
       </div> : <div className="position-filter-wrap position-filter-wrap--multi">
         <span className="filter-label">Positions</span>
         <div className="position-pills" aria-label="Positions shown side by side">
