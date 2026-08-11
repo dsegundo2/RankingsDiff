@@ -268,6 +268,9 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .rankings-diff-controls { overflow: hidden; margin-bottom: 16px; }
 .rankings-diff-controls__row { display: grid; grid-template-columns: 1.2fr 1.2fr 1.2fr; gap: 14px; padding: 16px 18px; }
 .rankings-diff-controls__row--secondary { grid-template-columns: 1.2fr 1.2fr 1.2fr; border-top: 1px solid var(--line); background: var(--panel-soft); }
+.rankings-diff-controls__custom { display: grid; grid-template-columns: repeat(2, minmax(140px, 220px)); gap: 14px; padding: 0 18px 16px; border-top: 1px solid var(--line); background: var(--panel-soft); }
+.rankings-diff-controls__custom label { padding-top: 14px; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.rankings-diff-controls__custom input { display: block; width: 100%; min-height: 40px; margin-top: 6px; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 8px 10px; color: var(--ink); background: var(--panel); }
 .rankings-diff-controls label, .rankings-diff-controls legend { color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 .rankings-diff-controls select { display: block; width: 100%; min-height: 40px; margin-top: 6px; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 8px 10px; color: var(--ink); background: var(--panel); }
 .rankings-diff-controls fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
@@ -306,6 +309,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   .rankings-diff-page, .dashboard { width: min(100% - 24px, 1440px); }
   .rankings-diff-page__header { align-items: start; flex-direction: column; }
   .rankings-diff-controls__row, .rankings-diff-controls__row--secondary { grid-template-columns: 1fr; }
+  .rankings-diff-controls__custom { grid-template-columns: 1fr 1fr; }
   .rankings-diff-card__header { flex-direction: column; }
   .rankings-diff-legend { order: -1; }
   .analytics-link { align-self: stretch; }

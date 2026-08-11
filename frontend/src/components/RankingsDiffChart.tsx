@@ -26,9 +26,10 @@ function rankMax(rows: RankingRow[]): number {
 
 function windowOptions(maxRank: number): WindowOption[] {
   return [
-    { id: 'early', label: 'Picks 1–72', start: 1, end: 72 },
-    { id: 'middle', label: 'Picks 73–144', start: 73, end: 144 },
-    { id: 'late', label: 'Picks 145–216', start: 145, end: 216 },
+    { id: 'first-100', label: 'Picks 0–100', start: 0, end: 100 },
+    { id: '50-150', label: 'Picks 50–150', start: 50, end: 150 },
+    { id: '100-200', label: 'Picks 100–200', start: 100, end: 200 },
+    { id: 'custom', label: 'Custom range', start: 1, end: 100 },
     { id: 'full', label: 'Full board', start: 1, end: maxRank }
   ]
 }
@@ -39,18 +40,22 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
   const [position, setPosition] = useState<PositionFilter>('ALL')
   const [status, setStatus] = useState<'everyone' | 'available' | 'drafted'>('everyone')
   const [range, setRange] = useState(20)
-  const [windowId, setWindowId] = useState('early')
+  const [windowId, setWindowId] = useState('first-100')
+  const [customStart, setCustomStart] = useState(1)
+  const [customEnd, setCustomEnd] = useState(100)
   const [tick, setTick] = useState(12)
   const [displayMode, setDisplayMode] = useState<DisplayMode>('fade')
   const [hoveredId, setHoveredId] = useState<string>('')
   const selectedWindow = windows.find((item) => item.id === windowId) ?? windows[0]
-  const windowEnd = selectedWindow.end ?? maxRank
+  const activeWindow = windowId === 'custom' ? { ...selectedWindow, start: Math.max(0, customStart), end: Math.max(customStart + 1, customEnd) } : selectedWindow
+  const windowEnd = activeWindow.end ?? maxRank
+  const windowLabel = windowId === 'custom' ? `Picks ${activeWindow.start}–${windowEnd}` : activeWindow.label
 
   const chartRows = useMemo(() => {
     const inWindow = rows.filter((row) => {
       const sourceRank = row.sourceRank ?? Number.POSITIVE_INFINITY
       const adjustedRank = row.adjustedRank ?? Number.POSITIVE_INFINITY
-      return sourceRank >= selectedWindow.start && sourceRank <= windowEnd && adjustedRank >= selectedWindow.start && adjustedRank <= windowEnd
+      return sourceRank >= activeWindow.start && sourceRank <= windowEnd && adjustedRank >= activeWindow.start && adjustedRank <= windowEnd
     })
     const matching = inWindow.filter((row) => {
       const matchesPosition = position === 'ALL' || row.position.toUpperCase() === position
@@ -61,7 +66,7 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
     if (range === 0) return sorted
     if (status === 'drafted') return sorted.slice(0, range)
     return sorted.filter((row) => !drafted.has(rankingId(row))).slice(0, range)
-  }, [drafted, position, range, rows, selectedWindow.start, status, windowEnd])
+  }, [activeWindow.start, drafted, position, range, rows, status, windowEnd])
 
   const plot = useMemo(() => {
     const width = 960
@@ -70,11 +75,11 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
     const right = 22
     const top = 22
     const bottom = 58
-    const x = (value: number) => left + ((value - selectedWindow.start) / Math.max(1, windowEnd - selectedWindow.start)) * (width - left - right)
-    const y = (value: number) => top + (1 - (value - selectedWindow.start) / Math.max(1, windowEnd - selectedWindow.start)) * (height - top - bottom)
-    const ticks = Array.from({ length: Math.floor((windowEnd - selectedWindow.start) / tick) + 1 }, (_, index) => selectedWindow.start + index * tick).filter((value) => value <= windowEnd)
+    const x = (value: number) => left + ((value - activeWindow.start) / Math.max(1, windowEnd - activeWindow.start)) * (width - left - right)
+    const y = (value: number) => top + (1 - (value - activeWindow.start) / Math.max(1, windowEnd - activeWindow.start)) * (height - top - bottom)
+    const ticks = Array.from({ length: Math.floor((windowEnd - activeWindow.start) / tick) + 1 }, (_, index) => activeWindow.start + index * tick).filter((value) => value <= windowEnd)
     return { width, height, left, right, top, bottom, x, y, ticks }
-  }, [selectedWindow.start, tick, windowEnd])
+  }, [activeWindow.start, tick, windowEnd])
 
   const hovered = chartRows.find((row) => `${row.player}|${row.team}` === hoveredId)
   const statusLabel = status === 'everyone' ? 'Everyone' : status === 'available' ? 'Available' : 'Drafted'
@@ -95,6 +100,7 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
         <label>Player range<select value={range} onChange={(event) => setRange(Number(event.target.value))}><option value={10}>Top 10 available</option><option value={20}>Top 20 available</option><option value={50}>Top 50 available</option><option value={100}>Top 100 available</option><option value={0}>Everyone</option></select></label>
         <label>X-axis ticks<select value={tick} onChange={(event) => setTick(Number(event.target.value))}>{tickOptions.map((option) => <option key={option} value={option}>Every {option} ranks</option>)}</select></label>
       </div>
+      {windowId === 'custom' ? <div className="rankings-diff-controls__custom"><label>Start pick<input type="number" min="0" value={customStart} onChange={(event) => setCustomStart(Number(event.target.value) || 0)} /></label><label>End pick<input type="number" min={customStart + 1} value={customEnd} onChange={(event) => setCustomEnd(Number(event.target.value) || customStart + 1)} /></label></div> : null}
       <div className="rankings-diff-controls__row rankings-diff-controls__row--secondary">
         <fieldset><legend>Position</legend><div className="analytics-segmented">{positionOptions.map((option) => <button key={option} type="button" className={position === option ? 'active' : ''} aria-pressed={position === option} onClick={() => setPosition(option)}>{option === 'ALL' ? 'All' : option}</button>)}</div></fieldset>
         <fieldset><legend>Player status</legend><div className="analytics-segmented"><button type="button" className={status === 'everyone' ? 'active' : ''} aria-pressed={status === 'everyone'} onClick={() => setStatus('everyone')}>Everyone</button><button type="button" className={status === 'available' ? 'active' : ''} aria-pressed={status === 'available'} onClick={() => setStatus('available')}>Available</button><button type="button" className={status === 'drafted' ? 'active' : ''} aria-pressed={status === 'drafted'} onClick={() => setStatus('drafted')}>Drafted</button></div></fieldset>
@@ -103,16 +109,16 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
     </section>
 
     <section className="rankings-diff-card">
-      <div className="rankings-diff-card__header"><div><h2>Adjusted overall rank</h2><p>Showing {chartRows.length.toLocaleString()} players · {selectedWindow.label} · {statusLabel}</p></div><div className="rankings-diff-legend">{(['QB', 'RB', 'WR', 'TE'] as const).map((item) => <span key={item}><i style={{ background: positionColors[item] }} />{item}</span>)}</div></div>
+      <div className="rankings-diff-card__header"><div><h2>Adjusted overall rank</h2><p>Showing {chartRows.length.toLocaleString()} players · {windowLabel} · {statusLabel}</p></div><div className="rankings-diff-legend">{(['QB', 'RB', 'WR', 'TE'] as const).map((item) => <span key={item}><i style={{ background: positionColors[item] }} />{item}</span>)}</div></div>
       <div className="rankings-diff-chart-wrap">
         <svg className="rankings-diff-chart" viewBox={`0 0 ${plot.width} ${plot.height}`} role="img" aria-label="Scatter plot comparing base ranking to adjusted overall ranking">
           {plot.ticks.map((value) => <g key={value}><line className="rankings-diff-grid" x1={plot.x(value)} y1={plot.top} x2={plot.x(value)} y2={plot.height - plot.bottom} /><line className="rankings-diff-grid" x1={plot.left} y1={plot.y(value)} x2={plot.width - plot.right} y2={plot.y(value)} /><text className="rankings-diff-axis" x={plot.x(value)} y={plot.height - 26} textAnchor="middle">{value}</text><text className="rankings-diff-axis" x={plot.left - 12} y={plot.y(value) + 4} textAnchor="end">{value}</text></g>)}
-          <line className="rankings-diff-parity" x1={plot.x(selectedWindow.start)} y1={plot.y(selectedWindow.start)} x2={plot.x(windowEnd)} y2={plot.y(windowEnd)} />
+          <line className="rankings-diff-parity" x1={plot.x(activeWindow.start)} y1={plot.y(activeWindow.start)} x2={plot.x(windowEnd)} y2={plot.y(windowEnd)} />
           {chartRows.map((row) => {
             const id = `${row.player}|${row.team}`
             const isDrafted = drafted.has(rankingId(row))
             const opacity = isDrafted ? displayMode === 'fade' ? .28 : displayMode === 'hide' ? 0 : 1 : 1
-            return <circle key={id} className="rankings-diff-point" tabIndex={0} aria-label={`${row.player}, ${row.team}, base rank ${formatRank(row.sourceRank)}, adjusted rank ${formatRank(row.adjustedRank)}`} cx={plot.x(row.sourceRank ?? selectedWindow.start)} cy={plot.y(row.adjustedRank ?? selectedWindow.start)} r={hoveredId === id ? 9 : 7} fill={positionColors[row.position.toUpperCase()] ?? 'var(--muted)'} opacity={opacity} onMouseEnter={() => setHoveredId(id)} onMouseLeave={() => setHoveredId('')} onFocus={() => setHoveredId(id)} onBlur={() => setHoveredId('')}><title>{row.player}</title></circle>
+            return <circle key={id} className="rankings-diff-point" tabIndex={0} aria-label={`${row.player}, ${row.team}, base rank ${formatRank(row.sourceRank)}, adjusted rank ${formatRank(row.adjustedRank)}`} cx={plot.x(row.sourceRank ?? activeWindow.start)} cy={plot.y(row.adjustedRank ?? activeWindow.start)} r={hoveredId === id ? 9 : 7} fill={positionColors[row.position.toUpperCase()] ?? 'var(--muted)'} opacity={opacity} onMouseEnter={() => setHoveredId(id)} onMouseLeave={() => setHoveredId('')} onFocus={() => setHoveredId(id)} onBlur={() => setHoveredId('')}><title>{row.player}</title></circle>
           })}
           <text className="rankings-diff-axis-title" x={plot.width / 2} y={plot.height - 4} textAnchor="middle">Base ranking ({sourceLabel(source)})</text>
           <text className="rankings-diff-axis-title" transform={`translate(14 ${plot.height / 2}) rotate(-90)`} textAnchor="middle">Adjusted overall rank <tspan className="rankings-diff-better">← better</tspan></text>
