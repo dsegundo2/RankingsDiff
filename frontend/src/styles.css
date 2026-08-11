@@ -1592,7 +1592,13 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .search-sort-control__select { min-width: 0; }
 .search-sort-control select { display: block; height: 40px; line-height: 1.2; }
 @media (min-width: 761px) {
-  .search-sort-control { align-self: stretch; }
+  .search-sort-control {
+    grid-template-columns: auto minmax(170px, 210px) 40px;
+    width: fit-content;
+    justify-self: end;
+    align-self: stretch;
+  }
+  .search-sort-control__select { width: 210px; }
 }
 
 /* Live header: Editorial Index direction from the header mockup lab. */

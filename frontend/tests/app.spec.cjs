@@ -343,6 +343,11 @@ test('table headers stay compact across browser widths', async ({ page }) => {
     await expect(page.locator('.price-heading').getByText('Value', { exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Sort by value delta' })).toHaveText('Delta')
     await expect(page.locator('.price-heading .sort-button')).toHaveCount(0)
+    const sortSizing = await page.locator('.search-sort-control').evaluate((node) => ({ control: node.getBoundingClientRect().width, select: node.querySelector('.search-sort-control__select')?.getBoundingClientRect().width ?? 0 }))
+    if (width >= 761) {
+      expect(sortSizing.control).toBeLessThanOrEqual(360)
+      expect(sortSizing.select).toBeLessThanOrEqual(220)
+    }
     const layout = await page.evaluate(() => ({
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
       headerRight: document.querySelector('.rankings-table thead')?.getBoundingClientRect().right ?? 0,
