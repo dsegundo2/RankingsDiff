@@ -343,10 +343,12 @@ test('table headers stay compact across browser widths', async ({ page }) => {
     await expect(page.locator('.price-heading').getByText('Value', { exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Sort by value delta' })).toHaveText('Delta')
     await expect(page.locator('.price-heading .sort-button')).toHaveCount(0)
-    const sortSizing = await page.locator('.search-sort-control').evaluate((node) => ({ control: node.getBoundingClientRect().width, select: node.querySelector('.search-sort-control__select')?.getBoundingClientRect().width ?? 0 }))
+    const sortSizing = await page.locator('.search-sort-control').evaluate((node) => { const select = node.querySelector('select'); return { control: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height, select: select?.getBoundingClientRect().width ?? 0, selectHeight: select?.getBoundingClientRect().height ?? 0 } })
     if (width >= 761) {
       expect(sortSizing.control).toBeLessThanOrEqual(320)
       expect(sortSizing.select).toBeLessThanOrEqual(180)
+      expect(sortSizing.selectHeight).toBeLessThan(sortSizing.height)
+      expect(sortSizing.selectHeight).toBeGreaterThanOrEqual(sortSizing.height * .75)
     }
     const layout = await page.evaluate(() => ({
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
