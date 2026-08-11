@@ -515,8 +515,9 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     setPosition(value)
   }
 
-  function restoreDraft(nextTargets: string[], nextDrafted: string[]) {
-    applyDraftState(new Set(nextTargets), new Set(nextDrafted), {}, {}, new Set())
+  function restoreDraft(state: { targets: string[]; drafted: string[]; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) {
+    applyDraftState(new Set(state.targets), new Set(state.drafted), state.prices, state.slots, new Set(state.mine))
+    if (Object.keys(state.targetGoals).length) setTargetGoals((current) => ({ ...current, ...state.targetGoals }))
   }
 
   function clearDraft() {
@@ -667,6 +668,9 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         viewMode={view}
         targets={targets}
         drafted={drafted}
+        mine={mine}
+        prices={draftPrices}
+        slots={draftSlots}
         targetGoals={targetGoals}
         onRestoreDraft={restoreDraft}
         onClearDraft={clearDraft}

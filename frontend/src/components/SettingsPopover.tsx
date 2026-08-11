@@ -37,8 +37,11 @@ type Props = {
   viewMode: 'board' | 'positions'
   targets: Set<string>
   drafted: Set<string>
+  mine: Set<string>
+  prices: Record<string, number>
+  slots: Record<string, string>
   targetGoals: RosterTargetGoals
-  onRestoreDraft: (targets: string[], drafted: string[]) => void
+  onRestoreDraft: (state: { targets: string[]; drafted: string[]; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) => void
   onClearDraft: () => void
   onShowTargetQueue: (value: boolean) => void
   onShowDrafted: (value: boolean) => void
@@ -73,7 +76,7 @@ function SourceLinks({ links, adjustedProfiles, selectedAdjustedProfile }: { lin
   )
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, viewMode, targets, drafted, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onViewMode, onSeason, onSource, onTargetGoals, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, viewMode, targets, drafted, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onViewMode, onSeason, onSource, onTargetGoals, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   useEffect(() => {
     if (open) setActivePane('display')
@@ -138,7 +141,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
 
             {activePane === 'snapshots' ? <section className="settings-section settings-section--tools">
               <div className="settings-section__copy"><span className="eyebrow">Snapshots</span><h3>Downloads and draft backup</h3><p>Export the current table or save, restore, and clear your draft state.</p></div>
-              <div className="settings-tools-grid"><DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact /><DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} onRestore={onRestoreDraft} onClear={onClearDraft} /></div>
+              <div className="settings-tools-grid"><DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact /><DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} mine={mine} prices={prices} slots={slots} targetGoals={targetGoals} onRestore={onRestoreDraft} onClear={onClearDraft} /></div>
             </section> : null}
 
             {activePane === 'checks' ? <SourceChecksPanel checks={sourceChecks} /> : null}

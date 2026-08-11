@@ -2,13 +2,16 @@ import type { RankingRow } from '../types'
 
 export type DraftState = { targets: string[]; drafted: string[] }
 export type AuctionDraftState = { mine: string[]; prices: Record<string, number>; slots: Record<string, string> }
+export type DraftSnapshotState = DraftState & AuctionDraftState & { targetGoals: Record<string, number> }
 export type SharedDraft = DraftState & { season: number; source: string }
 export type DraftFile = {
-  version: 1
+  version: 1 | 2
   exportedAt: string
   season: number
   source: string
   players: DraftState
+  roster: AuctionDraftState
+  targetGoals: Record<string, number>
 }
 
 export function rankingId(row: RankingRow): string {
@@ -52,30 +55,46 @@ function stringList(value: unknown): string[] {
   return [...new Set(value.filter((item): item is string => typeof item === 'string' && item.includes('|')))]
 }
 
-export function createDraftFile(season: number, source: string, state: DraftState): DraftFile {
+export function createDraftFile(season: number, source: string, state: DraftSnapshotState): DraftFile {
   return {
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     season,
     source,
-    players: { targets: stringList(state.targets), drafted: stringList(state.drafted) }
+    players: { targets: stringList(state.targets), drafted: stringList(state.drafted) },
+    roster: {
+      mine: stringList(state.mine),
+      prices: Object.fromEntries(Object.entries(state.prices).filter(([id, value]) => stringList([id]).length > 0 && typeof value === 'number' && Number.isFinite(value) && value >= 0)),
+      slots: Object.fromEntries(Object.entries(state.slots).filter(([id, value]) => stringList([id]).length > 0 && typeof value === 'string' && value.length > 0))
+    },
+    targetGoals: Object.fromEntries(Object.entries(state.targetGoals).filter(([, value]) => typeof value === 'number' && Number.isFinite(value) && value >= 0))
   }
 }
 
 export function parseDraftFile(contents: string): DraftFile {
   const parsed = JSON.parse(contents) as Partial<DraftFile>
-  if (parsed.version !== 1 || !parsed.players || typeof parsed.season !== 'number' || typeof parsed.source !== 'string') {
+  if ((parsed.version !== 1 && parsed.version !== 2) || !parsed.players || typeof parsed.season !== 'number' || typeof parsed.source !== 'string') {
     throw new Error('This is not a valid RankingsDiff draft file.')
   }
+  const roster: Partial<AuctionDraftState> = parsed.version === 2 && parsed.roster ? parsed.roster : {}
+  const prices = Object.fromEntries(Object.entries((roster.prices ?? {}) as Record<string, unknown>).filter(([, value]) => typeof value === 'number' && Number.isFinite(value) && value >= 0)) as Record<string, number>
+  const slots = Object.fromEntries(Object.entries((roster.slots ?? {}) as Record<string, unknown>).filter(([, value]) => typeof value === 'string' && value.length > 0)) as Record<string, string>
+  const targetGoals = Object.fromEntries(Object.entries((parsed.targetGoals ?? {}) as Record<string, unknown>).filter(([, value]) => typeof value === 'number' && Number.isFinite(value) && value >= 0)) as Record<string, number>
   return {
-    version: 1,
+    version: 2,
     exportedAt: typeof parsed.exportedAt === 'string' ? parsed.exportedAt : '',
     season: parsed.season,
     source: parsed.source,
     players: {
       targets: stringList(parsed.players.targets),
       drafted: stringList(parsed.players.drafted)
-    }
+    },
+    roster: {
+      mine: stringList(roster.mine),
+      prices,
+      slots: Object.fromEntries(Object.entries(slots).filter(([id]) => stringList([id]).length > 0))
+    },
+    targetGoals
   }
 }
 

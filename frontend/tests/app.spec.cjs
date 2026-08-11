@@ -587,6 +587,7 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
   await page.goto('./')
   await page.getByRole('button', { name: "Target Ja'Marr Chase" }).first().click()
   await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
+  await page.getByLabel('Recent draft picks').getByRole('button', { name: "Add Ja'Marr Chase to my roster" }).click()
 
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByRole('button', { name: /^Snapshots/ }).click()
@@ -598,7 +599,9 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
   let contents = ''
   for await (const chunk of stream) contents += chunk.toString()
   const saved = JSON.parse(contents)
+  expect(saved.version).toBe(2)
   expect(saved.players.drafted).toContain("ja'marr chase|cin")
+  expect(saved.roster.mine).toContain("ja'marr chase|cin")
   expect(saved).not.toHaveProperty('rows')
 
   await page.getByRole('button', { name: 'Clear draft' }).click()
@@ -615,6 +618,7 @@ test('draft JSON can be saved, cleared, and restored by player key', async ({ pa
     buffer: Buffer.from(contents)
   })
   await expect(page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first()).toBeVisible()
+  await expect(page.getByLabel('My draft roster')).toContainText("Ja'Marr Chase")
   await expect(page.getByText('Draft restored.')).toBeVisible()
 })
 

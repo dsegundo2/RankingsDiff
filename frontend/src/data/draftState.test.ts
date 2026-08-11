@@ -21,18 +21,30 @@ describe('draft state', () => {
   it('exports and restores player-keyed draft files', () => {
     const file = createDraftFile(2026, 'espn', {
       targets: ["ja'marr chase|cin"],
-      drafted: ['jahmyr gibbs|det', 'jahmyr gibbs|det']
+      drafted: ['jahmyr gibbs|det', 'jahmyr gibbs|det'],
+      mine: ["ja'marr chase|cin"],
+      prices: { "ja'marr chase|cin": 55 },
+      slots: { "ja'marr chase|cin": 'WR1' },
+      targetGoals: { WR1: 45 }
     })
     expect(parseDraftFile(JSON.stringify(file))).toMatchObject({
-      version: 1,
+      version: 2,
       season: 2026,
       source: 'espn',
-      players: { targets: ["ja'marr chase|cin"], drafted: ['jahmyr gibbs|det'] }
+      players: { targets: ["ja'marr chase|cin"], drafted: ['jahmyr gibbs|det'] },
+      roster: { mine: ["ja'marr chase|cin"], prices: { "ja'marr chase|cin": 55 }, slots: { "ja'marr chase|cin": 'WR1' } },
+      targetGoals: { WR1: 45 }
     })
   })
 
   it('rejects files without stable player keys', () => {
     expect(() => parseDraftFile('{"version":2}')).toThrow(/valid RankingsDiff/)
+  })
+
+  it('keeps older player-only backups restorable', () => {
+    const parsed = parseDraftFile(JSON.stringify({ version: 1, season: 2025, source: 'espn', players: { targets: ['one|atl'], drafted: ['two|cin'] } }))
+    expect(parsed.roster).toEqual({ mine: [], prices: {}, slots: {} })
+    expect(parsed.targetGoals).toEqual({})
   })
 
   it('round-trips a portable cross-device draft link', () => {
