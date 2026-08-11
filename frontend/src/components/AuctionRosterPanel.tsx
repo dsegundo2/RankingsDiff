@@ -103,7 +103,6 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
       <div><span className="eyebrow">My draft</span><h2>Roster slots</h2></div>
       <strong className="auction-roster-panel__count">{picks.length}</strong>
     </div>
-    {mode === 'auction' ? <div className="auction-roster-panel__budget"><span>Budget remaining</span><strong className={remaining < 0 ? 'is-negative' : ''}>${remaining}</strong><small>of $200</small></div> : null}
     {showTargetQueue ? <section className="auction-shortlist target-queue target-queue--embedded" aria-label="Target queue">
       <div className="auction-roster-panel__section-heading"><strong>Shortlist</strong><span>{targetRows.length}</span></div>
       {targetRows.length ? <div className="auction-shortlist__list">{targetRows.slice(0, 6).map((row) => {
@@ -113,6 +112,7 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
         return <button type="button" key={id} className="auction-shortlist__item" onClick={() => onTarget(id)} aria-label={`Remove target ${row.player}`}><span className={`auction-shortlist__pos pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span><span><strong>{row.player}</strong><small>{team} · {valueSummary}</small></span><span className="auction-shortlist__remove" aria-hidden="true" /></button>
       })}</div> : <p className="auction-roster-panel__empty">Target players to keep a short list here.</p>}
     </section> : null}
+    {mode === 'auction' ? <div className="auction-roster-panel__budget"><span>Budget remaining</span><strong className={remaining < 0 ? 'is-negative' : ''}>${remaining}</strong><small>of $200</small></div> : null}
     <section className="auction-roster-panel__roster" aria-label="Roster slots">
       <div className="auction-roster-panel__section-heading"><strong>My roster</strong>{mode === 'auction' ? <span>{pace >= 0 ? `Under target ${pace === 0 ? '$0' : `$${Math.round(pace)}`}` : `Over target $${Math.abs(Math.round(pace))}`}</span> : null}</div>
       <div className="auction-roster-panel__list">

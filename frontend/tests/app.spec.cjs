@@ -192,14 +192,15 @@ test('D toggles drafted players and Display is the default settings pane', async
   await expect(page.getByRole('checkbox', { name: 'Show drafted' })).toBeChecked()
 })
 
-test('recent picks stay horizontal, show five, and omit source rank', async ({ page }) => {
+test('recent picks stay horizontal, show five names, and omit draft labels and source rank', async ({ page }) => {
   await page.goto('./')
   for (let index = 0; index < 6; index += 1) {
     await page.locator('.rankings-table tbody tr').nth(index).locator('.draft-action').click()
   }
   const list = page.locator('.recent-draft__list')
   await expect(list).toBeVisible()
-  await expect(list).toContainText('Last pick')
+  await expect(list).not.toContainText('Last pick')
+  await expect(list).not.toContainText('Drafted')
   await expect(list).not.toContainText('Pick 5')
   await expect(list).not.toContainText('source rank')
   await expect(list.locator('li')).toHaveCount(5)
