@@ -114,7 +114,7 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
     </section> : null}
     {mode === 'auction' ? <div className="auction-roster-panel__budget"><span>Budget remaining</span><strong className={remaining < 0 ? 'is-negative' : ''}>${remaining}</strong><small>of $200</small></div> : null}
     <section className="auction-roster-panel__roster" aria-label="Roster slots">
-      <div className="auction-roster-panel__section-heading"><strong>My roster</strong>{mode === 'auction' ? <span>{pace >= 0 ? `Under target ${pace === 0 ? '$0' : `$${Math.round(pace)}`}` : `Over target $${Math.abs(Math.round(pace))}`}</span> : null}</div>
+      <div className="auction-roster-panel__section-heading"><strong>My roster</strong>{mode === 'auction' ? <span className={`auction-roster-panel__target-status ${pace > 0 ? 'is-under' : pace < 0 ? 'is-over' : 'is-even'}`}>{pace >= 0 ? `Under target ${pace === 0 ? '$0' : `$${Math.round(pace)}`}` : `Over target $${Math.abs(Math.round(pace))}`}</span> : null}</div>
       <div className="auction-roster-panel__list">
       {starterSlots.map(renderSlot)}
       </div>
