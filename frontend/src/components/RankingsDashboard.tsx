@@ -574,11 +574,19 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
 
   return (
     <main className={`dashboard ${showMobileActions ? '' : 'mobile-actions-hidden'}`}>
-      <section className="hero hero--compact">
-        <div>
-          <h1>RankingsDiff</h1>
+      <section className="hero hero--compact hero--editorial" aria-label="RankingsDiff header">
+        <div className="hero__brand">
+          <span className="hero__mark" aria-hidden="true"><b>R</b><b>D</b></span>
+          <div>
+            <span className="eyebrow">Fantasy football</span>
+            <h1>RankingsDiff</h1>
+            <small>Compare the board. Own the room.</small>
+          </div>
+        </div>
+        <div className="hero__context">
+          <span>Draft board</span>
           <div className="view-summary" aria-live="polite">
-            Looking at <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{selectedSource === 'espn' ? 'Auction' : 'Snake'}</strong>
+            <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{selectedSource === 'espn' ? 'Auction' : 'Snake'}</strong>
           </div>
         </div>
       </section>

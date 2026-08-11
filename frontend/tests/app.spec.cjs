@@ -33,7 +33,7 @@ test('dashboard renders and exposes settings downloads', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'RankingsDiff' })).toBeVisible()
   await expect(page.getByRole('button', { name: /Settings/ })).toBeVisible()
   await expect(page.locator('.team-badge').first()).toBeVisible()
-  await expect(page.getByText(/Looking at/)).toBeVisible()
+  await expect(page.locator('.hero__context')).toContainText('Draft board')
   await expect(page.getByText('Full PPR', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByRole('button', { name: /^Snapshots/ }).click()
