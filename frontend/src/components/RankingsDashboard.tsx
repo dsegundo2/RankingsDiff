@@ -600,16 +600,16 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
           draftedCounts={draftedCounts}
           compact
         />
-        <div className="search-sort-control" aria-label="Mobile sort controls">
+        <div className="search-sort-control" aria-label="Sort controls">
           <label htmlFor="search-sort">Sort by</label>
-          <select id="search-sort" value={sortKey} onChange={(event) => handleSort(event.target.value as SortKey)}>
-            <option value="player">Player</option>
-            <option value="position">Position</option>
-            <option value="sourceRank">{sourceLabel(selectedSource)} rank</option>
-            <option value="adjustedRank">Adjusted rank</option>
-            <option value="yahooProjection">Yahoo projection</option>
-            <option value="diff">Delta</option>
-          </select>
+          <span className="search-sort-control__select"><select id="search-sort" value={sortKey} onChange={(event) => handleSort(event.target.value as SortKey)}>
+              <option value="player">Player</option>
+              <option value="position">Position</option>
+              <option value="sourceRank">{sourceLabel(selectedSource)} rank</option>
+              <option value="adjustedRank">Adjusted rank</option>
+              <option value="yahooProjection">Yahoo projection</option>
+              <option value="diff">Delta</option>
+            </select><span className="search-sort-control__chevron" aria-hidden="true">⌄</span></span>
           <button type="button" className="search-sort-direction" onClick={() => setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')} aria-label={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`} title={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`}>
             {sortDirection === 'asc' ? '↑' : '↓'}
           </button>
