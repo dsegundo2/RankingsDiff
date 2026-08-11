@@ -48,6 +48,16 @@ test('dashboard renders and exposes settings downloads', async ({ page }) => {
   expect(parseFloat(sourceLinkRadius)).toBeLessThanOrEqual(10)
 })
 
+test('header mockup lab offers five compact directions', async ({ page }) => {
+  await page.goto('./mockups')
+  await expect(page.getByRole('heading', { name: 'Choose a calmer, more connected header.' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Header options' }).getByRole('button')).toHaveCount(5)
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await page.getByRole('button', { name: /Field Notes/ }).click()
+  await expect(page.locator('.mock-dashboard__header--field')).toBeVisible()
+  await expect(page.locator('body')).toHaveCSS('overflow-x', 'visible')
+})
+
 test('season and source switching works with manifest data', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
