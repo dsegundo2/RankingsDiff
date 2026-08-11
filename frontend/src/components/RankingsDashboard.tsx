@@ -11,6 +11,7 @@ import { PositionBoard } from './PositionBoard'
 import { RecentDraftPanel } from './RecentDraftPanel'
 import { AuctionRosterPanel } from './AuctionRosterPanel'
 import { withBasePath } from '../data/paths'
+import { RankingsDiffChart } from './RankingsDiffChart'
 
 type ViewMode = 'board' | 'positions'
 type DraftMode = 'snake' | 'auction'
@@ -47,9 +48,11 @@ type Props = {
   onAdjustedProfile: (profile: string) => void
   onSeason: (season: number) => void
   onSource: (source: string) => void
+  route: 'board' | 'analytics'
+  onNavigate: (path: 'board' | 'analytics') => void
 }
 
-export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sourceChecks, selectedSeason, selectedSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, onSeason, onSource }: Props) {
+export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sourceChecks, selectedSeason, selectedSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, onSeason, onSource, route, onNavigate }: Props) {
   const [search, setSearch] = useState('')
   const [position, setPosition] = useState<PositionFilter>('ALL')
   const [sortKey, setSortKey] = useState<SortKey>('sourceRank')
@@ -610,8 +613,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     {!targetRows.length ? <p>Star players to build a shortlist that stays visible while you search and filter.</p> : null}
   </aside> : null
 
-  return (
-    <main className={`dashboard ${showMobileActions ? '' : 'mobile-actions-hidden'}`}>
+  return (<>
+    <main className={`dashboard ${showMobileActions ? '' : 'mobile-actions-hidden'}`} hidden={route === 'analytics'}>
       <section className="hero hero--compact hero--editorial" aria-label="RankingsDiff header">
         <div className="hero__brand">
           <span className="hero__mark" aria-hidden="true"><b>R</b><b>D</b></span>
@@ -625,6 +628,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
           <div className="view-summary" aria-live="polite">
             <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{draftMode === 'auction' ? 'Auction' : 'Snake'}</strong>
           </div>
+          <button className="analytics-link" type="button" onClick={() => onNavigate('analytics')}>Rankings diff</button>
         </div>
       </section>
 
@@ -735,5 +739,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         onClose={() => setSettingsOpen(false)}
       />
     </main>
-  )
+    <div hidden={route !== 'analytics'}>
+      <RankingsDiffChart rows={rows} teams={teams} source={selectedSource} drafted={drafted} onBack={() => onNavigate('board')} />
+    </div>
+  </>)
 }

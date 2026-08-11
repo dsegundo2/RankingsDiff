@@ -48,6 +48,32 @@ test('dashboard renders and exposes settings downloads', async ({ page }) => {
   expect(parseFloat(sourceLinkRadius)).toBeLessThanOrEqual(10)
 })
 
+test('rankings diff opens as a separate route and returns without disturbing draft state', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
+  await page.getByRole('button', { name: 'WR', exact: true }).first().click()
+  await page.getByRole('button', { name: 'Rankings diff', exact: true }).click()
+
+  await expect(page).toHaveURL(/\/analytics\/rankings-diff$/)
+  await expect(page.getByRole('heading', { name: 'Rankings diff' })).toBeVisible()
+  await expect(page.getByRole('combobox', { name: 'Chart window' })).toBeVisible()
+  await page.getByRole('combobox', { name: 'Chart window' }).selectOption('middle')
+  await expect(page.locator('.rankings-diff-card__header')).toContainText('Picks 73–144')
+  await expect(page.locator('.rankings-diff-point').first()).toBeVisible()
+
+  await page.getByRole('button', { name: '← Back to rankings' }).click()
+  await expect(page).toHaveURL(/\/RankingsDiff\/$|\/$/)
+  await expect(page.getByRole('button', { name: 'WR', exact: true }).first()).toHaveClass(/active/)
+  await page.getByRole('button', { name: 'ALL', exact: true }).first().click()
+  await expect(page.getByRole('button', { name: "Undo drafted Jahmyr Gibbs" }).first()).toBeVisible()
+})
+
+test('rankings diff direct URL loads as a first-class view', async ({ page }) => {
+  await page.goto('./analytics/rankings-diff')
+  await expect(page.getByRole('heading', { name: 'Rankings diff' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '← Back to rankings' })).toBeVisible()
+})
+
 test('header mockup lab offers five compact directions', async ({ page }) => {
   await page.goto('./mockups')
   await expect(page.getByRole('heading', { name: 'Choose a calmer, more connected header.' })).toBeVisible()

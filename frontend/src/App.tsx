@@ -66,6 +66,7 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 }
 
 function AppData() {
+  const [route, setRoute] = useState<'board' | 'analytics'>(() => window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : 'board')
   const [manifest, setManifest] = useState<DataManifest>(emptyManifest)
   const [teams, setTeams] = useState<Record<string, TeamAsset>>({})
   const [rows, setRows] = useState<RankingRow[]>([])
@@ -79,6 +80,19 @@ function AppData() {
   const [, setRowsLoading] = useState(true)
   const [hasLoadedRows, setHasLoadedRows] = useState(false)
   const [retryKey, setRetryKey] = useState(0)
+
+  useEffect(() => {
+    const handlePopState = () => setRoute(window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : 'board')
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  function navigate(nextRoute: 'board' | 'analytics') {
+    const path = nextRoute === 'analytics' ? `${import.meta.env.BASE_URL}analytics/rankings-diff` : (import.meta.env.BASE_URL || '/')
+    window.history.pushState({}, '', path)
+    setRoute(nextRoute)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   useEffect(() => {
     const controller = new AbortController()
@@ -153,7 +167,7 @@ function AppData() {
   if (manifestLoading || !manifest.seasons.length || !selectedSource || !hasLoadedRows) return <LoadingState detail={manifestLoading ? undefined : `Loading ${selectedMeta?.label ?? 'the selected source'} rankings…`} />
 
   const displayedRows = rows.map((row) => selectedProfile?.id === 'half-ppr' ? { ...row, adjustedRank: row.adjustedRankHalfPpr ?? row.adjustedRank } : row)
-  return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} />
+  return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} route={route} onNavigate={navigate} />
 }
 
 export default function App() {

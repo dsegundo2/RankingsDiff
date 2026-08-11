@@ -257,6 +257,60 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .source-check dd { margin: 2px 0 0; font-size: .8rem; font-weight: 800; overflow-wrap: anywhere; }
 .error { color: var(--danger); }
 
+/* Rankings diff analytics */
+.analytics-link { align-self: flex-start; min-height: 34px; margin-top: 10px; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); border-radius: var(--radius-md); padding: 7px 11px; color: var(--accent); background: var(--accent-soft); font-size: .78rem; font-weight: 800; }
+.analytics-link:hover { border-color: var(--accent); background: #e2e5ff; transform: translateY(-1px); }
+.rankings-diff-page { width: min(1440px, calc(100% - 40px)); margin: 0 auto; padding: 28px 0 56px; }
+.rankings-diff-page__header { display: flex; justify-content: space-between; gap: 20px; align-items: end; margin-bottom: 20px; }
+.rankings-diff-page__header h1 { margin: 5px 0 4px; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.06em; }
+.rankings-diff-page__header p { margin: 0; color: var(--muted); }
+.rankings-diff-controls, .rankings-diff-card { border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgba(255,255,255,.92); box-shadow: 0 12px 34px rgba(28,39,69,.08); }
+.rankings-diff-controls { overflow: hidden; margin-bottom: 16px; }
+.rankings-diff-controls__row { display: grid; grid-template-columns: 1.2fr 1.2fr 1.2fr; gap: 14px; padding: 16px 18px; }
+.rankings-diff-controls__row--secondary { grid-template-columns: 1.2fr 1.2fr 1.2fr; border-top: 1px solid var(--line); background: var(--panel-soft); }
+.rankings-diff-controls label, .rankings-diff-controls legend { color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.rankings-diff-controls select { display: block; width: 100%; min-height: 40px; margin-top: 6px; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 8px 10px; color: var(--ink); background: var(--panel); }
+.rankings-diff-controls fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+.rankings-diff-controls legend { padding: 0; }
+.analytics-segmented { display: flex; gap: 4px; min-height: 40px; margin-top: 6px; padding: 4px; border: 1px solid var(--line); border-radius: var(--radius-md); background: #eef2f8; }
+.analytics-segmented button { flex: 1; border: 0; border-radius: 8px; padding: 0 8px; color: var(--muted); background: transparent; font-size: .78rem; font-weight: 800; }
+.analytics-segmented button.active { color: var(--ink); background: var(--panel); box-shadow: var(--shadow-sm); }
+.rankings-diff-card { padding: 18px; }
+.rankings-diff-card__header { display: flex; justify-content: space-between; gap: 18px; align-items: start; margin-bottom: 12px; }
+.rankings-diff-card__header h2 { margin: 0; font-size: 1.1rem; }
+.rankings-diff-card__header p { margin: 4px 0 0; color: var(--muted); font-size: .8rem; }
+.rankings-diff-legend { display: flex; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: .75rem; }
+.rankings-diff-legend span { display: inline-flex; gap: 5px; align-items: center; }
+.rankings-diff-legend i { width: 9px; height: 9px; border-radius: 50%; }
+.rankings-diff-chart-wrap { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-md); background: linear-gradient(180deg, #fff, #fbfcfe); }
+.rankings-diff-chart { display: block; width: 100%; height: auto; }
+.rankings-diff-grid { stroke: #e9edf4; stroke-width: 1; }
+.rankings-diff-parity { stroke: #aeb8c9; stroke-width: 1.5; stroke-dasharray: 3 5; }
+.rankings-diff-axis { fill: var(--muted); font-size: 11px; }
+.rankings-diff-axis-title { fill: var(--muted); font-size: 11px; }
+.rankings-diff-better { fill: var(--good); font-weight: 800; }
+.rankings-diff-point { cursor: pointer; stroke: #fff; stroke-width: 2; transition: r .15s ease, opacity .15s ease; }
+.rankings-diff-point:hover, .rankings-diff-point:focus { stroke: var(--ink); stroke-width: 3; outline: none; }
+.rankings-diff-tooltip { position: absolute; top: 18px; right: 18px; z-index: 2; width: min(280px, calc(100% - 36px)); padding: 11px 12px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius-md); color: #fff; background: rgba(21,32,51,.96); box-shadow: var(--shadow-md); }
+.rankings-diff-tooltip__title { display: flex; gap: 7px; align-items: center; }
+.rankings-diff-tooltip__title .team-badge { width: 28px; height: 28px; flex-basis: 28px; border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.12); }
+.rankings-diff-tooltip__title .team-badge img { width: 22px; height: 22px; }
+.rankings-diff-tooltip__title strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rankings-diff-status { margin-left: auto; border-radius: var(--radius-pill); padding: 3px 7px; font-size: .65rem; font-weight: 800; white-space: nowrap; }
+.rankings-diff-status--available { color: #d9dcff; background: rgba(126,124,255,.28); }
+.rankings-diff-status--drafted { color: #d8e0ee; background: rgba(151,165,188,.26); }
+.rankings-diff-tooltip p { margin: 6px 0 0; color: #cbd3e1; font-size: .75rem; }
+.rankings-diff-card__note { margin: 10px 0 0; color: var(--muted); font-size: .75rem; }
+
+@media (max-width: 700px) {
+  .rankings-diff-page, .dashboard { width: min(100% - 24px, 1440px); }
+  .rankings-diff-page__header { align-items: start; flex-direction: column; }
+  .rankings-diff-controls__row, .rankings-diff-controls__row--secondary { grid-template-columns: 1fr; }
+  .rankings-diff-card__header { flex-direction: column; }
+  .rankings-diff-legend { order: -1; }
+  .analytics-link { align-self: stretch; }
+}
+
 /* Consolidated settings surface */
 .hero-actions--settings { grid-template-columns: minmax(280px, 520px); justify-content: end; }
 .settings-trigger { display: grid; grid-template-columns: 42px minmax(0,1fr); grid-template-areas: "icon copy" "icon meta"; gap: 2px 12px; width: 100%; min-height: 82px; align-items: center; padding: 13px 15px; border: 1px solid rgba(79,93,228,.22); border-radius: 16px; color: var(--ink); background: linear-gradient(135deg, rgba(255,255,255,.97), rgba(238,240,255,.94)); box-shadow: 0 8px 24px rgba(28,39,69,.08); text-align: left; }
