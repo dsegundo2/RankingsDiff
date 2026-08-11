@@ -13,10 +13,13 @@ import { AuctionRosterPanel } from './AuctionRosterPanel'
 import { withBasePath } from '../data/paths'
 
 type ViewMode = 'board' | 'positions'
+type DraftMode = 'snake' | 'auction'
 type PositionKey = Exclude<PositionFilter, 'ALL'>
-type DraftSnapshot = { targets: string[]; drafted: string[]; mine: string[]; prices: Record<string, number>; slots: Record<string, string> }
+type DraftSnapshot = { targets: string[]; drafted: string[]; picks: Record<string, number>; mine: string[]; prices: Record<string, number>; slots: Record<string, string> }
 const allPositionKeys = new Set<PositionKey>(['RB', 'WR', 'QB', 'TE'])
 const benchSlots = ['BENCH1', 'BENCH2', 'BENCH3', 'BENCH4', 'BENCH5']
+const DEFAULT_SHOW_YAHOO_PROJECTIONS = false
+const DEFAULT_DRAFT_MODE: DraftMode = 'snake'
 
 function autoRosterSlot(row: RankingRow, drafted: Set<string>, slots: Record<string, string>): string {
   const occupied = new Set(Object.entries(slots).filter(([id]) => drafted.has(id)).map(([, slot]) => slot))
@@ -58,6 +61,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   const [positionViews, setPositionViews] = useState<Set<PositionKey>>(new Set(['RB', 'WR', 'QB', 'TE']))
   const [targets, setTargets] = useState<Set<string>>(new Set())
   const [drafted, setDrafted] = useState<Set<string>>(new Set())
+  const [draftPicks, setDraftPicks] = useState<Record<string, number>>({})
   const [mine, setMine] = useState<Set<string>>(new Set())
   const [draftPrices, setDraftPrices] = useState<Record<string, number>>({})
   const [draftSlots, setDraftSlots] = useState<Record<string, string>>({})
@@ -68,13 +72,14 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   const [showRosterPanel, setShowRosterPanel] = useState(true)
   const [stickyWorkbench, setStickyWorkbench] = useState(false)
   const [showMobileActions, setShowMobileActions] = useState(true)
-  const [showYahooProjections, setShowYahooProjections] = useState(false)
+  const [showYahooProjections, setShowYahooProjections] = useState(DEFAULT_SHOW_YAHOO_PROJECTIONS)
+  const [draftMode, setDraftMode] = useState<DraftMode>(DEFAULT_DRAFT_MODE)
   const [hydratedStorageKey, setHydratedStorageKey] = useState('')
   const [hydratedViewKey, setHydratedViewKey] = useState('')
   const [hydratedTargetKey, setHydratedTargetKey] = useState('')
   const searchInputRef = useRef<HTMLInputElement>(null)
   const workbenchRef = useRef<HTMLDivElement>(null)
-  const historyRef = useRef<DraftSnapshot[]>([{ targets: [], drafted: [], mine: [], prices: {}, slots: {} }])
+  const historyRef = useRef<DraftSnapshot[]>([{ targets: [], drafted: [], picks: {}, mine: [], prices: {}, slots: {} }])
   const historyIndexRef = useRef(0)
   const season = manifest.seasons.find((item) => item.season === selectedSeason) ?? manifest.seasons[0]
   const source = season?.sources.find((item) => item.id === selectedSource) ?? season?.sources[0]
@@ -137,9 +142,9 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     searchInputRef.current?.select()
   }
 
-  const applyDraftState = useCallback((nextTargets: Set<string>, nextDrafted: Set<string>, nextPrices = draftPrices, nextSlots = draftSlots, nextMine = mine, record = true) => {
+  const applyDraftState = useCallback((nextTargets: Set<string>, nextDrafted: Set<string>, nextPrices = draftPrices, nextSlots = draftSlots, nextMine = mine, nextPicks = draftPicks, record = true) => {
     if (record) {
-      const snapshot: DraftSnapshot = { targets: [...nextTargets], drafted: [...nextDrafted], mine: [...nextMine], prices: nextPrices, slots: nextSlots }
+      const snapshot: DraftSnapshot = { targets: [...nextTargets], drafted: [...nextDrafted], picks: nextPicks, mine: [...nextMine], prices: nextPrices, slots: nextSlots }
       const current = historyRef.current[historyIndexRef.current]
       if (JSON.stringify(current) !== JSON.stringify(snapshot)) {
         historyRef.current = [...historyRef.current.slice(0, historyIndexRef.current + 1), snapshot].slice(-100)
@@ -151,7 +156,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     setMine(nextMine)
     setDraftPrices(nextPrices)
     setDraftSlots(nextSlots)
-  }, [draftPrices, draftSlots, mine])
+    setDraftPicks(nextPicks)
+  }, [draftPicks, draftPrices, draftSlots, mine])
 
   const toggleDrafted = useCallback((id: string) => {
     const wasDrafted = drafted.has(id)
@@ -163,13 +169,17 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     const nextMine = new Set(mine)
     const nextPrices = { ...draftPrices }
     const nextSlots = { ...draftSlots }
+    const nextPicks = { ...draftPicks }
     if (wasDrafted) {
       nextMine.delete(id)
       delete nextPrices[id]
       delete nextSlots[id]
+      delete nextPicks[id]
+    } else {
+      nextPicks[id] = Math.max(0, ...Object.values(nextPicks)) + 1
     }
-    applyDraftState(nextTargets, nextDrafted, nextPrices, nextSlots, nextMine)
-  }, [applyDraftState, drafted, draftPrices, draftSlots, mine, targets])
+    applyDraftState(nextTargets, nextDrafted, nextPrices, nextSlots, nextMine, nextPicks)
+  }, [applyDraftState, drafted, draftPicks, draftPrices, draftSlots, mine, targets])
 
   const toggleMine = useCallback((id: string) => {
     if (!drafted.has(id)) return
@@ -188,8 +198,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         if (selectedSource !== 'espn') nextPrices[id] = firstAvailableDraftRound(mine, draftPrices)
       }
     }
-    applyDraftState(new Set(targets), new Set(drafted), nextPrices, nextSlots, nextMine)
-  }, [applyDraftState, drafted, draftPrices, draftSlots, mine, rows, selectedSource, targets])
+    applyDraftState(new Set(targets), new Set(drafted), nextPrices, nextSlots, nextMine, draftPicks)
+  }, [applyDraftState, drafted, draftPicks, draftPrices, draftSlots, mine, rows, selectedSource, targets])
 
   const toggleTarget = useCallback((id: string) => {
     const nextTargets = new Set(targets)
@@ -212,7 +222,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     if (nextIndex < 0 || nextIndex >= historyRef.current.length) return
     historyIndexRef.current = nextIndex
     const snapshot = historyRef.current[nextIndex]
-    applyDraftState(new Set(snapshot.targets), new Set(snapshot.drafted), snapshot.prices, snapshot.slots, new Set(snapshot.mine), false)
+    applyDraftState(new Set(snapshot.targets), new Set(snapshot.drafted), snapshot.prices, snapshot.slots, new Set(snapshot.mine), snapshot.picks, false)
   }, [applyDraftState])
 
   useEffect(() => {
@@ -221,6 +231,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     const auctionState = readAuctionDraftState(auctionStorageKey)
     const shared = readDraftShare(new URLSearchParams(window.location.search).get('draft'))
     const initialState = shared?.season === selectedSeason && shared.source === selectedSource ? shared : state
+    const initialPicks = Object.keys(initialState.picks ?? {}).length ? initialState.picks : Object.fromEntries(initialState.drafted.map((id, index) => [id, index + 1]))
     const initialMine = new Set(auctionState.mine.filter((id) => initialState.drafted.includes(id)))
     const initialPrices = { ...auctionState.prices }
     if (selectedSource !== 'espn') {
@@ -230,10 +241,11 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     }
     setTargets(new Set(initialState.targets))
     setDrafted(new Set(initialState.drafted))
+    setDraftPicks(initialPicks)
     setMine(initialMine)
     setDraftPrices(initialPrices)
     setDraftSlots(auctionState.slots)
-    historyRef.current = [{ targets: [...initialState.targets], drafted: [...initialState.drafted], mine: [...initialMine], prices: initialPrices, slots: auctionState.slots }]
+    historyRef.current = [{ targets: [...initialState.targets], drafted: [...initialState.drafted], picks: initialPicks, mine: [...initialMine], prices: initialPrices, slots: auctionState.slots }]
     historyIndexRef.current = 0
     setHydratedStorageKey(storageKey)
   }, [auctionStorageKey, selectedSeason, selectedSource, storageKey])
@@ -261,7 +273,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   useEffect(() => {
     setHydratedViewKey('')
     try {
-      const saved = JSON.parse(localStorage.getItem(viewStorageKey) ?? '{}') as Partial<{ search: string; position: PositionFilter; sortKey: SortKey; sortDirection: SortDirection; view: ViewMode; boardPositions: PositionKey[]; positionViews: PositionKey[]; showDrafted: boolean; showTargetQueue: boolean; showDraftLog: boolean; showRosterPanel: boolean; stickyWorkbench: boolean; showMobileActions: boolean; showYahooProjections: boolean }>
+      const saved = JSON.parse(localStorage.getItem(viewStorageKey) ?? '{}') as Partial<{ search: string; position: PositionFilter; sortKey: SortKey; sortDirection: SortDirection; view: ViewMode; boardPositions: PositionKey[]; positionViews: PositionKey[]; showDrafted: boolean; showTargetQueue: boolean; showDraftLog: boolean; showRosterPanel: boolean; stickyWorkbench: boolean; showMobileActions: boolean; showYahooProjections: boolean; draftMode: DraftMode }>
       if (typeof saved.search === 'string') setSearch(saved.search)
       if (saved.position && ['ALL', 'QB', 'RB', 'WR', 'TE'].includes(saved.position)) setPosition(saved.position)
       if (saved.sortKey) setSortKey(saved.sortKey)
@@ -276,19 +288,20 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       if (typeof saved.stickyWorkbench === 'boolean') setStickyWorkbench(saved.stickyWorkbench)
       if (typeof saved.showMobileActions === 'boolean') setShowMobileActions(saved.showMobileActions)
       if (typeof saved.showYahooProjections === 'boolean') setShowYahooProjections(saved.showYahooProjections)
+      setDraftMode(selectedSource === 'espn' && (saved.draftMode === 'snake' || saved.draftMode === 'auction') ? saved.draftMode : DEFAULT_DRAFT_MODE)
     } catch { /* Ignore stale or manually edited view preferences. */ }
     setHydratedViewKey(viewStorageKey)
-  }, [viewStorageKey])
+  }, [selectedSource, viewStorageKey])
 
   useEffect(() => {
     if (hydratedViewKey !== viewStorageKey) return
-    localStorage.setItem(viewStorageKey, JSON.stringify({ search, position, sortKey, sortDirection, view, boardPositions: [...boardPositions], positionViews: [...positionViews], showDrafted, showTargetQueue, showDraftLog, showRosterPanel, stickyWorkbench, showMobileActions, showYahooProjections }))
-  }, [hydratedViewKey, viewStorageKey, search, position, sortKey, sortDirection, view, boardPositions, positionViews, showDrafted, showTargetQueue, showDraftLog, showRosterPanel, stickyWorkbench, showMobileActions, showYahooProjections])
+    localStorage.setItem(viewStorageKey, JSON.stringify({ search, position, sortKey, sortDirection, view, boardPositions: [...boardPositions], positionViews: [...positionViews], showDrafted, showTargetQueue, showDraftLog, showRosterPanel, stickyWorkbench, showMobileActions, showYahooProjections, draftMode }))
+  }, [hydratedViewKey, viewStorageKey, search, position, sortKey, sortDirection, view, boardPositions, positionViews, showDrafted, showTargetQueue, showDraftLog, showRosterPanel, stickyWorkbench, showMobileActions, showYahooProjections, draftMode])
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
-    writeDraftState(storageKey, { targets: [...targets], drafted: [...drafted] })
-  }, [storageKey, hydratedStorageKey, targets, drafted])
+    writeDraftState(storageKey, { targets: [...targets], drafted: [...drafted], picks: draftPicks })
+  }, [storageKey, hydratedStorageKey, targets, drafted, draftPicks])
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
@@ -463,7 +476,12 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   }
 
   function handleSourceFromSettings(nextSource: string) {
+    if (nextSource !== 'espn') setDraftMode(DEFAULT_DRAFT_MODE)
     onSource(nextSource)
+  }
+
+  function handleDraftModeFromSettings(nextMode: DraftMode) {
+    if (selectedSource === 'espn') setDraftMode(nextMode)
   }
 
   function togglePositionView(value: PositionKey) {
@@ -515,13 +533,33 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     setPosition(value)
   }
 
-  function restoreDraft(state: { targets: string[]; drafted: string[]; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) {
-    applyDraftState(new Set(state.targets), new Set(state.drafted), state.prices, state.slots, new Set(state.mine))
+  function restoreDraft(state: { targets: string[]; drafted: string[]; picks: Record<string, number>; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) {
+    applyDraftState(new Set(state.targets), new Set(state.drafted), state.prices, state.slots, new Set(state.mine), state.picks)
     if (Object.keys(state.targetGoals).length) setTargetGoals((current) => ({ ...current, ...state.targetGoals }))
   }
 
+  function updateDraftPick(id: string, value: number | undefined) {
+    setDraftPicks((current) => {
+      const next = { ...current }
+      if (value === undefined || !Number.isInteger(value) || value < 1) delete next[id]
+      else next[id] = value
+      return next
+    })
+  }
+
+  function reorderDraftPicks(fromId: string, toId: string) {
+    const ordered = [...drafted]
+    const fromIndex = ordered.indexOf(fromId)
+    const toIndex = ordered.indexOf(toId)
+    if (fromIndex < 0 || toIndex < 0) return
+    ordered.splice(fromIndex, 1)
+    ordered.splice(toIndex, 0, fromId)
+    const nextPicks = Object.fromEntries(ordered.map((id, index) => [id, index + 1]))
+    applyDraftState(new Set(targets), new Set(ordered), draftPrices, draftSlots, mine, nextPicks)
+  }
+
   function clearDraft() {
-    applyDraftState(new Set(), new Set(), {}, {}, new Set())
+    applyDraftState(new Set(), new Set(), {}, {}, new Set(), {})
   }
 
   function updateDraftPrice(id: string, value: number | undefined) {
@@ -580,19 +618,18 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
           <div>
             <span className="eyebrow">Fantasy football</span>
             <h1>RankingsDiff</h1>
-            <small>Compare the board. Own the room.</small>
           </div>
         </div>
         <div className="hero__context">
           <span>Draft board</span>
           <div className="view-summary" aria-live="polite">
-            <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{selectedSource === 'espn' ? 'Auction' : 'Snake'}</strong>
+            <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{draftMode === 'auction' ? 'Auction' : 'Snake'}</strong>
           </div>
         </div>
       </section>
 
       <div ref={workbenchRef} className={`dashboard-workbench${stickyWorkbench ? ' dashboard-workbench--sticky' : ''}`}>
-      {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} mine={mine} teams={teams} onMine={toggleMine} /> : null}
+      {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} picks={draftPicks} mine={mine} teams={teams} mode={draftMode} onMine={toggleMine} onPick={updateDraftPick} onReorder={reorderDraftPicks} /> : null}
 
       <section className="search-panel" aria-label="Player search and filters">
         <Filters
@@ -646,12 +683,12 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
               })}
             </section>
           </div>
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={selectedSource === 'espn' ? 'auction' : 'snake'} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       )}
       <SettingsPopover
@@ -676,6 +713,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         viewMode={view}
         targets={targets}
         drafted={drafted}
+        picks={draftPicks}
         mine={mine}
         prices={draftPrices}
         slots={draftSlots}
@@ -691,6 +729,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         onViewMode={(value) => setView(value)}
         onSeason={handleSeasonFromSettings}
         onSource={handleSourceFromSettings}
+        draftMode={draftMode}
+        onDraftMode={handleDraftModeFromSettings}
         onTargetGoals={setTargetGoals}
         onClose={() => setSettingsOpen(false)}
       />

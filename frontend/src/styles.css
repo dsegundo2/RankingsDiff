@@ -1554,6 +1554,43 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
   .settings-grid { grid-template-columns: 1fr; }
 }
 
+/* Settings controls: the switch communicates state; the card copy explains it. */
+.settings-preference-card > .drafted-toggle { min-width: 44px; justify-content: flex-end; gap: var(--space-1); }
+.settings-preference-card > .drafted-toggle input { flex: 0 0 auto; }
+.settings-source-switcher { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.settings-source-switcher > span { color: var(--muted); font-size: .72rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+.settings-source-switcher > div { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel-soft); }
+.settings-source-switcher button { min-height: 34px; border: 0; border-radius: var(--radius-sm); padding: 6px 12px; color: var(--muted); background: transparent; font-size: .76rem; font-weight: 850; }
+.settings-source-switcher button:hover { color: var(--accent); background: var(--accent-soft); }
+.settings-source-switcher button.is-active { color: #fff; background: var(--ink); }
+.settings-draft-mode { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-3); }
+.settings-draft-mode > span { color: var(--muted); font-size: .72rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+.settings-draft-mode > div { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel-soft); }
+.settings-draft-mode button { min-height: 34px; border: 0; border-radius: var(--radius-sm); padding: 6px 12px; color: var(--muted); background: transparent; font-size: .76rem; font-weight: 850; }
+.settings-draft-mode button:hover { color: var(--accent); background: var(--accent-soft); }
+.settings-draft-mode button.is-active { color: #fff; background: var(--ink); }
+@media (max-width: 560px) {
+  .settings-source-switcher, .settings-draft-mode { align-items: stretch; flex-direction: column; gap: var(--space-2); }
+  .settings-source-switcher > div, .settings-draft-mode > div { width: 100%; }
+  .settings-source-switcher button, .settings-draft-mode button { flex: 1 1 0; }
+}
+
+/* Recent picks are a compact, horizontally scrollable draft-room strip. */
+.recent-draft__list { overflow-x: auto; scrollbar-width: thin; }
+.recent-draft__list li { flex: 0 0 clamp(176px, 19vw, 220px); min-height: 60px; cursor: grab; }
+.recent-draft__list li:active { cursor: grabbing; }
+.recent-draft__pick-input { width: 3.4em; margin-left: 2px; padding: 0; border: 0; border-bottom: 1px solid transparent; border-radius: 0; color: inherit; background: transparent; font: inherit; font-variant-numeric: tabular-nums; }
+.recent-draft__pick-input:hover, .recent-draft__pick-input:focus { border-bottom-color: var(--accent); outline: 0; }
+.recent-draft__pick-input::-webkit-inner-spin-button, .recent-draft__pick-input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+
+/* Keep the sort field as one aligned unit at every workbench width. */
+.search-sort-control { min-width: 0; }
+.search-sort-control__select { min-width: 0; }
+.search-sort-control select { display: block; height: 40px; line-height: 1.2; }
+@media (min-width: 761px) {
+  .search-sort-control { align-self: stretch; }
+}
+
 /* Live header: Editorial Index direction from the header mockup lab. */
 .hero--editorial {
   display: grid;

@@ -68,6 +68,26 @@ test('season and source switching works with manifest data', async ({ page }) =>
   await expect(page.locator('.price-heading').getByText('Value', { exact: true })).toBeVisible()
 })
 
+test('ESPN defaults to snake and exposes an auction format switch', async ({ page }) => {
+  await page.goto('./')
+  await page.evaluate(() => localStorage.clear())
+  await page.reload()
+  await expect(page.locator('.view-summary')).toContainText('Snake')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  const format = page.getByRole('group', { name: 'Draft format' })
+  await expect(format.getByRole('button', { name: 'Snake', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await format.getByRole('button', { name: 'Auction', exact: true }).click()
+  await expect(format.getByRole('button', { name: 'Auction', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('.view-summary')).toContainText('Auction')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.getByRole('group', { name: 'Draft format' }).getByRole('button', { name: 'Snake', exact: true }).click()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('.view-summary')).toContainText('Snake')
+})
+
 test('FantasyPros position view emphasizes source rank', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
@@ -202,7 +222,7 @@ test('D toggles drafted players and Display is the default settings pane', async
   await expect(page.getByRole('checkbox', { name: 'Show drafted' })).toBeChecked()
 })
 
-test('recent picks stay horizontal, show five names, and omit draft labels and source rank', async ({ page }) => {
+test('recent picks stay horizontal, show the latest names, and omit draft labels and source rank', async ({ page }) => {
   await page.goto('./')
   for (let index = 0; index < 6; index += 1) {
     await page.locator('.rankings-table tbody tr').nth(index).locator('.draft-action').click()
@@ -213,7 +233,7 @@ test('recent picks stay horizontal, show five names, and omit draft labels and s
   await expect(list).not.toContainText('Drafted')
   await expect(list).not.toContainText('Pick 5')
   await expect(list).not.toContainText('source rank')
-  await expect(list.locator('li')).toHaveCount(5)
+  await expect(list.locator('li')).toHaveCount(6)
   expect(await list.evaluate((node) => getComputedStyle(node).display)).toBe('flex')
 })
 
@@ -415,6 +435,8 @@ test('display settings can hide and restore the recent draft log', async ({ page
 test('roster target settings update expected spend by slot', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.getByRole('group', { name: 'Draft format' }).getByRole('button', { name: 'Auction', exact: true }).click()
   await page.getByRole('button', { name: /^Roster targets/ }).click()
   await page.getByLabel('Expected price for RB1').fill('60')
   await page.getByLabel('Close settings').click()
@@ -732,6 +754,26 @@ test('snake roster assigns the first available draft round', async ({ page }) =>
     await page.getByRole('button', { name: `Add ${player} to my roster` }).first().click()
     await expect(roster.getByRole('button', { name: `Edit draft round for ${player}` })).toContainText(`R${index + 1}`)
   }
+})
+
+test('snake recent picks show editable overall picks and support reordering', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.getByLabel('Sheet').selectOption('fpros')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  const rows = page.locator('.rankings-table--fpros tbody tr')
+  for (let index = 0; index < 3; index += 1) await rows.nth(index).locator('.draft-action').click()
+  const list = page.getByLabel('Recent draft picks').locator('.recent-draft__list')
+  const latest = list.locator('li').first()
+  const latestName = await latest.locator('.recent-draft__identity strong').textContent()
+  if (!latestName) throw new Error('Expected latest drafted player')
+  const pickInput = latest.getByRole('spinbutton', { name: `Overall pick for ${latestName}` })
+  await expect(pickInput).toHaveValue('3')
+  await pickInput.fill('24')
+  await expect(pickInput).toHaveValue('24')
+  await list.locator('li').nth(2).dragTo(list.locator('li').first())
+  await expect(list.locator('li')).toHaveCount(3)
 })
 
 test('Yahoo projection column is hidden by default and can be toggled', async ({ page }) => {

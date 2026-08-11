@@ -9,19 +9,20 @@ describe('draft state', () => {
   })
 
   it('round-trips target and drafted selections', () => {
-    writeDraftState('draft', { targets: ['one'], drafted: ['two'] })
-    expect(readDraftState('draft')).toEqual({ targets: ['one'], drafted: ['two'] })
+    writeDraftState('draft', { targets: ['one'], drafted: ['two'], picks: {} })
+    expect(readDraftState('draft')).toEqual({ targets: ['one'], drafted: ['two'], picks: {} })
   })
 
   it('recovers from invalid cached data', () => {
     localStorage.setItem('draft', '{broken')
-    expect(readDraftState('draft')).toEqual({ targets: [], drafted: [] })
+    expect(readDraftState('draft')).toEqual({ targets: [], drafted: [], picks: {} })
   })
 
   it('exports and restores player-keyed draft files', () => {
     const file = createDraftFile(2026, 'espn', {
       targets: ["ja'marr chase|cin"],
       drafted: ['jahmyr gibbs|det', 'jahmyr gibbs|det'],
+      picks: { "ja'marr chase|cin": 1 },
       mine: ["ja'marr chase|cin"],
       prices: { "ja'marr chase|cin": 55 },
       slots: { "ja'marr chase|cin": 'WR1' },
@@ -48,8 +49,8 @@ describe('draft state', () => {
   })
 
   it('round-trips a portable cross-device draft link', () => {
-    const url = createDraftShareUrl(2026, 'espn', { targets: ["ja'marr chase|cin"], drafted: ['jahmyr gibbs|det'] })
+    const url = createDraftShareUrl(2026, 'espn', { targets: ["ja'marr chase|cin"], drafted: ['jahmyr gibbs|det'], picks: { 'jahmyr gibbs|det': 1 } })
     const shared = readDraftShare(new URL(url).searchParams.get('draft'))
-    expect(shared).toEqual({ season: 2026, source: 'espn', targets: ["ja'marr chase|cin"], drafted: ['jahmyr gibbs|det'] })
+    expect(shared).toEqual({ season: 2026, source: 'espn', targets: ["ja'marr chase|cin"], drafted: ['jahmyr gibbs|det'], picks: { 'jahmyr gibbs|det': 1 } })
   })
 })

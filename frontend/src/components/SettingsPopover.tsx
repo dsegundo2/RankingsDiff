@@ -6,6 +6,7 @@ import { SourceChecksPanel } from './SourceChecksPanel'
 import { rosterTargetLabel, ROSTER_TARGET_SLOTS, type RosterTargetGoals } from '../data/rosterTargets'
 
 type SettingsPane = 'sheet' | 'snapshots' | 'checks' | 'display' | 'roster'
+type DraftMode = 'snake' | 'auction'
 
 const panes: Array<{ id: SettingsPane; label: string; description: string; icon: string }> = [
   { id: 'sheet', label: 'Current sheet', description: 'Year, source, and source pages', icon: '▦' },
@@ -37,11 +38,12 @@ type Props = {
   viewMode: 'board' | 'positions'
   targets: Set<string>
   drafted: Set<string>
+  picks: Record<string, number>
   mine: Set<string>
   prices: Record<string, number>
   slots: Record<string, string>
   targetGoals: RosterTargetGoals
-  onRestoreDraft: (state: { targets: string[]; drafted: string[]; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) => void
+  onRestoreDraft: (state: { targets: string[]; drafted: string[]; picks: Record<string, number>; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) => void
   onClearDraft: () => void
   onShowTargetQueue: (value: boolean) => void
   onShowDrafted: (value: boolean) => void
@@ -52,6 +54,8 @@ type Props = {
   onViewMode: (value: 'board' | 'positions') => void
   onSeason: (value: number) => void
   onSource: (value: string) => void
+  draftMode: DraftMode
+  onDraftMode: (value: DraftMode) => void
   onTargetGoals: (value: RosterTargetGoals) => void
   onClose: () => void
 }
@@ -76,7 +80,7 @@ function SourceLinks({ links, adjustedProfiles, selectedAdjustedProfile }: { lin
   )
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, viewMode, targets, drafted, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onViewMode, onSeason, onSource, onTargetGoals, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, viewMode, targets, drafted, picks, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   useEffect(() => {
     if (open) setActivePane('display')
@@ -136,12 +140,20 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
                   </select>
                 </label>
               </div>
+              <div className="settings-source-switcher" role="group" aria-label="Quick source switcher">
+                <span>Quick switch</span>
+                <div>{currentSeason?.sources.map((item) => <button key={item.id} type="button" className={item.id === selectedSource ? 'is-active' : ''} onClick={() => onSource(item.id)} aria-pressed={item.id === selectedSource}>{item.id === 'espn' ? 'ESPN' : 'FantasyPros'}</button>)}</div>
+              </div>
+              {selectedSource === 'espn' ? <div className="settings-draft-mode" role="group" aria-label="Draft format">
+                <span>Draft format</span>
+                <div>{(['snake', 'auction'] as DraftMode[]).map((mode) => <button key={mode} type="button" className={mode === draftMode ? 'is-active' : ''} onClick={() => onDraftMode(mode)} aria-pressed={mode === draftMode}>{mode === 'snake' ? 'Snake' : 'Auction'}</button>)}</div>
+              </div> : null}
               <SourceLinks links={currentSource?.sourceLinks} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedAdjustedProfile} />
             </section> : null}
 
             {activePane === 'snapshots' ? <section className="settings-section settings-section--tools">
               <div className="settings-section__copy"><span className="eyebrow">Snapshots</span><h3>Downloads and draft backup</h3><p>Export the current table or save, restore, and clear your draft state.</p></div>
-              <div className="settings-tools-grid"><DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact /><DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} mine={mine} prices={prices} slots={slots} targetGoals={targetGoals} onRestore={onRestoreDraft} onClear={onClearDraft} /></div>
+              <div className="settings-tools-grid"><DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact /><DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} picks={picks} mine={mine} prices={prices} slots={slots} targetGoals={targetGoals} onRestore={onRestoreDraft} onClear={onClearDraft} /></div>
             </section> : null}
 
             {activePane === 'checks' ? <SourceChecksPanel checks={sourceChecks} /> : null}
@@ -156,13 +168,13 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
             {activePane === 'display' ? <section className="settings-section settings-section--tools">
               <div className="settings-section__copy"><span className="eyebrow">Display</span><h3>Keep the dashboard focused</h3><p>Choose which supporting panels remain visible while you work the draft board.</p></div>
               <div className="settings-preference-list">
-                <label className="settings-preference-card"><span><strong>Position view</strong><small>Group the board into QB, RB, WR, and TE lanes.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="By position" checked={viewMode === 'positions'} onChange={(event) => onViewMode(event.target.checked ? 'positions' : 'board')} /> Show position view</span></label>
-                <label className="settings-preference-card"><span><strong>Drafted players</strong><small>Keep drafted players in the rankings list while you work.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => onShowDrafted(event.target.checked)} /> Show drafted <kbd>D</kbd></span></label>
-                <label className="settings-preference-card"><span><strong>My roster panel</strong><small>Show the shortlist above every roster slot, including empty slots.</small></span><span className="drafted-toggle"><input type="checkbox" checked={showRosterPanel} onChange={(event) => onShowRosterPanel(event.target.checked)} /> Show my roster</span></label>
-                <label className="settings-preference-card"><span><strong>Target queue</strong><small>{targetCount.toLocaleString()} shortlisted player{targetCount === 1 ? '' : 's'}</small></span><span className="drafted-toggle"><input type="checkbox" checked={showTargetQueue} onChange={(event) => onShowTargetQueue(event.target.checked)} /> Show target queue</span></label>
-                <label className="settings-preference-card"><span><strong>Recent draft log</strong><small>Show the latest picks above player search.</small></span><span className="drafted-toggle"><input type="checkbox" checked={showDraftLog} onChange={(event) => onShowDraftLog(event.target.checked)} /> Show draft log</span></label>
-                <label className="settings-preference-card"><span><strong>Yahoo projections</strong><small>Show Week 1 and season projected points using the selected PPR setting.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show Yahoo projections" checked={showYahooProjections} onChange={(event) => onShowYahooProjections(event.target.checked)} /> Show projections</span></label>
-                <label className="settings-preference-card"><span><strong>Sticky workbench</strong><small>Keep the draft log, search, and board controls visible while you scroll.</small></span><span className="drafted-toggle"><input type="checkbox" checked={stickyWorkbench} onChange={(event) => onShowStickyWorkbench(event.target.checked)} /> Keep controls up top</span></label>
+                <label className="settings-preference-card"><span><strong>Position view</strong><small>Group the board into QB, RB, WR, and TE lanes.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="By position" checked={viewMode === 'positions'} onChange={(event) => onViewMode(event.target.checked ? 'positions' : 'board')} /></span></label>
+                <label className="settings-preference-card"><span><strong>Drafted players</strong><small>Keep drafted players in the rankings list while you work.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => onShowDrafted(event.target.checked)} /><kbd>D</kbd></span></label>
+                <label className="settings-preference-card"><span><strong>My roster panel</strong><small>Show the shortlist above every roster slot, including empty slots.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show my roster" checked={showRosterPanel} onChange={(event) => onShowRosterPanel(event.target.checked)} /></span></label>
+                <label className="settings-preference-card"><span><strong>Target queue</strong><small>{targetCount.toLocaleString()} shortlisted player{targetCount === 1 ? '' : 's'}</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show target queue" checked={showTargetQueue} onChange={(event) => onShowTargetQueue(event.target.checked)} /></span></label>
+                <label className="settings-preference-card"><span><strong>Recent draft log</strong><small>Show the latest picks above player search.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show draft log" checked={showDraftLog} onChange={(event) => onShowDraftLog(event.target.checked)} /></span></label>
+                <label className="settings-preference-card"><span><strong>Yahoo projections</strong><small>Show Week 1 and season projected points using the selected PPR setting. Off by default.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show Yahoo projections" checked={showYahooProjections} onChange={(event) => onShowYahooProjections(event.target.checked)} /></span></label>
+                <label className="settings-preference-card"><span><strong>Sticky workbench</strong><small>Keep the draft log, search, and board controls visible while you scroll.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Keep controls up top" checked={stickyWorkbench} onChange={(event) => onShowStickyWorkbench(event.target.checked)} /></span></label>
               </div>
             </section> : null}
           </div>
