@@ -279,7 +279,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       const saved = JSON.parse(localStorage.getItem(viewStorageKey) ?? '{}') as Partial<{ search: string; position: PositionFilter; sortKey: SortKey; sortDirection: SortDirection; view: ViewMode; boardPositions: PositionKey[]; positionViews: PositionKey[]; showDrafted: boolean; showTargetQueue: boolean; showDraftLog: boolean; showRosterPanel: boolean; stickyWorkbench: boolean; showMobileActions: boolean; showYahooProjections: boolean; draftMode: DraftMode }>
       if (typeof saved.search === 'string') setSearch(saved.search)
       if (saved.position && ['ALL', 'QB', 'RB', 'WR', 'TE'].includes(saved.position)) setPosition(saved.position)
-      if (saved.sortKey) setSortKey(saved.sortKey)
+      if (saved.sortKey && ['sourceRank', 'adjustedRank', 'yahooProjection', 'diff'].includes(saved.sortKey)) setSortKey(saved.sortKey)
       if (saved.sortDirection === 'asc' || saved.sortDirection === 'desc') setSortDirection(saved.sortDirection)
       if (saved.view === 'board' || saved.view === 'positions') setView(saved.view)
       if (Array.isArray(saved.boardPositions)) setBoardPositions(new Set(saved.boardPositions.filter((value): value is PositionKey => allPositionKeys.has(value))))
@@ -653,8 +653,6 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         <div className="search-sort-control" aria-label="Sort controls">
           <label htmlFor="search-sort">Sort by</label>
           <span className="search-sort-control__select"><select id="search-sort" value={sortKey} onChange={(event) => handleSort(event.target.value as SortKey)}>
-              <option value="player">Player</option>
-              <option value="position">Position</option>
               <option value="sourceRank">{sourceLabel(selectedSource)} rank</option>
               <option value="adjustedRank">Adjusted rank</option>
               <option value="yahooProjection">Yahoo projection</option>
