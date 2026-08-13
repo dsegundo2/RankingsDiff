@@ -17,9 +17,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 2,
-    "adjustedRank": 2,
+    "adjustedRank": 4,
     "adjustedRankHalfPpr": 2,
-    "diff": 0,
+    "diff": -2,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -41,9 +41,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 4,
-    "adjustedRank": 4,
+    "adjustedRank": 2,
     "adjustedRankHalfPpr": 4,
-    "diff": 0,
+    "diff": 2,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -53,9 +53,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 5,
-    "adjustedRank": 5,
+    "adjustedRank": 6,
     "adjustedRankHalfPpr": 5,
-    "diff": 0,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -65,9 +65,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 6,
-    "adjustedRank": 7,
+    "adjustedRank": 5,
     "adjustedRankHalfPpr": 7,
-    "diff": -1,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -77,9 +77,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 7,
-    "adjustedRank": 8,
+    "adjustedRank": 7,
     "adjustedRankHalfPpr": 8,
-    "diff": -1,
+    "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -89,9 +89,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 8,
-    "adjustedRank": 6,
+    "adjustedRank": 9,
     "adjustedRankHalfPpr": 6,
-    "diff": 2,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -101,9 +101,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 9,
-    "adjustedRank": 10,
+    "adjustedRank": 8,
     "adjustedRankHalfPpr": 10,
-    "diff": -1,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -125,9 +125,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 11,
-    "adjustedRank": 13,
+    "adjustedRank": 12,
     "adjustedRankHalfPpr": 13,
-    "diff": -2,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -137,9 +137,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 12,
-    "adjustedRank": 11,
+    "adjustedRank": 15,
     "adjustedRankHalfPpr": 11,
-    "diff": 1,
+    "diff": -3,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -149,9 +149,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 13,
-    "adjustedRank": 17,
+    "adjustedRank": 16,
     "adjustedRankHalfPpr": 17,
-    "diff": -4,
+    "diff": -3,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -161,9 +161,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 14,
-    "adjustedRank": 9,
+    "adjustedRank": 10,
     "adjustedRankHalfPpr": 9,
-    "diff": 5,
+    "diff": 4,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -173,9 +173,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 15,
-    "adjustedRank": 15,
+    "adjustedRank": 13,
     "adjustedRankHalfPpr": 15,
-    "diff": 0,
+    "diff": 2,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -188,7 +188,7 @@
     "adjustedRank": 24,
     "adjustedRankHalfPpr": 24,
     "diff": -8,
-    "diffTone": "neutral",
+    "diffTone": "bad",
     "positionTone": "rb"
   },
   {
@@ -197,9 +197,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 17,
-    "adjustedRank": 19,
+    "adjustedRank": 20,
     "adjustedRankHalfPpr": 19,
-    "diff": -2,
+    "diff": -3,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -209,9 +209,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 18,
-    "adjustedRank": 12,
+    "adjustedRank": 11,
     "adjustedRankHalfPpr": 12,
-    "diff": 6,
+    "diff": 7,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -221,9 +221,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 19,
-    "adjustedRank": 16,
+    "adjustedRank": 17,
     "adjustedRankHalfPpr": 16,
-    "diff": 3,
+    "diff": 2,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -233,9 +233,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 20,
-    "adjustedRank": 22,
+    "adjustedRank": 23,
     "adjustedRankHalfPpr": 22,
-    "diff": -2,
+    "diff": -3,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -269,9 +269,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 23,
-    "adjustedRank": 23,
+    "adjustedRank": 22,
     "adjustedRankHalfPpr": 23,
-    "diff": 0,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -281,9 +281,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 24,
-    "adjustedRank": 28,
+    "adjustedRank": 29,
     "adjustedRankHalfPpr": 28,
-    "diff": -4,
+    "diff": -5,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -293,10 +293,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 25,
-    "adjustedRank": 36,
+    "adjustedRank": 41,
     "adjustedRankHalfPpr": 36,
-    "diff": -11,
-    "diffTone": "neutral",
+    "diff": -16,
+    "diffTone": "bad",
     "positionTone": "te"
   },
   {
@@ -305,10 +305,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 26,
-    "adjustedRank": 27,
+    "adjustedRank": 37,
     "adjustedRankHalfPpr": 27,
-    "diff": -1,
-    "diffTone": "neutral",
+    "diff": -11,
+    "diffTone": "bad",
     "positionTone": "qb"
   },
   {
@@ -329,9 +329,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 28,
-    "adjustedRank": 29,
+    "adjustedRank": 30,
     "adjustedRankHalfPpr": 29,
-    "diff": -1,
+    "diff": -2,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -341,10 +341,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 29,
-    "adjustedRank": 41,
+    "adjustedRank": 42,
     "adjustedRankHalfPpr": 41,
-    "diff": -12,
-    "diffTone": "neutral",
+    "diff": -13,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -353,10 +353,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 30,
-    "adjustedRank": 38,
+    "adjustedRank": 43,
     "adjustedRankHalfPpr": 38,
-    "diff": -8,
-    "diffTone": "neutral",
+    "diff": -13,
+    "diffTone": "bad",
     "positionTone": "rb"
   },
   {
@@ -365,10 +365,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 31,
-    "adjustedRank": 20,
+    "adjustedRank": 19,
     "adjustedRankHalfPpr": 20,
-    "diff": 11,
-    "diffTone": "neutral",
+    "diff": 12,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -377,9 +377,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 32,
-    "adjustedRank": 30,
+    "adjustedRank": 28,
     "adjustedRankHalfPpr": 30,
-    "diff": 2,
+    "diff": 4,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -401,9 +401,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 34,
-    "adjustedRank": 43,
+    "adjustedRank": 35,
     "adjustedRankHalfPpr": 43,
-    "diff": -9,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -413,9 +413,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 35,
-    "adjustedRank": 34,
+    "adjustedRank": 31,
     "adjustedRankHalfPpr": 34,
-    "diff": 1,
+    "diff": 4,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -425,9 +425,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 36,
-    "adjustedRank": 33,
+    "adjustedRank": 40,
     "adjustedRankHalfPpr": 33,
-    "diff": 3,
+    "diff": -4,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -437,9 +437,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 37,
-    "adjustedRank": 31,
+    "adjustedRank": 39,
     "adjustedRankHalfPpr": 31,
-    "diff": 6,
+    "diff": -2,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -449,9 +449,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 38,
-    "adjustedRank": 37,
+    "adjustedRank": 32,
     "adjustedRankHalfPpr": 37,
-    "diff": 1,
+    "diff": 6,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -461,10 +461,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 39,
-    "adjustedRank": 35,
+    "adjustedRank": 27,
     "adjustedRankHalfPpr": 35,
-    "diff": 4,
-    "diffTone": "neutral",
+    "diff": 12,
+    "diffTone": "good",
     "positionTone": "te"
   },
   {
@@ -473,9 +473,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 40,
-    "adjustedRank": 39,
+    "adjustedRank": 33,
     "adjustedRankHalfPpr": 39,
-    "diff": 1,
+    "diff": 7,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -485,9 +485,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 41,
-    "adjustedRank": 40,
+    "adjustedRank": 34,
     "adjustedRankHalfPpr": 40,
-    "diff": 1,
+    "diff": 7,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -497,9 +497,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 42,
-    "adjustedRank": 42,
+    "adjustedRank": 36,
     "adjustedRankHalfPpr": 42,
-    "diff": 0,
+    "diff": 6,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -509,9 +509,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 43,
-    "adjustedRank": 55,
+    "adjustedRank": 49,
     "adjustedRankHalfPpr": 55,
-    "diff": -12,
+    "diff": -6,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -521,9 +521,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 44,
-    "adjustedRank": 32,
+    "adjustedRank": 38,
     "adjustedRankHalfPpr": 32,
-    "diff": 12,
+    "diff": 6,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -533,9 +533,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 45,
-    "adjustedRank": 56,
-    "adjustedRankHalfPpr": 56,
-    "diff": -11,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -557,9 +557,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 47,
-    "adjustedRank": 45,
+    "adjustedRank": 52,
     "adjustedRankHalfPpr": 45,
-    "diff": 2,
+    "diff": -5,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -569,9 +569,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 48,
-    "adjustedRank": 49,
+    "adjustedRank": 55,
     "adjustedRankHalfPpr": 49,
-    "diff": -1,
+    "diff": -7,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -581,9 +581,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 49,
-    "adjustedRank": 54,
+    "adjustedRank": 56,
     "adjustedRankHalfPpr": 54,
-    "diff": -5,
+    "diff": -7,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -593,9 +593,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 50,
-    "adjustedRank": 47,
+    "adjustedRank": 50,
     "adjustedRankHalfPpr": 47,
-    "diff": 3,
+    "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -617,9 +617,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 52,
-    "adjustedRank": 52,
+    "adjustedRank": 53,
     "adjustedRankHalfPpr": 52,
-    "diff": 0,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -629,9 +629,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 53,
-    "adjustedRank": 53,
+    "adjustedRank": 54,
     "adjustedRankHalfPpr": 53,
-    "diff": 0,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -641,9 +641,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 54,
-    "adjustedRank": 66,
-    "adjustedRankHalfPpr": 66,
-    "diff": -12,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -665,10 +665,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 56,
-    "adjustedRank": 51,
+    "adjustedRank": 47,
     "adjustedRankHalfPpr": 51,
-    "diff": 5,
-    "diffTone": "neutral",
+    "diff": 9,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -680,7 +680,7 @@
     "adjustedRank": 48,
     "adjustedRankHalfPpr": 48,
     "diff": 9,
-    "diffTone": "neutral",
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -689,10 +689,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 58,
-    "adjustedRank": 46,
+    "adjustedRank": 45,
     "adjustedRankHalfPpr": 46,
-    "diff": 12,
-    "diffTone": "neutral",
+    "diff": 13,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -701,9 +701,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 59,
-    "adjustedRank": 65,
+    "adjustedRank": 62,
     "adjustedRankHalfPpr": 65,
-    "diff": -6,
+    "diff": -3,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -713,9 +713,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 60,
-    "adjustedRank": 61,
+    "adjustedRank": 65,
     "adjustedRankHalfPpr": 61,
-    "diff": -1,
+    "diff": -5,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -725,9 +725,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 61,
-    "adjustedRank": 60,
+    "adjustedRank": 61,
     "adjustedRankHalfPpr": 60,
-    "diff": 1,
+    "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -737,9 +737,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 62,
-    "adjustedRank": 62,
-    "adjustedRankHalfPpr": 62,
-    "diff": 0,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -749,9 +749,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 63,
-    "adjustedRank": 50,
-    "adjustedRankHalfPpr": 50,
-    "diff": 13,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -761,9 +761,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 64,
-    "adjustedRank": 59,
+    "adjustedRank": 60,
     "adjustedRankHalfPpr": 59,
-    "diff": 5,
+    "diff": 4,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -773,9 +773,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 65,
-    "adjustedRank": 70,
+    "adjustedRank": 69,
     "adjustedRankHalfPpr": 70,
-    "diff": -5,
+    "diff": -4,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -785,9 +785,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 66,
-    "adjustedRank": 63,
+    "adjustedRank": 67,
     "adjustedRankHalfPpr": 63,
-    "diff": 3,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -797,9 +797,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 67,
-    "adjustedRank": 69,
+    "adjustedRank": 68,
     "adjustedRankHalfPpr": 69,
-    "diff": -2,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -809,9 +809,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 68,
-    "adjustedRank": 72,
+    "adjustedRank": 75,
     "adjustedRankHalfPpr": 72,
-    "diff": -4,
+    "diff": -7,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -821,9 +821,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 69,
-    "adjustedRank": 74,
+    "adjustedRank": 76,
     "adjustedRankHalfPpr": 74,
-    "diff": -5,
+    "diff": -7,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -833,9 +833,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 70,
-    "adjustedRank": 81,
-    "adjustedRankHalfPpr": 81,
-    "diff": -11,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -845,10 +845,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 71,
-    "adjustedRank": 78,
+    "adjustedRank": 81,
     "adjustedRankHalfPpr": 78,
-    "diff": -7,
-    "diffTone": "neutral",
+    "diff": -10,
+    "diffTone": "bad",
     "positionTone": "te"
   },
   {
@@ -857,9 +857,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 72,
-    "adjustedRank": 67,
+    "adjustedRank": 73,
     "adjustedRankHalfPpr": 67,
-    "diff": 5,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -869,10 +869,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 73,
-    "adjustedRank": 64,
+    "adjustedRank": 63,
     "adjustedRankHalfPpr": 64,
-    "diff": 9,
-    "diffTone": "neutral",
+    "diff": 10,
+    "diffTone": "good",
     "positionTone": "rb"
   },
   {
@@ -881,10 +881,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 74,
-    "adjustedRank": 75,
+    "adjustedRank": 83,
     "adjustedRankHalfPpr": 75,
-    "diff": -1,
-    "diffTone": "neutral",
+    "diff": -9,
+    "diffTone": "bad",
     "positionTone": "qb"
   },
   {
@@ -893,9 +893,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 75,
-    "adjustedRank": 76,
+    "adjustedRank": 70,
     "adjustedRankHalfPpr": 76,
-    "diff": -1,
+    "diff": 5,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -905,10 +905,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 76,
-    "adjustedRank": 73,
+    "adjustedRank": 59,
     "adjustedRankHalfPpr": 73,
-    "diff": 3,
-    "diffTone": "neutral",
+    "diff": 17,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -917,9 +917,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 77,
-    "adjustedRank": 71,
+    "adjustedRank": 74,
     "adjustedRankHalfPpr": 71,
-    "diff": 6,
+    "diff": 3,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -929,9 +929,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 78,
-    "adjustedRank": 85,
+    "adjustedRank": 80,
     "adjustedRankHalfPpr": 85,
-    "diff": -7,
+    "diff": -2,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -941,10 +941,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 79,
-    "adjustedRank": 109,
+    "adjustedRank": 122,
     "adjustedRankHalfPpr": 109,
-    "diff": -30,
-    "diffTone": "neutral",
+    "diff": -43,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -953,10 +953,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 80,
-    "adjustedRank": 79,
+    "adjustedRank": 71,
     "adjustedRankHalfPpr": 79,
-    "diff": 1,
-    "diffTone": "neutral",
+    "diff": 9,
+    "diffTone": "good",
     "positionTone": "te"
   },
   {
@@ -965,9 +965,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 81,
-    "adjustedRank": 83,
+    "adjustedRank": 84,
     "adjustedRankHalfPpr": 83,
-    "diff": -2,
+    "diff": -3,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -977,9 +977,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 82,
-    "adjustedRank": 97,
-    "adjustedRankHalfPpr": 97,
-    "diff": -15,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -989,9 +989,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 83,
-    "adjustedRank": 68,
+    "adjustedRank": 82,
     "adjustedRankHalfPpr": 68,
-    "diff": 15,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -1001,10 +1001,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 84,
-    "adjustedRank": 77,
+    "adjustedRank": 72,
     "adjustedRankHalfPpr": 77,
-    "diff": 7,
-    "diffTone": "neutral",
+    "diff": 12,
+    "diffTone": "good",
     "positionTone": "te"
   },
   {
@@ -1013,10 +1013,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 85,
-    "adjustedRank": 84,
+    "adjustedRank": 95,
     "adjustedRankHalfPpr": 84,
-    "diff": 1,
-    "diffTone": "neutral",
+    "diff": -10,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -1025,9 +1025,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 86,
-    "adjustedRank": 86,
+    "adjustedRank": 89,
     "adjustedRankHalfPpr": 86,
-    "diff": 0,
+    "diff": -3,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1037,9 +1037,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 87,
-    "adjustedRank": 104,
+    "adjustedRank": 87,
     "adjustedRankHalfPpr": 104,
-    "diff": -17,
+    "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1049,10 +1049,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 88,
-    "adjustedRank": 82,
+    "adjustedRank": 78,
     "adjustedRankHalfPpr": 82,
-    "diff": 6,
-    "diffTone": "neutral",
+    "diff": 10,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -1061,10 +1061,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 89,
-    "adjustedRank": 102,
+    "adjustedRank": 99,
     "adjustedRankHalfPpr": 102,
-    "diff": -13,
-    "diffTone": "neutral",
+    "diff": -10,
+    "diffTone": "bad",
     "positionTone": "rb"
   },
   {
@@ -1073,9 +1073,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 90,
-    "adjustedRank": 92,
+    "adjustedRank": 91,
     "adjustedRankHalfPpr": 92,
-    "diff": -2,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1085,9 +1085,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 91,
-    "adjustedRank": 91,
+    "adjustedRank": 97,
     "adjustedRankHalfPpr": 91,
-    "diff": 0,
+    "diff": -6,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1097,10 +1097,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 92,
-    "adjustedRank": 112,
+    "adjustedRank": 113,
     "adjustedRankHalfPpr": 112,
-    "diff": -20,
-    "diffTone": "neutral",
+    "diff": -21,
+    "diffTone": "very-bad",
     "positionTone": "qb"
   },
   {
@@ -1109,9 +1109,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 93,
-    "adjustedRank": 93,
+    "adjustedRank": 100,
     "adjustedRankHalfPpr": 93,
-    "diff": 0,
+    "diff": -7,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1121,10 +1121,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 94,
-    "adjustedRank": 119,
+    "adjustedRank": 125,
     "adjustedRankHalfPpr": 119,
-    "diff": -25,
-    "diffTone": "neutral",
+    "diff": -31,
+    "diffTone": "very-bad",
     "positionTone": "te"
   },
   {
@@ -1133,10 +1133,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 95,
-    "adjustedRank": 111,
+    "adjustedRank": 112,
     "adjustedRankHalfPpr": 111,
-    "diff": -16,
-    "diffTone": "neutral",
+    "diff": -17,
+    "diffTone": "bad",
     "positionTone": "qb"
   },
   {
@@ -1145,10 +1145,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 96,
-    "adjustedRank": 88,
+    "adjustedRank": 86,
     "adjustedRankHalfPpr": 88,
-    "diff": 8,
-    "diffTone": "neutral",
+    "diff": 10,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -1157,9 +1157,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 97,
-    "adjustedRank": 100,
+    "adjustedRank": 98,
     "adjustedRankHalfPpr": 100,
-    "diff": -3,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1169,9 +1169,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 98,
-    "adjustedRank": 106,
+    "adjustedRank": 93,
     "adjustedRankHalfPpr": 106,
-    "diff": -8,
+    "diff": 5,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1181,9 +1181,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 99,
-    "adjustedRank": 96,
+    "adjustedRank": 104,
     "adjustedRankHalfPpr": 96,
-    "diff": 3,
+    "diff": -5,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -1193,9 +1193,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 100,
-    "adjustedRank": 108,
+    "adjustedRank": 96,
     "adjustedRankHalfPpr": 108,
-    "diff": -8,
+    "diff": 4,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1205,9 +1205,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 101,
-    "adjustedRank": 90,
-    "adjustedRankHalfPpr": 90,
-    "diff": 11,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1217,10 +1217,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 102,
-    "adjustedRank": 89,
+    "adjustedRank": 92,
     "adjustedRankHalfPpr": 89,
-    "diff": 13,
-    "diffTone": "neutral",
+    "diff": 10,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -1229,9 +1229,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 103,
-    "adjustedRank": 94,
+    "adjustedRank": 102,
     "adjustedRankHalfPpr": 94,
-    "diff": 9,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1241,10 +1241,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 104,
-    "adjustedRank": 105,
+    "adjustedRank": 94,
     "adjustedRankHalfPpr": 105,
-    "diff": -1,
-    "diffTone": "neutral",
+    "diff": 10,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -1253,9 +1253,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 105,
-    "adjustedRank": 87,
-    "adjustedRankHalfPpr": 87,
-    "diff": 18,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1265,9 +1265,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 106,
-    "adjustedRank": 95,
-    "adjustedRankHalfPpr": 95,
-    "diff": 11,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1277,10 +1277,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 107,
-    "adjustedRank": 101,
+    "adjustedRank": 116,
     "adjustedRankHalfPpr": 101,
-    "diff": 6,
-    "diffTone": "neutral",
+    "diff": -9,
+    "diffTone": "bad",
     "positionTone": "rb"
   },
   {
@@ -1289,9 +1289,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 108,
-    "adjustedRank": 140,
+    "adjustedRank": 101,
     "adjustedRankHalfPpr": 140,
-    "diff": -32,
+    "diff": 7,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1301,9 +1301,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 109,
-    "adjustedRank": 103,
+    "adjustedRank": 108,
     "adjustedRankHalfPpr": 103,
-    "diff": 6,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -1313,9 +1313,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 110,
-    "adjustedRank": 98,
+    "adjustedRank": 110,
     "adjustedRankHalfPpr": 98,
-    "diff": 12,
+    "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -1337,9 +1337,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 112,
-    "adjustedRank": 99,
+    "adjustedRank": 111,
     "adjustedRankHalfPpr": 99,
-    "diff": 13,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -1349,9 +1349,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 113,
-    "adjustedRank": 132,
+    "adjustedRank": 109,
     "adjustedRankHalfPpr": 132,
-    "diff": -19,
+    "diff": 4,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -1361,10 +1361,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 114,
-    "adjustedRank": 80,
+    "adjustedRank": 77,
     "adjustedRankHalfPpr": 80,
-    "diff": 34,
-    "diffTone": "neutral",
+    "diff": 37,
+    "diffTone": "very-good",
     "positionTone": "wr"
   },
   {
@@ -1373,9 +1373,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 115,
-    "adjustedRank": 120,
+    "adjustedRank": 114,
     "adjustedRankHalfPpr": 120,
-    "diff": -5,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -1385,10 +1385,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 116,
-    "adjustedRank": 117,
+    "adjustedRank": 103,
     "adjustedRankHalfPpr": 117,
-    "diff": -1,
-    "diffTone": "neutral",
+    "diff": 13,
+    "diffTone": "good",
     "positionTone": "te"
   },
   {
@@ -1397,9 +1397,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 117,
-    "adjustedRank": 114,
-    "adjustedRankHalfPpr": 114,
-    "diff": 3,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1409,9 +1409,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 118,
-    "adjustedRank": 152,
-    "adjustedRankHalfPpr": 152,
-    "diff": -34,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1421,9 +1421,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 119,
-    "adjustedRank": 118,
+    "adjustedRank": 119,
     "adjustedRankHalfPpr": 118,
-    "diff": 1,
+    "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -1433,10 +1433,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 120,
-    "adjustedRank": 107,
+    "adjustedRank": 106,
     "adjustedRankHalfPpr": 107,
-    "diff": 13,
-    "diffTone": "neutral",
+    "diff": 14,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -1445,10 +1445,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 121,
-    "adjustedRank": 133,
+    "adjustedRank": 138,
     "adjustedRankHalfPpr": 133,
-    "diff": -12,
-    "diffTone": "neutral",
+    "diff": -17,
+    "diffTone": "bad",
     "positionTone": "te"
   },
   {
@@ -1457,9 +1457,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 122,
-    "adjustedRank": 141,
+    "adjustedRank": 128,
     "adjustedRankHalfPpr": 141,
-    "diff": -19,
+    "diff": -6,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1469,9 +1469,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 123,
-    "adjustedRank": 123,
+    "adjustedRank": 121,
     "adjustedRankHalfPpr": 123,
-    "diff": 0,
+    "diff": 2,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1481,10 +1481,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 124,
-    "adjustedRank": 126,
+    "adjustedRank": 136,
     "adjustedRankHalfPpr": 126,
-    "diff": -2,
-    "diffTone": "neutral",
+    "diff": -12,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -1493,10 +1493,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 125,
-    "adjustedRank": 110,
+    "adjustedRank": 107,
     "adjustedRankHalfPpr": 110,
-    "diff": 15,
-    "diffTone": "neutral",
+    "diff": 18,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -1505,10 +1505,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 126,
-    "adjustedRank": 138,
+    "adjustedRank": 135,
     "adjustedRankHalfPpr": 138,
-    "diff": -12,
-    "diffTone": "neutral",
+    "diff": -9,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -1517,10 +1517,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 127,
-    "adjustedRank": 121,
+    "adjustedRank": 115,
     "adjustedRankHalfPpr": 121,
-    "diff": 6,
-    "diffTone": "neutral",
+    "diff": 12,
+    "diffTone": "good",
     "positionTone": "qb"
   },
   {
@@ -1529,9 +1529,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 128,
-    "adjustedRank": 124,
+    "adjustedRank": 123,
     "adjustedRankHalfPpr": 124,
-    "diff": 4,
+    "diff": 5,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1541,10 +1541,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 129,
-    "adjustedRank": 135,
+    "adjustedRank": 147,
     "adjustedRankHalfPpr": 135,
-    "diff": -6,
-    "diffTone": "neutral",
+    "diff": -18,
+    "diffTone": "bad",
     "positionTone": "qb"
   },
   {
@@ -1553,9 +1553,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 130,
-    "adjustedRank": 129,
+    "adjustedRank": 130,
     "adjustedRankHalfPpr": 129,
-    "diff": 1,
+    "diff": 0,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -1565,10 +1565,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 131,
-    "adjustedRank": 115,
+    "adjustedRank": 117,
     "adjustedRankHalfPpr": 115,
-    "diff": 16,
-    "diffTone": "neutral",
+    "diff": 14,
+    "diffTone": "good",
     "positionTone": "rb"
   },
   {
@@ -1577,9 +1577,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 132,
-    "adjustedRank": 127,
+    "adjustedRank": 137,
     "adjustedRankHalfPpr": 127,
-    "diff": 5,
+    "diff": -5,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1589,10 +1589,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 133,
-    "adjustedRank": 151,
+    "adjustedRank": 144,
     "adjustedRankHalfPpr": 151,
-    "diff": -18,
-    "diffTone": "neutral",
+    "diff": -11,
+    "diffTone": "bad",
     "positionTone": "rb"
   },
   {
@@ -1601,10 +1601,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 134,
-    "adjustedRank": 136,
+    "adjustedRank": 124,
     "adjustedRankHalfPpr": 136,
-    "diff": -2,
-    "diffTone": "neutral",
+    "diff": 10,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -1613,10 +1613,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 135,
-    "adjustedRank": 169,
+    "adjustedRank": 195,
     "adjustedRankHalfPpr": 169,
-    "diff": -34,
-    "diffTone": "neutral",
+    "diff": -60,
+    "diffTone": "very-bad",
     "positionTone": "qb"
   },
   {
@@ -1625,10 +1625,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 136,
-    "adjustedRank": 154,
+    "adjustedRank": 126,
     "adjustedRankHalfPpr": 154,
-    "diff": -18,
-    "diffTone": "neutral",
+    "diff": 10,
+    "diffTone": "good",
     "positionTone": "te"
   },
   {
@@ -1637,10 +1637,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 137,
-    "adjustedRank": 159,
+    "adjustedRank": 161,
     "adjustedRankHalfPpr": 159,
-    "diff": -22,
-    "diffTone": "neutral",
+    "diff": -24,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -1649,10 +1649,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 138,
-    "adjustedRank": 157,
+    "adjustedRank": 160,
     "adjustedRankHalfPpr": 157,
-    "diff": -19,
-    "diffTone": "neutral",
+    "diff": -22,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -1661,9 +1661,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 139,
-    "adjustedRank": 150,
+    "adjustedRank": 145,
     "adjustedRankHalfPpr": 150,
-    "diff": -11,
+    "diff": -6,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -1673,10 +1673,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 140,
-    "adjustedRank": 171,
+    "adjustedRank": 163,
     "adjustedRankHalfPpr": 171,
-    "diff": -31,
-    "diffTone": "neutral",
+    "diff": -23,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -1685,10 +1685,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 141,
-    "adjustedRank": 153,
+    "adjustedRank": 149,
     "adjustedRankHalfPpr": 153,
-    "diff": -12,
-    "diffTone": "neutral",
+    "diff": -8,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -1697,9 +1697,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 142,
-    "adjustedRank": 175,
-    "adjustedRankHalfPpr": 175,
-    "diff": -33,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -1709,10 +1709,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 143,
-    "adjustedRank": 189,
+    "adjustedRank": 198,
     "adjustedRankHalfPpr": 189,
-    "diff": -46,
-    "diffTone": "neutral",
+    "diff": -55,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -1721,10 +1721,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 144,
-    "adjustedRank": 137,
+    "adjustedRank": 134,
     "adjustedRankHalfPpr": 137,
-    "diff": 7,
-    "diffTone": "neutral",
+    "diff": 10,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -1733,10 +1733,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 145,
-    "adjustedRank": 161,
+    "adjustedRank": 170,
     "adjustedRankHalfPpr": 161,
-    "diff": -16,
-    "diffTone": "neutral",
+    "diff": -25,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -1745,10 +1745,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 146,
-    "adjustedRank": 195,
+    "adjustedRank": 208,
     "adjustedRankHalfPpr": 195,
-    "diff": -49,
-    "diffTone": "neutral",
+    "diff": -62,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -1757,10 +1757,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 148,
-    "adjustedRank": 160,
+    "adjustedRank": 159,
     "adjustedRankHalfPpr": 160,
-    "diff": -12,
-    "diffTone": "neutral",
+    "diff": -11,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -1769,10 +1769,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 149,
-    "adjustedRank": 212,
+    "adjustedRank": 210,
     "adjustedRankHalfPpr": 212,
-    "diff": -63,
-    "diffTone": "neutral",
+    "diff": -61,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -1781,10 +1781,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 150,
-    "adjustedRank": 180,
+    "adjustedRank": 206,
     "adjustedRankHalfPpr": 180,
-    "diff": -30,
-    "diffTone": "neutral",
+    "diff": -56,
+    "diffTone": "very-bad",
     "positionTone": "qb"
   },
   {
@@ -1793,10 +1793,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 151,
-    "adjustedRank": 173,
+    "adjustedRank": 178,
     "adjustedRankHalfPpr": 173,
-    "diff": -22,
-    "diffTone": "neutral",
+    "diff": -27,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -1817,10 +1817,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 153,
-    "adjustedRank": 197,
+    "adjustedRank": 190,
     "adjustedRankHalfPpr": 197,
-    "diff": -44,
-    "diffTone": "neutral",
+    "diff": -37,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -1829,10 +1829,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 154,
-    "adjustedRank": 170,
+    "adjustedRank": 196,
     "adjustedRankHalfPpr": 170,
-    "diff": -16,
-    "diffTone": "neutral",
+    "diff": -42,
+    "diffTone": "very-bad",
     "positionTone": "qb"
   },
   {
@@ -1841,9 +1841,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 155,
-    "adjustedRank": 174,
+    "adjustedRank": 156,
     "adjustedRankHalfPpr": 174,
-    "diff": -19,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -1853,9 +1853,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 157,
-    "adjustedRank": 186,
-    "adjustedRankHalfPpr": 186,
-    "diff": -29,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -1865,9 +1865,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 158,
-    "adjustedRank": 139,
-    "adjustedRankHalfPpr": 139,
-    "diff": 19,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -1877,10 +1877,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 160,
-    "adjustedRank": 168,
+    "adjustedRank": 194,
     "adjustedRankHalfPpr": 168,
-    "diff": -8,
-    "diffTone": "neutral",
+    "diff": -34,
+    "diffTone": "very-bad",
     "positionTone": "qb"
   },
   {
@@ -1889,10 +1889,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 162,
-    "adjustedRank": 208,
+    "adjustedRank": 217,
     "adjustedRankHalfPpr": 208,
-    "diff": -46,
-    "diffTone": "neutral",
+    "diff": -55,
+    "diffTone": "very-bad",
     "positionTone": "qb"
   },
   {
@@ -1901,10 +1901,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 163,
-    "adjustedRank": 125,
+    "adjustedRank": 120,
     "adjustedRankHalfPpr": 125,
-    "diff": 38,
-    "diffTone": "neutral",
+    "diff": 43,
+    "diffTone": "very-good",
     "positionTone": "wr"
   },
   {
@@ -1913,10 +1913,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 164,
-    "adjustedRank": 184,
+    "adjustedRank": 146,
     "adjustedRankHalfPpr": 184,
-    "diff": -20,
-    "diffTone": "neutral",
+    "diff": 18,
+    "diffTone": "good",
     "positionTone": "te"
   },
   {
@@ -1925,11 +1925,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 165,
-    "adjustedRank": 113,
+    "adjustedRank": 118,
     "adjustedRankHalfPpr": 113,
-    "diff": 52,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 47,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Dylan Sampson",
@@ -1937,10 +1937,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 166,
-    "adjustedRank": 194,
+    "adjustedRank": 203,
     "adjustedRankHalfPpr": 194,
-    "diff": -28,
-    "diffTone": "neutral",
+    "diff": -37,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -1961,10 +1961,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 168,
-    "adjustedRank": 187,
+    "adjustedRank": 176,
     "adjustedRankHalfPpr": 187,
-    "diff": -19,
-    "diffTone": "neutral",
+    "diff": -8,
+    "diffTone": "bad",
     "positionTone": "rb"
   },
   {
@@ -1973,10 +1973,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 169,
-    "adjustedRank": 188,
+    "adjustedRank": 177,
     "adjustedRankHalfPpr": 188,
-    "diff": -19,
-    "diffTone": "neutral",
+    "diff": -8,
+    "diffTone": "bad",
     "positionTone": "rb"
   },
   {
@@ -1985,10 +1985,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 170,
-    "adjustedRank": 179,
+    "adjustedRank": 205,
     "adjustedRankHalfPpr": 179,
-    "diff": -9,
-    "diffTone": "neutral",
+    "diff": -35,
+    "diffTone": "very-bad",
     "positionTone": "qb"
   },
   {
@@ -1997,9 +1997,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 171,
-    "adjustedRank": 182,
+    "adjustedRank": 172,
     "adjustedRankHalfPpr": 182,
-    "diff": -11,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -2009,10 +2009,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 172,
-    "adjustedRank": 158,
+    "adjustedRank": 162,
     "adjustedRankHalfPpr": 158,
-    "diff": 14,
-    "diffTone": "neutral",
+    "diff": 10,
+    "diffTone": "good",
     "positionTone": "rb"
   },
   {
@@ -2021,10 +2021,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 176,
-    "adjustedRank": 198,
+    "adjustedRank": 191,
     "adjustedRankHalfPpr": 198,
-    "diff": -22,
-    "diffTone": "neutral",
+    "diff": -15,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -2033,11 +2033,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 177,
-    "adjustedRank": 144,
+    "adjustedRank": 150,
     "adjustedRankHalfPpr": 144,
-    "diff": 33,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 27,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Tre Tucker",
@@ -2045,10 +2045,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 178,
-    "adjustedRank": 216,
+    "adjustedRank": 254,
     "adjustedRankHalfPpr": 216,
-    "diff": -38,
-    "diffTone": "neutral",
+    "diff": -76,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -2057,10 +2057,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 179,
-    "adjustedRank": 220,
+    "adjustedRank": 193,
     "adjustedRankHalfPpr": 220,
-    "diff": -41,
-    "diffTone": "neutral",
+    "diff": -14,
+    "diffTone": "bad",
     "positionTone": "te"
   },
   {
@@ -2072,8 +2072,8 @@
     "adjustedRank": 143,
     "adjustedRankHalfPpr": 143,
     "diff": 37,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Kenyon Sadiq",
@@ -2081,10 +2081,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 181,
-    "adjustedRank": 260,
+    "adjustedRank": 279,
     "adjustedRankHalfPpr": 260,
-    "diff": -79,
-    "diffTone": "neutral",
+    "diff": -98,
+    "diffTone": "very-bad",
     "positionTone": "te"
   },
   {
@@ -2093,10 +2093,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 183,
-    "adjustedRank": 185,
+    "adjustedRank": 174,
     "adjustedRankHalfPpr": 185,
-    "diff": -2,
-    "diffTone": "neutral",
+    "diff": 9,
+    "diffTone": "good",
     "positionTone": "te"
   },
   {
@@ -2105,11 +2105,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 184,
-    "adjustedRank": 142,
-    "adjustedRankHalfPpr": 142,
-    "diff": 42,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
-    "positionTone": "k"
+    "positionTone": "other"
   },
   {
     "player": "Emmett Johnson",
@@ -2117,10 +2117,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 186,
-    "adjustedRank": 265,
+    "adjustedRank": 270,
     "adjustedRankHalfPpr": 265,
-    "diff": -79,
-    "diffTone": "neutral",
+    "diff": -84,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2129,9 +2129,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 187,
-    "adjustedRank": 231,
-    "adjustedRankHalfPpr": 231,
-    "diff": -44,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -2141,10 +2141,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 188,
-    "adjustedRank": 230,
+    "adjustedRank": 264,
     "adjustedRankHalfPpr": 230,
-    "diff": -42,
-    "diffTone": "neutral",
+    "diff": -76,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -2153,10 +2153,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 189,
-    "adjustedRank": 211,
+    "adjustedRank": 204,
     "adjustedRankHalfPpr": 211,
-    "diff": -22,
-    "diffTone": "neutral",
+    "diff": -15,
+    "diffTone": "bad",
     "positionTone": "rb"
   },
   {
@@ -2165,11 +2165,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 190,
-    "adjustedRank": 155,
+    "adjustedRank": 165,
     "adjustedRankHalfPpr": 155,
-    "diff": 35,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 25,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Tre' Harris",
@@ -2177,9 +2177,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 191,
-    "adjustedRank": 183,
+    "adjustedRank": 189,
     "adjustedRankHalfPpr": 183,
-    "diff": 8,
+    "diff": 2,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -2189,10 +2189,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 192,
-    "adjustedRank": 181,
+    "adjustedRank": 173,
     "adjustedRankHalfPpr": 181,
-    "diff": 11,
-    "diffTone": "neutral",
+    "diff": 19,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -2201,10 +2201,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 194,
-    "adjustedRank": 279,
+    "adjustedRank": 292,
     "adjustedRankHalfPpr": 279,
-    "diff": -85,
-    "diffTone": "neutral",
+    "diff": -98,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2213,9 +2213,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 195,
-    "adjustedRank": 219,
+    "adjustedRank": 192,
     "adjustedRankHalfPpr": 219,
-    "diff": -24,
+    "diff": 3,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -2237,10 +2237,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 198,
-    "adjustedRank": 232,
+    "adjustedRank": 240,
     "adjustedRankHalfPpr": 232,
-    "diff": -34,
-    "diffTone": "neutral",
+    "diff": -42,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2249,9 +2249,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 199,
-    "adjustedRank": 202,
+    "adjustedRank": 200,
     "adjustedRankHalfPpr": 202,
-    "diff": -3,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -2261,11 +2261,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 200,
-    "adjustedRank": 148,
+    "adjustedRank": 151,
     "adjustedRankHalfPpr": 148,
-    "diff": 52,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 49,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Evan McPherson",
@@ -2273,11 +2273,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 201,
-    "adjustedRank": 149,
+    "adjustedRank": 164,
     "adjustedRankHalfPpr": 149,
-    "diff": 52,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 37,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Tyler Loop",
@@ -2285,11 +2285,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 202,
-    "adjustedRank": 165,
+    "adjustedRank": 167,
     "adjustedRankHalfPpr": 165,
-    "diff": 37,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 35,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Terrance Ferguson",
@@ -2297,10 +2297,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 203,
-    "adjustedRank": 223,
+    "adjustedRank": 219,
     "adjustedRankHalfPpr": 223,
-    "diff": -20,
-    "diffTone": "neutral",
+    "diff": -16,
+    "diffTone": "bad",
     "positionTone": "te"
   },
   {
@@ -2309,10 +2309,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 204,
-    "adjustedRank": 281,
+    "adjustedRank": 299,
     "adjustedRankHalfPpr": 281,
-    "diff": -77,
-    "diffTone": "neutral",
+    "diff": -95,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2321,10 +2321,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 206,
-    "adjustedRank": 287,
+    "adjustedRank": 298,
     "adjustedRankHalfPpr": 287,
-    "diff": -81,
-    "diffTone": "neutral",
+    "diff": -92,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2333,9 +2333,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 207,
-    "adjustedRank": 221,
+    "adjustedRank": 207,
     "adjustedRankHalfPpr": 221,
-    "diff": -14,
+    "diff": 0,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -2348,7 +2348,7 @@
     "adjustedRank": 289,
     "adjustedRankHalfPpr": 289,
     "diff": -80,
-    "diffTone": "neutral",
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2357,11 +2357,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 210,
-    "adjustedRank": 166,
+    "adjustedRank": 168,
     "adjustedRankHalfPpr": 166,
-    "diff": 44,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 42,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Cairo Santos",
@@ -2369,11 +2369,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 211,
-    "adjustedRank": 164,
+    "adjustedRank": 166,
     "adjustedRankHalfPpr": 164,
-    "diff": 47,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 45,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Jaylin Noel",
@@ -2381,10 +2381,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 212,
-    "adjustedRank": 275,
+    "adjustedRank": 286,
     "adjustedRankHalfPpr": 275,
-    "diff": -63,
-    "diffTone": "neutral",
+    "diff": -74,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -2393,10 +2393,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 213,
-    "adjustedRank": 276,
+    "adjustedRank": 288,
     "adjustedRankHalfPpr": 276,
-    "diff": -63,
-    "diffTone": "neutral",
+    "diff": -75,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2405,10 +2405,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 214,
-    "adjustedRank": 247,
+    "adjustedRank": 269,
     "adjustedRankHalfPpr": 247,
-    "diff": -33,
-    "diffTone": "neutral",
+    "diff": -55,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2417,9 +2417,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 215,
-    "adjustedRank": 268,
-    "adjustedRankHalfPpr": 268,
-    "diff": -53,
+    "adjustedRank": null,
+    "adjustedRankHalfPpr": null,
+    "diff": null,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -2429,10 +2429,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 216,
-    "adjustedRank": 244,
+    "adjustedRank": 237,
     "adjustedRankHalfPpr": 244,
-    "diff": -28,
-    "diffTone": "neutral",
+    "diff": -21,
+    "diffTone": "very-bad",
     "positionTone": "qb"
   },
   {
@@ -2441,11 +2441,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 217,
-    "adjustedRank": 167,
+    "adjustedRank": 169,
     "adjustedRankHalfPpr": 167,
-    "diff": 50,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 48,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Kaelon Black",
@@ -2453,9 +2453,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 218,
-    "adjustedRank": 213,
+    "adjustedRank": 211,
     "adjustedRankHalfPpr": 213,
-    "diff": 5,
+    "diff": 7,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -2465,10 +2465,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 219,
-    "adjustedRank": 196,
+    "adjustedRank": 171,
     "adjustedRankHalfPpr": 196,
-    "diff": 23,
-    "diffTone": "neutral",
+    "diff": 48,
+    "diffTone": "very-good",
     "positionTone": "wr"
   },
   {
@@ -2477,10 +2477,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 220,
-    "adjustedRank": 242,
+    "adjustedRank": 258,
     "adjustedRankHalfPpr": 242,
-    "diff": -22,
-    "diffTone": "neutral",
+    "diff": -38,
+    "diffTone": "very-bad",
     "positionTone": "te"
   },
   {
@@ -2489,9 +2489,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 221,
-    "adjustedRank": 218,
+    "adjustedRank": 225,
     "adjustedRankHalfPpr": 218,
-    "diff": 3,
+    "diff": -4,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -2501,10 +2501,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 222,
-    "adjustedRank": 193,
+    "adjustedRank": 209,
     "adjustedRankHalfPpr": 193,
-    "diff": 29,
-    "diffTone": "neutral",
+    "diff": 13,
+    "diffTone": "good",
     "positionTone": "rb"
   },
   {
@@ -2513,11 +2513,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 223,
-    "adjustedRank": 178,
+    "adjustedRank": 182,
     "adjustedRankHalfPpr": 178,
-    "diff": 45,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 41,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Fernando Mendoza",
@@ -2525,9 +2525,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 224,
-    "adjustedRank": 210,
+    "adjustedRank": 231,
     "adjustedRankHalfPpr": 210,
-    "diff": 14,
+    "diff": -7,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -2537,10 +2537,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 226,
-    "adjustedRank": 248,
+    "adjustedRank": 256,
     "adjustedRankHalfPpr": 248,
-    "diff": -22,
-    "diffTone": "neutral",
+    "diff": -30,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -2549,10 +2549,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 227,
-    "adjustedRank": 253,
+    "adjustedRank": 271,
     "adjustedRankHalfPpr": 253,
-    "diff": -26,
-    "diffTone": "neutral",
+    "diff": -44,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2561,10 +2561,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 228,
-    "adjustedRank": 251,
+    "adjustedRank": 294,
     "adjustedRankHalfPpr": 251,
-    "diff": -23,
-    "diffTone": "neutral",
+    "diff": -66,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -2573,11 +2573,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 230,
-    "adjustedRank": 190,
+    "adjustedRank": 183,
     "adjustedRankHalfPpr": 190,
-    "diff": 40,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 47,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Darnell Mooney",
@@ -2585,10 +2585,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 232,
-    "adjustedRank": 274,
+    "adjustedRank": 295,
     "adjustedRankHalfPpr": 274,
-    "diff": -42,
-    "diffTone": "neutral",
+    "diff": -63,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -2597,10 +2597,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 233,
-    "adjustedRank": 254,
+    "adjustedRank": 272,
     "adjustedRankHalfPpr": 254,
-    "diff": -21,
-    "diffTone": "neutral",
+    "diff": -39,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2612,7 +2612,7 @@
     "adjustedRank": 273,
     "adjustedRankHalfPpr": 273,
     "diff": -39,
-    "diffTone": "neutral",
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2621,10 +2621,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 235,
-    "adjustedRank": null,
+    "adjustedRank": 294,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
+    "diff": -59,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2633,10 +2633,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 236,
-    "adjustedRank": 266,
+    "adjustedRank": 274,
     "adjustedRankHalfPpr": 266,
-    "diff": -30,
-    "diffTone": "neutral",
+    "diff": -38,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2645,9 +2645,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 237,
-    "adjustedRank": 228,
+    "adjustedRank": 236,
     "adjustedRankHalfPpr": 228,
-    "diff": 9,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -2657,11 +2657,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 238,
-    "adjustedRank": 203,
+    "adjustedRank": 184,
     "adjustedRankHalfPpr": 203,
-    "diff": 35,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 54,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Justice Hill",
@@ -2669,9 +2669,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 239,
-    "adjustedRank": 243,
+    "adjustedRank": 238,
     "adjustedRankHalfPpr": 243,
-    "diff": -4,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -2681,10 +2681,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 240,
-    "adjustedRank": null,
+    "adjustedRank": 270,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
+    "diff": -30,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2693,10 +2693,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 241,
-    "adjustedRank": 209,
+    "adjustedRank": 218,
     "adjustedRankHalfPpr": 209,
-    "diff": 32,
-    "diffTone": "neutral",
+    "diff": 23,
+    "diffTone": "very-good",
     "positionTone": "qb"
   },
   {
@@ -2705,9 +2705,9 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 242,
-    "adjustedRank": 245,
+    "adjustedRank": 241,
     "adjustedRankHalfPpr": 245,
-    "diff": -3,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -2717,11 +2717,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 243,
-    "adjustedRank": 233,
+    "adjustedRank": 186,
     "adjustedRankHalfPpr": 233,
-    "diff": 10,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 57,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Kirk Cousins",
@@ -2729,10 +2729,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 244,
-    "adjustedRank": 255,
+    "adjustedRank": 253,
     "adjustedRankHalfPpr": 255,
-    "diff": -11,
-    "diffTone": "neutral",
+    "diff": -9,
+    "diffTone": "bad",
     "positionTone": "qb"
   },
   {
@@ -2741,11 +2741,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 245,
-    "adjustedRank": 204,
+    "adjustedRank": 185,
     "adjustedRankHalfPpr": 204,
-    "diff": 41,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 60,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Rashod Bateman",
@@ -2753,10 +2753,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 246,
-    "adjustedRank": 201,
+    "adjustedRank": 223,
     "adjustedRankHalfPpr": 201,
-    "diff": 45,
-    "diffTone": "neutral",
+    "diff": 23,
+    "diffTone": "very-good",
     "positionTone": "wr"
   },
   {
@@ -2765,10 +2765,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 248,
-    "adjustedRank": 215,
+    "adjustedRank": 201,
     "adjustedRankHalfPpr": 215,
-    "diff": 33,
-    "diffTone": "neutral",
+    "diff": 47,
+    "diffTone": "very-good",
     "positionTone": "wr"
   },
   {
@@ -2777,10 +2777,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 250,
-    "adjustedRank": null,
+    "adjustedRank": 266,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
+    "diff": -16,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -2789,10 +2789,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 252,
-    "adjustedRank": 264,
+    "adjustedRank": 268,
     "adjustedRankHalfPpr": 264,
-    "diff": -12,
-    "diffTone": "neutral",
+    "diff": -16,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -2801,10 +2801,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 253,
-    "adjustedRank": 226,
+    "adjustedRank": 262,
     "adjustedRankHalfPpr": 226,
-    "diff": 27,
-    "diffTone": "neutral",
+    "diff": -9,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -2813,10 +2813,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 255,
-    "adjustedRank": null,
+    "adjustedRank": 299,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
+    "diff": -44,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -2825,10 +2825,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 256,
-    "adjustedRank": 277,
+    "adjustedRank": 290,
     "adjustedRankHalfPpr": 277,
-    "diff": -21,
-    "diffTone": "neutral",
+    "diff": -34,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -2837,10 +2837,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 257,
-    "adjustedRank": 256,
+    "adjustedRank": 275,
     "adjustedRankHalfPpr": 256,
-    "diff": 1,
-    "diffTone": "neutral",
+    "diff": -18,
+    "diffTone": "bad",
     "positionTone": "qb"
   },
   {
@@ -2849,10 +2849,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 258,
-    "adjustedRank": 291,
+    "adjustedRank": 273,
     "adjustedRankHalfPpr": 291,
-    "diff": -33,
-    "diffTone": "neutral",
+    "diff": -15,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -2861,10 +2861,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 259,
-    "adjustedRank": 225,
+    "adjustedRank": 232,
     "adjustedRankHalfPpr": 225,
-    "diff": 34,
-    "diffTone": "neutral",
+    "diff": 27,
+    "diffTone": "very-good",
     "positionTone": "qb"
   },
   {
@@ -2873,9 +2873,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 260,
-    "adjustedRank": 294,
+    "adjustedRank": 259,
     "adjustedRankHalfPpr": 294,
-    "diff": -34,
+    "diff": 1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -2885,10 +2885,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 261,
-    "adjustedRank": 227,
+    "adjustedRank": 235,
     "adjustedRankHalfPpr": 227,
-    "diff": 34,
-    "diffTone": "neutral",
+    "diff": 26,
+    "diffTone": "very-good",
     "positionTone": "wr"
   },
   {
@@ -2897,10 +2897,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 264,
-    "adjustedRank": 282,
+    "adjustedRank": 297,
     "adjustedRankHalfPpr": 282,
-    "diff": -18,
-    "diffTone": "neutral",
+    "diff": -33,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -2909,11 +2909,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 265,
-    "adjustedRank": null,
+    "adjustedRank": 226,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 39,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Chris Bell",
@@ -2921,10 +2921,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 266,
-    "adjustedRank": 269,
+    "adjustedRank": 285,
     "adjustedRankHalfPpr": 269,
-    "diff": -3,
-    "diffTone": "neutral",
+    "diff": -19,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -2933,9 +2933,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 267,
-    "adjustedRank": 249,
+    "adjustedRank": 265,
     "adjustedRankHalfPpr": 249,
-    "diff": 18,
+    "diff": 2,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -2945,10 +2945,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 268,
-    "adjustedRank": 283,
+    "adjustedRank": 300,
     "adjustedRankHalfPpr": 283,
-    "diff": -15,
-    "diffTone": "neutral",
+    "diff": -32,
+    "diffTone": "very-bad",
     "positionTone": "wr"
   },
   {
@@ -2957,11 +2957,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 269,
-    "adjustedRank": null,
+    "adjustedRank": 242,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 27,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Shedeur Sanders",
@@ -2969,10 +2969,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 270,
-    "adjustedRank": null,
+    "adjustedRank": 286,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
+    "diff": -16,
+    "diffTone": "bad",
     "positionTone": "qb"
   },
   {
@@ -2981,9 +2981,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 271,
-    "adjustedRank": 250,
+    "adjustedRank": 266,
     "adjustedRankHalfPpr": 250,
-    "diff": 21,
+    "diff": 5,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -2993,10 +2993,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 272,
-    "adjustedRank": 241,
+    "adjustedRank": 221,
     "adjustedRankHalfPpr": 241,
-    "diff": 31,
-    "diffTone": "neutral",
+    "diff": 51,
+    "diffTone": "very-good",
     "positionTone": "te"
   },
   {
@@ -3005,11 +3005,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 273,
-    "adjustedRank": 298,
+    "adjustedRank": 188,
     "adjustedRankHalfPpr": 298,
-    "diff": -25,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 85,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Tank Dell",
@@ -3017,10 +3017,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 274,
-    "adjustedRank": 262,
+    "adjustedRank": 257,
     "adjustedRankHalfPpr": 262,
-    "diff": 12,
-    "diffTone": "neutral",
+    "diff": 17,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -3029,10 +3029,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 275,
-    "adjustedRank": 278,
+    "adjustedRank": 291,
     "adjustedRankHalfPpr": 278,
-    "diff": -3,
-    "diffTone": "neutral",
+    "diff": -16,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -3041,10 +3041,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 277,
-    "adjustedRank": 200,
+    "adjustedRank": 202,
     "adjustedRankHalfPpr": 200,
-    "diff": 77,
-    "diffTone": "neutral",
+    "diff": 75,
+    "diffTone": "very-good",
     "positionTone": "wr"
   },
   {
@@ -3053,10 +3053,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 278,
-    "adjustedRank": 214,
+    "adjustedRank": 222,
     "adjustedRankHalfPpr": 214,
-    "diff": 64,
-    "diffTone": "neutral",
+    "diff": 56,
+    "diffTone": "very-good",
     "positionTone": "wr"
   },
   {
@@ -3065,10 +3065,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 279,
-    "adjustedRank": 217,
+    "adjustedRank": 224,
     "adjustedRankHalfPpr": 217,
-    "diff": 62,
-    "diffTone": "neutral",
+    "diff": 55,
+    "diffTone": "very-good",
     "positionTone": "wr"
   },
   {
@@ -3077,10 +3077,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 280,
-    "adjustedRank": 222,
+    "adjustedRank": 220,
     "adjustedRankHalfPpr": 222,
-    "diff": 58,
-    "diffTone": "neutral",
+    "diff": 60,
+    "diffTone": "very-good",
     "positionTone": "te"
   },
   {
@@ -3089,10 +3089,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 281,
-    "adjustedRank": null,
+    "adjustedRank": 312,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
+    "diff": -31,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -3101,10 +3101,10 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 282,
-    "adjustedRank": 229,
+    "adjustedRank": 267,
     "adjustedRankHalfPpr": 229,
-    "diff": 53,
-    "diffTone": "neutral",
+    "diff": 15,
+    "diffTone": "good",
     "positionTone": "wr"
   },
   {
@@ -3113,9 +3113,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 283,
-    "adjustedRank": 270,
+    "adjustedRank": 281,
     "adjustedRankHalfPpr": 270,
-    "diff": 13,
+    "diff": 2,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -3137,10 +3137,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 285,
-    "adjustedRank": 272,
+    "adjustedRank": 243,
     "adjustedRankHalfPpr": 272,
-    "diff": 13,
-    "diffTone": "neutral",
+    "diff": 42,
+    "diffTone": "very-good",
     "positionTone": "te"
   },
   {
@@ -3149,11 +3149,11 @@
     "position": "K",
     "positionRank": null,
     "sourceRank": 286,
-    "adjustedRank": 234,
+    "adjustedRank": 187,
     "adjustedRankHalfPpr": 234,
-    "diff": 52,
-    "diffTone": "neutral",
-    "positionTone": "k"
+    "diff": 99,
+    "diffTone": "very-good",
+    "positionTone": "other"
   },
   {
     "player": "Tyler Higbee",
@@ -3161,10 +3161,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 287,
-    "adjustedRank": null,
+    "adjustedRank": 311,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
+    "diff": -24,
+    "diffTone": "very-bad",
     "positionTone": "te"
   },
   {
@@ -3173,9 +3173,9 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 288,
-    "adjustedRank": 271,
+    "adjustedRank": 282,
     "adjustedRankHalfPpr": 271,
-    "diff": 17,
+    "diff": 6,
     "diffTone": "neutral",
     "positionTone": "te"
   },
@@ -3185,9 +3185,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 289,
-    "adjustedRank": 285,
+    "adjustedRank": 293,
     "adjustedRankHalfPpr": 285,
-    "diff": 4,
+    "diff": -4,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -3197,10 +3197,10 @@
     "position": "TE",
     "positionRank": null,
     "sourceRank": 291,
-    "adjustedRank": 240,
+    "adjustedRank": 233,
     "adjustedRankHalfPpr": 240,
-    "diff": 51,
-    "diffTone": "neutral",
+    "diff": 58,
+    "diffTone": "very-good",
     "positionTone": "te"
   },
   {
@@ -3209,10 +3209,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 293,
-    "adjustedRank": 290,
+    "adjustedRank": 285,
     "adjustedRankHalfPpr": 290,
-    "diff": 3,
-    "diffTone": "neutral",
+    "diff": 8,
+    "diffTone": "good",
     "positionTone": "rb"
   },
   {
@@ -3221,9 +3221,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 294,
-    "adjustedRank": 280,
+    "adjustedRank": 296,
     "adjustedRankHalfPpr": 280,
-    "diff": 14,
+    "diff": -2,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -3233,9 +3233,9 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 296,
-    "adjustedRank": null,
+    "adjustedRank": 302,
     "adjustedRankHalfPpr": null,
-    "diff": null,
+    "diff": -6,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -3245,10 +3245,10 @@
     "position": "RB",
     "positionRank": null,
     "sourceRank": 297,
-    "adjustedRank": null,
+    "adjustedRank": 319,
     "adjustedRankHalfPpr": null,
-    "diff": null,
-    "diffTone": "neutral",
+    "diff": -22,
+    "diffTone": "very-bad",
     "positionTone": "rb"
   },
   {
@@ -3257,9 +3257,9 @@
     "position": "WR",
     "positionRank": null,
     "sourceRank": 298,
-    "adjustedRank": null,
+    "adjustedRank": 293,
     "adjustedRankHalfPpr": null,
-    "diff": null,
+    "diff": 5,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -3269,10 +3269,10 @@
     "position": "QB",
     "positionRank": null,
     "sourceRank": 299,
-    "adjustedRank": 246,
+    "adjustedRank": 252,
     "adjustedRankHalfPpr": 246,
-    "diff": 53,
-    "diffTone": "neutral",
+    "diff": 47,
+    "diffTone": "very-good",
     "positionTone": "qb"
   }
 ]
