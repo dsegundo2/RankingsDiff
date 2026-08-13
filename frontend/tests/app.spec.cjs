@@ -126,6 +126,7 @@ test('Yahoo half-PPR source loads the confirmed public top 30', async ({ page })
   await expect(page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first().locator('.rank-pair')).toContainText('4')
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
+  await expect(page.getByLabel('Match health')).toContainText('272/273 full PPR matched')
   await expect(page.getByLabel('Quick base source switcher').getByRole('button')).toHaveText(['ESPN', 'Fantasy Pros', 'Yahoo Half PPR'])
 })
 

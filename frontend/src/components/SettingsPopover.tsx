@@ -8,6 +8,7 @@ import { sourceLabel } from '../data/rankings'
 
 type SettingsPane = 'sheet' | 'snapshots' | 'checks' | 'display' | 'roster'
 type DraftMode = 'snake' | 'auction'
+export type MatchHealth = { total: number; full: number; half: number }
 
 const panes: Array<{ id: SettingsPane; label: string; description: string; icon: string }> = [
   { id: 'sheet', label: 'Current sheet', description: 'Year, source, and source pages', icon: '▦' },
@@ -28,6 +29,7 @@ type Props = {
   onAdjustedProfile: (profile: string) => void
   sourceChecks?: SourceCheckPayload
   generatedAt?: string
+  matchHealth: MatchHealth
   visibleCount: number
   targetCount: number
   showTargetQueue: boolean
@@ -87,7 +89,7 @@ function adjustedProfileLabel(profile: AdjustedProfile): string {
   return profile.label.replace(/Hayden\s+Winks/gi, 'Winks')
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, showRegressionDiff, viewMode, targets, drafted, picks, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onShowRegressionDiff, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, matchHealth, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, showRegressionDiff, viewMode, targets, drafted, picks, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onShowRegressionDiff, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   useEffect(() => {
     if (open) setActivePane('display')
@@ -156,6 +158,11 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
                 <div>{(['snake', 'auction'] as DraftMode[]).map((mode) => <button key={mode} type="button" className={mode === draftMode ? 'is-active' : ''} onClick={() => onDraftMode(mode)} aria-pressed={mode === draftMode}>{mode === 'snake' ? 'Snake' : 'Auction'}</button>)}</div>
               </div> : null}
               <SourceLinks links={currentSource?.sourceLinks} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedAdjustedProfile} />
+              <div className="match-health" aria-label="Match health">
+                <div className="match-health__header"><span className="eyebrow">Match health</span><strong className={matchHealth.full === matchHealth.total && matchHealth.half === matchHealth.total ? 'is-healthy' : 'is-review'}>{matchHealth.full === matchHealth.total && matchHealth.half === matchHealth.total ? 'Healthy' : 'Review'}</strong></div>
+                <p><strong>{matchHealth.full}/{matchHealth.total}</strong> full PPR matched · <strong>{matchHealth.half}/{matchHealth.total}</strong> half PPR matched.</p>
+                {matchHealth.full < matchHealth.total || matchHealth.half < matchHealth.total ? <small>Unranked players stay visible; they do not have a corresponding Winks rank in that profile.</small> : null}
+              </div>
             </section> : null}
 
             {activePane === 'snapshots' ? <section className="settings-section settings-section--tools">

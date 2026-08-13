@@ -1634,6 +1634,14 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .select-field--season { position: absolute; top: 0; right: 0; width: 112px; }
 .select-field--season span { margin-bottom: 4px; font-size: .66rem; }
 .select-field--season select { min-height: 34px; padding: 6px 28px 6px 9px; font-size: .78rem; }
+.match-health { margin-top: var(--space-4); padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel); }
+.match-health__header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.match-health__header strong { font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; }
+.match-health__header strong.is-healthy { color: var(--good); }
+.match-health__header strong.is-review { color: var(--warning); }
+.match-health p { margin: 6px 0 0; color: var(--muted); font-size: .78rem; }
+.match-health p strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+.match-health small { display: block; margin-top: 5px; color: var(--muted); font-size: .7rem; line-height: 1.35; }
 .settings-draft-mode { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-3); }
 .settings-draft-mode > span { color: var(--muted); font-size: .72rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
 .settings-draft-mode > div { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel-soft); }

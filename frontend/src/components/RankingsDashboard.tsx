@@ -6,7 +6,7 @@ import { DEFAULT_ROSTER_TARGETS, type RosterTargetGoals } from '../data/rosterTa
 import { Filters } from './Filters'
 import { RankingCard } from './RankingCard'
 import { RankingsTable } from './RankingsTable'
-import { SettingsPopover } from './SettingsPopover'
+import { SettingsPopover, type MatchHealth } from './SettingsPopover'
 import { PositionBoard } from './PositionBoard'
 import { RecentDraftPanel } from './RecentDraftPanel'
 import { AuctionRosterPanel } from './AuctionRosterPanel'
@@ -115,6 +115,11 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     return filteredRows.map((row) => ({ ...row, regressionDiff: regressionDifference(row, line, filteredRows) }))
   }, [filteredRows])
   const visibleRows = useMemo(() => sortRankings(regressionRows, sortKey, sortDirection).filter((row) => showDrafted || !drafted.has(rankingId(row))), [regressionRows, sortKey, sortDirection, showDrafted, drafted])
+  const matchHealth = useMemo<MatchHealth>(() => ({
+    total: rows.length,
+    full: rows.filter((row) => typeof row.adjustedRank === 'number' && Number.isFinite(row.adjustedRank)).length,
+    half: rows.filter((row) => typeof row.adjustedRankHalfPpr === 'number' && Number.isFinite(row.adjustedRankHalfPpr)).length,
+  }), [rows])
   const targetRows = useMemo(() => sortRankings(rows.filter((row) => targets.has(rankingId(row)) && !drafted.has(rankingId(row))), 'sourceRank', 'asc'), [rows, targets, drafted])
   const targetSummary = useMemo(() => {
     const positions = targetRows.reduce<Record<string, number>>((counts, row) => {
@@ -728,6 +733,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         onAdjustedProfile={onAdjustedProfile}
         sourceChecks={sourceChecks}
         generatedAt={manifest.generatedAt}
+        matchHealth={matchHealth}
         visibleCount={visibleRows.length}
         targetCount={targetRows.length}
         showTargetQueue={showTargetQueue}

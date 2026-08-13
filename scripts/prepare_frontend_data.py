@@ -209,22 +209,29 @@ def normalize_yahoo(rows: list[dict[str, str]], season: int) -> list[dict[str, A
     full_path = ROOT / "data" / "raw" / str(season) / "adjusted_full_ppr.csv"
     half_path = ROOT / "data" / "raw" / str(season) / "adjusted_half_ppr.csv"
 
-    def adjustment_map(path: Path) -> dict[str, int]:
+    def adjustment_maps(path: Path) -> tuple[dict[str, int], dict[str, int]]:
         if not path.exists():
-            return {}
-        return {
-            canonical_player_key(row.get("Player"), row.get("Team")): int(row["Rank"])
-            for row in read_csv(path)
-            if parse_number(row.get("Rank")) is not None
-        }
+            return {}, {}
+        by_team: dict[str, int] = {}
+        by_name: dict[str, list[int]] = {}
+        for row in read_csv(path):
+            rank = parse_number(row.get("Rank"))
+            if rank is None:
+                continue
+            by_team[canonical_player_key(row.get("Player"), row.get("Team"))] = int(rank)
+            by_name.setdefault(canonical_player_key(row.get("Player")), []).append(int(rank))
+        unique_names = {name: ranks[0] for name, ranks in by_name.items() if len(set(ranks)) == 1}
+        return by_team, unique_names
 
-    full_ranks = adjustment_map(full_path)
-    half_ranks = adjustment_map(half_path)
+    full_ranks, full_name_ranks = adjustment_maps(full_path)
+    half_ranks, half_name_ranks = adjustment_maps(half_path)
     normalized = []
     for row in rows:
         source_rank = parse_number(row.get("Yahoo Rank"))
-        adjusted_rank = full_ranks.get(canonical_player_key(row.get("Player"), row.get("Team")))
-        adjusted_half = half_ranks.get(canonical_player_key(row.get("Player"), row.get("Team")))
+        team_key = canonical_player_key(row.get("Player"), row.get("Team"))
+        name_key = canonical_player_key(row.get("Player"))
+        adjusted_rank = full_ranks.get(team_key, full_name_ranks.get(name_key))
+        adjusted_half = half_ranks.get(team_key, half_name_ranks.get(name_key))
         diff = source_rank - adjusted_rank if source_rank is not None and adjusted_rank is not None else None
         normalized.append({
             "player": row.get("Player", ""),
