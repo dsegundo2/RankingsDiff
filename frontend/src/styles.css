@@ -240,6 +240,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .current-card span, .current-card strong, .current-card small { display: block; }
 .current-card small { color: var(--muted); }
 .source-links { margin-top: 10px; }
+.source-freshness { display: block; margin-top: 6px; color: var(--muted); font-size: .78rem; line-height: 1.35; }
 .source-links > span { color: var(--muted); font-size: .72rem; font-weight: 800; text-transform: uppercase; }
 .source-links > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 7px; }
 .source-links a { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 12px; border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--line)); border-radius: 10px; color: var(--accent); background: rgba(255,255,255,.78); font-size: .82rem; font-weight: 750; line-height: 1.3; text-decoration: none; transition: color .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease; }

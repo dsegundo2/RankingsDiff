@@ -24,6 +24,7 @@ SOURCE_LABELS = {
     "fpros": "Fantasy Pros",
     "espn": "ESPN",
     "yahoo-half": "Yahoo Half PPR",
+    "yahoo-full": "Yahoo Full PPR",
 }
 
 CSV_NAMES = {
@@ -87,6 +88,22 @@ def source_links(source: str, season: int) -> list[dict[str, str]]:
             links.append(hayden_2026)
             links.append({"label": "Yahoo · Consensus Full-PPR rankings", "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html"})
         return links
+    if source in {"yahoo-half", "yahoo-full"}:
+        if source == "yahoo-full":
+            return [
+                {
+                    "label": "Yahoo · Consensus Full-PPR rankings",
+                    "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html",
+                },
+                {"label": "Yahoo player-rank documentation", "url": "https://help.yahoo.com/kb/SLN6287.html"},
+            ]
+        return [
+            {
+                "label": "Yahoo public draft rankings feed",
+                "url": "https://pub-api-ro.fantasysports.yahoo.com/fantasy/v2/league/470.l.public/players;position=ALL;start=0;count=300;sort=rank_season",
+            },
+            {"label": "Yahoo player-rank documentation", "url": "https://help.yahoo.com/kb/SLN6287.html"},
+        ]
     return []
 
 
@@ -248,6 +265,32 @@ def normalize_yahoo(rows: list[dict[str, str]], season: int) -> list[dict[str, A
     return normalized
 
 
+def yahoo_payload_rows(path: Path) -> list[dict[str, str]]:
+    """Convert Yahoo's public ranking payload into the base-sheet shape."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return [
+        {
+            "Player": row.get("player_name", ""),
+            "Team": row.get("player_team_id", ""),
+            "Position": row.get("player_position_id", ""),
+            "Yahoo Rank": str(row.get("rank_ecr", "")),
+        }
+        for row in payload.get("players", [])
+        if row.get("rank_ecr") is not None
+    ]
+
+
+def yahoo_source_metadata(path: Path, season: int = 2026) -> dict[str, str | None]:
+    """Expose freshness from the Yahoo payload without inventing a refresh time."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    updated = payload.get("last_updated")
+    if updated and re.fullmatch(r"\d{1,2}/\d{1,2}", str(updated)):
+        month, day = str(updated).split("/")
+        updated = f"{season:04d}/{int(month):02d}/{int(day):02d}"
+    observed = datetime.fromtimestamp(path.stat().st_mtime, timezone.utc).isoformat().replace("+00:00", "Z")
+    return {"sourceUpdated": updated, "observedAt": observed}
+
+
 def normalize_rows(source: str, csv_path: Path, season: int) -> list[dict[str, Any]]:
     """Normalize rows for a supported source."""
     if source == "yahoo-half":
@@ -334,6 +377,10 @@ def build_manifest() -> dict[str, Any]:
                 "csv": public_path(copied_csv),
                 "sourceLinks": source_links(source, season),
             }
+            if source == "yahoo-half":
+                yahoo_half_raw = ROOT / "data" / "raw" / str(season) / "yahoo_half-ppr_rankings.json"
+                if yahoo_half_raw.exists():
+                    entry.update(yahoo_source_metadata(yahoo_half_raw, season))
             if season == 2026:
                 metadata_path = ROOT / "data" / "raw" / str(season) / "adjusted_rankings_metadata.json"
                 if metadata_path.exists():
@@ -347,6 +394,31 @@ def build_manifest() -> dict[str, Any]:
             if xlsx_url:
                 entry["xlsx"] = xlsx_url
             sources.append(entry)
+        # Yahoo publishes a separate full-PPR consensus feed alongside the
+        # league-default feed. Keep it distinct from Winks' adjusted profile.
+        if season == 2026:
+            yahoo_full_path = ROOT / "data" / "raw" / "2026" / "yahoo_full-ppr_rankings.json"
+            if yahoo_full_path.exists() and not any(item["id"] == "yahoo-full" for item in sources):
+                rows = normalize_yahoo(yahoo_payload_rows(yahoo_full_path), season)
+                target_dir = PUBLIC_DATA / "2026" / "yahoo-full"
+                target_dir.mkdir(parents=True, exist_ok=True)
+                rankings_path = target_dir / "rankings.json"
+                rankings_path.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
+                csv_path = target_dir / "rankings.csv"
+                with csv_path.open("w", newline="", encoding="utf-8") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=["Player", "Team", "Position", "Yahoo Rank"])
+                    writer.writeheader()
+                    writer.writerows(yahoo_payload_rows(yahoo_full_path))
+                metadata = yahoo_source_metadata(yahoo_full_path, season)
+                sources.append({
+                    "id": "yahoo-full",
+                    "label": SOURCE_LABELS["yahoo-full"],
+                    "rowCount": len(rows),
+                    "json": public_path(rankings_path),
+                    "csv": public_path(csv_path),
+                    "sourceLinks": source_links("yahoo-full", season),
+                    **metadata,
+                })
         if sources:
             season_entry = {"season": season, "sources": sources}
             if yahoo_projection_public_path:
@@ -360,6 +432,11 @@ def build_manifest() -> dict[str, Any]:
         try:
             existing = json.loads(manifest_path.read_text(encoding="utf-8"))
             generated_seasons = {item["season"] for item in seasons}
+            existing_by_season = {item["season"]: item for item in existing.get("seasons", [])}
+            for season_entry in seasons:
+                prior = existing_by_season.get(season_entry["season"], {})
+                known_ids = {item["id"] for item in season_entry["sources"]}
+                season_entry["sources"].extend(item for item in prior.get("sources", []) if item.get("id") not in known_ids)
             seasons.extend(
                 item for item in existing.get("seasons", [])
                 if item.get("season") not in generated_seasons

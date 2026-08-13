@@ -58,6 +58,9 @@ export type SourceManifest = {
   csv: string
   xlsx?: string
   sourceLinks?: SourceLink[]
+  sourceUpdated?: string | null
+  sourceUpdatedAt?: string | null
+  observedAt?: string | null
   adjustedProfiles?: AdjustedProfile[]
 }
 

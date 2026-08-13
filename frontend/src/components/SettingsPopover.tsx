@@ -89,6 +89,13 @@ function adjustedProfileLabel(profile: AdjustedProfile): string {
   return profile.label.replace(/Hayden\s+Winks/gi, 'Winks')
 }
 
+function sourceFreshness(source?: SourceManifest): string | null {
+  if (!source?.sourceUpdated && !source?.observedAt) return null
+  const updated = source.sourceUpdated ? `Source updated ${source.sourceUpdated}` : null
+  const observed = source.observedAt ? `observed ${source.observedAt.slice(0, 10)}` : null
+  return [updated, observed].filter(Boolean).join(' · ')
+}
+
 export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, matchHealth, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, showRegressionDiff, viewMode, targets, drafted, picks, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onShowRegressionDiff, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   useEffect(() => {
@@ -127,6 +134,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
                 <span className="eyebrow">Current sheet</span>
                 <h3>{sourceLabel(selectedSource)}</h3>
                 <p>{currentSource?.rowCount.toLocaleString() ?? '—'} total rows · adjusted rankings are selected separately.</p>
+                {sourceFreshness(currentSource) ? <small className="source-freshness">{sourceFreshness(currentSource)}</small> : null}
                 <label className="select-field select-field--season">
                   <span>Season</span>
                   <select aria-label="Year" value={selectedSeason} onChange={(event) => onSeason(Number(event.target.value))}>

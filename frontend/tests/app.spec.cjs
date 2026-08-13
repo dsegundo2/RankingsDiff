@@ -127,7 +127,8 @@ test('Yahoo half-PPR source loads the confirmed public top 30', async ({ page })
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
   await expect(page.getByLabel('Match health')).toContainText('272/273 full PPR matched')
-  await expect(page.getByLabel('Quick base source switcher').getByRole('button')).toHaveText(['ESPN', 'Fantasy Pros', 'Yahoo Half PPR'])
+  await expect(page.getByLabel('Quick base source switcher').getByRole('button')).toHaveText(['ESPN', 'Fantasy Pros', 'Yahoo Half PPR', 'Yahoo Full PPR'])
+  await expect(page.getByText('Source updated 2026/08/06 · observed 2026-08-08')).toBeVisible()
 })
 
 test('ESPN defaults to snake and exposes an auction format switch', async ({ page }) => {

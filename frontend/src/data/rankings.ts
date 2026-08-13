@@ -115,5 +115,6 @@ export function sourceLabel(id: string): string {
   if (id === 'fpros') return 'Fantasy Pros'
   if (id === 'espn') return 'ESPN'
   if (id === 'yahoo-half') return 'Yahoo Half PPR'
+  if (id === 'yahoo-full') return 'Yahoo Full PPR'
   return id.toUpperCase()
 }
