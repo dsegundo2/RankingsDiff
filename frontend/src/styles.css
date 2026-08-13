@@ -266,7 +266,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .rankings-diff-page__header p { margin: 0; color: var(--muted); }
 .rankings-diff-controls, .rankings-diff-card { border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgba(255,255,255,.92); box-shadow: 0 12px 34px rgba(28,39,69,.08); }
 .rankings-diff-controls { overflow: hidden; margin-bottom: 16px; }
-.rankings-diff-controls__row { display: grid; grid-template-columns: 1.2fr 1.2fr 1.2fr; gap: 14px; padding: 16px 18px; }
+.rankings-diff-controls__row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; padding: 16px 18px; }
 .rankings-diff-controls__row--secondary { grid-template-columns: 1.2fr 1.2fr 1.2fr; border-top: 1px solid var(--line); background: var(--panel-soft); }
 .rankings-diff-controls__custom { display: grid; grid-template-columns: repeat(2, minmax(140px, 220px)); gap: 14px; padding: 0 18px 16px; border-top: 1px solid var(--line); background: var(--panel-soft); }
 .rankings-diff-controls__custom label { padding-top: 14px; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
@@ -289,6 +289,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .rankings-diff-chart { display: block; width: 100%; height: auto; }
 .rankings-diff-grid { stroke: #e9edf4; stroke-width: 1; }
 .rankings-diff-parity { stroke: #aeb8c9; stroke-width: 1.5; stroke-dasharray: 3 5; }
+.rankings-diff-parity--regression { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 8 5; }
 .rankings-diff-axis { fill: var(--muted); font-size: 11px; }
 .rankings-diff-axis-title { fill: var(--muted); font-size: 11px; }
 .rankings-diff-better { fill: var(--good); font-weight: 800; }
@@ -303,6 +304,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .rankings-diff-status--available { color: #d9dcff; background: rgba(126,124,255,.28); }
 .rankings-diff-status--drafted { color: #d8e0ee; background: rgba(151,165,188,.26); }
 .rankings-diff-tooltip p { margin: 6px 0 0; color: #cbd3e1; font-size: .75rem; }
+.rankings-diff-tooltip__trend { color: #d9dcff !important; font-weight: 800; }
 .rankings-diff-card__note { margin: 10px 0 0; color: var(--muted); font-size: .75rem; }
 
 @media (max-width: 700px) {
