@@ -21,8 +21,9 @@ ESPN_GOOGLE_SHEET_URL = (
 )
 
 SOURCE_LABELS = {
-    "fpros": "FantasyPros vs Yahoo",
-    "espn": "ESPN vs Yahoo",
+    "fpros": "Fantasy Pros",
+    "espn": "ESPN",
+    "yahoo-half": "Yahoo Half PPR",
 }
 
 CSV_NAMES = {
@@ -38,7 +39,7 @@ XLSX_NAMES = {
 def source_links(source: str, season: int) -> list[dict[str, str]]:
     """Return public pages that correspond to the source rankings for a sheet."""
     hayden_2026 = {
-        "label": "Yahoo · Hayden Winks Half-PPR rankings",
+        "label": "Yahoo · Winks Half-PPR rankings",
         "url": (
             "https://sports.yahoo.com/fantasy/article/"
             "2026-fantasy-football-rankings-hayden-winks-top-300-overall-"
@@ -286,8 +287,8 @@ def build_manifest() -> dict[str, Any]:
                     half_url = "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html"
                     full_url = "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html"
                     entry["adjustedProfiles"] = [
-                        {**metadata.get("sources", {}).get("full-ppr", {}), "id": "full-ppr", "label": "Full PPR · Hayden Winks", "shortLabel": "Full PPR", "sourceUrl": full_url, "observedAt": metadata.get("observedAt")},
-                        {**metadata.get("sources", {}).get("half-ppr", {}), "id": "half-ppr", "label": "Half PPR · Hayden Winks", "shortLabel": "Half PPR", "sourceUrl": half_url, "observedAt": metadata.get("observedAt")},
+                        {**metadata.get("sources", {}).get("full-ppr", {}), "id": "full-ppr", "label": "Full PPR · Winks", "shortLabel": "Full PPR", "sourceUrl": full_url, "observedAt": metadata.get("observedAt")},
+                        {**metadata.get("sources", {}).get("half-ppr", {}), "id": "half-ppr", "label": "Half PPR · Winks", "shortLabel": "Half PPR", "sourceUrl": half_url, "observedAt": metadata.get("observedAt")},
                     ]
             if xlsx_url:
                 entry["xlsx"] = xlsx_url

@@ -374,7 +374,7 @@ test('mobile FantasyPros cards stretch and actions can be hidden', async ({ page
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('.cards-list')).toBeVisible()
-  await expect(page.locator('.ranking-card').first()).toContainText('FPros rank')
+  await expect(page.locator('.ranking-card').first()).toContainText('Fantasy Pros rank')
   const cardBox = await page.locator('.ranking-card').first().evaluate((node) => {
     const rect = node.getBoundingClientRect()
     return { left: rect.left, right: rect.right, width: rect.width }
@@ -824,7 +824,7 @@ test('settings shows only the active source pages', async ({ page }) => {
   await expect(links).toHaveCount(2)
   await expect(links).toContainText(['ESPN 2026 PPR300 PDF', 'Yahoo · Consensus Full-PPR rankings'])
   await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
-  await expect(links).toContainText(['ESPN 2026 PPR300 PDF', 'Yahoo · Hayden Winks Half-PPR rankings'])
+  await expect(links).toContainText(['ESPN 2026 PPR300 PDF', 'Yahoo · Winks Half-PPR rankings'])
 })
 
 test('snake roster hides auction target amounts', async ({ page }) => {
@@ -920,7 +920,7 @@ test('Yahoo projections render the selected scoring format and are searchable', 
   await expect(row.locator('.yahoo-projection-cell')).toContainText('14.2 avg')
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByRole('button', { name: /^Current sheet/ }).click()
-  await page.getByText('Adjusted rankings').locator('..').getByRole('combobox').selectOption('half-ppr')
+  await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(row.locator('.yahoo-projection-cell')).toContainText('18.50')
   await expect(row.locator('.yahoo-projection-cell')).toContainText('12.1 avg')

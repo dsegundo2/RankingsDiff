@@ -1585,7 +1585,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .settings-content__heading h3 { font-size: 1.6rem; }
 .settings-section { margin-top: var(--space-4); padding: var(--space-4); border-radius: var(--radius-lg); box-shadow: none; }
 .settings-section__copy { margin-bottom: var(--space-4); }
-.settings-grid { grid-template-columns: minmax(120px, .7fr) minmax(220px, 1.35fr) minmax(140px, .9fr); gap: var(--space-3); }
+.settings-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
 .settings-section--sheet { background: var(--panel-soft); }
 .select-field--pretty { padding: var(--space-3); border-radius: var(--radius-md); }
 .source-links { margin-top: var(--space-4); }
@@ -1630,6 +1630,10 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .settings-source-switcher button { min-height: 34px; border: 0; border-radius: var(--radius-sm); padding: 6px 12px; color: var(--muted); background: transparent; font-size: .76rem; font-weight: 850; }
 .settings-source-switcher button:hover { color: var(--accent); background: var(--accent-soft); }
 .settings-source-switcher button.is-active { color: #fff; background: var(--ink); }
+.settings-section__copy--sheet { position: relative; }
+.select-field--season { position: absolute; top: 0; right: 0; width: 112px; }
+.select-field--season span { margin-bottom: 4px; font-size: .66rem; }
+.select-field--season select { min-height: 34px; padding: 6px 28px 6px 9px; font-size: .78rem; }
 .settings-draft-mode { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-3); }
 .settings-draft-mode > span { color: var(--muted); font-size: .72rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
 .settings-draft-mode > div { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel-soft); }
@@ -1637,6 +1641,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .settings-draft-mode button:hover { color: var(--accent); background: var(--accent-soft); }
 .settings-draft-mode button.is-active { color: #fff; background: var(--ink); }
 @media (max-width: 560px) {
+  .select-field--season { position: static; width: 100%; margin-top: var(--space-3); }
   .settings-source-switcher, .settings-draft-mode { align-items: stretch; flex-direction: column; gap: var(--space-2); }
   .settings-source-switcher > div, .settings-draft-mode > div { width: 100%; }
   .settings-source-switcher button, .settings-draft-mode button { flex: 1 1 0; }

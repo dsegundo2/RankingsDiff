@@ -6,7 +6,7 @@
       "sources": [
         {
           "id": "espn",
-          "label": "ESPN vs Yahoo",
+          "label": "ESPN",
           "rowCount": 272,
           "json": "/data/2026/espn/rankings.json",
           "csv": "/data/2026/espn/merged.csv",
@@ -24,7 +24,7 @@
               "url": "https://www.espn.com/fantasy/football/"
             },
             {
-              "label": "Yahoo \u00b7 Hayden Winks Half-PPR rankings",
+              "label": "Yahoo \u00b7 Winks Half-PPR rankings",
               "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html"
             },
             {
@@ -35,7 +35,7 @@
           "adjustedProfiles": [
             {
               "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html",
-              "label": "Full PPR \u00b7 Hayden Winks",
+              "label": "Full PPR \u00b7 Winks",
               "sourceUpdated": "2026/08/13",
               "sourceUpdatedAt": "2026-08-13 04:58:10",
               "rowCount": 370,
@@ -46,7 +46,7 @@
             },
             {
               "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html",
-              "label": "Half PPR \u00b7 Hayden Winks",
+              "label": "Half PPR \u00b7 Winks",
               "sourceUpdated": "2026/08/13",
               "sourceUpdatedAt": "2026-08-13 04:59:37",
               "rowCount": 301,
@@ -60,7 +60,7 @@
         },
         {
           "id": "fpros",
-          "label": "FantasyPros vs Yahoo",
+          "label": "Fantasy Pros",
           "rowCount": 302,
           "json": "/data/2026/fpros/rankings.json",
           "csv": "/data/2026/fpros/fpros_merged.csv",
@@ -70,7 +70,7 @@
               "url": "https://www.fantasypros.com/nfl/rankings/ppr-cheatsheets.php"
             },
             {
-              "label": "Yahoo \u00b7 Hayden Winks Half-PPR rankings",
+              "label": "Yahoo \u00b7 Winks Half-PPR rankings",
               "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html"
             },
             {
@@ -81,7 +81,7 @@
           "adjustedProfiles": [
             {
               "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html",
-              "label": "Full PPR \u00b7 Hayden Winks",
+              "label": "Full PPR \u00b7 Winks",
               "sourceUpdated": "2026/08/13",
               "sourceUpdatedAt": "2026-08-13 04:58:10",
               "rowCount": 370,
@@ -92,7 +92,7 @@
             },
             {
               "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html",
-              "label": "Half PPR \u00b7 Hayden Winks",
+              "label": "Half PPR \u00b7 Winks",
               "sourceUpdated": "2026/08/13",
               "sourceUpdatedAt": "2026-08-13 04:59:37",
               "rowCount": 301,
@@ -123,7 +123,7 @@
           "adjustedProfiles": [
             {
               "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html",
-              "label": "Full PPR \u00b7 Hayden Winks",
+              "label": "Full PPR \u00b7 Winks",
               "sourceUpdated": "2026/08/13",
               "sourceUpdatedAt": "2026-08-13 04:58:10",
               "rowCount": 370,
@@ -134,7 +134,7 @@
             },
             {
               "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html",
-              "label": "Half PPR \u00b7 Hayden Winks",
+              "label": "Half PPR \u00b7 Winks",
               "sourceUpdated": "2026/08/13",
               "sourceUpdatedAt": "2026-08-13 04:59:37",
               "rowCount": 301,
@@ -152,7 +152,7 @@
       "sources": [
         {
           "id": "espn",
-          "label": "ESPN vs Yahoo",
+          "label": "ESPN",
           "rowCount": 241,
           "json": "/data/2025/espn/rankings.json",
           "csv": "/data/2025/espn/merged.csv",
@@ -174,7 +174,7 @@
         },
         {
           "id": "fpros",
-          "label": "FantasyPros vs Yahoo",
+          "label": "Fantasy Pros",
           "rowCount": 252,
           "json": "/data/2025/fpros/rankings.json",
           "csv": "/data/2025/fpros/fpros_merged.csv",

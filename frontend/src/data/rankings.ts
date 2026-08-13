@@ -112,7 +112,8 @@ export function formatSignedRank(value?: number): string {
 }
 
 export function sourceLabel(id: string): string {
-  if (id === 'fpros') return 'FPros'
+  if (id === 'fpros') return 'Fantasy Pros'
   if (id === 'espn') return 'ESPN'
+  if (id === 'yahoo-half') return 'Yahoo Half PPR'
   return id.toUpperCase()
 }

@@ -4,6 +4,7 @@ import { DownloadPanel } from './DownloadPanel'
 import { DraftStateControls } from './DraftStateControls'
 import { SourceChecksPanel } from './SourceChecksPanel'
 import { rosterTargetLabel, ROSTER_TARGET_SLOTS, type RosterTargetGoals } from '../data/rosterTargets'
+import { sourceLabel } from '../data/rankings'
 
 type SettingsPane = 'sheet' | 'snapshots' | 'checks' | 'display' | 'roster'
 type DraftMode = 'snake' | 'auction'
@@ -82,6 +83,10 @@ function SourceLinks({ links, adjustedProfiles, selectedAdjustedProfile }: { lin
   )
 }
 
+function adjustedProfileLabel(profile: AdjustedProfile): string {
+  return profile.label.replace(/Hayden\s+Winks/gi, 'Winks')
+}
+
 export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, showRegressionDiff, viewMode, targets, drafted, picks, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onShowRegressionDiff, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   useEffect(() => {
@@ -116,35 +121,35 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
           <div className="settings-content">
             <div className="settings-content__heading"><span className="eyebrow">Settings pane</span><h3>{activePaneMeta.label}</h3><p>{activePaneMeta.description}</p></div>
             {activePane === 'sheet' ? <section className="settings-section settings-section--sheet">
-              <div className="settings-section__copy">
+              <div className="settings-section__copy settings-section__copy--sheet">
                 <span className="eyebrow">Current sheet</span>
-                <h3>{selectedSeason} · {currentSource?.label ?? selectedSource}</h3>
-                <p>{currentSource?.rowCount.toLocaleString() ?? '—'} total rows in this sheet.</p>
-              </div>
-              <div className="settings-grid">
-                <label className="select-field select-field--pretty">
-                  <span>Year</span>
-                  <select value={selectedSeason} onChange={(event) => onSeason(Number(event.target.value))}>
+                <h3>{sourceLabel(selectedSource)}</h3>
+                <p>{currentSource?.rowCount.toLocaleString() ?? '—'} total rows · adjusted rankings are selected separately.</p>
+                <label className="select-field select-field--season">
+                  <span>Season</span>
+                  <select aria-label="Year" value={selectedSeason} onChange={(event) => onSeason(Number(event.target.value))}>
                     {manifest.seasons.map((season) => <option key={season.season} value={season.season}>{season.season}</option>)}
                   </select>
                 </label>
+              </div>
+              <div className="settings-grid">
                 <label className="select-field select-field--pretty">
                   <span>Adjusted rankings</span>
-                  <select value={selectedAdjustedProfile} onChange={(event) => onAdjustedProfile(event.target.value)}>
-                    {adjustedProfiles.map((profile) => <option key={profile.id} value={profile.id}>{profile.label}</option>)}
+                  <select aria-label="Adjusted rankings" value={selectedAdjustedProfile} onChange={(event) => onAdjustedProfile(event.target.value)}>
+                    {adjustedProfiles.map((profile) => <option key={profile.id} value={profile.id}>{adjustedProfileLabel(profile)}</option>)}
                   </select>
                   {adjustedProfiles.find((profile) => profile.id === selectedAdjustedProfile)?.sourceUpdated ? <small>Source updated {adjustedProfiles.find((profile) => profile.id === selectedAdjustedProfile)?.sourceUpdated} · observed {adjustedProfiles.find((profile) => profile.id === selectedAdjustedProfile)?.observedAt?.slice(0, 10)}</small> : null}
                 </label>
                 <label className="select-field select-field--pretty">
-                  <span>Sheet</span>
-                  <select value={selectedSource} onChange={(event) => onSource(event.target.value)}>
-                    {currentSeason?.sources.map((source) => <option key={source.id} value={source.id}>{source.label}</option>)}
+                  <span>Base sheet</span>
+                  <select aria-label="Sheet" value={selectedSource} onChange={(event) => onSource(event.target.value)}>
+                    {currentSeason?.sources.map((source) => <option key={source.id} value={source.id}>{sourceLabel(source.id)}</option>)}
                   </select>
                 </label>
               </div>
-              <div className="settings-source-switcher" role="group" aria-label="Quick source switcher">
-                <span>Quick switch</span>
-                <div>{currentSeason?.sources.map((item) => <button key={item.id} type="button" className={item.id === selectedSource ? 'is-active' : ''} onClick={() => onSource(item.id)} aria-pressed={item.id === selectedSource}>{item.id === 'espn' ? 'ESPN' : 'FantasyPros'}</button>)}</div>
+              <div className="settings-source-switcher" role="group" aria-label="Quick base source switcher">
+                <span>Base sheet</span>
+                <div>{currentSeason?.sources.map((item) => <button key={item.id} type="button" className={item.id === selectedSource ? 'is-active' : ''} onClick={() => onSource(item.id)} aria-pressed={item.id === selectedSource}>{sourceLabel(item.id)}</button>)}</div>
               </div>
               {selectedSource === 'espn' ? <div className="settings-draft-mode" role="group" aria-label="Draft format">
                 <span>Draft format</span>
