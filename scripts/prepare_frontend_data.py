@@ -410,6 +410,16 @@ def build_manifest() -> dict[str, Any]:
                     writer.writeheader()
                     writer.writerows(yahoo_payload_rows(yahoo_full_path))
                 metadata = yahoo_source_metadata(yahoo_full_path, season)
+                adjusted_metadata_path = ROOT / "data" / "raw" / "2026" / "adjusted_rankings_metadata.json"
+                adjusted_profiles = []
+                if adjusted_metadata_path.exists():
+                    adjusted_metadata = json.loads(adjusted_metadata_path.read_text(encoding="utf-8"))
+                    half_url = "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html"
+                    full_url = "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html"
+                    adjusted_profiles = [
+                        {**adjusted_metadata.get("sources", {}).get("full-ppr", {}), "id": "full-ppr", "label": "Full PPR · Winks", "shortLabel": "Full PPR", "sourceUrl": full_url, "observedAt": adjusted_metadata.get("observedAt")},
+                        {**adjusted_metadata.get("sources", {}).get("half-ppr", {}), "id": "half-ppr", "label": "Half PPR · Winks", "shortLabel": "Half PPR", "sourceUrl": half_url, "observedAt": adjusted_metadata.get("observedAt")},
+                    ]
                 sources.append({
                     "id": "yahoo-full",
                     "label": SOURCE_LABELS["yahoo-full"],
@@ -417,6 +427,7 @@ def build_manifest() -> dict[str, Any]:
                     "json": public_path(rankings_path),
                     "csv": public_path(csv_path),
                     "sourceLinks": source_links("yahoo-full", season),
+                    "adjustedProfiles": adjusted_profiles,
                     **metadata,
                 })
         if sources:

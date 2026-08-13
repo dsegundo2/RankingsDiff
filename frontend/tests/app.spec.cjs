@@ -131,6 +131,20 @@ test('Yahoo half-PPR source loads the confirmed public top 30', async ({ page })
   await expect(page.getByText('Source updated 2026/08/06 · observed 2026-08-08')).toBeVisible()
 })
 
+test('Yahoo full-PPR source exposes both adjusted profiles and populated adjusted ranks', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.locator('.settings-popover').getByLabel('Sheet').selectOption('yahoo-full')
+  await expect(page.getByLabel('Adjusted rankings')).toHaveValue('full-ppr')
+  await expect(page.getByLabel('Adjusted rankings').locator('option')).toHaveText(['Full PPR · Winks', 'Half PPR · Winks'])
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('tbody tr').filter({ hasText: "Ja'Marr Chase" }).first().locator('.rank-pair')).toContainText('3')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await expect(page.getByLabel('Match health')).toContainText('359/365 full PPR matched')
+})
+
 test('ESPN defaults to snake and exposes an auction format switch', async ({ page }) => {
   await page.goto('./')
   await page.evaluate(() => localStorage.clear())

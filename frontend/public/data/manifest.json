@@ -164,7 +164,31 @@
             }
           ],
           "sourceUpdated": "2026/08/07",
-          "observedAt": "2026-08-08T14:18:18.726608Z"
+          "observedAt": "2026-08-08T14:18:18.726608Z",
+          "adjustedProfiles": [
+            {
+              "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html",
+              "label": "Full PPR \u00b7 Winks",
+              "sourceUpdated": "2026/08/13",
+              "sourceUpdatedAt": "2026-08-13 04:58:10",
+              "rowCount": 370,
+              "id": "full-ppr",
+              "shortLabel": "Full PPR",
+              "sourceUrl": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html",
+              "observedAt": "2026-08-13T13:53:37.143377Z"
+            },
+            {
+              "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html",
+              "label": "Half PPR \u00b7 Winks",
+              "sourceUpdated": "2026/08/13",
+              "sourceUpdatedAt": "2026-08-13 04:59:37",
+              "rowCount": 301,
+              "id": "half-ppr",
+              "shortLabel": "Half PPR",
+              "sourceUrl": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html",
+              "observedAt": "2026-08-13T13:53:37.143377Z"
+            }
+          ]
         }
       ]
     },
