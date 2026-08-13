@@ -61,6 +61,8 @@ test('rankings diff opens as a separate route and returns without disturbing dra
   await page.getByRole('combobox', { name: 'X-axis ticks' }).selectOption('10')
   await page.getByRole('combobox', { name: 'Trend line' }).selectOption('regression')
   await expect(page.locator('.rankings-diff-parity--regression')).toBeVisible()
+  const pointLabels = await page.locator('.rankings-diff-point').evaluateAll((points) => points.map((point) => point.getAttribute('aria-label') || ''))
+  expect(pointLabels.every((label) => !label.includes('NaN') && !label.includes('undefined'))).toBe(true)
   await page.getByRole('combobox', { name: 'Chart window' }).selectOption('50-150')
   await expect(page.locator('.rankings-diff-card__header')).toContainText('Picks 50–150')
   await expect(page.locator('.rankings-diff-point').first()).toBeVisible()

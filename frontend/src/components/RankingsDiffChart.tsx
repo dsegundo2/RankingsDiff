@@ -22,7 +22,8 @@ const positionOptions: PositionFilter[] = ['ALL', 'QB', 'RB', 'WR', 'TE']
 const tickOptions = [10, 12, 24, 36, 48]
 
 function rankMax(rows: RankingRow[]): number {
-  return Math.max(72, ...rows.flatMap((row) => [row.sourceRank ?? 0, row.adjustedRank ?? 0]))
+  const ranks = rows.flatMap((row) => [row.sourceRank, row.adjustedRank]).filter((rank): rank is number => typeof rank === 'number' && Number.isFinite(rank) && rank > 0)
+  return Math.max(72, ...ranks)
 }
 
 function windowOptions(maxRank: number): WindowOption[] {
@@ -55,8 +56,10 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
 
   const chartRows = useMemo(() => {
     const inWindow = rows.filter((row) => {
-      const sourceRank = row.sourceRank ?? Number.POSITIVE_INFINITY
-      const adjustedRank = row.adjustedRank ?? Number.POSITIVE_INFINITY
+      const sourceRank = row.sourceRank
+      const adjustedRank = row.adjustedRank
+      const hasValidRanks = typeof sourceRank === 'number' && Number.isFinite(sourceRank) && sourceRank > 0 && typeof adjustedRank === 'number' && Number.isFinite(adjustedRank) && adjustedRank > 0
+      if (!hasValidRanks) return false
       return sourceRank >= activeWindow.start && sourceRank <= windowEnd && adjustedRank >= activeWindow.start && adjustedRank <= windowEnd
     })
     const matching = inWindow.filter((row) => {
@@ -85,13 +88,13 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
   }, [activeWindow.start, tick, windowEnd])
 
   const regression = useMemo(() => {
-    const points = chartRows.filter((row) => typeof row.sourceRank === 'number' && typeof row.adjustedRank === 'number')
+    const points = chartRows.filter((row) => typeof row.sourceRank === 'number' && Number.isFinite(row.sourceRank) && typeof row.adjustedRank === 'number' && Number.isFinite(row.adjustedRank))
     if (points.length < 2) return { slope: 1, intercept: 0 }
     const meanX = points.reduce((sum, row) => sum + (row.sourceRank ?? 0), 0) / points.length
     const meanY = points.reduce((sum, row) => sum + (row.adjustedRank ?? 0), 0) / points.length
     const numerator = points.reduce((sum, row) => sum + ((row.sourceRank ?? 0) - meanX) * ((row.adjustedRank ?? 0) - meanY), 0)
     const denominator = points.reduce((sum, row) => sum + ((row.sourceRank ?? 0) - meanX) ** 2, 0)
-    const slope = denominator ? numerator / denominator : 1
+    const slope = denominator ? numerator / denominator : 0
     return { slope, intercept: meanY - slope * meanX }
   }, [chartRows])
 
