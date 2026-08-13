@@ -97,6 +97,14 @@ TEAM_ALIASES = {
 }
 
 
+def canonical_player_key(player: str | None, team: str | None = None) -> str:
+    """Build a stable player/team key across source naming conventions."""
+    name = re.sub(r"\b(jr|sr|ii|iii|iv|v)\b", "", (player or "").lower())
+    name = re.sub(r"[^a-z0-9]", "", name)
+    normalized_team = TEAM_ALIASES.get((team or "").strip().upper(), (team or "").strip().upper())
+    return f"{name}|{normalized_team}"
+
+
 def parse_number(value: Any) -> int | float | None:
     """Parse spreadsheet-ish numbers such as '$57' into numeric values."""
     if value is None:
@@ -196,8 +204,47 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
-def normalize_rows(source: str, csv_path: Path) -> list[dict[str, Any]]:
+def normalize_yahoo(rows: list[dict[str, str]], season: int) -> list[dict[str, Any]]:
+    """Normalize a Yahoo base sheet and attach both Winks adjustment profiles."""
+    full_path = ROOT / "data" / "raw" / str(season) / "adjusted_full_ppr.csv"
+    half_path = ROOT / "data" / "raw" / str(season) / "adjusted_half_ppr.csv"
+
+    def adjustment_map(path: Path) -> dict[str, int]:
+        if not path.exists():
+            return {}
+        return {
+            canonical_player_key(row.get("Player"), row.get("Team")): int(row["Rank"])
+            for row in read_csv(path)
+            if parse_number(row.get("Rank")) is not None
+        }
+
+    full_ranks = adjustment_map(full_path)
+    half_ranks = adjustment_map(half_path)
+    normalized = []
+    for row in rows:
+        source_rank = parse_number(row.get("Yahoo Rank"))
+        adjusted_rank = full_ranks.get(canonical_player_key(row.get("Player"), row.get("Team")))
+        adjusted_half = half_ranks.get(canonical_player_key(row.get("Player"), row.get("Team")))
+        diff = source_rank - adjusted_rank if source_rank is not None and adjusted_rank is not None else None
+        normalized.append({
+            "player": row.get("Player", ""),
+            "team": normalize_team(row.get("Team")),
+            "position": row.get("Position", ""),
+            "positionRank": None,
+            "sourceRank": source_rank,
+            "adjustedRank": adjusted_rank,
+            "adjustedRankHalfPpr": adjusted_half,
+            "diff": diff,
+            "diffTone": diff_tone(diff),
+            "positionTone": position_tone(row.get("Position")),
+        })
+    return normalized
+
+
+def normalize_rows(source: str, csv_path: Path, season: int) -> list[dict[str, Any]]:
     """Normalize rows for a supported source."""
+    if source == "yahoo-half":
+        return normalize_yahoo(read_csv(csv_path), season)
     normalizer = normalize_espn if source == "espn" else normalize_fpros
     return [normalizer(row) for row in read_csv(csv_path)]
 
@@ -256,7 +303,7 @@ def build_manifest() -> dict[str, Any]:
                 if not csv_files:
                     continue
                 csv_path = csv_files[0]
-            rows = normalize_rows(source, csv_path)
+            rows = normalize_rows(source, csv_path, season)
             target_dir = PUBLIC_DATA / str(season) / source
             target_dir.mkdir(parents=True, exist_ok=True)
             rankings_path = target_dir / "rankings.json"
