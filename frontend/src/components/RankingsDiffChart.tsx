@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { PositionFilter, RankingRow, TeamAsset } from '../types'
-import { formatRank, formatValue, sourceLabel } from '../data/rankings'
+import { calculateRegression, formatRank, formatValue, regressionDifference, sourceLabel } from '../data/rankings'
 import { getTeamAsset } from '../data/teams'
 import { rankingId } from '../data/draftState'
 import { TeamBadge } from './TeamBadge'
@@ -87,21 +87,12 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
     return { width, height, left, right, top, bottom, x, y, ticks }
   }, [activeWindow.start, tick, windowEnd])
 
-  const regression = useMemo(() => {
-    const points = chartRows.filter((row) => typeof row.sourceRank === 'number' && Number.isFinite(row.sourceRank) && typeof row.adjustedRank === 'number' && Number.isFinite(row.adjustedRank))
-    if (points.length < 2) return { slope: 1, intercept: 0 }
-    const meanX = points.reduce((sum, row) => sum + (row.sourceRank ?? 0), 0) / points.length
-    const meanY = points.reduce((sum, row) => sum + (row.adjustedRank ?? 0), 0) / points.length
-    const numerator = points.reduce((sum, row) => sum + ((row.sourceRank ?? 0) - meanX) * ((row.adjustedRank ?? 0) - meanY), 0)
-    const denominator = points.reduce((sum, row) => sum + ((row.sourceRank ?? 0) - meanX) ** 2, 0)
-    const slope = denominator ? numerator / denominator : 0
-    return { slope, intercept: meanY - slope * meanX }
-  }, [chartRows])
+  const regression = useMemo(() => calculateRegression(chartRows), [chartRows])
 
   const trendValue = (value: number) => trend === 'uniform' ? value : regression.slope * value + regression.intercept
   const trendDistance = (row: RankingRow) => {
     if (trend !== 'regression' || typeof row.sourceRank !== 'number' || typeof row.adjustedRank !== 'number') return undefined
-    return trendValue(row.sourceRank) - row.adjustedRank
+    return regressionDifference(row, regression, chartRows)
   }
 
   const hovered = chartRows.find((row) => `${row.player}|${row.team}` === hoveredId)
@@ -149,7 +140,7 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
           <text className="rankings-diff-axis-title" x={plot.width / 2} y={plot.height - 4} textAnchor="middle">Base ranking ({sourceLabel(source)})</text>
           <text className="rankings-diff-axis-title" transform={`translate(14 ${plot.height / 2}) rotate(-90)`} textAnchor="middle">Adjusted overall rank <tspan className="rankings-diff-better">← better</tspan></text>
         </svg>
-        {hovered ? <div className="rankings-diff-tooltip" role="status"><div className="rankings-diff-tooltip__title"><TeamBadge team={hovered.team} asset={getTeamAsset(teams, hovered.team)} /><strong>{hovered.player}</strong><span className={`rankings-diff-status rankings-diff-status--${drafted.has(rankingId(hovered)) ? 'drafted' : 'available'}`}>{drafted.has(rankingId(hovered)) ? 'Drafted' : 'Available'}</span></div><p>{hovered.position.toUpperCase()} · Base #{formatRank(hovered.sourceRank)} · Adjusted #{formatRank(hovered.adjustedRank)}</p><p>{formatValue(hovered.sourceValue)} source · {formatValue(hovered.adjustedValue)} adjusted</p>{typeof trendDistance(hovered) === 'number' ? <p className="rankings-diff-tooltip__trend">{trendDistance(hovered)! >= 0 ? '+' : ''}{trendDistance(hovered)!.toFixed(1)} vs regression · {trendDistance(hovered)! >= 0 ? 'above' : 'below'} line</p> : null}</div> : null}
+        {hovered ? <div className="rankings-diff-tooltip" role="status"><div className="rankings-diff-tooltip__title"><TeamBadge team={hovered.team} asset={getTeamAsset(teams, hovered.team)} /><strong>{hovered.player}</strong><span className={`rankings-diff-status rankings-diff-status--${drafted.has(rankingId(hovered)) ? 'drafted' : 'available'}`}>{drafted.has(rankingId(hovered)) ? 'Drafted' : 'Available'}</span></div><p>{hovered.position.toUpperCase()} · Base #{formatRank(hovered.sourceRank)} · Adjusted #{formatRank(hovered.adjustedRank)}</p><p>{formatValue(hovered.sourceValue)} source · {formatValue(hovered.adjustedValue)} adjusted</p>{typeof trendDistance(hovered) === 'number' ? <p className="rankings-diff-tooltip__trend">{trendDistance(hovered)! >= 0 ? '+' : ''}{trendDistance(hovered)!.toFixed(1)} Trend · {trendDistance(hovered)! >= 0 ? 'above' : 'below'} line</p> : null}</div> : null}
       </div>
     </section>
   </main>

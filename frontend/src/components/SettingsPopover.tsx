@@ -35,6 +35,7 @@ type Props = {
   showRosterPanel: boolean
   stickyWorkbench: boolean
   showYahooProjections: boolean
+  showRegressionDiff: boolean
   viewMode: 'board' | 'positions'
   targets: Set<string>
   drafted: Set<string>
@@ -51,6 +52,7 @@ type Props = {
   onShowRosterPanel: (value: boolean) => void
   onShowStickyWorkbench: (value: boolean) => void
   onShowYahooProjections: (value: boolean) => void
+  onShowRegressionDiff: (value: boolean) => void
   onViewMode: (value: 'board' | 'positions') => void
   onSeason: (value: number) => void
   onSource: (value: string) => void
@@ -80,7 +82,7 @@ function SourceLinks({ links, adjustedProfiles, selectedAdjustedProfile }: { lin
   )
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, viewMode, targets, drafted, picks, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, showRegressionDiff, viewMode, targets, drafted, picks, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onShowRegressionDiff, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   useEffect(() => {
     if (open) setActivePane('display')
@@ -174,6 +176,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
                 <label className="settings-preference-card"><span><strong>Target queue</strong><small>{targetCount.toLocaleString()} shortlisted player{targetCount === 1 ? '' : 's'}</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show target queue" checked={showTargetQueue} onChange={(event) => onShowTargetQueue(event.target.checked)} /></span></label>
                 <label className="settings-preference-card"><span><strong>Recent draft log</strong><small>Show the latest picks above player search.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show draft log" checked={showDraftLog} onChange={(event) => onShowDraftLog(event.target.checked)} /></span></label>
                 <label className="settings-preference-card"><span><strong>Yahoo projections</strong><small>Show Week 1 and season projected points using the selected PPR setting. Off by default.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show Yahoo projections" checked={showYahooProjections} onChange={(event) => onShowYahooProjections(event.target.checked)} /></span></label>
+                <label className="settings-preference-card"><span><strong>Trend</strong><small>Show each player’s distance above or below the fitted trend line. Off by default.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show trend" checked={showRegressionDiff} onChange={(event) => onShowRegressionDiff(event.target.checked)} /></span></label>
                 <label className="settings-preference-card"><span><strong>Sticky workbench</strong><small>Keep the draft log, search, and board controls visible while you scroll.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Keep controls up top" checked={stickyWorkbench} onChange={(event) => onShowStickyWorkbench(event.target.checked)} /></span></label>
               </div>
             </section> : null}

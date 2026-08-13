@@ -1,6 +1,6 @@
 export type DiffTone = 'very-good' | 'good' | 'neutral' | 'bad' | 'very-bad'
 export type PositionTone = 'qb' | 'rb' | 'wr' | 'te' | 'other'
-export type PositionFilter = 'ALL' | 'QB' | 'RB' | 'WR' | 'TE'
+export type PositionFilter = 'ALL' | 'QB' | 'RB' | 'WR' | 'TE' | 'K' | 'FX'
 
 export type RankingRow = {
   player: string
@@ -15,6 +15,7 @@ export type RankingRow = {
   adjustedValue?: number
   priceRank?: number
   yahooProjection?: number
+  regressionDiff?: number
   notes?: string
   diffTone?: DiffTone
   positionTone?: PositionTone
@@ -81,7 +82,7 @@ export type DataManifest = {
   seasons: SeasonManifest[]
 }
 
-export type SortKey = 'sourceRank' | 'adjustedRank' | 'diff' | 'player' | 'position' | 'sourceValue' | 'adjustedValue' | 'priceRank' | 'yahooProjection'
+export type SortKey = 'sourceRank' | 'adjustedRank' | 'diff' | 'regressionDiff' | 'player' | 'position' | 'sourceValue' | 'adjustedValue' | 'priceRank' | 'yahooProjection'
 export type SortDirection = 'asc' | 'desc'
 
 export type RankingSource = 'fpros' | 'espn' | string

@@ -21,7 +21,7 @@ type Props = {
   onSelect?: (id: string) => void
 }
 
-const positions = ['RB', 'WR', 'QB', 'TE'] as const
+const positions = ['RB', 'WR', 'QB', 'TE', 'K'] as const
 
 function diffStyle(diff: number | undefined, isEspn: boolean): CSSProperties {
   const neutralRange = isEspn ? 1 : 3
@@ -50,7 +50,7 @@ export function PositionBoard({ rows, positions: selectedPositions, teams, targe
         return (
           <article className={`position-lane position-lane--${position.toLowerCase()}`} key={position}>
             <header className="position-lane__header">
-              <div><span className={`pos-chip pos-${position.toLowerCase()}`}>{position}</span><h2>{position === 'RB' ? 'Running backs' : position === 'WR' ? 'Wide receivers' : position === 'QB' ? 'Quarterbacks' : 'Tight ends'}</h2></div>
+              <div><span className={`pos-chip pos-${position.toLowerCase()}`}>{position}</span><h2>{position === 'RB' ? 'Running backs' : position === 'WR' ? 'Wide receivers' : position === 'QB' ? 'Quarterbacks' : position === 'TE' ? 'Tight ends' : 'Kickers'}</h2></div>
               <span>{positionRows.length} {positionRows.length === 1 ? 'player' : 'players'}</span>
             </header>
             <div className="position-lane__columns" aria-hidden="true">

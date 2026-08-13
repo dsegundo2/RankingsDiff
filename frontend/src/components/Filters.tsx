@@ -1,8 +1,9 @@
 import type { Ref } from 'react'
 import type { PositionFilter } from '../types'
 
-const positions: PositionFilter[] = ['ALL', 'QB', 'RB', 'WR', 'TE']
-const positionOptions: Exclude<PositionFilter, 'ALL'>[] = ['RB', 'WR', 'QB', 'TE']
+const positions: PositionFilter[] = ['ALL', 'QB', 'RB', 'WR', 'TE', 'K', 'FX']
+const positionOptions: Exclude<PositionFilter, 'ALL' | 'FX'>[] = ['RB', 'WR', 'QB', 'TE', 'K']
+const flexPositions = new Set(['RB', 'WR', 'TE'])
 
 type Props = {
   compact?: boolean
@@ -22,7 +23,7 @@ type Props = {
 
 export function Filters({ search, position, searchInputRef, onSearch, onPosition, onSelectOnlyPosition, showSearch = true, multiSelect = false, showPositions = true, selectedPositions, onTogglePosition, draftedCounts, compact = false }: Props) {
   const selectedPosition = multiSelect
-    ? selectedPositions?.size === 4 ? 'ALL' : selectedPositions?.size === 1 ? [...selectedPositions][0] : 'ALL'
+    ? selectedPositions?.size === 5 ? 'ALL' : selectedPositions && selectedPositions.size === 3 && [...flexPositions].every((value) => selectedPositions.has(value as Exclude<PositionFilter, 'ALL'>)) ? 'FX' : selectedPositions?.size === 1 ? [...selectedPositions][0] : 'ALL'
     : position
   return (
     <section className={`filters filters--quick${compact ? ' filters--compact' : ''}`} aria-label="Rankings filters">
@@ -40,14 +41,14 @@ export function Filters({ search, position, searchInputRef, onSearch, onPosition
         <div className="position-pills" aria-label="Position filters">
           {positions.map((pos) => {
             const active = multiSelect
-              ? pos === 'ALL' ? selectedPositions?.size === 4 : selectedPositions?.has(pos as Exclude<PositionFilter, 'ALL'>)
+              ? pos === 'ALL' ? selectedPositions?.size === 5 : pos === 'FX' ? selectedPositions?.size === 3 && [...flexPositions].every((value) => selectedPositions.has(value as Exclude<PositionFilter, 'ALL'>)) : selectedPositions?.has(pos as Exclude<PositionFilter, 'ALL'>)
               : pos === position
             const count = draftedCounts?.[pos] ?? 0
             const countId = `drafted-count-${pos.toLowerCase()}`
             return <button key={pos} aria-label={pos} aria-describedby={countId} className={active ? 'active' : ''} aria-pressed={active} onClick={() => {
-              if (pos === 'ALL' || !multiSelect) onPosition(pos)
+              if (pos === 'ALL' || pos === 'FX' || !multiSelect) onPosition(pos)
               else onTogglePosition?.(pos as Exclude<PositionFilter, 'ALL'>)
-            }} onDoubleClick={() => pos !== 'ALL' ? onSelectOnlyPosition?.(pos as Exclude<PositionFilter, 'ALL'>) : undefined}>
+            }} onDoubleClick={() => pos !== 'ALL' && pos !== 'FX' ? onSelectOnlyPosition?.(pos as Exclude<PositionFilter, 'ALL'>) : undefined}>
               <span>{pos}</span><small id={countId} className="position-pill__count">{count}</small>
             </button>
           })}

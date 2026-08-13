@@ -85,6 +85,16 @@ test('rankings diff direct URL loads as a first-class view', async ({ page }) =>
   await expect(page.getByRole('button', { name: '← Back to rankings' })).toBeVisible()
 })
 
+test('trend is off by default and can be shown and sorted', async ({ page }) => {
+  await page.goto('./')
+  await expect(page.getByRole('columnheader', { name: /regression/i })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await page.getByRole('checkbox', { name: 'Show trend' }).check()
+  await expect(page.locator('.regression-diff-heading')).toBeVisible()
+  await page.getByLabel('Sort by', { exact: true }).selectOption('regressionDiff')
+  await expect(page.getByRole('button', { name: 'Sort by trend' })).toHaveAttribute('aria-label', 'Sort by trend')
+})
+
 test('header mockup lab offers five compact directions', async ({ page }) => {
   await page.goto('./mockups')
   await expect(page.getByRole('heading', { name: 'Choose a calmer, more connected header.' })).toBeVisible()
@@ -103,6 +113,15 @@ test('season and source switching works with manifest data', async ({ page }) =>
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('espn')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('.price-heading').getByText('Value', { exact: true })).toBeVisible()
+})
+
+test('Yahoo half-PPR source loads the confirmed public top 30', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.locator('.settings-popover').getByLabel('Sheet').selectOption('yahoo-half')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('.player-cell').first()).toContainText('Jahmyr Gibbs')
 })
 
 test('ESPN defaults to snake and exposes an auction format switch', async ({ page }) => {
@@ -217,6 +236,19 @@ test('position filters show live drafted counts', async ({ page }) => {
   await expect(count('ALL')).toHaveText('1')
   await expect(count('RB')).toHaveText('1')
   await expect(count('WR')).toHaveText('0')
+})
+
+test('position filters include kickers and flex without defensive rows', async ({ page }) => {
+  await page.goto('./')
+  const filter = page.getByRole('button', { name: 'K', exact: true }).first()
+  await filter.click()
+  await expect(page.locator('.rankings-table tbody tr').first().locator('.position-cell')).toContainText('K')
+  const flexFilter = page.getByRole('button', { name: 'FX', exact: true }).first()
+  await flexFilter.click()
+  const positions = await page.locator('.rankings-table tbody tr .position-cell').evaluateAll((cells) => cells.map((cell) => cell.textContent?.trim().slice(0, 2)))
+  expect(positions.length).toBeGreaterThan(0)
+  expect(positions.every((position) => ['RB', 'WR', 'TE'].includes(position || ''))).toBe(true)
+  await expect(page.locator('.position-pills button[aria-label="DEF"]')).toHaveCount(0)
 })
 
 test('position view keyboard shortcuts toggle individual lanes', async ({ page }) => {
