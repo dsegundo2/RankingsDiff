@@ -681,7 +681,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         <div className="search-sort-control" aria-label="Sort controls">
           <label htmlFor="search-sort">Sort by</label>
           <span className="search-sort-control__select"><select id="search-sort" value={sortKey} onChange={(event) => handleSort(event.target.value as SortKey)}>
-              <option value="sourceRank">{sourceLabel(selectedSource)} rank</option>
+              <option value="sourceRank">Base rank</option>
               <option value="adjustedRank">Adjusted rank</option>
               <option value="yahooProjection">Yahoo projection</option>
               <option value="regressionDiff">Trend</option>
