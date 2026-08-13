@@ -54,7 +54,7 @@ export function PositionBoard({ rows, positions: selectedPositions, teams, targe
               <span>{positionRows.length} {positionRows.length === 1 ? 'player' : 'players'}</span>
             </header>
             <div className="position-lane__columns" aria-hidden="true">
-              <span>#</span><span className="position-column-badge" /><span>Player</span><span>{isEspn ? 'ESPN' : 'FP'}</span><span>{isEspn ? 'Diff' : 'Vs Adjusted'}</span><span title="Favorite or my roster">Fav / Mine</span><span>Draft</span>
+              <span>#</span><span className="position-column-badge" /><span>Player</span><span>{isEspn ? 'ESPN' : 'FP'}</span><span>{isEspn ? 'Diff' : 'Vs adj.'}</span><span title="Favorite or my roster">Fav / mine</span><span>Draft</span>
             </div>
             <div className="position-lane__list" tabIndex={0} aria-label={`${position} players, scroll to see all`}>
               {positionRows.map((row, index) => {
