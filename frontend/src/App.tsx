@@ -3,6 +3,7 @@ import type { AdjustedProfile, DataManifest, RankingRow, SourceCheckPayload, Tea
 import { RankingsDashboard } from './components/RankingsDashboard'
 import { withBasePath } from './data/paths'
 import { readDraftShare } from './data/draftState'
+import { applyAdjustedProfile } from './data/rankings'
 import { ThemeMockups } from './components/ThemeMockups'
 
 const emptyManifest: DataManifest = { generatedAt: '', seasons: [] }
@@ -140,6 +141,11 @@ function AppData() {
     if (!selectedMeta) return
     const controller = new AbortController()
     const timeout = window.setTimeout(() => controller.abort(), 12000)
+    // Do not render the previous sheet's calculated values while the new
+    // sheet is loading. This is especially noticeable when switching between
+    // Yahoo base sheets, which can have different rank universes.
+    setRows([])
+    setYahooProjections({})
     setRowsLoading(true)
     const seasonMeta = manifest.seasons.find((item) => item.season === selectedSeason)
     const projectionRequest = seasonMeta?.yahooProjections
@@ -152,6 +158,7 @@ function AppData() {
       setHasLoadedRows(true)
     }).catch((reason) => {
       if (reason?.name !== 'AbortError') setError(reason instanceof Error ? reason.message : 'Failed to load rankings')
+      setHasLoadedRows(false)
       setRowsLoading(false)
     }).finally(() => window.clearTimeout(timeout))
     return () => { window.clearTimeout(timeout); controller.abort() }
@@ -166,7 +173,7 @@ function AppData() {
   if (error) return <ErrorState message={error} onRetry={() => { setRows([]); setRowsLoading(true); setHasLoadedRows(false); setRetryKey((current) => current + 1) }} />
   if (manifestLoading || !manifest.seasons.length || !selectedSource || !hasLoadedRows) return <LoadingState detail={manifestLoading ? undefined : `Loading ${selectedMeta?.label ?? 'the selected source'} rankings…`} />
 
-  const displayedRows = rows.map((row) => selectedProfile?.id === 'half-ppr' ? { ...row, adjustedRank: row.adjustedRankHalfPpr ?? row.adjustedRank } : row)
+  const displayedRows = applyAdjustedProfile(rows, selectedProfile?.id ?? 'full-ppr', selectedSource)
   return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} route={route} onNavigate={navigate} />
 }
 

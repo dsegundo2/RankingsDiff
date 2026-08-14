@@ -145,6 +145,18 @@ test('Yahoo full-PPR source exposes both adjusted profiles and populated adjuste
   await expect(page.getByLabel('Match health')).toContainText('359/365 full PPR matched')
 })
 
+test('Yahoo profile switching recalculates the displayed delta', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.locator('.settings-popover').getByLabel('Sheet').selectOption('yahoo-half')
+  await expect(page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first().locator('.diff-cell')).toHaveText('-2')
+  await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first().locator('.rank-pair')).toContainText('2')
+  await expect(page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first().locator('.diff-cell')).toHaveText('0')
+})
+
 test('ESPN defaults to snake and exposes an auction format switch', async ({ page }) => {
   await page.goto('./')
   await page.evaluate(() => localStorage.clear())

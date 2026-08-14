@@ -1,7 +1,36 @@
-import type { PositionFilter, RankingRow, SortDirection, SortKey, TeamAsset } from '../types'
+import type { DiffTone, PositionFilter, RankingRow, SortDirection, SortKey, TeamAsset } from '../types'
 import { getTeamAsset } from './teams'
 
 export type RegressionLine = { slope: number; intercept: number }
+
+function rankingDiffTone(diff: number | undefined): DiffTone {
+  if (diff === undefined) return 'neutral'
+  if (diff >= 20) return 'very-good'
+  if (diff >= 8) return 'good'
+  if (diff <= -20) return 'very-bad'
+  if (diff <= -8) return 'bad'
+  return 'neutral'
+}
+
+/**
+ * Apply the selected adjusted-rank profile to rows and recalculate every
+ * value that depends on it. The generated JSON keeps the full-PPR values in
+ * `adjustedRank` for backwards compatibility, so switching to half PPR must
+ * not leave the old full-PPR delta behind.
+ */
+export function applyAdjustedProfile(rows: RankingRow[], profileId: string, source: string): RankingRow[] {
+  return rows.map((row) => {
+    const adjustedRank = profileId === 'half-ppr' ? row.adjustedRankHalfPpr ?? row.adjustedRank : row.adjustedRank
+    const diff = source === 'espn'
+      ? typeof row.sourceValue === 'number' && typeof row.adjustedValue === 'number'
+        ? row.adjustedValue - row.sourceValue
+        : undefined
+      : typeof row.sourceRank === 'number' && typeof adjustedRank === 'number'
+        ? row.sourceRank - adjustedRank
+        : undefined
+    return { ...row, adjustedRank, diff, diffTone: rankingDiffTone(diff) }
+  })
+}
 
 function validRankPair(row: RankingRow): boolean {
   return typeof row.sourceRank === 'number' && Number.isFinite(row.sourceRank) && row.sourceRank > 0 && typeof row.adjustedRank === 'number' && Number.isFinite(row.adjustedRank) && row.adjustedRank > 0

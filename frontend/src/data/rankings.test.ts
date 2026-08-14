@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { RankingRow } from '../types'
-import { filterRankings, sortRankings } from './rankings'
+import { applyAdjustedProfile, filterRankings, sortRankings } from './rankings'
 import { getTeamAsset, hasTeamLogo, normalizeTeamAbbreviation } from './teams'
 
 const rows: RankingRow[] = [
@@ -69,5 +69,22 @@ describe('ranking helpers', () => {
     const teams = { CIN: { id: '4', abbreviation: 'CIN', displayName: 'Cincinnati Bengals', shortDisplayName: 'Bengals' } }
     expect(getTeamAsset(teams, 'CIN')?.displayName).toContain('Bengals')
     expect(hasTeamLogo(teams.CIN)).toBe(false)
+  })
+
+  it('recalculates rank deltas when the adjusted profile changes', () => {
+    const yahooRows: RankingRow[] = [{
+      player: 'Bijan Robinson', team: 'ATL', position: 'RB', sourceRank: 2,
+      adjustedRank: 4, adjustedRankHalfPpr: 2, diff: -2, diffTone: 'neutral'
+    }]
+    expect(applyAdjustedProfile(yahooRows, 'full-ppr', 'yahoo-half')[0]).toMatchObject({ adjustedRank: 4, diff: -2 })
+    expect(applyAdjustedProfile(yahooRows, 'half-ppr', 'yahoo-half')[0]).toMatchObject({ adjustedRank: 2, diff: 0, diffTone: 'neutral' })
+  })
+
+  it('keeps ESPN value deltas tied to values, not rank profile', () => {
+    const espnRows: RankingRow[] = [{
+      player: 'Player', team: 'ATL', position: 'RB', sourceRank: 2,
+      adjustedRank: 4, adjustedRankHalfPpr: 3, sourceValue: 10, adjustedValue: 14, diff: 4
+    }]
+    expect(applyAdjustedProfile(espnRows, 'half-ppr', 'espn')[0]).toMatchObject({ adjustedRank: 3, diff: 4 })
   })
 })
