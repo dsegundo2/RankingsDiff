@@ -170,6 +170,16 @@ test('drafted row mockup lab compares four quieting treatments', async ({ page }
   await expect(page.locator('.drafted-mock-table--rail')).toBeVisible()
 })
 
+test('next pick pill mockup lab compares three faded ambers and one neutral', async ({ page }) => {
+  await page.goto('./draft-divider-mockups')
+  await expect(page.getByRole('heading', { name: /Give the next pick a warmer signal/ })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Divider options' }).getByRole('button')).toHaveCount(4)
+  await page.getByRole('button', { name: /Slate neutral/ }).click()
+  await expect(page.locator('.divider-mock__rule--neutral')).toBeVisible()
+  await page.getByRole('button', { name: /Amber outline/ }).click()
+  await expect(page.locator('.divider-mock__rule--orange-outline')).toBeVisible()
+})
+
 test('season and source switching works with manifest data', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()

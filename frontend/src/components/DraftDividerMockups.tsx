@@ -1,11 +1,12 @@
 import { useState } from 'react'
 
-type DividerStyle = 'quiet' | 'pill' | 'callout'
+type DividerStyle = 'orange-solid' | 'orange-outline' | 'orange-line' | 'neutral'
 
 const styles: Array<{ id: DividerStyle; name: string; description: string }> = [
-  { id: 'quiet', name: 'Quiet divider', description: 'A single line with the pick label tucked into the rule.' },
-  { id: 'pill', name: 'Pick pill', description: 'A compact labeled marker that is easy to spot while scanning.' },
-  { id: 'callout', name: 'Turn callout', description: 'Adds the countdown beside the divider when your turn is close.' },
+  { id: 'orange-solid', name: 'Amber solid', description: 'A warm filled pill that makes the next pick easy to spot.' },
+  { id: 'orange-outline', name: 'Amber outline', description: 'A lighter orange treatment that stays quiet against the table.' },
+  { id: 'orange-line', name: 'Amber rule', description: 'Carries the orange through the line while keeping the pill compact.' },
+  { id: 'neutral', name: 'Slate neutral', description: 'The non-orange alternative: restrained and low emphasis.' },
 ]
 
 const rows = [
@@ -19,17 +20,15 @@ const rows = [
 ]
 
 function Divider({ style }: { style: DividerStyle }) {
-  if (style === 'pill') return <div className="divider-mock__rule divider-mock__rule--pill"><span>Pick 5</span></div>
-  if (style === 'callout') return <div className="divider-mock__rule divider-mock__rule--callout"><span>Pick 5</span><strong>3 picks until your turn</strong></div>
-  return <div className="divider-mock__rule"><span>Pick 5</span></div>
+  return <div className={`divider-mock__rule divider-mock__rule--${style}`}><span>R2 · Pick 9</span></div>
 }
 
 export function DraftDividerMockups() {
-  const [selected, setSelected] = useState<DividerStyle>('quiet')
+  const [selected, setSelected] = useState<DividerStyle>('orange-solid')
   const active = styles.find((style) => style.id === selected) ?? styles[0]
   return <main className="divider-mock-page">
     <div className="divider-mock-page__topbar"><a href="./">← Back to dashboard</a><span>RankingsDiff · table detail study</span><b>HTML mockups</b></div>
-    <header className="divider-mock-page__intro"><span className="divider-mock-eyebrow">Focus: draft spot line</span><h1>Add draft context without adding another column.</h1><p>This is the main RankingsDiff table with a simple horizontal marker inserted between players. It separates draft picks and keeps “3 picks until your turn” close to the data.</p></header>
+    <header className="divider-mock-page__intro"><span className="divider-mock-eyebrow">Focus: next pick pill</span><h1>Give the next pick a warmer signal.</h1><p>Four HTML treatments for the next-pick marker. Three use a restrained orange; one stays neutral so the color choice is easy to compare in context.</p></header>
     <section className="divider-mock-options" aria-label="Divider options">{styles.map((style, index) => <button key={style.id} className={selected === style.id ? 'is-selected' : ''} onClick={() => setSelected(style.id)}><span>0{index + 1}</span><strong>{style.name}</strong><small>{style.description}</small></button>)}</section>
     <section className="divider-mock-browser" aria-label={`${active.name} table preview`}>
       <div className="divider-mock-browser__bar"><i /><i /><i /><span>{active.name} · rankingsdiff</span></div>
