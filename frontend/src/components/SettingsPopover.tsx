@@ -43,11 +43,12 @@ type Props = {
   targets: Set<string>
   drafted: Set<string>
   picks: Record<string, number>
+  draftSlot: number
   mine: Set<string>
   prices: Record<string, number>
   slots: Record<string, string>
   targetGoals: RosterTargetGoals
-  onRestoreDraft: (state: { targets: string[]; drafted: string[]; picks: Record<string, number>; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) => void
+  onRestoreDraft: (state: { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) => void
   onClearDraft: () => void
   onShowTargetQueue: (value: boolean) => void
   onShowDrafted: (value: boolean) => void
@@ -62,6 +63,7 @@ type Props = {
   draftMode: DraftMode
   onDraftMode: (value: DraftMode) => void
   onTargetGoals: (value: RosterTargetGoals) => void
+  onDraftSlot: (value: number) => void
   onClose: () => void
 }
 
@@ -96,7 +98,7 @@ function sourceFreshness(source?: SourceManifest): string | null {
   return [updated, observed].filter(Boolean).join(' · ')
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, matchHealth, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, showRegressionDiff, viewMode, targets, drafted, picks, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onShowRegressionDiff, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, matchHealth, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, showRegressionDiff, viewMode, targets, drafted, picks, draftSlot, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onShowRegressionDiff, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onDraftSlot, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   useEffect(() => {
     if (open) setActivePane('display')
@@ -175,7 +177,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
 
             {activePane === 'snapshots' ? <section className="settings-section settings-section--tools">
               <div className="settings-section__copy"><span className="eyebrow">Snapshots</span><h3>Downloads and draft backup</h3><p>Export the current table or save, restore, and clear your draft state.</p></div>
-              <div className="settings-tools-grid"><DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact /><DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} picks={picks} mine={mine} prices={prices} slots={slots} targetGoals={targetGoals} onRestore={onRestoreDraft} onClear={onClearDraft} /></div>
+              <div className="settings-tools-grid"><DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact /><DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} picks={picks} draftSlot={draftSlot} mine={mine} prices={prices} slots={slots} targetGoals={targetGoals} onRestore={onRestoreDraft} onClear={onClearDraft} /></div>
             </section> : null}
 
             {activePane === 'checks' ? <SourceChecksPanel checks={sourceChecks} /> : null}
@@ -192,6 +194,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
               <div className="settings-preference-list">
                 <label className="settings-preference-card"><span><strong>Position view</strong><small>Group the board into QB, RB, WR, and TE lanes.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="By position" checked={viewMode === 'positions'} onChange={(event) => onViewMode(event.target.checked ? 'positions' : 'board')} /></span></label>
                 <label className="settings-preference-card"><span><strong>Drafted players</strong><small>Keep drafted players in the rankings list while you work.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => onShowDrafted(event.target.checked)} /><kbd>D</kbd></span></label>
+                <label className="settings-preference-card"><span><strong>My draft spot</strong><small>Show your current and future snake picks across 17 rounds.</small></span><span className="draft-slot-input"><input aria-label="My draft spot" type="number" min="1" max="12" step="1" value={draftSlot} onChange={(event) => onDraftSlot(Math.min(12, Math.max(1, Number(event.target.value) || 1)))} /><small>/ 12</small></span></label>
                 <label className="settings-preference-card"><span><strong>My roster panel</strong><small>Show the shortlist above every roster slot, including empty slots.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show my roster" checked={showRosterPanel} onChange={(event) => onShowRosterPanel(event.target.checked)} /></span></label>
                 <label className="settings-preference-card"><span><strong>Target queue</strong><small>{targetCount.toLocaleString()} shortlisted player{targetCount === 1 ? '' : 's'}</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show target queue" checked={showTargetQueue} onChange={(event) => onShowTargetQueue(event.target.checked)} /></span></label>
                 <label className="settings-preference-card"><span><strong>Recent draft log</strong><small>Show the latest picks above player search.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show draft log" checked={showDraftLog} onChange={(event) => onShowDraftLog(event.target.checked)} /></span></label>

@@ -23,6 +23,7 @@ const benchSlots = ['BENCH1', 'BENCH2', 'BENCH3', 'BENCH4', 'BENCH5']
 const DEFAULT_SHOW_YAHOO_PROJECTIONS = false
 const DEFAULT_SHOW_REGRESSION_DIFF = false
 const DEFAULT_DRAFT_MODE: DraftMode = 'snake'
+const DEFAULT_DRAFT_SLOT = 2
 
 function autoRosterSlot(row: RankingRow, drafted: Set<string>, slots: Record<string, string>): string {
   const occupied = new Set(Object.entries(slots).filter(([id]) => drafted.has(id)).map(([, slot]) => slot))
@@ -67,6 +68,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   const [targets, setTargets] = useState<Set<string>>(new Set())
   const [drafted, setDrafted] = useState<Set<string>>(new Set())
   const [draftPicks, setDraftPicks] = useState<Record<string, number>>({})
+  const [draftSlot, setDraftSlot] = useState(DEFAULT_DRAFT_SLOT)
   const [mine, setMine] = useState<Set<string>>(new Set())
   const [draftPrices, setDraftPrices] = useState<Record<string, number>>({})
   const [draftSlots, setDraftSlots] = useState<Record<string, string>>({})
@@ -258,6 +260,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     setTargets(new Set(initialState.targets))
     setDrafted(new Set(initialState.drafted))
     setDraftPicks(initialPicks)
+    setDraftSlot(initialState.draftSlot ?? DEFAULT_DRAFT_SLOT)
     setMine(initialMine)
     setDraftPrices(initialPrices)
     setDraftSlots(auctionState.slots)
@@ -317,8 +320,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
-    writeDraftState(storageKey, { targets: [...targets], drafted: [...drafted], picks: draftPicks })
-  }, [storageKey, hydratedStorageKey, targets, drafted, draftPicks])
+    writeDraftState(storageKey, { targets: [...targets], drafted: [...drafted], picks: draftPicks, draftSlot })
+  }, [storageKey, hydratedStorageKey, targets, drafted, draftPicks, draftSlot])
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
@@ -564,8 +567,9 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     setPosition(value)
   }
 
-  function restoreDraft(state: { targets: string[]; drafted: string[]; picks: Record<string, number>; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) {
+  function restoreDraft(state: { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) {
     applyDraftState(new Set(state.targets), new Set(state.drafted), state.prices, state.slots, new Set(state.mine), state.picks)
+    setDraftSlot(Math.min(12, Math.max(1, state.draftSlot || DEFAULT_DRAFT_SLOT)))
     if (Object.keys(state.targetGoals).length) setTargetGoals((current) => ({ ...current, ...state.targetGoals }))
   }
 
@@ -706,7 +710,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <div>
-            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} yahooProjectionMode={projectionMode} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} />
+            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} yahooProjectionMode={projectionMode} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
                 const id = rankingId(row)
@@ -718,7 +722,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
-          <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
+          <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showAuctionValues={draftMode === 'auction'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
           <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       )}
@@ -747,6 +751,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         targets={targets}
         drafted={drafted}
         picks={draftPicks}
+        draftSlot={draftSlot}
         mine={mine}
         prices={draftPrices}
         slots={draftSlots}
@@ -766,6 +771,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         draftMode={draftMode}
         onDraftMode={handleDraftModeFromSettings}
         onTargetGoals={setTargetGoals}
+        onDraftSlot={setDraftSlot}
         onClose={() => setSettingsOpen(false)}
       />
     </main>
