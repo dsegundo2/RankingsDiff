@@ -137,12 +137,16 @@ test('draft pick pill tracks draft, undraft, filtering, and sort changes', async
 test('draft spot defaults to 2 and persists through settings and reload', async ({ page }) => {
   await page.goto('./')
   await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
+  await expect(page.locator('.view-summary')).toContainText('2/12')
   await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByRole('spinbutton', { name: 'My draft spot' }).fill('5')
+  await page.getByRole('spinbutton', { name: 'Draft size' }).fill('10')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('[data-draft-divider][data-draft-marker-overall="5"]')).toHaveCount(1)
+  await expect(page.locator('.view-summary')).toContainText('5/10')
   await page.reload()
   await expect(page.locator('[data-draft-divider][data-draft-marker-overall="5"]')).toHaveCount(1)
+  await expect(page.locator('.view-summary')).toContainText('5/10')
 })
 
 test('header mockup lab offers five compact directions', async ({ page }) => {
