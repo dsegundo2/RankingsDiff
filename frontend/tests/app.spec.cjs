@@ -470,6 +470,24 @@ test('recent pick roster and undraft actions stay hidden until hover', async ({ 
   await expect(page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first()).toBeVisible()
 })
 
+test('recent picks stay complete and idempotent through undraft and re-draft', async ({ page }) => {
+  await page.goto('./')
+  const names = ['Jahmyr Gibbs', 'Bijan Robinson', 'Puka Nacua']
+  for (const name of names) await page.getByRole('button', { name: `Mark drafted ${name}` }).first().click()
+  const recent = page.getByLabel('Recent draft picks')
+  await expect(recent.locator('li')).toHaveCount(3)
+  const card = recent.locator('li').first()
+  await card.hover()
+  const actions = card.locator('.recent-draft__actions')
+  await expect(actions.locator('button')).toHaveCount(2)
+  const boxes = await actions.locator('button').evaluateAll((buttons) => buttons.map((button) => { const rect = button.getBoundingClientRect(); return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom } }))
+  expect(boxes[0].right).toBeLessThanOrEqual(boxes[1].left)
+  await actions.getByRole('button', { name: `Undraft ${names[2]}` }).click()
+  await expect(recent.locator('li')).toHaveCount(2)
+  await page.getByRole('button', { name: `Mark drafted ${names[2]}` }).first().click()
+  await expect(page.getByLabel('Recent draft picks').locator('li')).toHaveCount(3)
+})
+
 test('roster players can be dragged between slots', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()

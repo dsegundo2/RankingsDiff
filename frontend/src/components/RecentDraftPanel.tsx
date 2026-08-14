@@ -21,8 +21,11 @@ export function RecentDraftPanel({ rows, drafted, picks, mine, teams, mode, onMi
           const id = rankingId(row)
           const isMine = mine.has(id)
           return <li key={id} className={isMine ? 'is-mine' : ''} draggable onDragStart={(event) => { event.dataTransfer.setData('text/plain', id); event.dataTransfer.effectAllowed = 'move'; setDraggingId(id) }} onDragEnd={() => setDraggingId(null)} onDragOver={(event) => event.preventDefault()} onDrop={(event: DragEvent<HTMLLIElement>) => { event.preventDefault(); const sourceId = event.dataTransfer.getData('text/plain') || draggingId; if (sourceId && sourceId !== id) onReorder(sourceId, id); setDraggingId(null) }}>
-            <button className="recent-draft__hide" type="button" aria-label={`Undraft ${row.player}`} onClick={() => onUndraft(id)}>×</button>
-            <div className="recent-draft__player"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><span className="recent-draft__identity"><strong>{row.player}</strong><button className={`recent-draft__mine ${isMine ? 'active' : ''}`} type="button" aria-label={`${isMine ? 'Remove' : 'Add'} ${row.player} ${isMine ? 'from' : 'to'} my roster`} aria-pressed={isMine} onClick={() => onMine(id)}>{isMine ? '✓' : '+'}</button><small>{row.team} · {row.position}{mode === 'snake' ? <> · <input className="recent-draft__pick-input" aria-label={`Overall pick for ${row.player}`} type="number" min="1" step="1" value={picks[id] ?? ''} onChange={(event) => onPick(id, event.target.value === '' ? undefined : Number(event.target.value))} /></> : null}</small></span></div>
+            <div className="recent-draft__player"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><span className="recent-draft__identity"><strong>{row.player}</strong><small>{row.team} · {row.position}{mode === 'snake' ? <> · <input className="recent-draft__pick-input" aria-label={`Overall pick for ${row.player}`} type="number" min="1" step="1" value={picks[id] ?? ''} onChange={(event) => onPick(id, event.target.value === '' ? undefined : Number(event.target.value))} /></> : null}</small></span></div>
+            <div className="recent-draft__actions" aria-label={`Actions for ${row.player}`}>
+              <button className={`recent-draft__mine ${isMine ? 'active' : ''}`} type="button" aria-label={`${isMine ? 'Remove' : 'Add'} ${row.player} ${isMine ? 'from' : 'to'} my roster`} aria-pressed={isMine} onClick={() => onMine(id)}>{isMine ? '✓' : '+'}</button>
+              <button className="recent-draft__hide" type="button" aria-label={`Undraft ${row.player}`} onClick={() => onUndraft(id)}>×</button>
+            </div>
           </li>
         })}
       </ol> : null}
