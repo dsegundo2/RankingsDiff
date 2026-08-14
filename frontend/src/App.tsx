@@ -6,6 +6,7 @@ import { readDraftShare } from './data/draftState'
 import { applyAdjustedProfile } from './data/rankings'
 import { ThemeMockups } from './components/ThemeMockups'
 import { ColumnMockups } from './components/ColumnMockups'
+import { DraftCutoffMockups } from './components/DraftCutoffMockups'
 
 const emptyManifest: DataManifest = { generatedAt: '', seasons: [] }
 
@@ -179,6 +180,7 @@ function AppData() {
 }
 
 export default function App() {
+  if (window.location.pathname.endsWith('/draft-cutoff-mockups')) return <DraftCutoffMockups />
   if (window.location.pathname.endsWith('/column-mockups')) return <ColumnMockups />
   if (window.location.pathname.endsWith('/mockups')) return <ThemeMockups />
   return <AppData />
