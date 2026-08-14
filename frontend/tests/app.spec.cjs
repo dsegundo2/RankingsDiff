@@ -95,6 +95,52 @@ test('trend is off by default and can be shown and sorted', async ({ page }) => 
   await expect(page.getByRole('button', { name: 'Sort by trend' })).toHaveAttribute('aria-label', 'Sort by trend')
 })
 
+test('draft pick pill tracks draft, undraft, filtering, and sort changes', async ({ page }) => {
+  await page.goto('./')
+  const futureDivider = page.locator('[data-draft-divider][data-draft-marker-overall="2"]')
+  await expect(futureDivider).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider]')).toHaveCount(17)
+
+  await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
+  const currentDivider = page.locator('[data-draft-divider][data-draft-marker-current="true"]')
+  await expect(currentDivider).toHaveAttribute('data-draft-marker-overall', '2')
+  await expect(currentDivider).toContainText('Your pick')
+  await expect(page.locator('[data-draft-divider]')).toHaveCount(17)
+  await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
+  await page.getByRole('button', { name: 'Mark drafted Bijan Robinson' }).first().click()
+  await page.getByRole('button', { name: 'Mark drafted Puka Nacua' }).first().click()
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="23"]')).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider]')).toHaveCount(16)
+
+  await page.getByRole('button', { name: 'WR', exact: true }).first().click()
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="23"]')).toHaveCount(1)
+
+  await page.getByRole('button', { name: 'Undo drafted Puka Nacua' }).first().click()
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="23"]')).toHaveCount(1)
+
+  await page.getByLabel('Sort by', { exact: true }).selectOption('diff')
+  await expect(page.locator('[data-draft-divider]')).toHaveCount(0)
+  await page.getByLabel('Sort by', { exact: true }).selectOption('sourceRank')
+  expect(await page.locator('[data-draft-divider]').count()).toBeGreaterThan(0)
+
+  await page.getByRole('button', { name: 'ALL', exact: true }).first().click()
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await page.getByRole('checkbox', { name: 'Show drafted' }).uncheck()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="23"]')).toHaveCount(1)
+})
+
+test('draft spot defaults to 2 and persists through settings and reload', async ({ page }) => {
+  await page.goto('./')
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await page.getByRole('spinbutton', { name: 'My draft spot' }).fill('5')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="5"]')).toHaveCount(1)
+  await page.reload()
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="5"]')).toHaveCount(1)
+})
+
 test('header mockup lab offers five compact directions', async ({ page }) => {
   await page.goto('./mockups')
   await expect(page.getByRole('heading', { name: 'Choose a calmer, more connected header.' })).toBeVisible()
@@ -112,7 +158,7 @@ test('season and source switching works with manifest data', async ({ page }) =>
   await page.locator('.settings-popover').getByLabel('Year').selectOption('2025')
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('espn')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.locator('.price-heading').getByText('Value', { exact: true })).toBeVisible()
+  await expect(page.locator('.price-heading')).toHaveCount(0)
 })
 
 test('Yahoo half-PPR source loads the confirmed public top 30', async ({ page }) => {
@@ -122,8 +168,8 @@ test('Yahoo half-PPR source loads the confirmed public top 30', async ({ page })
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('yahoo-half')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('.player-cell').first()).toContainText('Jahmyr Gibbs')
-  await expect(page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first().locator('.rank-pair')).toContainText('2')
-  await expect(page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first().locator('.rank-pair')).toContainText('4')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Bijan Robinson' }).first().locator('.rank-pair')).toContainText('2')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Bijan Robinson' }).first().locator('.rank-pair')).toContainText('4')
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
   await expect(page.getByLabel('Match health')).toContainText('272/273 full PPR matched')
@@ -139,7 +185,7 @@ test('Yahoo full-PPR source exposes both adjusted profiles and populated adjuste
   await expect(page.getByLabel('Adjusted rankings')).toHaveValue('full-ppr')
   await expect(page.getByLabel('Adjusted rankings').locator('option')).toHaveText(['Full PPR · Winks', 'Half PPR · Winks'])
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.locator('tbody tr').filter({ hasText: "Ja'Marr Chase" }).first().locator('.rank-pair')).toContainText('3')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: "Ja'Marr Chase" }).first().locator('.rank-pair')).toContainText('3')
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
   await expect(page.getByLabel('Match health')).toContainText('359/365 full PPR matched')
@@ -150,11 +196,11 @@ test('Yahoo profile switching recalculates the displayed delta', async ({ page }
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
   await page.locator('.settings-popover').getByLabel('Sheet').selectOption('yahoo-half')
-  await expect(page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first().locator('.diff-cell')).toHaveText('-2')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Bijan Robinson' }).first().locator('.diff-cell')).toHaveText('-2')
   await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first().locator('.rank-pair')).toContainText('2')
-  await expect(page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first().locator('.diff-cell')).toHaveText('0')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Bijan Robinson' }).first().locator('.rank-pair')).toContainText('2')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Bijan Robinson' }).first().locator('.diff-cell')).toHaveText('0')
 })
 
 test('ESPN defaults to snake and exposes an auction format switch', async ({ page }) => {
@@ -166,10 +212,18 @@ test('ESPN defaults to snake and exposes an auction format switch', async ({ pag
   await openCurrentSheet(page)
   const format = page.getByRole('group', { name: 'Draft format' })
   await expect(format.getByRole('button', { name: 'Snake', exact: true })).toHaveAttribute('aria-pressed', 'true')
-  await format.getByRole('button', { name: 'Auction', exact: true }).click()
-  await expect(format.getByRole('button', { name: 'Auction', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('.price-heading')).toHaveCount(0)
+  await expect(page.locator('.diff-cell').first()).not.toContainText('$')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  const reopenedFormat = page.getByRole('group', { name: 'Draft format' })
+  await reopenedFormat.getByRole('button', { name: 'Auction', exact: true }).click()
+  await expect(reopenedFormat.getByRole('button', { name: 'Auction', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('.view-summary')).toContainText('Auction')
+  await expect(page.locator('.price-heading')).toBeVisible()
+  await expect(page.locator('.diff-cell').first()).toContainText('$')
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
   await page.getByRole('group', { name: 'Draft format' }).getByRole('button', { name: 'Snake', exact: true }).click()
@@ -275,10 +329,10 @@ test('position filters include kickers and flex without defensive rows', async (
   await page.goto('./')
   const filter = page.getByRole('button', { name: 'K', exact: true }).first()
   await filter.click()
-  await expect(page.locator('.rankings-table tbody tr').first().locator('.position-cell')).toContainText('K')
+  await expect(page.locator('.rankings-table tbody tr[data-ranking-id]').first().locator('.position-cell')).toContainText('K')
   const flexFilter = page.getByRole('button', { name: 'FX', exact: true }).first()
   await flexFilter.click()
-  const positions = await page.locator('.rankings-table tbody tr .position-cell').evaluateAll((cells) => cells.map((cell) => cell.textContent?.trim().slice(0, 2)))
+  const positions = await page.locator('.rankings-table tbody tr[data-ranking-id] .position-cell').evaluateAll((cells) => cells.map((cell) => cell.textContent?.trim().slice(0, 2)))
   expect(positions.length).toBeGreaterThan(0)
   expect(positions.every((position) => ['RB', 'WR', 'TE'].includes(position || ''))).toBe(true)
   await expect(page.locator('.position-pills button[aria-label="DEF"]')).toHaveCount(0)
@@ -327,7 +381,7 @@ test('D toggles drafted players and Display is the default settings pane', async
 test('recent picks stay horizontal, show the latest names, and omit draft labels and source rank', async ({ page }) => {
   await page.goto('./')
   for (let index = 0; index < 6; index += 1) {
-    await page.locator('.rankings-table tbody tr').nth(index).locator('.draft-action').click()
+    await page.locator('.rankings-table tbody tr[data-ranking-id]').nth(index).locator('.draft-action').click()
   }
   const list = page.locator('.recent-draft__list')
   await expect(list).toBeVisible()
@@ -434,6 +488,12 @@ test('mobile 320px has no horizontal overflow in board, settings, and source che
 })
 
 test('table headers stay compact across browser widths', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.locator('.settings-popover').getByLabel('Sheet').selectOption('espn')
+  await page.getByRole('group', { name: 'Draft format' }).getByRole('button', { name: 'Auction', exact: true }).click()
+  await page.getByRole('button', { name: 'Close settings' }).click()
   for (const width of [768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('./')
@@ -558,7 +618,7 @@ test('auction target status uses subtle under and over treatments', async ({ pag
   await page.getByRole('group', { name: 'Draft format' }).getByRole('button', { name: 'Auction', exact: true }).click()
   await page.getByRole('button', { name: 'Close settings' }).click()
 
-  const row = page.locator('.rankings-table--espn tbody tr').first()
+  const row = page.locator('.rankings-table--espn tbody tr[data-ranking-id]').first()
   const player = await row.locator('.player-cell strong').textContent()
   if (!player) throw new Error('Expected a player name')
   await row.getByRole('button', { name: `Mark drafted ${player}` }).click()
@@ -589,7 +649,7 @@ test('targets and drafted state persist per sheet', async ({ page }) => {
 
 test('click selection supports arrows and enter drafting in board and position views', async ({ page }) => {
   await page.goto('./')
-  const firstBoardRow = page.locator('.rankings-table tbody tr').first()
+  const firstBoardRow = page.locator('.rankings-table tbody tr[data-ranking-id]').first()
   await firstBoardRow.click()
   await expect(firstBoardRow).toHaveClass(/is-selected/)
   await page.keyboard.press('f')
@@ -602,12 +662,12 @@ test('click selection supports arrows and enter drafting in board and position v
   await firstBoardRow.click()
   await page.keyboard.press('Enter')
   await expect(page.getByRole('button', { name: 'Undo drafted Jahmyr Gibbs' }).first()).toBeVisible()
-  const secondBoardRow = page.locator('.rankings-table tbody tr').nth(1)
+  const secondBoardRow = page.locator('.rankings-table tbody tr[data-ranking-id]').nth(1)
   await expect(secondBoardRow).toHaveClass(/is-selected/)
   await page.keyboard.press('Enter')
   await expect(page.getByRole('button', { name: 'Undo drafted Bijan Robinson' }).first()).toBeVisible()
 
-  const thirdBoardRow = page.locator('.rankings-table tbody tr').nth(2)
+  const thirdBoardRow = page.locator('.rankings-table tbody tr[data-ranking-id]').nth(2)
   await expect(thirdBoardRow).toHaveClass(/is-selected/)
 
   await setPositionView(page)
@@ -632,6 +692,11 @@ test('click selection supports arrows and enter drafting in board and position v
 test('position overview shows all lanes without collisions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.locator('.settings-popover').getByLabel('Sheet').selectOption('espn')
+  await page.getByRole('group', { name: 'Draft format' }).getByRole('button', { name: 'Auction', exact: true }).click()
+  await page.getByRole('button', { name: 'Close settings' }).click()
   await setPositionView(page)
   for (const heading of ['Running backs', 'Wide receivers', 'Quarterbacks', 'Tight ends']) {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible()
@@ -714,7 +779,7 @@ test('table headings stick while draft rows scroll', async ({ page }) => {
   await expect(page.locator('.dashboard-workbench')).toHaveCSS('position', 'sticky')
   await expect(page.locator('.rankings-table').first()).toHaveClass(/sticky-headers/)
   await expect(page.locator('.rankings-table th').first()).toHaveCSS('position', 'sticky')
-  await page.locator('.rankings-table tbody tr').nth(30).scrollIntoViewIfNeeded()
+  await page.locator('.rankings-table tbody tr[data-ranking-id]').nth(30).scrollIntoViewIfNeeded()
   expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
   const top = await page.locator('.rankings-table th').first().evaluate((heading) => heading.getBoundingClientRect().top)
   const workbenchBottom = await page.locator('.dashboard-workbench').evaluate((workbench) => workbench.getBoundingClientRect().bottom)
@@ -731,7 +796,7 @@ test('sticky workbench keeps search, recent picks, headers, and roster visible',
   await expect(page.locator('.dashboard-workbench')).toHaveCSS('position', 'sticky')
   await expect(page.locator('.dashboard-workbench [data-player-search]')).toBeVisible()
   await expect(page.getByLabel('My draft roster')).toBeVisible()
-  await page.locator('.rankings-table tbody tr').nth(30).scrollIntoViewIfNeeded()
+  await page.locator('.rankings-table tbody tr[data-ranking-id]').nth(30).scrollIntoViewIfNeeded()
   await expect(page.locator('.dashboard-workbench')).toBeVisible()
   await expect(page.locator('.rankings-table th').first()).toBeVisible()
   await expect(page.getByLabel('My draft roster')).toBeVisible()
@@ -838,7 +903,7 @@ test('workbench stays cohesive across five browser sizes', async ({ page }) => {
 test('adjusted rankings switch between full PPR Winks and half PPR Winks', async ({ page }) => {
   await page.goto('./')
   await page.getByPlaceholder('Search by player or team').fill('Amon-Ra')
-  const fullPprRank = await page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1).textContent()
+  const fullPprRank = await page.locator('table tbody tr[data-ranking-id]').first().locator('.rank-pair strong').nth(1).textContent()
   expect(fullPprRank).toBeTruthy()
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
@@ -846,7 +911,7 @@ test('adjusted rankings switch between full PPR Winks and half PPR Winks', async
   await expect(page.getByText(/Source updated/)).toBeVisible()
   await page.getByLabel('Adjusted rankings').selectOption('half-ppr')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.locator('table tbody tr').first().locator('.rank-pair strong').nth(1)).not.toHaveText(fullPprRank ?? '')
+  await expect(page.locator('table tbody tr[data-ranking-id]').first().locator('.rank-pair strong').nth(1)).not.toHaveText(fullPprRank ?? '')
 })
 
 test('settings shows only the active source pages', async ({ page }) => {
@@ -877,7 +942,7 @@ test('snake roster assigns the first available draft round', async ({ page }) =>
   await page.getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
 
-  const rows = page.locator('.rankings-table--fpros tbody tr')
+  const rows = page.locator('.rankings-table--fpros tbody tr[data-ranking-id]')
   const roster = page.getByLabel('My draft roster')
   for (let index = 0; index < 4; index += 1) {
     const player = await rows.nth(index).locator('.player-cell strong').textContent()
@@ -894,7 +959,7 @@ test('snake recent picks show editable overall picks and support reordering', as
   await openCurrentSheet(page)
   await page.getByLabel('Sheet').selectOption('fpros')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  const rows = page.locator('.rankings-table--fpros tbody tr')
+  const rows = page.locator('.rankings-table--fpros tbody tr[data-ranking-id]')
   for (let index = 0; index < 3; index += 1) await rows.nth(index).locator('.draft-action').click()
   const list = page.getByLabel('Recent draft picks').locator('.recent-draft__list')
   const latest = list.locator('li').first()
@@ -948,7 +1013,7 @@ test('Yahoo projections render the selected scoring format and are searchable', 
   await page.getByRole('button', { name: /^Display/ }).click()
   await page.getByRole('checkbox', { name: 'Show Yahoo projections' }).check()
   await page.getByRole('button', { name: 'Close settings' }).click()
-  const row = page.locator('tbody tr').filter({ hasText: 'Bijan Robinson' }).first()
+  const row = page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Bijan Robinson' }).first()
   await expect(row.locator('.yahoo-projection-cell')).toContainText('20.50')
   await expect(row.locator('.yahoo-projection-cell')).toContainText('14.2 avg')
   await page.getByRole('button', { name: /Settings/ }).click()
@@ -958,5 +1023,5 @@ test('Yahoo projections render the selected scoring format and are searchable', 
   await expect(row.locator('.yahoo-projection-cell')).toContainText('18.50')
   await expect(row.locator('.yahoo-projection-cell')).toContainText('12.1 avg')
   await page.getByPlaceholder('Search by player or team').fill('Bijan')
-  await expect(page.locator('tbody tr')).toHaveCount(1)
+  await expect(page.locator('tbody tr[data-ranking-id]')).toHaveCount(1)
 })
