@@ -12,6 +12,7 @@ type Props = {
   sortKey: SortKey
   sortDirection: SortDirection
   draftSlot: number
+  draftSize: number
   onSort: (key: SortKey) => void
   targets: Set<string>
   drafted: Set<string>
@@ -29,23 +30,22 @@ type Props = {
   yahooProjectionFor: (row: RankingRow) => YahooProjection | undefined
 }
 
-const DRAFT_TEAM_COUNT = 12
 const DRAFT_ROUNDS = 17
 
 type DraftMarker = { overallPick: number; round: number; pickInRound: number; isCurrent: boolean; isMine: boolean }
 
-function snakePickForSlot(round: number, slot: number): number {
-  const pickInRound = round % 2 === 1 ? slot : DRAFT_TEAM_COUNT - slot + 1
-  return ((round - 1) * DRAFT_TEAM_COUNT) + pickInRound
+function snakePickForSlot(round: number, slot: number, draftSize: number): number {
+  const pickInRound = round % 2 === 1 ? slot : draftSize - slot + 1
+  return ((round - 1) * draftSize) + pickInRound
 }
 
 function DraftDividerRow({ markers, columnCount }: { markers: DraftMarker[]; columnCount: number }) {
   return <tr className="draft-divider-row" data-draft-divider="true" data-draft-marker-overall={markers.map((marker) => marker.overallPick).join(',')} data-draft-marker-current={markers.some((marker) => marker.isCurrent) ? 'true' : undefined} aria-label={markers.map((marker) => marker.isCurrent && marker.isMine ? 'Your pick' : `Round ${marker.round}, pick ${marker.pickInRound}`).join(' · ')}><td colSpan={columnCount}><div className="draft-divider">{markers.map((marker) => <span className={`${marker.isCurrent ? 'is-current ' : ''}${marker.isMine ? 'is-mine' : 'is-future'}`} key={marker.overallPick}>{marker.isCurrent && marker.isMine ? 'Your pick' : `R${marker.round} · Pick ${marker.pickInRound}`}</span>)}</div></td></tr>
 }
 
-function pickDetails(overallPick: number): { round: number; pickInRound: number } {
-  const round = Math.floor((overallPick - 1) / DRAFT_TEAM_COUNT) + 1
-  return { round, pickInRound: ((overallPick - 1) % DRAFT_TEAM_COUNT) + 1 }
+function pickDetails(overallPick: number, draftSize: number): { round: number; pickInRound: number } {
+  const round = Math.floor((overallPick - 1) / draftSize) + 1
+  return { round, pickInRound: ((overallPick - 1) % draftSize) + 1 }
 }
 
 function diffSignalStyle(diff: number | undefined, isValueDiff: boolean): CSSProperties {
@@ -63,16 +63,16 @@ function SortButton({ label, sortKey, activeKey, direction, onSort, ariaLabel }:
   return <button className="sort-button" aria-label={ariaLabel ?? `Sort by ${label}`} title={ariaLabel ?? `Sort by ${label}`} onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span aria-hidden="true"> {direction === 'asc' ? '↑' : '↓'}</span> : null}</button>
 }
 
-export function RankingsTable({ rows, teams, source, sortKey, sortDirection, draftSlot, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false, showYahooProjections, showRegressionDiff, showAuctionValues, yahooProjectionMode, yahooProjectionFor }: Props) {
+export function RankingsTable({ rows, teams, source, sortKey, sortDirection, draftSlot, draftSize, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false, showYahooProjections, showRegressionDiff, showAuctionValues, yahooProjectionMode, yahooProjectionFor }: Props) {
   const isEspn = source === 'espn'
   const showValueColumn = isEspn && showAuctionValues
   const dividerColumnCount = 6 + (showValueColumn ? 1 : 0) + (showYahooProjections ? 1 : 0) + (showRegressionDiff ? 1 : 0)
   const showDraftDivider = sortKey === 'sourceRank' && sortDirection === 'asc'
   const nextDraftPick = drafted.size + 1
-  const myDraftPicks = new Set(Array.from({ length: DRAFT_ROUNDS }, (_, index) => snakePickForSlot(index + 1, draftSlot)))
-  const markerPicks = [...myDraftPicks].filter((overallPick) => overallPick >= nextDraftPick && overallPick <= DRAFT_ROUNDS * DRAFT_TEAM_COUNT)
+  const myDraftPicks = new Set(Array.from({ length: DRAFT_ROUNDS }, (_, index) => snakePickForSlot(index + 1, draftSlot, draftSize)))
+  const markerPicks = [...myDraftPicks].filter((overallPick) => overallPick >= nextDraftPick && overallPick <= DRAFT_ROUNDS * draftSize)
   const draftMarkers = markerPicks.map((overallPick): DraftMarker => {
-    const details = pickDetails(overallPick)
+    const details = pickDetails(overallPick, draftSize)
     return { overallPick, ...details, isCurrent: overallPick === nextDraftPick, isMine: myDraftPicks.has(overallPick) }
   }).sort((left, right) => left.overallPick - right.overallPick)
   const markerGroups = new Map<number, DraftMarker[]>()

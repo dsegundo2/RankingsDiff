@@ -371,6 +371,8 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .settings-preference-card small { margin-top: 3px; color: var(--muted); font-size: .72rem; }
 .draft-slot-input { display: inline-flex; min-width: 76px; align-items: center; gap: 4px; justify-content: flex-end; color: var(--muted); font-size: .76rem; font-weight: 800; }
 .draft-slot-input input { width: 42px; min-height: 34px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--panel-soft); font: inherit; text-align: center; }
+.settings-popover input[type='number'] { appearance: textfield; }
+.settings-popover input[type='number']::-webkit-inner-spin-button, .settings-popover input[type='number']::-webkit-outer-spin-button { margin: 0; appearance: none; }
 .draft-slot-input input:focus { outline: 3px solid rgba(79, 93, 228, .2); outline-offset: 2px; border-color: var(--accent); }
 .roster-target-settings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
 .roster-target-setting { display: flex; min-width: 0; justify-content: space-between; gap: var(--space-2); align-items: center; padding: 9px 10px; border: 1px solid var(--line); border-radius: var(--radius-md); color: var(--muted); background: rgba(255,255,255,.82); font-size: .75rem; font-weight: 800; }
