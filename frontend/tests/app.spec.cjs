@@ -159,6 +159,15 @@ test('header mockup lab offers five compact directions', async ({ page }) => {
   await expect(page.locator('body')).toHaveCSS('overflow-x', 'visible')
 })
 
+test('drafted row mockup lab compares four quieting treatments', async ({ page }) => {
+  await page.goto('./drafted-row-mockups')
+  await expect(page.getByRole('heading', { name: /Make drafted players quieter/ })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Drafted row options' }).getByRole('button')).toHaveCount(4)
+  await page.getByRole('button', { name: /Opaque slate/ }).click()
+  await expect(page.locator('.drafted-mock-table--opaque')).toBeVisible()
+  await expect(page.locator('.drafted-mock-table__row.is-drafted')).toHaveCount(3)
+})
+
 test('season and source switching works with manifest data', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
