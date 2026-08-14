@@ -1472,6 +1472,12 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .drafted-mock-table--grayscale .drafted-mock-table__row.is-drafted { filter: grayscale(.9); opacity: .72; background: var(--dr-panel); }.drafted-mock-table--grayscale .drafted-mock-table__row.is-drafted button { filter: grayscale(0); opacity: 1; color: var(--dr-ink); background: var(--dr-panel); }
 .drafted-mock-table--rail .drafted-mock-table__row.is-drafted { position: relative; background: var(--dr-soft); }.drafted-mock-table--rail .drafted-mock-table__row.is-drafted::before { position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--dr-line); content: ''; }.drafted-mock-table--rail .drafted-mock-table__row.is-drafted .drafted-mock__player { padding-left: 5px; }
 .drafted-mock-table--veil .drafted-mock-table__row.is-drafted { position: relative; background: var(--dr-panel); }.drafted-mock-table--veil .drafted-mock-table__row.is-drafted::after { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: rgb(105 115 134 / 10%); content: ''; }.drafted-mock-table--veil .drafted-mock-table__row.is-drafted button { position: relative; z-index: 2; }
+.recent-draft__list li { position: relative; }
+.recent-draft__mine, .recent-draft__hide { opacity: 0; }
+.recent-draft__hide { position: absolute; top: 4px; right: 4px; z-index: 2; display: inline-grid; width: 22px; height: 22px; place-items: center; padding: 0; border: 1px solid transparent; border-radius: var(--radius-pill); color: var(--muted); background: transparent; font-size: 1rem; font-weight: 800; line-height: 1; opacity: 0; pointer-events: none; }
+.recent-draft__list li:hover .recent-draft__mine, .recent-draft__list li:hover .recent-draft__hide, .recent-draft__mine:focus-visible, .recent-draft__hide:focus-visible { opacity: 1; pointer-events: auto; }
+.recent-draft__hide:hover, .recent-draft__hide:focus-visible { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
+.recent-draft__mine { position: relative; z-index: 3; margin-right: 24px; }
 
 /* Draft divider study: the line is a review surface for the main table, not a
    second draft-workflow layout. */
