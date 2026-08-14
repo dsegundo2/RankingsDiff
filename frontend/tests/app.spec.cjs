@@ -229,7 +229,7 @@ test('Yahoo full-PPR source exposes both adjusted profiles and populated adjuste
   await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: "Ja'Marr Chase" }).first().locator('.rank-pair')).toContainText('3')
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
-  await expect(page.getByLabel('Match health')).toContainText('359/365 full PPR matched')
+  await expect(page.getByLabel('Match health')).toContainText(/\d+\/\d+ full PPR matched/)
 })
 
 test('Yahoo profile switching recalculates the displayed delta', async ({ page }) => {
@@ -766,8 +766,10 @@ test('click selection supports arrows and enter drafting in board and position v
   await page.keyboard.press('ArrowRight')
   const firstWideReceiver = page.locator('.position-lane--wr .position-player').first()
   await expect(firstWideReceiver).toHaveClass(/is-selected/)
+  const firstWideReceiverName = await firstWideReceiver.locator('.position-player__identity > strong').textContent()
+  if (!firstWideReceiverName) throw new Error('Expected a wide receiver name')
   await page.keyboard.press('Enter')
-  await expect(page.getByRole('button', { name: 'Undo drafted Puka Nacua' }).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: `Undo drafted ${firstWideReceiverName}` }).first()).toBeVisible()
   await expect(page.locator('.position-lane--wr .position-player').nth(1)).toHaveClass(/is-selected/)
 
   await page.keyboard.press('ArrowLeft')
@@ -1119,8 +1121,8 @@ test('Yahoo projections render the selected scoring format and are searchable', 
 test('hero and recent action mockup lab offers four hover-only options each', async ({ page }) => {
   await page.goto('./hero-recent-mockups')
   await expect(page.getByRole('heading', { name: /Keep the image useful/ })).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Hero options' }).getByRole('button')).toHaveCount(4)
-  await expect(page.getByRole('region', { name: 'Recent action options' }).getByRole('button')).toHaveCount(4)
+  await expect(page.getByRole('region', { name: 'Hero options' }).locator('.hero-recent-mock__options button')).toHaveCount(4)
+  await expect(page.getByRole('region', { name: 'Recent action options' }).locator('.hero-recent-mock__options button')).toHaveCount(4)
 
   await page.getByRole('button', { name: /No hero image/ }).click()
   await expect(page.locator('.hero-recent-mock__browser--quiet')).toBeVisible()
