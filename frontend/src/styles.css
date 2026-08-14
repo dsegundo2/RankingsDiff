@@ -422,11 +422,11 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .diff-cell.diff-positive .diff-value { color: var(--good); }
 .diff-cell.diff-negative .diff-value { color: var(--danger); }
 .diff-cell.diff-neutral .diff-value { color: var(--muted); }
-.rankings-table tbody tr.draft-divider-row { filter: none; }
-.rankings-table .draft-divider-row td { height: 1px; padding: 0; border-bottom: 0; background: var(--panel); pointer-events: none; }
-.draft-divider { display: flex; min-height: 1px; gap: var(--space-2); align-items: center; border-top: 1px solid color-mix(in srgb, var(--accent) 46%, var(--line)); color: var(--accent); font-size: .62rem; font-weight: 850; letter-spacing: .045em; text-transform: uppercase; }
-.draft-divider span { margin-top: -1px; padding: 3px 9px; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); border-radius: var(--radius-pill); background: var(--panel-soft); line-height: 1; white-space: nowrap; }
-.draft-divider span.is-current { color: #fff; border-color: var(--accent); background: var(--accent); }
+.rankings-table tbody tr.draft-divider-row { height: 0; filter: none; }
+.rankings-table .draft-divider-row td { position: relative; height: 0; padding: 0; border: 0; background: transparent; line-height: 0; pointer-events: none; overflow: visible; }
+.draft-divider { position: relative; z-index: 1; display: flex; height: 0; min-height: 0; gap: var(--space-2); align-items: flex-start; border-top: 1px solid color-mix(in srgb, var(--accent) 46%, var(--line)); color: var(--accent); font-size: .62rem; font-weight: 850; letter-spacing: .045em; text-transform: uppercase; }
+.draft-divider span { position: relative; top: -11px; padding: 3px 9px; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); border-radius: var(--radius-pill); background: var(--panel-soft); line-height: 1; white-space: nowrap; }
+.draft-divider span.is-current { color: var(--panel); border-color: var(--accent); background: var(--accent); }
 .draft-divider span.is-mine:not(.is-current) { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 38%, var(--line)); background: var(--accent-soft); }
 .draft-divider span.is-future { color: var(--muted); border-color: var(--line); background: var(--panel); }
 
