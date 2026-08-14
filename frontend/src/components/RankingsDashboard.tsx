@@ -686,7 +686,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       </section>
 
       <div ref={workbenchRef} className={`dashboard-workbench${stickyWorkbench ? ' dashboard-workbench--sticky' : ''}`}>
-      {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} picks={draftPicks} mine={mine} teams={teams} mode={draftMode} onMine={toggleMine} onPick={updateDraftPick} onReorder={reorderDraftPicks} /> : null}
+      {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} picks={draftPicks} mine={mine} teams={teams} mode={draftMode} onMine={toggleMine} onUndraft={toggleDrafted} onPick={updateDraftPick} onReorder={reorderDraftPicks} /> : null}
 
       <section className="search-panel" aria-label="Player search and filters">
         <Filters

@@ -454,12 +454,12 @@ test('snake drafts auto-assign the pick made from my draft spot', async ({ page 
   await expect(page.getByLabel('My draft roster')).toContainText('Bijan Robinson')
 })
 
-test('recent pick roster and hide actions stay hidden until hover', async ({ page }) => {
+test('recent pick roster and undraft actions stay hidden until hover', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
   const card = page.getByLabel('Recent draft picks').locator('li').first()
   const add = card.getByRole('button', { name: 'Add Jahmyr Gibbs to my roster' })
-  const hide = card.getByRole('button', { name: 'Hide recent pick Jahmyr Gibbs' })
+  const hide = card.getByRole('button', { name: 'Undraft Jahmyr Gibbs' })
   await expect(add).toHaveCSS('opacity', '0')
   await expect(hide).toHaveCSS('opacity', '0')
   await card.hover()
@@ -467,6 +467,7 @@ test('recent pick roster and hide actions stay hidden until hover', async ({ pag
   await expect(hide).toHaveCSS('opacity', '1')
   await hide.click()
   await expect(page.getByLabel('Recent draft picks')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first()).toBeVisible()
 })
 
 test('roster players can be dragged between slots', async ({ page }) => {
