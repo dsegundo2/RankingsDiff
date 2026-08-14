@@ -1,6 +1,10 @@
 import type { RankingRow } from '../types'
 
-export type DraftState = { targets: string[]; drafted: string[]; picks: Record<string, number> }
+export const DEFAULT_DRAFT_SIZE = 12
+export const DEFAULT_DRAFT_SLOT = 2
+export const MIN_DRAFT_SIZE = 2
+export const MAX_DRAFT_SIZE = 20
+export type DraftState = { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; draftSize: number }
 export type AuctionDraftState = { mine: string[]; prices: Record<string, number>; slots: Record<string, string> }
 export type DraftSnapshotState = DraftState & AuctionDraftState & { targetGoals: Record<string, number> }
 export type SharedDraft = DraftState & { season: number; source: string }
@@ -18,16 +22,30 @@ export function rankingId(row: RankingRow): string {
   return `${row.player.trim().toLowerCase()}|${row.team.trim().toLowerCase()}`
 }
 
+function validDraftSize(value: unknown): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value >= MIN_DRAFT_SIZE && value <= MAX_DRAFT_SIZE
+}
+
+function validDraftSlot(value: unknown, draftSize: number): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 1 && value <= draftSize
+}
+
+function draftSettings(value: Partial<DraftState>): Pick<DraftState, 'draftSlot' | 'draftSize'> {
+  const draftSize = validDraftSize(value.draftSize) ? value.draftSize : DEFAULT_DRAFT_SIZE
+  return { draftSize, draftSlot: validDraftSlot(value.draftSlot, draftSize) ? value.draftSlot : Math.min(DEFAULT_DRAFT_SLOT, draftSize) }
+}
+
 export function readDraftState(key: string): DraftState {
   try {
     const parsed = JSON.parse(localStorage.getItem(key) ?? '{}') as Partial<DraftState>
     return {
       targets: Array.isArray(parsed.targets) ? parsed.targets.filter((value): value is string => typeof value === 'string') : [],
       drafted: Array.isArray(parsed.drafted) ? parsed.drafted.filter((value): value is string => typeof value === 'string') : [],
-      picks: Object.fromEntries(Object.entries(parsed.picks ?? {}).filter(([, value]) => typeof value === 'number' && Number.isInteger(value) && value > 0)) as Record<string, number>
+      picks: Object.fromEntries(Object.entries(parsed.picks ?? {}).filter(([, value]) => typeof value === 'number' && Number.isInteger(value) && value > 0)) as Record<string, number>,
+      ...draftSettings(parsed)
     }
   } catch {
-    return { targets: [], drafted: [], picks: {} }
+    return { targets: [], drafted: [], picks: {}, ...draftSettings({}) }
   }
 }
 
@@ -62,7 +80,7 @@ export function createDraftFile(season: number, source: string, state: DraftSnap
     exportedAt: new Date().toISOString(),
     season,
     source,
-    players: { targets: stringList(state.targets), drafted: stringList(state.drafted), picks: state.picks },
+    players: { targets: stringList(state.targets), drafted: stringList(state.drafted), picks: state.picks, ...draftSettings(state) },
     roster: {
       mine: stringList(state.mine),
       prices: Object.fromEntries(Object.entries(state.prices).filter(([id, value]) => stringList([id]).length > 0 && typeof value === 'number' && Number.isFinite(value) && value >= 0)),
@@ -89,7 +107,8 @@ export function parseDraftFile(contents: string): DraftFile {
     players: {
       targets: stringList(parsed.players.targets),
       drafted: stringList(parsed.players.drafted),
-      picks: Object.fromEntries(Object.entries(parsed.players.picks ?? {}).filter(([id, value]) => stringList([id]).length > 0 && typeof value === 'number' && Number.isInteger(value) && value > 0)) as Record<string, number>
+      picks: Object.fromEntries(Object.entries(parsed.players.picks ?? {}).filter(([id, value]) => stringList([id]).length > 0 && typeof value === 'number' && Number.isInteger(value) && value > 0)) as Record<string, number>,
+      ...draftSettings(parsed.players)
     },
     roster: {
       mine: stringList(roster.mine),
@@ -102,7 +121,7 @@ export function parseDraftFile(contents: string): DraftFile {
 
 /** Encode a draft into a portable URL so a user can move the board between Safari devices. */
 export function createDraftShareUrl(season: number, source: string, state: DraftState): string {
-  const payload: SharedDraft = { season, source, targets: stringList(state.targets), drafted: stringList(state.drafted), picks: state.picks }
+  const payload: SharedDraft = { season, source, targets: stringList(state.targets), drafted: stringList(state.drafted), picks: state.picks, ...draftSettings(state) }
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))))
     .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '')
   const url = new URL(window.location.href)
@@ -117,7 +136,8 @@ export function readDraftShare(value: string | null): SharedDraft | undefined {
     const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=')
     const parsed = JSON.parse(decodeURIComponent(escape(atob(padded)))) as Partial<SharedDraft>
     if (typeof parsed.season !== 'number' || typeof parsed.source !== 'string') return undefined
-    return { season: parsed.season, source: parsed.source, targets: stringList(parsed.targets), drafted: stringList(parsed.drafted), picks: parsed.picks ?? {} }
+    const settings = draftSettings(parsed)
+    return { season: parsed.season, source: parsed.source, targets: stringList(parsed.targets), drafted: stringList(parsed.drafted), picks: parsed.picks ?? {}, ...settings }
   } catch {
     return undefined
   }

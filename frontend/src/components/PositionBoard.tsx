@@ -13,6 +13,7 @@ type Props = {
   drafted: Set<string>
   mine: Set<string>
   isEspn: boolean
+  showAuctionValues: boolean
   showDrafted: boolean
   onTarget: (id: string) => void
   onDrafted: (id: string) => void
@@ -23,8 +24,8 @@ type Props = {
 
 const positions = ['RB', 'WR', 'QB', 'TE', 'K'] as const
 
-function diffStyle(diff: number | undefined, isEspn: boolean): CSSProperties {
-  const neutralRange = isEspn ? 1 : 3
+function diffStyle(diff: number | undefined, isValueDiff: boolean): CSSProperties {
+  const neutralRange = isValueDiff ? 1 : 3
   if (typeof diff !== 'number' || !Number.isFinite(diff) || Math.abs(diff) <= neutralRange) return {}
   const magnitude = Math.min(Math.abs(diff) - neutralRange, 20)
   return {
@@ -39,7 +40,7 @@ function rankDifference(diff?: number): string {
   return `${diff > 0 ? '+' : ''}${diff}`
 }
 
-export function PositionBoard({ rows, positions: selectedPositions, teams, targets, drafted, mine, isEspn, showDrafted, onTarget, onDrafted, onMine, selectedId, onSelect }: Props) {
+export function PositionBoard({ rows, positions: selectedPositions, teams, targets, drafted, mine, isEspn, showAuctionValues, showDrafted, onTarget, onDrafted, onMine, selectedId, onSelect }: Props) {
   const visiblePositions = positions.filter((position) => selectedPositions.has(position))
   if (!visiblePositions.length) return <div className="empty-state position-board-empty">Choose one or more positions to compare side by side.</div>
   return (
@@ -63,7 +64,7 @@ export function PositionBoard({ rows, positions: selectedPositions, teams, targe
                 const asset = getTeamAsset(teams, team)
                 const isDrafted = drafted.has(id)
                 return (
-                  <div className={`position-player ${isDrafted ? 'is-drafted' : ''} ${selectedId === id ? 'is-selected' : ''}`} style={diffStyle(row.diff, isEspn)} key={id} onClick={() => onSelect?.(id)} aria-selected={selectedId === id} data-ranking-id={id}>
+                  <div className={`position-player ${isDrafted ? 'is-drafted' : ''} ${selectedId === id ? 'is-selected' : ''}`} style={diffStyle(row.diff, showAuctionValues)} key={id} onClick={() => onSelect?.(id)} aria-selected={selectedId === id} data-ranking-id={id}>
                     <span className="position-player__rank">{String(index + 1).padStart(2, '0')}</span>
                     <TeamBadge team={team} asset={asset} />
                     <div className="position-player__identity">
@@ -71,9 +72,9 @@ export function PositionBoard({ rows, positions: selectedPositions, teams, targe
                       <span>{team} · {formatRank(row.sourceRank)} → {formatRank(row.adjustedRank)}</span>
                     </div>
                     <div className="position-player__metric">
-                      <strong>{isEspn ? formatValue(row.sourceValue) : `#${formatRank(row.sourceRank)}`}</strong>
+                      <strong>{showAuctionValues ? formatValue(row.sourceValue) : `#${formatRank(row.sourceRank)}`}</strong>
                     </div>
-                    <span className="position-player__difference" title={isEspn ? 'ESPN to Adjusted value difference' : 'FantasyPros to Adjusted rank difference'}>{isEspn ? formatSignedValue(row.diff) : rankDifference(row.diff)}</span>
+                    <span className="position-player__difference" title={showAuctionValues ? 'ESPN to Adjusted value difference' : 'Source to Adjusted rank difference'}>{showAuctionValues ? formatSignedValue(row.diff) : rankDifference(row.diff)}</span>
                     {isDrafted ? <button className={`mine-action ${mine.has(id) ? 'active' : ''}`} type="button" aria-label={`${mine.has(id) ? 'Remove' : 'Add'} ${row.player} ${mine.has(id) ? 'from' : 'to'} my roster`} aria-pressed={mine.has(id)} onClick={(event) => { event.stopPropagation(); onMine(id) }}>{mine.has(id) ? '✓' : '+'}</button> : <button className={`icon-action target-action ${targets.has(id) ? 'active' : ''}`} type="button" aria-label={`${targets.has(id) ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={targets.has(id)} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button>}
                     <button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undo' : 'Draft'}</button>
                   </div>
