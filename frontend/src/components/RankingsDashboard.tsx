@@ -37,6 +37,11 @@ function firstAvailableDraftRound(mine: Set<string>, prices: Record<string, numb
   while (usedRounds.has(round)) round += 1
   return round
 }
+
+function snakePickForSlot(round: number, slot: number, draftSize: number): number {
+  const pickInRound = round % 2 === 1 ? slot : draftSize - slot + 1
+  return ((round - 1) * draftSize) + pickInRound
+}
 type Props = {
   manifest: DataManifest
   rows: RankingRow[]
@@ -195,9 +200,16 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       delete nextPicks[id]
     } else {
       nextPicks[id] = Math.max(0, ...Object.values(nextPicks)) + 1
+      const isMyPick = draftMode === 'snake' && Array.from({ length: 17 }, (_, index) => snakePickForSlot(index + 1, draftSlot, draftSize)).includes(nextPicks[id])
+      if (isMyPick) {
+        nextMine.add(id)
+        const row = rows.find((candidate) => rankingId(candidate) === id)
+        if (row) nextSlots[id] = autoRosterSlot(row, nextDrafted, draftSlots)
+        if (selectedSource !== 'espn') nextPrices[id] = firstAvailableDraftRound(nextMine, nextPrices)
+      }
     }
     applyDraftState(nextTargets, nextDrafted, nextPrices, nextSlots, nextMine, nextPicks)
-  }, [applyDraftState, drafted, draftPicks, draftPrices, draftSlots, mine, targets])
+  }, [applyDraftState, drafted, draftMode, draftPicks, draftPrices, draftSize, draftSlot, draftSlots, mine, rows, selectedSource, targets])
 
   const toggleMine = useCallback((id: string) => {
     if (!drafted.has(id)) return
