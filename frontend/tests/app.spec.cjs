@@ -134,6 +134,16 @@ test('draft pick pill tracks draft, undraft, filtering, and sort changes', async
   await expect(page.locator('[data-draft-divider][data-draft-marker-overall="23"]')).toHaveCount(1)
 })
 
+test('draft divider stays below past picks even when a lower-ranked player was drafted', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
+  const divider = page.locator('[data-draft-divider][data-draft-marker-overall="2"]')
+  await expect(divider).toHaveCount(1)
+  await expect(divider.locator('xpath=preceding-sibling::tr[1]')).toContainText("Ja'Marr Chase")
+  await page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first().click()
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
+})
+
 test('draft spot defaults to 2 and persists through settings and reload', async ({ page }) => {
   await page.goto('./')
   await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)

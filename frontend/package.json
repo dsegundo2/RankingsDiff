@@ -1,6 +1,6 @@
 {
   "name": "rankingsdiff-frontend",
-  "version": "1.58.3",
+  "version": "1.58.4",
   "private": true,
   "type": "module",
   "scripts": {
