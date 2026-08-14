@@ -139,9 +139,18 @@ test('draft divider stays below past picks even when a lower-ranked player was d
   await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
   const divider = page.locator('[data-draft-divider][data-draft-marker-overall="2"]')
   await expect(divider).toHaveCount(1)
-  await expect(divider.locator('xpath=preceding-sibling::tr[1]')).toContainText("Ja'Marr Chase")
+  await expect(divider.locator('xpath=following-sibling::tr[1]')).toContainText('Jahmyr Gibbs')
   await page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first().click()
   await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
+})
+
+test('first pick marker moves to the top available player when rank five is drafted first', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Mark drafted Jaxon Smith-Njigba' }).first().click()
+  const divider = page.locator('[data-draft-divider][data-draft-marker-current="true"]')
+  await expect(divider).toContainText('Your pick')
+  await expect(divider.locator('xpath=following-sibling::tr[1]')).toContainText('Jahmyr Gibbs')
+  await expect(page.getByRole('button', { name: 'Undo drafted Jaxon Smith-Njigba' }).first()).toBeVisible()
 })
 
 test('draft spot defaults to 2 and persists through settings and reload', async ({ page }) => {

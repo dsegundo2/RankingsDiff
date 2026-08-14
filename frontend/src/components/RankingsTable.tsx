@@ -81,6 +81,16 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
   }).sort((left, right) => left.overallPick - right.overallPick)
   const markerGroups = new Map<number, DraftMarker[]>()
   draftMarkers.forEach((marker) => {
+    // The active pick is the next available roster choice, not the row whose
+    // source rank happens to equal the overall pick number. This matters when
+    // another manager drafts an arbitrary player (for example rank 5) before
+    // our first pick: the marker must move to the top available player.
+    if (marker.isCurrent) {
+      const firstAvailableIndex = rows.findIndex((row) => !drafted.has(rankingId(row)))
+      const index = firstAvailableIndex === -1 ? rows.length : firstAvailableIndex
+      markerGroups.set(index, [...(markerGroups.get(index) ?? []), marker])
+      return
+    }
     const firstAvailableIndex = rows.findIndex((row) => typeof row.sourceRank === 'number' && row.sourceRank >= marker.overallPick && !drafted.has(rankingId(row)))
     const lastPastPickIndex = rows.reduce((lastIndex, row, index) => typeof row.sourceRank === 'number' && row.sourceRank >= marker.overallPick && drafted.has(rankingId(row)) ? index : lastIndex, -1)
     const availableIndex = firstAvailableIndex === -1 ? rows.length : firstAvailableIndex
