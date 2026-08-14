@@ -81,8 +81,10 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
   }).sort((left, right) => left.overallPick - right.overallPick)
   const markerGroups = new Map<number, DraftMarker[]>()
   draftMarkers.forEach((marker) => {
-    const rowIndex = rows.findIndex((row) => typeof row.sourceRank === 'number' && row.sourceRank >= marker.overallPick && !drafted.has(rankingId(row)))
-    const index = rowIndex === -1 ? rows.length : rowIndex
+    const firstAvailableIndex = rows.findIndex((row) => typeof row.sourceRank === 'number' && row.sourceRank >= marker.overallPick && !drafted.has(rankingId(row)))
+    const lastPastPickIndex = rows.reduce((lastIndex, row, index) => typeof row.sourceRank === 'number' && row.sourceRank >= marker.overallPick && drafted.has(rankingId(row)) ? index : lastIndex, -1)
+    const availableIndex = firstAvailableIndex === -1 ? rows.length : firstAvailableIndex
+    const index = Math.max(availableIndex, lastPastPickIndex + 1)
     markerGroups.set(index, [...(markerGroups.get(index) ?? []), marker])
   })
   return (
