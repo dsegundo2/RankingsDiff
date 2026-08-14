@@ -1094,3 +1094,21 @@ test('Yahoo projections render the selected scoring format and are searchable', 
   await page.getByPlaceholder('Search by player or team').fill('Bijan')
   await expect(page.locator('tbody tr[data-ranking-id]')).toHaveCount(1)
 })
+
+test('hero and recent action mockup lab offers four hover-only options each', async ({ page }) => {
+  await page.goto('./hero-recent-mockups')
+  await expect(page.getByRole('heading', { name: /Keep the image useful/ })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Hero options' }).getByRole('button')).toHaveCount(4)
+  await expect(page.getByRole('region', { name: 'Recent action options' }).getByRole('button')).toHaveCount(4)
+
+  await page.getByRole('button', { name: /No hero image/ }).click()
+  await expect(page.locator('.hero-recent-mock__browser--quiet')).toBeVisible()
+  await page.getByRole('button', { name: /Soft pills/ }).click()
+  await expect(page.locator('.hero-recent-mock__recent--pills')).toBeVisible()
+
+  const card = page.locator('.hero-recent-mock__recent article').first()
+  const actions = card.locator('.hero-recent-mock__actions')
+  await expect(actions).toHaveCSS('opacity', '0')
+  await card.hover()
+  await expect(actions).toHaveCSS('opacity', '1')
+})
