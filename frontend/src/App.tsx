@@ -8,6 +8,7 @@ import { ThemeMockups } from './components/ThemeMockups'
 import { ColumnMockups } from './components/ColumnMockups'
 import { DraftCutoffMockups } from './components/DraftCutoffMockups'
 import { DraftDividerMockups } from './components/DraftDividerMockups'
+import { DraftedRowMockups } from './components/DraftedRowMockups'
 
 const emptyManifest: DataManifest = { generatedAt: '', seasons: [] }
 
@@ -182,6 +183,7 @@ function AppData() {
 
 export default function App() {
   if (window.location.pathname.endsWith('/draft-divider-mockups')) return <DraftDividerMockups />
+  if (window.location.pathname.endsWith('/drafted-row-mockups')) return <DraftedRowMockups />
   if (window.location.pathname.endsWith('/draft-cutoff-mockups')) return <DraftCutoffMockups />
   if (window.location.pathname.endsWith('/column-mockups')) return <ColumnMockups />
   if (window.location.pathname.endsWith('/mockups')) return <ThemeMockups />

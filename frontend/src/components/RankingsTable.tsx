@@ -39,8 +39,12 @@ function snakePickForSlot(round: number, slot: number, draftSize: number): numbe
   return ((round - 1) * draftSize) + pickInRound
 }
 
-function DraftDividerRow({ markers, columnCount }: { markers: DraftMarker[]; columnCount: number }) {
-  return <tr className="draft-divider-row" data-draft-divider="true" data-draft-marker-overall={markers.map((marker) => marker.overallPick).join(',')} data-draft-marker-current={markers.some((marker) => marker.isCurrent) ? 'true' : undefined} aria-label={markers.map((marker) => marker.isCurrent && marker.isMine ? 'Your pick' : `Round ${marker.round}, pick ${marker.pickInRound}`).join(' · ')}><td colSpan={columnCount}><div className="draft-divider">{markers.map((marker) => <span className={`${marker.isCurrent ? 'is-current ' : ''}${marker.isMine ? 'is-mine' : 'is-future'}`} key={marker.overallPick}>{marker.isCurrent && marker.isMine ? 'Your pick' : `R${marker.round} · Pick ${marker.pickInRound}`}</span>)}</div></td></tr>
+function draftDividerStyle(diff: number | undefined): CSSProperties {
+  return { '--draft-rgb': typeof diff === 'number' && diff > 0 ? '22 145 92' : typeof diff === 'number' && diff < 0 ? '210 52 68' : '102 112 133' } as CSSProperties
+}
+
+function DraftDividerRow({ markers, columnCount, diff }: { markers: DraftMarker[]; columnCount: number; diff: number | undefined }) {
+  return <tr className="draft-divider-row" data-draft-divider="true" data-draft-marker-overall={markers.map((marker) => marker.overallPick).join(',')} data-draft-marker-current={markers.some((marker) => marker.isCurrent) ? 'true' : undefined} aria-label={markers.map((marker) => marker.isCurrent && marker.isMine ? 'Your pick' : `Round ${marker.round}, pick ${marker.pickInRound}`).join(' · ')}><td colSpan={columnCount}><div className="draft-divider" style={draftDividerStyle(diff)}>{markers.map((marker) => <span className={`${marker.isCurrent ? 'is-current ' : ''}${marker.isMine ? 'is-mine' : 'is-future'}`} key={marker.overallPick}>{marker.isCurrent && marker.isMine ? 'Your pick' : `R${marker.round} · Pick ${marker.pickInRound}`}</span>)}</div></td></tr>
 }
 
 function pickDetails(overallPick: number, draftSize: number): { round: number; pickInRound: number } {
@@ -77,7 +81,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
   }).sort((left, right) => left.overallPick - right.overallPick)
   const markerGroups = new Map<number, DraftMarker[]>()
   draftMarkers.forEach((marker) => {
-    const rowIndex = rows.findIndex((row) => typeof row.sourceRank === 'number' && row.sourceRank >= marker.overallPick)
+    const rowIndex = rows.findIndex((row) => typeof row.sourceRank === 'number' && row.sourceRank >= marker.overallPick && !drafted.has(rankingId(row)))
     const index = rowIndex === -1 ? rows.length : rowIndex
     markerGroups.set(index, [...(markerGroups.get(index) ?? []), marker])
   })
@@ -122,7 +126,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             const weeklyAverageFallback = yahooProjectionMode === 'half' ? projection?.seasonHalfPpr : projection?.seasonPpr
             return (
               <Fragment key={`${row.player}-${row.team}-${row.sourceRank}`}>
-              {showDraftDivider && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} /> : null}
+              {showDraftDivider && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} diff={row.diff} /> : null}
               <tr
                 key={`${row.player}-${row.team}-${row.sourceRank}`}
                 className={`${isDrafted ? 'is-drafted' : ''} ${selectedId === id ? 'is-selected' : ''} pos-${row.positionTone ?? 'other'}`}
@@ -149,7 +153,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
               </Fragment>
             )
           })}
-          {showDraftDivider && markerGroups.has(rows.length) && rows.length ? <DraftDividerRow markers={markerGroups.get(rows.length) ?? []} columnCount={dividerColumnCount} /> : null}
+          {showDraftDivider && markerGroups.has(rows.length) && rows.length ? <DraftDividerRow markers={markerGroups.get(rows.length) ?? []} columnCount={dividerColumnCount} diff={rows[rows.length - 1]?.diff} /> : null}
         </tbody>
       </table>
       {rows.length === 0 && <div className="empty-state">No players match the current filters.</div>}
