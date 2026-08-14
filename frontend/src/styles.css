@@ -155,7 +155,11 @@ td { position: relative; z-index: 1; padding: 11px 13px; border-bottom: 1px soli
 tbody tr { position: relative; background: linear-gradient(90deg, #fff 0%, #fff 68%, rgb(var(--diff-rgb, 79 93 228) / calc(var(--diff-alpha, 0) * .2)) 84%, rgb(var(--diff-rgb, 79 93 228) / var(--diff-alpha, 0)) 100%); transition: opacity .15s ease, filter .15s ease; }
 tbody tr:hover { filter: saturate(1.08) brightness(.995); }
 tbody tr:last-child td { border-bottom: 0; }
-tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
+tbody tr.is-drafted { background-color: var(--panel-soft); }
+tbody tr.is-drafted td:not(.draft-cell) { color: color-mix(in srgb, var(--ink) 62%, var(--muted)); }
+tbody tr.is-drafted .player-cell strong, tbody tr.is-drafted .rank-pair strong { color: var(--muted); }
+tbody tr.is-drafted .team-badge, tbody tr.is-drafted .pos-chip { filter: grayscale(.35); opacity: .72; }
+tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var(--ink); background: var(--panel); }
 .sort-button { border: 0; padding: 0; color: inherit; background: transparent; font: inherit; letter-spacing: inherit; text-transform: inherit; }
 .action-heading, .row-action { width: 48px; text-align: center; }
 .action-heading__label { font-size: .62rem; letter-spacing: .02em; }
