@@ -100,6 +100,10 @@ test('draft pick pill tracks draft, undraft, filtering, and sort changes', async
   const futureDivider = page.locator('[data-draft-divider][data-draft-marker-overall="2"]')
   await expect(futureDivider).toHaveCount(1)
   await expect(page.locator('[data-draft-divider]')).toHaveCount(17)
+  const dividerHeight = await futureDivider.boundingBox()
+  const firstRowHeight = await page.locator('tbody tr[data-ranking-id]').first().boundingBox()
+  expect(dividerHeight?.height ?? 99).toBeLessThanOrEqual(2)
+  expect(firstRowHeight?.height ?? 0).toBeGreaterThan(0)
 
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
   const currentDivider = page.locator('[data-draft-divider][data-draft-marker-current="true"]')
