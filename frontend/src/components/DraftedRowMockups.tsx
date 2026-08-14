@@ -6,7 +6,10 @@ const options: Option[] = [
   { id: 'soft', name: 'Soft wash', description: 'Keeps the diff tint, but lowers the drafted row contrast.', className: 'drafted-mock-table--soft' },
   { id: 'muted', name: 'Muted text', description: 'Preserves the row structure while quieting the player details.', className: 'drafted-mock-table--muted' },
   { id: 'opaque', name: 'Opaque slate', description: 'Uses a clear neutral surface so drafted players recede completely.', className: 'drafted-mock-table--opaque' },
-  { id: 'compact', name: 'Compact fade', description: 'Dims the row and makes the Undo action the only strong signal.', className: 'drafted-mock-table--compact' }
+  { id: 'compact', name: 'Compact fade', description: 'Dims the row and makes the Undo action the only strong signal.', className: 'drafted-mock-table--compact' },
+  { id: 'grayscale', name: 'Grayscale', description: 'Desaturates drafted players while keeping the table brightness intact.', className: 'drafted-mock-table--grayscale' },
+  { id: 'rail', name: 'Quiet rail', description: 'Adds a small drafted rail on the edge instead of tinting the whole row.', className: 'drafted-mock-table--rail' },
+  { id: 'veil', name: 'Soft veil', description: 'Layers a translucent neutral veil over the row for a lighter touch.', className: 'drafted-mock-table--veil' }
 ]
 
 const players = [
