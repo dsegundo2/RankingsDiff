@@ -424,7 +424,7 @@ tbody tr.is-drafted { opacity: 1; background-color: var(--panel-soft); }
 .diff-cell.diff-neutral .diff-value { color: var(--muted); }
 .rankings-table tbody tr.draft-divider-row { height: 0; filter: none; }
 .rankings-table .draft-divider-row td { position: relative; height: 0; padding: 0; border: 0; background: transparent; line-height: 0; pointer-events: none; overflow: visible; }
-.draft-divider { position: relative; z-index: 1; display: flex; height: 0; min-height: 0; gap: var(--space-2); align-items: flex-start; justify-content: center; border-top: 1px solid color-mix(in srgb, var(--accent) 46%, var(--line)); color: var(--accent); font-size: .62rem; font-weight: 850; letter-spacing: .045em; text-transform: uppercase; }
+.draft-divider { position: relative; z-index: 1; display: flex; height: 0; min-height: 0; gap: var(--space-2); align-items: flex-start; justify-content: flex-start; padding-left: 35%; box-sizing: border-box; border-top: 1px solid color-mix(in srgb, var(--accent) 46%, var(--line)); color: var(--accent); font-size: .62rem; font-weight: 850; letter-spacing: .045em; text-transform: uppercase; }
 .draft-divider span { position: relative; top: -11px; padding: 3px 9px; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); border-radius: var(--radius-pill); background: var(--panel-soft); line-height: 1; white-space: nowrap; }
 .draft-divider span.is-current { color: var(--panel); border-color: var(--accent); background: var(--accent); }
 .draft-divider span.is-mine:not(.is-current) { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 38%, var(--line)); background: var(--accent-soft); }
