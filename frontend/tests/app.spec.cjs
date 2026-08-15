@@ -168,13 +168,15 @@ test('draft spot defaults to 2 and persists through settings and reload', async 
   await expect(page.locator('.view-summary')).toContainText('5/10')
 })
 
-test('header mockup lab offers five compact directions', async ({ page }) => {
+test('header mockup lab offers six compact directions', async ({ page }) => {
   await page.goto('./mockups')
   await expect(page.getByRole('heading', { name: 'Choose a calmer, more connected header.' })).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Header options' }).getByRole('button')).toHaveCount(5)
+  await expect(page.getByRole('region', { name: 'Header options' }).getByRole('button')).toHaveCount(6)
   await page.getByRole('button', { name: 'Close settings' }).click()
   await page.getByRole('button', { name: /Field Notes/ }).click()
   await expect(page.locator('.mock-dashboard__header--field')).toBeVisible()
+  await page.getByRole('button', { name: /Studio Mint/ }).click()
+  await expect(page.locator('.mock-dashboard__header--studio-mint')).toBeVisible()
   await expect(page.locator('body')).toHaveCSS('overflow-x', 'visible')
 })
 

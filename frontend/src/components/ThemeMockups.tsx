@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type ThemeId = 'quiet' | 'scoreboard' | 'command' | 'editorial' | 'field'
+type ThemeId = 'quiet' | 'scoreboard' | 'command' | 'editorial' | 'field' | 'studio-mint'
 
 const themes: Array<{ id: ThemeId; name: string; eyebrow: string; font: string; description: string }> = [
   { id: 'quiet', name: 'Quiet Utility', eyebrow: 'Option 01', font: 'System sans', description: 'A compact wordmark, calm navigation, and no wasted height.' },
@@ -8,6 +8,7 @@ const themes: Array<{ id: ThemeId; name: string; eyebrow: string; font: string; 
   { id: 'command', name: 'Command Strip', eyebrow: 'Option 03', font: 'Condensed sans', description: 'A denser control-room header built for quick scanning.' },
   { id: 'editorial', name: 'Editorial Index', eyebrow: 'Option 04', font: 'Humanist sans', description: 'A little more personality with a restrained magazine-like rhythm.' },
   { id: 'field', name: 'Field Notes', eyebrow: 'Option 05', font: 'Mono accents', description: 'A soft green live-state marker with a practical draft-room feel.' },
+  { id: 'studio-mint', name: 'Studio Mint', eyebrow: 'Option 06', font: 'Warm sans · mint accents', description: 'A warm studio surface, mint controls, and quiet data contrast.' },
 ]
 
 const players = [
@@ -47,7 +48,7 @@ export function ThemeMockups() {
   const activeTheme = themes.find((theme) => theme.id === selected) ?? themes[0]
   return <main className={`theme-lab theme-lab--${selected}`}>
     <div className="theme-lab__topbar"><a className="theme-lab__back" href="./">← Back to dashboard</a><span className="mock-eyebrow">RankingsDiff · Theme lab</span><span className="theme-lab__status">Responsive mockups</span></div>
-    <header className="theme-lab__intro"><div><span className="mock-eyebrow">A visual direction study</span><h1>Choose a calmer, more connected header.</h1><p>Five responsive HTML header mockups using the existing RankingsDiff language. Each option stays compact so the rankings remain the main event.</p></div><div className="theme-lab__choice"><span>Selected direction</span><strong>{activeTheme.name}</strong><button className="mock-primary" type="button" onClick={() => setSettingsOpen((open) => !open)}>{settingsOpen ? 'Hide settings' : 'Preview settings'}</button></div></header>
+    <header className="theme-lab__intro"><div><span className="mock-eyebrow">A visual direction study</span><h1>Choose a calmer, more connected header.</h1><p>Six responsive HTML header mockups using the existing RankingsDiff language. Each option stays compact so the rankings remain the main event.</p></div><div className="theme-lab__choice"><span>Selected direction</span><strong>{activeTheme.name}</strong><button className="mock-primary" type="button" onClick={() => setSettingsOpen((open) => !open)}>{settingsOpen ? 'Hide settings' : 'Preview settings'}</button></div></header>
     <section className="theme-options" aria-label="Header options">{themes.map((theme) => <button type="button" key={theme.id} className={`theme-option theme-option--${theme.id}${theme.id === selected ? ' is-selected' : ''}`} onClick={() => setSelected(theme.id)}><span className="theme-option__swatches"><i /><i /><i /></span><span className="mock-eyebrow">{theme.eyebrow}</span><strong>{theme.name}</strong><small className="theme-option__font">{theme.font}</small><small>{theme.description}</small><span className="theme-option__check" aria-hidden="true">{theme.id === selected ? '✓' : '○'}</span></button>)}</section>
     <section className="mock-browser" aria-label={`${activeTheme.name} dashboard preview`}>
       <div className="mock-browser__chrome"><span /><span /><span /><small>{activeTheme.name} · rankingsdiff</small><b>↗</b></div>
