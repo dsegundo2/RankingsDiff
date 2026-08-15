@@ -4,6 +4,7 @@ Official/low-friction support:
 - FantasyPros official API using FANTASYPROS_API_KEY.
 - FantasyPros public rankings page as a no-key bootstrap.
 - ESPN public PPR300 cheat-sheet PDF as a no-key salary-cap source.
+- ESPN full-PPR and half-PPR CSV inputs (when a half-PPR export is available).
 - ESPN public Google Sheet CSV export as a fallback.
 - Yahoo's Hayden Winks rankings article as the adjusted-ranking source.
 """
@@ -443,11 +444,16 @@ def download_hayden_winks(args: argparse.Namespace) -> None:
 
 def download_espn(args: argparse.Namespace) -> None:
     """Download ESPN salary-cap rankings from PDF, CSV URL, or sheet fallback."""
-    csv_path = input_path(args.season, "espn_rankings.csv")
+    is_half_ppr = args.espn_scoring == "half-ppr"
+    csv_path = input_path(args.season, "espn_half_ppr_rankings.csv" if is_half_ppr else "espn_rankings.csv")
     pdf_url = args.espn_pdf_url or os.getenv("ESPN_PPR300_PDF_URL")
-    csv_url = args.espn_url or os.getenv("ESPN_RANKINGS_URL")
+    csv_env = "ESPN_HALF_PPR_RANKINGS_URL" if is_half_ppr else "ESPN_RANKINGS_URL"
+    csv_url = args.espn_url or os.getenv(csv_env)
 
-    if pdf_url or not csv_url:
+    if is_half_ppr and not csv_url:
+        raise SystemExit("Half-PPR ESPN rankings require --espn-url or ESPN_HALF_PPR_RANKINGS_URL. ESPN's public PDF is full PPR.")
+
+    if not is_half_ppr and (pdf_url or not csv_url):
         url = pdf_url or ESPN_PPR300_PDF_URL
         pdf_path = input_path(args.season, "espn_ppr300_cheatsheet.pdf")
         download_espn_pdf(url, csv_path, pdf_path)
@@ -488,6 +494,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--espn-url", help="Direct ESPN CSV/export URL.")
     parser.add_argument("--espn-pdf-url", help="Direct ESPN PPR300 PDF URL.")
+    parser.add_argument(
+        "--espn-scoring",
+        choices=["full-ppr", "half-ppr"],
+        default="full-ppr",
+        help="ESPN ranking profile to download. Half PPR uses a supplied CSV/export.",
+    )
     parser.add_argument(
         "--fantasypros-hayden-url", help="FantasyPros Hayden Winks expert rankings URL."
     )

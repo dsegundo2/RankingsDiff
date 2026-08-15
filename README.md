@@ -79,6 +79,15 @@ ESPN_RANKINGS_URL='https://...' python3 scripts/download_rankings.py espn --seas
 
 The old third-party Google Sheet is still supported internally as a CSV fallback, but ESPN's PDF is the preferred source of truth.
 
+ESPN's public sheet/PDF is **full PPR** (1 point per reception). The app supports comparing it against both the full-PPR and half-PPR adjusted profiles. If you have a separate ESPN half-PPR CSV/export, download and merge it explicitly:
+
+```bash
+python3 scripts/download_rankings.py espn --season 2026 --espn-scoring half-ppr --espn-url 'https://.../half-ppr.csv'
+python3 scripts/rankings_diff_espn.py --season 2026 --espn-scoring half-ppr
+```
+
+The half-PPR merge looks for a `Half PPR`/`HALF PPR` rank column. If it is absent, it uses the supplied PPR rank as a proxy and prints a warning; it never silently presents full-PPR ranks as true half-PPR ranks.
+
 ### Yahoo adjusted rankings
 
 The Yahoo article embeds a FantasyPros RankingPro widget. The fetcher extracts that widget configuration from the article HTML, then requests the widget's structured JSONP payload to obtain all 300 rows. This is more reliable than scraping the client-rendered table and does not require a FantasyPros API key:

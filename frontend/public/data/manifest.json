@@ -56,7 +56,13 @@
               "observedAt": "2026-08-13T13:53:37.143377Z"
             }
           ],
-          "xlsx": "/data/2026/espn/merged_formatted.xlsx"
+          "xlsx": "/data/2026/espn/merged_formatted.xlsx",
+          "scoring": "full-ppr",
+          "scoringOptions": [
+            "full-ppr",
+            "half-ppr"
+          ],
+          "scoringNote": "ESPN publishes full-PPR ranks publicly. Half-PPR comparison is supported when a half-PPR ESPN export is supplied; otherwise the full-PPR rank is used as a clearly marked proxy."
         },
         {
           "id": "fpros",
@@ -215,7 +221,13 @@
               "url": "https://www.espn.com/fantasy/football/"
             }
           ],
-          "xlsx": "/data/2025/espn/merged_formatted.xlsx"
+          "xlsx": "/data/2025/espn/merged_formatted.xlsx",
+          "scoring": "full-ppr",
+          "scoringOptions": [
+            "full-ppr",
+            "half-ppr"
+          ],
+          "scoringNote": "ESPN publishes full-PPR ranks publicly. Half-PPR comparison is supported when a half-PPR ESPN export is supplied; otherwise the full-PPR rank is used as a clearly marked proxy."
         },
         {
           "id": "fpros",

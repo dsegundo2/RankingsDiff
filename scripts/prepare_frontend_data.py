@@ -27,6 +27,10 @@ SOURCE_LABELS = {
     "yahoo-full": "Yahoo Full PPR",
 }
 
+SOURCE_SCORING = {
+    "espn": "full-ppr",
+}
+
 CSV_NAMES = {
     "fpros": "fpros_merged.csv",
     "espn": "merged.csv",
@@ -377,6 +381,10 @@ def build_manifest() -> dict[str, Any]:
                 "csv": public_path(copied_csv),
                 "sourceLinks": source_links(source, season),
             }
+            if source in SOURCE_SCORING:
+                entry["scoring"] = SOURCE_SCORING[source]
+                entry["scoringOptions"] = ["full-ppr", "half-ppr"]
+                entry["scoringNote"] = "ESPN publishes full-PPR ranks publicly. Half-PPR comparison is supported when a half-PPR ESPN export is supplied; otherwise the full-PPR rank is used as a clearly marked proxy."
             if source == "yahoo-half":
                 yahoo_half_raw = ROOT / "data" / "raw" / str(season) / "yahoo_half-ppr_rankings.json"
                 if yahoo_half_raw.exists():

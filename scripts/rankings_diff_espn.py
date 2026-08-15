@@ -13,6 +13,7 @@ ESPN_PLAYER_COLUMN = "PLAYER NAME"
 ESPN_AUCTION_VALUE_COLUMN_ORIGINAL = "ppr auction"
 ESPN_AUCTION_VALUE_COLUMN = "ESPN Value"
 ESPN_RANKING_COLUMN = "PPR"
+ESPN_HALF_PPR_RANKING_COLUMNS = ("Half PPR", "HALF PPR", "Half-PPR", "HALF-PPR")
 
 ADJUSTED_PLAYER_COLUMN = "Player"
 ADJUSTED_RANKING_COLUMN = "Rank"
@@ -124,16 +125,23 @@ def parse_args():
     parser.add_argument("--adjusted-rankings", help="Path to Adjusted rankings CSV.")
     parser.add_argument("--output-csv", help="Path to write merged CSV output.")
     parser.add_argument("--output-excel", help="Path to write formatted XLSX output.")
+    parser.add_argument(
+        "--espn-scoring",
+        choices=["full-ppr", "half-ppr"],
+        default="full-ppr",
+        help="ESPN base ranking profile. Half PPR requires a CSV with a half-PPR rank column.",
+    )
     return parser.parse_args()
 
 
 def main():
     """Run the merge."""
     args = parse_args()
+    default_espn_file = "espn_rankings.csv" if args.espn_scoring == "full-ppr" else "espn_half_ppr_rankings.csv"
     espn_rankings = path_from_arg_or_env(
         args.espn_rankings,
-        "ESPN_RANKINGS",
-        input_path(args.season, "espn_rankings.csv"),
+        "ESPN_RANKINGS_HALF_PPR" if args.espn_scoring == "half-ppr" else "ESPN_RANKINGS",
+        input_path(args.season, default_espn_file),
     )
     adjusted_rankings = path_from_arg_or_env(
         args.adjusted_rankings,
@@ -156,6 +164,13 @@ def main():
     half_adjusted_dataframe = load_csv_to_memory(half_adjusted_path).head(args.limit)
     espn_dataframe = load_csv_to_memory(espn_rankings).head(args.limit)
     espn_dataframe.columns.values[0] = ESPN_PLAYER_COLUMN
+
+    if args.espn_scoring == "half-ppr":
+        half_column = next((column for column in ESPN_HALF_PPR_RANKING_COLUMNS if column in espn_dataframe.columns), None)
+        if half_column:
+            espn_dataframe[ESPN_RANKING_COLUMN] = espn_dataframe[half_column]
+        else:
+            print("WARN: ESPN half-PPR rank column not found; using the supplied PPR rank as a proxy.")
 
     espn_dataframe = remove_name_suffix(espn_dataframe, ESPN_PLAYER_COLUMN)
     adjusted_dataframe = remove_name_suffix(adjusted_dataframe, ADJUSTED_PLAYER_COLUMN)

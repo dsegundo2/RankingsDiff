@@ -62,6 +62,9 @@ export type SourceManifest = {
   sourceUpdatedAt?: string | null
   observedAt?: string | null
   adjustedProfiles?: AdjustedProfile[]
+  scoring?: 'full-ppr' | 'half-ppr' | string
+  scoringOptions?: string[]
+  scoringNote?: string
 }
 
 export type AdjustedProfile = {

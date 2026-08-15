@@ -142,6 +142,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
                 <span className="eyebrow">Current sheet</span>
                 <h3>{sourceLabel(selectedSource)}</h3>
                 <p>{currentSource?.rowCount.toLocaleString() ?? '—'} total rows · adjusted rankings are selected separately.</p>
+                {currentSource?.scoringOptions?.length ? <div className="source-scoring-note"><strong>ESPN base scoring</strong><span>{currentSource.scoring === 'full-ppr' ? 'Full PPR' : currentSource.scoring}</span><small>{currentSource.scoringNote}</small></div> : null}
                 {sourceFreshness(currentSource) ? <small className="source-freshness">{sourceFreshness(currentSource)}</small> : null}
                 <label className="select-field select-field--season">
                   <span>Season</span>
