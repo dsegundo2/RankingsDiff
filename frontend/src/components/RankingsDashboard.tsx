@@ -683,11 +683,13 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
           </div>
         </div>
         <div className="hero__context">
-          <span>Draft board</span>
-          <div className="view-summary" aria-live="polite">
-            <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{draftMode === 'auction' ? 'Auction' : 'Snake'}</strong> · <strong>{draftSlot}/{draftSize}</strong>
+          <div className="hero__context-actions"><span>Draft board</span><button className="settings-icon-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-label="Settings" aria-haspopup="dialog" title={`${selectedSeason} · ${source?.label ?? selectedSource} · ${visibleRows.length.toLocaleString()} showing`}><img src={withBasePath('/assets/settings.svg')} alt="" aria-hidden="true" /></button></div>
+          <div className="hero__context-bottom">
+            <div className="view-summary" aria-live="polite">
+              <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{draftMode === 'auction' ? 'Auction' : 'Snake'}</strong> · <strong>{draftSlot}/{draftSize}</strong>
+            </div>
+            <button className="analytics-link" type="button" onClick={() => onNavigate('analytics')}>Rankings diff</button>
           </div>
-          <button className="analytics-link" type="button" onClick={() => onNavigate('analytics')}>Rankings diff</button>
         </div>
       </section>
 
@@ -725,9 +727,6 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       </section>
 
       <section className="draft-toolbar" aria-label="Draft board controls">
-        <button className="settings-icon-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-label="Settings" aria-haspopup="dialog" title={`${selectedSeason} · ${source?.label ?? selectedSource} · ${visibleRows.length.toLocaleString()} showing`}>
-          <img src={withBasePath('/assets/settings.svg')} alt="" aria-hidden="true" />
-        </button>
         <div className="draft-toolbar__actions">
           <label className="drafted-toggle mobile-actions-toggle"><input type="checkbox" aria-label="Show actions" checked={showMobileActions} onChange={(event) => setShowMobileActions(event.target.checked)} /><span>Actions</span></label>
         </div>
