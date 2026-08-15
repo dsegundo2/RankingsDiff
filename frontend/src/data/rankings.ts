@@ -140,6 +140,16 @@ export function formatSignedRank(value?: number): string {
   return `${value > 0 ? '+' : ''}${value.toFixed(1)}`
 }
 
+/**
+ * ESPN's rank delta is the pick movement in snake drafts. ESPN rows also carry
+ * auction values, so the generic `diff` field is intentionally value-based
+ * there and must not be reused for the snake display.
+ */
+export function rankingDifference(row: RankingRow): number | undefined {
+  if (typeof row.sourceRank !== 'number' || !Number.isFinite(row.sourceRank) || typeof row.adjustedRank !== 'number' || !Number.isFinite(row.adjustedRank)) return undefined
+  return row.sourceRank - row.adjustedRank
+}
+
 export function sourceLabel(id: string): string {
   if (id === 'fpros') return 'Fantasy Pros'
   if (id === 'espn') return 'ESPN'

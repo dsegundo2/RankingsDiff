@@ -19,7 +19,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt pylint pandas openpyxl
       - name: Pylint
-        run: pylint $(git ls-files '*.py')
+        # The existing data-preparation scripts intentionally use long, linear
+        # transformations; keep CI focused on actionable lint errors.
+        run: pylint --disable=line-too-long,too-many-locals,too-many-branches,too-many-statements $(git ls-files '*.py')
       - name: Check source ranking status smoke test
         run: python scripts/check_source_rankings.py --copy-to-public
       - name: Prepare frontend data smoke test

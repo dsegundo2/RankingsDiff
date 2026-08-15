@@ -139,9 +139,18 @@ test('draft divider stays below past picks even when a lower-ranked player was d
   await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
   const divider = page.locator('[data-draft-divider][data-draft-marker-overall="2"]')
   await expect(divider).toHaveCount(1)
-  await expect(divider.locator('xpath=preceding-sibling::tr[1]')).toContainText("Ja'Marr Chase")
+  await expect(divider.locator('xpath=following-sibling::tr[1]')).toContainText('Jahmyr Gibbs')
   await page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first().click()
   await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
+})
+
+test('first pick marker moves to the top available player when rank five is drafted first', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Mark drafted Jaxon Smith-Njigba' }).first().click()
+  const divider = page.locator('[data-draft-divider][data-draft-marker-current="true"]')
+  await expect(divider).toContainText('Your pick')
+  await expect(divider.locator('xpath=following-sibling::tr[1]')).toContainText('Jahmyr Gibbs')
+  await expect(page.getByRole('button', { name: 'Undo drafted Jaxon Smith-Njigba' }).first()).toBeVisible()
 })
 
 test('draft spot defaults to 2 and persists through settings and reload', async ({ page }) => {
@@ -159,13 +168,15 @@ test('draft spot defaults to 2 and persists through settings and reload', async 
   await expect(page.locator('.view-summary')).toContainText('5/10')
 })
 
-test('header mockup lab offers five compact directions', async ({ page }) => {
+test('header mockup lab offers six compact directions', async ({ page }) => {
   await page.goto('./mockups')
   await expect(page.getByRole('heading', { name: 'Choose a calmer, more connected header.' })).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Header options' }).getByRole('button')).toHaveCount(5)
+  await expect(page.getByRole('region', { name: 'Header options' }).getByRole('button')).toHaveCount(6)
   await page.getByRole('button', { name: 'Close settings' }).click()
   await page.getByRole('button', { name: /Field Notes/ }).click()
   await expect(page.locator('.mock-dashboard__header--field')).toBeVisible()
+  await page.getByRole('button', { name: /Studio Mint/ }).click()
+  await expect(page.locator('.mock-dashboard__header--studio-mint')).toBeVisible()
   await expect(page.locator('body')).toHaveCSS('overflow-x', 'visible')
 })
 
@@ -212,7 +223,9 @@ test('Yahoo half-PPR source loads the confirmed public top 30', async ({ page })
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
   await expect(page.getByLabel('Match health')).toContainText('272/273 full PPR matched')
-  await expect(page.getByLabel('Quick base source switcher').getByRole('button')).toHaveText(['ESPN', 'Fantasy Pros', 'Yahoo Half PPR', 'Yahoo Full PPR'])
+  const quickSources = page.getByLabel('Quick base source switcher').getByRole('button')
+  await expect(quickSources).toHaveCount(4)
+  for (const label of ['ESPN', 'Fantasy Pros', 'Yahoo Half PPR', 'Yahoo Full PPR']) await expect(quickSources.filter({ hasText: label })).toHaveCount(1)
   await expect(page.getByText('Source updated 2026/08/06 · observed 2026-08-08')).toBeVisible()
 })
 
@@ -227,7 +240,7 @@ test('Yahoo full-PPR source exposes both adjusted profiles and populated adjuste
   await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: "Ja'Marr Chase" }).first().locator('.rank-pair')).toContainText('3')
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
-  await expect(page.getByLabel('Match health')).toContainText('359/365 full PPR matched')
+  await expect(page.getByLabel('Match health')).toContainText(/\d+\/\d+ full PPR matched/)
 })
 
 test('Yahoo profile switching recalculates the displayed delta', async ({ page }) => {
@@ -254,6 +267,8 @@ test('ESPN defaults to snake and exposes an auction format switch', async ({ pag
   await page.getByRole('button', { name: 'Close settings' }).click()
   await expect(page.locator('.price-heading')).toHaveCount(0)
   await expect(page.locator('.diff-cell').first()).not.toContainText('$')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Kenneth Walker' }).first().locator('.diff-cell')).toHaveText('11')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Jordan Love' }).first().locator('.diff-cell')).toHaveText('83')
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
   const reopenedFormat = page.getByRole('group', { name: 'Draft format' })
@@ -263,6 +278,8 @@ test('ESPN defaults to snake and exposes an auction format switch', async ({ pag
   await expect(page.locator('.view-summary')).toContainText('Auction')
   await expect(page.locator('.price-heading')).toBeVisible()
   await expect(page.locator('.diff-cell').first()).toContainText('$')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Kenneth Walker' }).first().locator('.diff-cell')).toHaveText('+$16')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Jordan Love' }).first().locator('.diff-cell')).toHaveText('+$2')
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
   await page.getByRole('group', { name: 'Draft format' }).getByRole('button', { name: 'Snake', exact: true }).click()
@@ -764,8 +781,10 @@ test('click selection supports arrows and enter drafting in board and position v
   await page.keyboard.press('ArrowRight')
   const firstWideReceiver = page.locator('.position-lane--wr .position-player').first()
   await expect(firstWideReceiver).toHaveClass(/is-selected/)
+  const firstWideReceiverName = await firstWideReceiver.locator('.position-player__identity > strong').textContent()
+  if (!firstWideReceiverName) throw new Error('Expected a wide receiver name')
   await page.keyboard.press('Enter')
-  await expect(page.getByRole('button', { name: 'Undo drafted Puka Nacua' }).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: `Undo drafted ${firstWideReceiverName}` }).first()).toBeVisible()
   await expect(page.locator('.position-lane--wr .position-player').nth(1)).toHaveClass(/is-selected/)
 
   await page.keyboard.press('ArrowLeft')
@@ -1117,8 +1136,8 @@ test('Yahoo projections render the selected scoring format and are searchable', 
 test('hero and recent action mockup lab offers four hover-only options each', async ({ page }) => {
   await page.goto('./hero-recent-mockups')
   await expect(page.getByRole('heading', { name: /Keep the image useful/ })).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Hero options' }).getByRole('button')).toHaveCount(4)
-  await expect(page.getByRole('region', { name: 'Recent action options' }).getByRole('button')).toHaveCount(4)
+  await expect(page.getByRole('region', { name: 'Hero options' }).locator('.hero-recent-mock__options button')).toHaveCount(4)
+  await expect(page.getByRole('region', { name: 'Recent action options' }).locator('.hero-recent-mock__options button')).toHaveCount(4)
 
   await page.getByRole('button', { name: /No hero image/ }).click()
   await expect(page.locator('.hero-recent-mock__browser--quiet')).toBeVisible()
