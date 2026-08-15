@@ -102,6 +102,11 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   const viewStorageKey = `rankingsdiff:view:v1:${selectedSeason}:${selectedSource}`
   const targetStorageKey = `rankingsdiff:roster-targets:v1:${selectedSeason}:${selectedSource}`
 
+  const handleSort = useCallback((key: SortKey) => {
+    if (key === sortKey) setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')
+    else { setSortKey(key); setSortDirection('asc') }
+  }, [sortKey])
+
   useEffect(() => {
     const workbench = workbenchRef.current
     if (!workbench) return
@@ -128,7 +133,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     full: rows.filter((row) => typeof row.adjustedRank === 'number' && Number.isFinite(row.adjustedRank)).length,
     half: rows.filter((row) => typeof row.adjustedRankHalfPpr === 'number' && Number.isFinite(row.adjustedRankHalfPpr)).length,
   }), [rows])
-  const targetRows = useMemo(() => sortRankings(rows.filter((row) => targets.has(rankingId(row)) && !drafted.has(rankingId(row))), 'sourceRank', 'asc'), [rows, targets, drafted])
+  const targetRows = useMemo(() => sortRankings(rows.filter((row) => targets.has(rankingId(row)) && !drafted.has(rankingId(row))), sortKey, 'asc'), [rows, sortKey, targets, drafted])
   const targetSummary = useMemo(() => {
     const positions = targetRows.reduce<Record<string, number>>((counts, row) => {
       const key = row.position.toUpperCase()
@@ -206,11 +211,11 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         nextMine.add(id)
         const row = rows.find((candidate) => rankingId(candidate) === id)
         if (row) nextSlots[id] = autoRosterSlot(row, nextDrafted, draftSlots)
-        if (selectedSource !== 'espn') nextPrices[id] = firstAvailableDraftRound(nextMine, nextPrices)
+        if (draftMode === 'snake') nextPrices[id] = firstAvailableDraftRound(nextMine, nextPrices)
       }
     }
     applyDraftState(nextTargets, nextDrafted, nextPrices, nextSlots, nextMine, nextPicks)
-  }, [applyDraftState, drafted, draftMode, draftPicks, draftPrices, draftSize, draftSlot, draftSlots, mine, rows, selectedSource, targets])
+  }, [applyDraftState, drafted, draftMode, draftPicks, draftPrices, draftSize, draftSlot, draftSlots, mine, rows, targets])
 
   const toggleMine = useCallback((id: string) => {
     if (!drafted.has(id)) return
@@ -226,11 +231,11 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       const row = rows.find((candidate) => rankingId(candidate) === id)
       if (row) {
         nextSlots[id] = autoRosterSlot(row, drafted, draftSlots)
-        if (selectedSource !== 'espn') nextPrices[id] = firstAvailableDraftRound(mine, draftPrices)
+        if (draftMode === 'snake') nextPrices[id] = firstAvailableDraftRound(nextMine, nextPrices)
       }
     }
     applyDraftState(new Set(targets), new Set(drafted), nextPrices, nextSlots, nextMine, draftPicks)
-  }, [applyDraftState, drafted, draftPicks, draftPrices, draftSlots, mine, rows, selectedSource, targets])
+  }, [applyDraftState, drafted, draftMode, draftPicks, draftPrices, draftSlots, mine, rows, targets])
 
   const toggleTarget = useCallback((id: string) => {
     const nextTargets = new Set(targets)
@@ -265,7 +270,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     const initialPicks = Object.keys(initialState.picks ?? {}).length ? initialState.picks : Object.fromEntries(initialState.drafted.map((id, index) => [id, index + 1]))
     const initialMine = new Set(auctionState.mine.filter((id) => initialState.drafted.includes(id)))
     const initialPrices = { ...auctionState.prices }
-    if (selectedSource !== 'espn') {
+    if (draftMode === 'snake') {
       initialMine.forEach((id) => {
         if (initialPrices[id] === undefined) initialPrices[id] = firstAvailableDraftRound(initialMine, initialPrices)
       })
@@ -281,7 +286,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     historyRef.current = [{ targets: [...initialState.targets], drafted: [...initialState.drafted], picks: initialPicks, mine: [...initialMine], prices: initialPrices, slots: auctionState.slots }]
     historyIndexRef.current = 0
     setHydratedStorageKey(storageKey)
-  }, [auctionStorageKey, selectedSeason, selectedSource, storageKey])
+  }, [auctionStorageKey, draftMode, selectedSeason, selectedSource, storageKey])
 
   useEffect(() => {
     setHydratedTargetKey('')
@@ -408,6 +413,11 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       }
       if (isTyping || event.metaKey || event.ctrlKey || event.altKey) return
       const shortcut = event.key.toLowerCase()
+      if (shortcut === 's') {
+        event.preventDefault()
+        handleSort(sortKey === 'sourceRank' ? 'adjustedRank' : 'sourceRank')
+        return
+      }
       if (shortcut === 'd') {
         event.preventDefault()
         setShowDrafted((current) => !current)
@@ -502,12 +512,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     }
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [boardPositions, drafted, draftPlayer, moveDraftHistory, navigationRows, position, positionViews, selectedId, toggleDrafted, toggleMine, toggleTarget, view])
-
-  function handleSort(key: SortKey) {
-    if (key === sortKey) setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')
-    else { setSortKey(key); setSortDirection('asc') }
-  }
+  }, [boardPositions, drafted, draftPlayer, handleSort, moveDraftHistory, navigationRows, position, positionViews, selectedId, sortKey, toggleDrafted, toggleMine, toggleTarget, view])
 
   function handleSeasonFromSettings(nextSeason: number) {
     onSeason(nextSeason)
@@ -647,7 +652,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       <div><span className="eyebrow">Target queue</span><h2>Shortlist</h2></div>
       <strong>{targetRows.length}</strong>
     </div>
-    {targetRows.length ? <p className="target-queue__summary">{targetSummary || 'No position mix yet'} · sorted by source rank</p> : null}
+    {targetRows.length ? <p className="target-queue__summary">{targetSummary || 'No position mix yet'} · sorted by {sortKey === 'adjustedRank' ? 'adjusted rank' : sortKey === 'sourceRank' ? 'base rank' : sortKey}</p> : null}
     <div className="target-queue__list">
       {targetRows.slice(0, 12).map((row) => (
         <button type="button" key={rankingId(row)} onClick={() => toggleTarget(rankingId(row))} aria-label={`Remove ${row.player} from queue`}>
@@ -656,7 +661,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
             <strong>{row.player}</strong>
             <span className="target-queue__details">
               <small aria-label={`${sourceLabel(selectedSource)} and Adjusted rank`}>#{formatRank(row.sourceRank)} → #{formatRank(row.adjustedRank)}</small>
-              {selectedSource === 'espn' ? <small aria-label="Source and Adjusted salary">{formatValue(row.sourceValue)} → {formatValue(row.adjustedValue)}</small> : null}
+              {selectedSource === 'espn' && draftMode === 'auction' ? <small aria-label="Source and Adjusted salary">{formatValue(row.sourceValue)} → {formatValue(row.adjustedValue)}</small> : <small aria-label="Base and Adjusted draft rank">Draft rank #{formatRank(row.sourceRank)} → #{formatRank(row.adjustedRank)}</small>}
             </span>
           </span>
           <span className="target-queue__diff">{selectedSource === 'espn' ? formatSignedValue(row.diff) : formatRank(row.diff)}</span>

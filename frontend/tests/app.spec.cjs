@@ -531,7 +531,7 @@ test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) 
   await expect(page.locator('.ranking-card').filter({ hasText: 'Jahmyr Gibbs' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Target Jahmyr Gibbs' }).first()).toBeVisible()
   await page.getByRole('button', { name: 'Target Jahmyr Gibbs' }).last().click()
-  await expect(page.getByLabel('Target queue', { exact: true }).last()).toContainText('$57 → $57')
+  await expect(page.getByLabel('Target queue', { exact: true }).last()).toContainText('Draft rank #1 → #1')
   const queueBox = await page.getByLabel('Target queue', { exact: true }).evaluate((node) => {
     const rect = node.getBoundingClientRect()
     return { left: rect.left, right: rect.right, width: rect.width }
@@ -601,7 +601,7 @@ test('table headers stay compact across browser widths', async ({ page }) => {
     await expect(page.locator('.rankings-table')).toBeVisible()
     await expect(page.locator('.rank-heading')).toContainText('Rank')
     await expect(page.locator('.rank-heading__hint')).toHaveAttribute('title', /rank → adjusted rank/)
-    await expect(page.getByRole('button', { name: /Sort by .* rank/ }).first()).toBeAttached()
+    await expect(page.getByRole('button', { name: /Sort rank by .* rank/ }).first()).toBeAttached()
     await expect(page.locator('.price-heading').getByText('Value', { exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Sort by value delta' })).toHaveText('Delta')
     await expect(page.locator('.price-heading .sort-button')).toHaveCount(0)
@@ -620,6 +620,23 @@ test('table headers stay compact across browser widths', async ({ page }) => {
     expect(layout.overflow).toBe(false)
     expect(layout.headerRight).toBeLessThanOrEqual(layout.viewportRight + 1)
   }
+})
+
+test('rank header switches between base and adjusted rank in ascending order', async ({ page }) => {
+  await page.goto('./')
+  const rankHeader = page.locator('.rank-heading button')
+  await expect(rankHeader).toHaveAttribute('aria-label', /adjusted rank/i)
+  await expect(rankHeader).toContainText('↑')
+  await rankHeader.click()
+  await expect(rankHeader).toHaveAttribute('aria-label', /base rank/i)
+  await expect(rankHeader).toContainText('↑')
+  await page.keyboard.press('s')
+  await expect(rankHeader).toHaveAttribute('aria-label', /adjusted rank/i)
+  await page.keyboard.press('s')
+  await expect(rankHeader).toHaveAttribute('aria-label', /base rank/i)
+  await rankHeader.click()
+  await expect(rankHeader).toHaveAttribute('aria-label', /adjusted rank/i)
+  await expect(rankHeader).toContainText('↑')
 })
 
 test('desktop table stays inside the board column beside the target queue', async ({ page }) => {

@@ -71,7 +71,10 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
   const isEspn = source === 'espn'
   const showValueColumn = isEspn && showAuctionValues
   const dividerColumnCount = 6 + (showValueColumn ? 1 : 0) + (showYahooProjections ? 1 : 0) + (showRegressionDiff ? 1 : 0)
-  const showDraftDivider = sortKey === 'sourceRank' && sortDirection === 'asc'
+  const showDraftDivider = (sortKey === 'sourceRank' || sortKey === 'adjustedRank') && sortDirection === 'asc'
+  const rankForDraft = (row: RankingRow): number | undefined => sortKey === 'adjustedRank' ? row.adjustedRank : row.sourceRank
+  const rankSortKey = sortKey === 'adjustedRank' ? 'adjustedRank' : 'sourceRank'
+  const nextRankSortKey = rankSortKey === 'sourceRank' ? 'adjustedRank' : 'sourceRank'
   const nextDraftPick = drafted.size + 1
   const myDraftPicks = new Set(Array.from({ length: DRAFT_ROUNDS }, (_, index) => snakePickForSlot(index + 1, draftSlot, draftSize)))
   const markerPicks = [...myDraftPicks].filter((overallPick) => overallPick >= nextDraftPick && overallPick <= DRAFT_ROUNDS * draftSize)
@@ -91,8 +94,8 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
       markerGroups.set(index, [...(markerGroups.get(index) ?? []), marker])
       return
     }
-    const firstAvailableIndex = rows.findIndex((row) => typeof row.sourceRank === 'number' && row.sourceRank >= marker.overallPick && !drafted.has(rankingId(row)))
-    const lastPastPickIndex = rows.reduce((lastIndex, row, index) => typeof row.sourceRank === 'number' && row.sourceRank >= marker.overallPick && drafted.has(rankingId(row)) ? index : lastIndex, -1)
+    const firstAvailableIndex = rows.findIndex((row) => typeof rankForDraft(row) === 'number' && rankForDraft(row)! >= marker.overallPick && !drafted.has(rankingId(row)))
+    const lastPastPickIndex = rows.reduce((lastIndex, row, index) => typeof rankForDraft(row) === 'number' && rankForDraft(row)! >= marker.overallPick && drafted.has(rankingId(row)) ? index : lastIndex, -1)
     const availableIndex = firstAvailableIndex === -1 ? rows.length : firstAvailableIndex
     const index = Math.max(availableIndex, lastPastPickIndex + 1)
     markerGroups.set(index, [...(markerGroups.get(index) ?? []), marker])
@@ -116,7 +119,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             <th className="action-heading" title="Favorite before drafting; add to my roster after drafting"><span className="action-heading__label">Mine</span><span className="sr-only">Favorite or my roster</span></th>
             <th className="player-heading"><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th className="num-heading rank-heading" title={`${sourceLabel(source)} rank compared with adjusted rank`}><span>Rank</span><span className="rank-heading__hint" title={`${sourceLabel(source)} rank → adjusted rank`} aria-label={`${sourceLabel(source)} rank compared with adjusted rank`}>→</span><span className="rank-heading__sorts sr-only"><SortButton label="Source" ariaLabel={`Sort by ${sourceLabel(source)} rank`} sortKey="sourceRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /><SortButton label="Adjusted" ariaLabel="Sort by Adjusted rank" sortKey="adjustedRank" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></span></th>
+            <th className="num-heading rank-heading" title={`${sourceLabel(source)} rank compared with adjusted rank`}><button className="sort-button" aria-label={`Sort rank by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} title={`Click to sort by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} onClick={() => onSort(nextRankSortKey)}><span>Rank</span><span className="rank-heading__hint" title={`${sourceLabel(source)} rank → adjusted rank`} aria-hidden="true">→</span><span aria-hidden="true">↑</span></button></th>
             {showValueColumn ? <th className="num-heading price-heading"><span>Value</span></th> : null}
             {showYahooProjections ? <th className="num-heading yahoo-projection-heading"><SortButton label="Yahoo proj" sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
             {showRegressionDiff ? <th className="num-heading regression-diff-heading"><SortButton label="Trend" ariaLabel="Sort by trend" sortKey="regressionDiff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}

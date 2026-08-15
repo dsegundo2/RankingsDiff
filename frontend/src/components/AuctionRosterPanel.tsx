@@ -108,7 +108,7 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
       {targetRows.length ? <div className="auction-shortlist__list">{targetRows.slice(0, 6).map((row) => {
         const id = rankingId(row)
         const team = normalizeTeamAbbreviation(row.team)
-        const valueSummary = source === 'espn' ? `${formatValue(row.sourceValue)} → ${formatValue(row.adjustedValue)}` : `#${formatRank(row.sourceRank)} → #${formatRank(row.adjustedRank)}`
+        const valueSummary = mode === 'auction' && source === 'espn' ? `${formatValue(row.sourceValue)} → ${formatValue(row.adjustedValue)}` : `Draft rank #${formatRank(row.sourceRank)} → #${formatRank(row.adjustedRank)}`
         return <button type="button" key={id} className="auction-shortlist__item" onClick={() => onTarget(id)} aria-label={`Remove target ${row.player}`}><span className={`auction-shortlist__pos pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span><span><strong>{row.player}</strong><small>{team} · {valueSummary}</small></span><span className="auction-shortlist__remove" aria-hidden="true" /></button>
       })}</div> : <p className="auction-roster-panel__empty">Target players to keep a short list here.</p>}
     </section> : null}
