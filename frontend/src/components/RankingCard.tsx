@@ -5,7 +5,7 @@ import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
 import { rankingId } from '../data/draftState'
 
-type Props = { row: RankingRow; teams: Record<string, TeamAsset>; source: RankingSource; targeted?: boolean; drafted?: boolean; mine?: boolean; onTarget?: () => void; onDrafted?: () => void; onMine?: () => void; selected?: boolean; onSelect?: () => void }
+type Props = { row: RankingRow; teams: Record<string, TeamAsset>; source: RankingSource; showAuctionValues?: boolean; targeted?: boolean; drafted?: boolean; mine?: boolean; onTarget?: () => void; onDrafted?: () => void; onMine?: () => void; selected?: boolean; onSelect?: () => void }
 
 function diffSignalStyle(diff: number | undefined, isEspn: boolean): CSSProperties {
   const neutralRange = isEspn ? 1 : 3
@@ -23,11 +23,12 @@ function diffDirectionClass(diff?: number): string {
   return diff > 0 ? 'diff-positive' : 'diff-negative'
 }
 
-export function RankingCard({ row, teams, source, targeted = false, drafted = false, mine = false, onTarget, onDrafted, onMine, selected = false, onSelect }: Props) {
+export function RankingCard({ row, teams, source, showAuctionValues = source === 'espn', targeted = false, drafted = false, mine = false, onTarget, onDrafted, onMine, selected = false, onSelect }: Props) {
   const team = normalizeTeamAbbreviation(row.team)
   const asset = getTeamAsset(teams, team)
+  const isValueDiff = source === 'espn' && showAuctionValues
   return (
-    <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''} ${selected ? 'is-selected' : ''}`} style={diffSignalStyle(row.diff, source === 'espn')} onClick={onSelect} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect?.() } }} aria-label={`${row.player}, ${row.positionRank ?? row.position}, ${drafted ? 'drafted' : 'available'}`} role="button" tabIndex={0} aria-pressed={selected} data-ranking-id={rankingId(row)}>
+    <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''} ${selected ? 'is-selected' : ''}`} style={diffSignalStyle(row.diff, isValueDiff)} onClick={onSelect} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect?.() } }} aria-label={`${row.player}, ${row.positionRank ?? row.position}, ${drafted ? 'drafted' : 'available'}`} role="button" tabIndex={0} aria-pressed={selected} data-ranking-id={rankingId(row)}>
       <div className="ranking-card__header"><div className="player-line">
         <TeamBadge team={team} asset={asset} />
         <div>
@@ -38,7 +39,7 @@ export function RankingCard({ row, teams, source, targeted = false, drafted = fa
       <dl>
         <div><dt>{sourceLabel(source)} rank</dt><dd>{formatRank(row.sourceRank)}</dd></div>
         <div><dt>Adjusted</dt><dd>{formatRank(row.adjustedRank)}</dd></div>
-        <div><dt>{source === 'espn' ? 'Salary cap diff' : 'Diff'}</dt><dd>{source === 'espn' ? `${formatSignedValue(row.diff)} (${formatValue(row.sourceValue)} / ${formatValue(row.adjustedValue)})` : formatRank(row.diff)}</dd></div>
+        <div><dt>{isValueDiff ? 'Salary cap diff' : 'Pick diff'}</dt><dd>{isValueDiff ? `${formatSignedValue(row.diff)} (${formatValue(row.sourceValue)} / ${formatValue(row.adjustedValue)})` : formatRank(row.diff)}</dd></div>
       </dl>
       <div className="ranking-card__actions"><button className={drafted ? `mine-action ${mine ? 'active' : ''}` : `target-action ${targeted ? 'active' : ''}`} type="button" aria-label={drafted ? `${mine ? 'Remove' : 'Add'} ${row.player} ${mine ? 'from' : 'to'} my roster` : `${targeted ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={drafted ? mine : targeted} onClick={(event) => { event.stopPropagation(); if (drafted) onMine?.(); else onTarget?.() }}>{drafted ? (mine ? '✓ Mine' : '+ Mine') : `★ ${targeted ? 'Targeted' : 'Target'}`}</button><button className={`draft-action ${drafted ? 'active' : ''}`} type="button" aria-label={`${drafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted?.() }}>{drafted ? 'Undraft' : 'Draft'}</button></div>
     </article>

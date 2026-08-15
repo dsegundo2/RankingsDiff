@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { RankingRow } from '../types'
-import { applyAdjustedProfile, filterRankings, sortRankings } from './rankings'
+import { applyAdjustedProfile, filterRankings, rankingDifference, sortRankings } from './rankings'
 import { getTeamAsset, hasTeamLogo, normalizeTeamAbbreviation } from './teams'
 
 const rows: RankingRow[] = [
@@ -86,5 +86,11 @@ describe('ranking helpers', () => {
       adjustedRank: 4, adjustedRankHalfPpr: 3, sourceValue: 10, adjustedValue: 14, diff: 4
     }]
     expect(applyAdjustedProfile(espnRows, 'half-ppr', 'espn')[0]).toMatchObject({ adjustedRank: 3, diff: 4 })
+  })
+
+  it('calculates ESPN snake deltas from picks', () => {
+    expect(rankingDifference({ sourceRank: 22, adjustedRank: 10, player: 'Kenneth Walker', team: 'KC', position: 'RB' })).toBe(12)
+    expect(rankingDifference({ sourceRank: 198, adjustedRank: 115, player: 'Jordan Love', team: 'GB', position: 'QB' })).toBe(83)
+    expect(rankingDifference({ player: 'Missing rank', team: 'FA', position: 'RB' })).toBeUndefined()
   })
 })

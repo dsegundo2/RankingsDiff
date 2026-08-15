@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { AdjustedProfile, DataManifest, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset, YahooProjectionMap } from '../types'
-import { calculateRegression, filterRankings, formatRank, formatSignedValue, formatValue, regressionDifference, sortRankings, sourceLabel, yahooProjectionId } from '../data/rankings'
+import { calculateRegression, filterRankings, formatRank, formatSignedValue, formatValue, rankingDifference, regressionDifference, sortRankings, sourceLabel, yahooProjectionId } from '../data/rankings'
 import { DEFAULT_DRAFT_SIZE, DEFAULT_DRAFT_SLOT, MAX_DRAFT_SIZE, MIN_DRAFT_SIZE, rankingId, readAuctionDraftState, readDraftShare, readDraftState, writeAuctionDraftState, writeDraftState } from '../data/draftState'
 import { DEFAULT_ROSTER_TARGETS, type RosterTargetGoals } from '../data/rosterTargets'
 import { Filters } from './Filters'
@@ -111,7 +111,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     observer.observe(workbench)
     return () => observer.disconnect()
   }, [showDraftLog, stickyWorkbench, showMobileActions, view, selectedSeason, selectedSource])
-  const rowsWithYahooProjection = useMemo(() => rows.map((row) => ({ ...row, yahooProjection: yahooProjections[yahooProjectionId(row.player, row.team)]?.[projectionMode === 'half' ? 'week1HalfPpr' : 'week1Ppr'] })), [projectionMode, rows, yahooProjections])
+  const displayRows = useMemo(() => rows.map((row) => selectedSource === 'espn' && draftMode === 'snake' ? { ...row, diff: rankingDifference(row) } : row), [draftMode, rows, selectedSource])
+  const rowsWithYahooProjection = useMemo(() => displayRows.map((row) => ({ ...row, yahooProjection: yahooProjections[yahooProjectionId(row.player, row.team)]?.[projectionMode === 'half' ? 'week1HalfPpr' : 'week1Ppr'] })), [displayRows, projectionMode, yahooProjections])
   const filteredRows = useMemo(() => {
     const searchedRows = filterRankings(rowsWithYahooProjection, search, 'ALL', teams)
     if (view === 'positions' || boardPositions.size === allPositionKeys.size) return searchedRows
@@ -735,7 +736,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
                 const id = rankingId(row)
-                return <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} targeted={targets.has(id)} drafted={drafted.has(id)} mine={mine.has(id)} selected={selectedId === id} onSelect={() => setSelectedId(id)} onTarget={() => toggleTarget(id)} onDrafted={() => draftPlayer(id)} onMine={() => toggleMine(id)} />
+                return <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} showAuctionValues={draftMode === 'auction'} targeted={targets.has(id)} drafted={drafted.has(id)} mine={mine.has(id)} selected={selectedId === id} onSelect={() => setSelectedId(id)} onTarget={() => toggleTarget(id)} onDrafted={() => draftPlayer(id)} onMine={() => toggleMine(id)} />
               })}
             </section>
           </div>
@@ -799,7 +800,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       />
     </main>
     <div hidden={route !== 'analytics'}>
-      <RankingsDiffChart rows={rows} teams={teams} source={selectedSource} drafted={drafted} onBack={() => onNavigate('board')} />
+      <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onBack={() => onNavigate('board')} />
     </div>
   </>)
 }
