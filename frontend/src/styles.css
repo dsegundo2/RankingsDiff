@@ -239,6 +239,7 @@ tbody tr.is-drafted { background: color-mix(in srgb, var(--panel-soft) 68%, var(
 tbody tr.is-drafted td:not(.draft-cell) { color: color-mix(in srgb, var(--ink) 62%, var(--muted)); }
 tbody tr.is-drafted .player-cell strong { color: var(--muted); opacity: .56; }
 tbody tr.is-drafted .rank-pair strong { color: var(--muted); opacity: .72; }
+tbody tr.is-drafted .adjusted-rank-value { color: var(--muted) !important; opacity: .72; }
 tbody tr.is-drafted .team-badge, tbody tr.is-drafted .pos-chip { filter: grayscale(.35); opacity: .72; }
 tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var(--ink); background: var(--panel); }
 .sort-button { border: 0; padding: 0; color: inherit; background: transparent; font: inherit; letter-spacing: inherit; text-transform: inherit; }
@@ -306,6 +307,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .cards-list { display: none; }
 .ranking-card { padding: 14px; border-radius: 16px; background: linear-gradient(90deg, #fff 0%, #fff 65%, rgb(var(--diff-rgb, 79 93 228) / var(--diff-alpha,0)) 100%); box-shadow: 0 8px 24px rgba(28,39,69,.08); }
 .ranking-card.is-drafted { opacity: .48; }
+.ranking-card.is-drafted .adjusted-rank-value { color: var(--muted) !important; }
 .ranking-card__header { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
 .ranking-card dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
 .ranking-card dt { color: var(--muted); font-size: .7rem; font-weight: 800; text-transform: uppercase; }
