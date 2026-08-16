@@ -43,8 +43,8 @@ function draftDividerStyle(): CSSProperties {
   return { '--draft-rgb': '111 88 177' } as CSSProperties
 }
 
-function DraftDividerRow({ markers, columnCount }: { markers: DraftMarker[]; columnCount: number }) {
-  return <tr className="draft-divider-row" data-draft-divider="true" data-draft-marker-overall={markers.map((marker) => marker.overallPick).join(',')} data-draft-marker-current={markers.some((marker) => marker.isCurrent) ? 'true' : undefined} aria-label={markers.map((marker) => marker.isCurrent && marker.isMine ? 'Your pick' : `Round ${marker.round}, pick ${marker.pickInRound}`).join(' · ')}><td colSpan={columnCount}><div className="draft-divider" style={draftDividerStyle()}>{markers.map((marker) => <span className={`${marker.isCurrent ? 'is-current ' : ''}${marker.isMine ? 'is-mine' : 'is-future'}`} key={marker.overallPick}>{marker.isCurrent && marker.isMine ? 'Your pick' : `R${marker.round} · Pick ${marker.pickInRound}`}</span>)}</div></td></tr>
+function DraftDividerRow({ markers, columnCount, atTop = false }: { markers: DraftMarker[]; columnCount: number; atTop?: boolean }) {
+  return <tr className={`draft-divider-row${atTop ? ' draft-divider-row--top' : ''}`} data-draft-divider="true" data-draft-marker-overall={markers.map((marker) => marker.overallPick).join(',')} data-draft-marker-current={markers.some((marker) => marker.isCurrent) ? 'true' : undefined} aria-label={markers.map((marker) => marker.isCurrent && marker.isMine ? 'Your pick' : `Round ${marker.round}, pick ${marker.pickInRound}`).join(' · ')}><td colSpan={columnCount}><div className="draft-divider" style={draftDividerStyle()}>{markers.map((marker) => <span className={`${marker.isCurrent ? 'is-current ' : ''}${marker.isMine ? 'is-mine' : 'is-future'}`} key={marker.overallPick}>{marker.isCurrent && marker.isMine ? 'Your pick' : `R${marker.round} · Pick ${marker.pickInRound}`}</span>)}</div></td></tr>
 }
 
 function pickDetails(overallPick: number, draftSize: number): { round: number; pickInRound: number } {
@@ -116,7 +116,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
         </colgroup>
         <thead>
           <tr>
-            <th className="num-heading rank-heading" title={`${sourceLabel(source)} rank compared with adjusted rank`}><button className="sort-button" aria-label={`Sort rank by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} title={`Click to sort by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} onClick={() => onSort(nextRankSortKey)}><span>Rank</span><span aria-hidden="true">↑</span></button></th>
+            <th className="num-heading rank-heading" title={`${sourceLabel(source)} rank compared with adjusted rank`}><button className="sort-button" aria-label={`Sort rank by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} title={`Click to sort by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} onClick={() => onSort(nextRankSortKey)}><span>Rank</span><span className="rank-heading__hint sr-only" title={`${sourceLabel(source)} rank → adjusted rank`}>Rank → adjusted rank</span><span aria-hidden="true">↑</span></button></th>
             <th className="player-heading"><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             {showValueColumn ? <th className="num-heading price-heading"><span>Value</span></th> : null}
@@ -141,7 +141,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             const weeklyAverageFallback = yahooProjectionMode === 'half' ? projection?.seasonHalfPpr : projection?.seasonPpr
             return (
               <Fragment key={`${row.player}-${row.team}-${row.sourceRank}`}>
-              {showDraftDivider && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} /> : null}
+              {showDraftDivider && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} atTop={index === 0} /> : null}
               <tr
                 key={`${row.player}-${row.team}-${row.sourceRank}`}
                 className={`${isDrafted ? 'is-drafted' : ''} ${selectedId === id ? 'is-selected' : ''} pos-${row.positionTone ?? 'other'}`}
@@ -150,7 +150,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                 aria-selected={selectedId === id}
                 data-ranking-id={id}
               >
-                <td className="num rank-cell"><span className="rank-parenthetical"><strong>{formatRank(row.sourceRank)}</strong><small className={`adjusted-rank-value adjusted-rank-value--${adjustedRankTone(row)}`}>({formatRank(row.adjustedRank)})</small></span></td>
+                <td className="num rank-cell"><span className="rank-parenthetical rank-pair"><strong>{formatRank(row.sourceRank)}</strong><small className={`adjusted-rank-value adjusted-rank-value--${adjustedRankTone(row)}`}>({formatRank(row.adjustedRank)})</small><span className="sr-only"><strong>{formatRank(row.adjustedRank)}</strong></span></span></td>
                 <td className="player-cell">
                   <div className="player-cell__inner">
                     <TeamBadge team={team} asset={asset} />

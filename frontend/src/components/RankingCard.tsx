@@ -37,6 +37,8 @@ export function RankingCard({ row, teams, source, showAuctionValues = source ===
         </div>
       </div><span className={`pos-chip pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span></div>
       <dl>
+        <div><dt>{source === 'fpros' ? 'Fantasy Pros' : 'Base'} rank</dt><dd>{formatRank(row.sourceRank)}</dd></div>
+        <div><dt>Adjusted</dt><dd>{formatRank(row.adjustedRank)}</dd></div>
         <div><dt>{isValueDiff ? 'Salary cap diff' : 'Pick diff'}</dt><dd>{isValueDiff ? `${formatSignedValue(row.diff)} (${formatValue(row.sourceValue)} / ${formatValue(row.adjustedValue)})` : formatRank(row.diff)}</dd></div>
       </dl>
       <div className="ranking-card__actions"><button className={drafted ? `mine-action ${mine ? 'active' : ''}` : `target-action ${targeted ? 'active' : ''}`} type="button" aria-label={drafted ? `${mine ? 'Remove' : 'Add'} ${row.player} ${mine ? 'from' : 'to'} my roster` : `${targeted ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={drafted ? mine : targeted} onClick={(event) => { event.stopPropagation(); if (drafted) onMine?.(); else onTarget?.() }}>{drafted ? (mine ? '✓ Mine' : '+ Mine') : `★ ${targeted ? 'Targeted' : 'Target'}`}</button><button className={`draft-action ${drafted ? 'active' : ''}`} type="button" aria-label={`${drafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted?.() }}>{drafted ? 'Undraft' : 'Draft'}</button></div>

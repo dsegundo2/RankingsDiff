@@ -519,14 +519,25 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .diff-cell.diff-negative .diff-value { color: var(--danger); }
 .diff-cell.diff-neutral .diff-value { color: var(--muted); }
 .rankings-table tbody tr.draft-divider-row { height: 0; filter: none; }
+.rankings-table tbody tr.draft-divider-row--top { height: 28px; }
+.rankings-table .draft-divider-row--top td { height: 28px; }
 .rankings-table .draft-divider-row td { position: relative; height: 0; padding: 0; border: 0; background: transparent; line-height: 0; pointer-events: none; overflow: visible; }
-.draft-divider { position: relative; z-index: 1; display: flex; height: 0; min-height: 0; gap: var(--space-2); align-items: flex-start; justify-content: flex-start; padding-left: 35%; box-sizing: border-box; border-top: 1px solid color-mix(in srgb, rgb(var(--draft-rgb)) 46%, var(--line)); color: rgb(var(--draft-rgb)); font-size: .62rem; font-weight: 850; letter-spacing: .045em; text-transform: uppercase; }
+.draft-divider { position: relative; z-index: 1; display: flex; height: 0; min-height: 0; gap: var(--space-2); align-items: flex-start; justify-content: flex-start; padding-left: 38%; box-sizing: border-box; border-top: 1px solid color-mix(in srgb, rgb(var(--draft-rgb)) 46%, var(--line)); color: rgb(var(--draft-rgb)); font-size: .62rem; font-weight: 850; letter-spacing: .045em; text-transform: uppercase; }
+.draft-divider-row--top .draft-divider { top: 13px; }
 .draft-divider span { position: relative; top: -11px; padding: 3px 9px; border: 1px solid color-mix(in srgb, rgb(var(--draft-rgb)) 28%, var(--line)); border-radius: var(--radius-pill); background: var(--panel-soft); line-height: 1; white-space: nowrap; }
 .draft-divider span.is-current { color: var(--panel); border-color: rgb(var(--draft-rgb)); background: rgb(var(--draft-rgb)); }
 .draft-divider span.is-mine:not(.is-current) { color: rgb(var(--draft-rgb)); border-color: color-mix(in srgb, rgb(var(--draft-rgb)) 38%, var(--line)); background: color-mix(in srgb, rgb(var(--draft-rgb)) 10%, var(--panel)); }
 .draft-divider span.is-future { color: var(--muted); border-color: var(--line); background: var(--panel); }
 
+/* The draft toolbar only contains the mobile Actions toggle. On desktop it
+   otherwise becomes an empty bordered strip, especially noticeable when the
+   workbench is sticky. */
+@media (min-width: 761px) {
+  .draft-toolbar:has(.mobile-actions-toggle) { display: none; }
+}
+
 @media (min-width: 761px) and (max-width: 1100px) {
+  .draft-divider { padding-left: 30%; }
   .rankings-table .col-action { width: 40px; }
   .rankings-table .col-position { width: 62px; }
   .rankings-table .col-rank { width: 98px; }
@@ -668,6 +679,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 }
 @media (max-width: 1100px) { .hero { grid-template-columns: 1fr; } .hero-actions { grid-template-columns: 1fr 1.25fr; } .hero-actions--settings, .hero-actions--workbench { grid-template-columns: minmax(0, 1fr); justify-content: stretch; } .settings-tools-grid { grid-template-columns: 1fr; } .draft-board-layout { grid-template-columns: 1fr; } .target-queue { position: static; } }
 @media (max-width: 760px) {
+  .draft-divider { padding-left: 20%; }
   .roster-target-settings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dashboard { width: min(100% - 20px, 680px); padding-top: 18px; }
   .hero-actions, .filters, .position-board, .settings-grid { grid-template-columns: 1fr; }
