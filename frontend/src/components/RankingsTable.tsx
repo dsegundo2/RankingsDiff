@@ -104,26 +104,26 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
     <div className="table-wrap">
       <table className={`rankings-table ${isEspn ? 'rankings-table--espn' : 'rankings-table--fpros'}${stickyHeaders ? ' rankings-table--sticky-headers' : ''}`}>
         <colgroup>
-          <col className="col-action" />
+          <col className="col-rank" />
           <col className="col-player" />
           <col className="col-position" />
-          <col className="col-rank" />
           {showValueColumn ? <col className="col-money" /> : null}
           {showYahooProjections ? <col className="col-yahoo-projection" /> : null}
           {showRegressionDiff ? <col className="col-regression-diff" /> : null}
           <col className="col-diff" />
+          <col className="col-action" />
           <col className="col-draft" />
         </colgroup>
         <thead>
           <tr>
-            <th className="action-heading" title="Favorite before drafting; add to my roster after drafting"><span className="action-heading__label">Mine</span><span className="sr-only">Favorite or my roster</span></th>
+            <th className="num-heading rank-heading" title={`${sourceLabel(source)} rank compared with adjusted rank`}><button className="sort-button" aria-label={`Sort rank by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} title={`Click to sort by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} onClick={() => onSort(nextRankSortKey)}><span>Rank</span><span aria-hidden="true">↑</span></button></th>
             <th className="player-heading"><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th className="num-heading rank-heading" title={`${sourceLabel(source)} rank compared with adjusted rank`}><button className="sort-button" aria-label={`Sort rank by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} title={`Click to sort by ${nextRankSortKey === 'sourceRank' ? `${sourceLabel(source)} base rank` : 'adjusted rank'}`} onClick={() => onSort(nextRankSortKey)}><span>Rank</span><span className="rank-heading__hint" title={`${sourceLabel(source)} rank → adjusted rank`} aria-hidden="true">→</span><span aria-hidden="true">↑</span></button></th>
             {showValueColumn ? <th className="num-heading price-heading"><span>Value</span></th> : null}
             {showYahooProjections ? <th className="num-heading yahoo-projection-heading"><SortButton label="Yahoo proj" sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
             {showRegressionDiff ? <th className="num-heading regression-diff-heading"><SortButton label="Trend" ariaLabel="Sort by trend" sortKey="regressionDiff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
             <th className="num-heading diff-heading"><SortButton label="Delta" ariaLabel={showValueColumn ? 'Sort by value delta' : 'Sort by ranking delta'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
+            <th className="action-heading" title="Favorite before drafting; add to my roster after drafting"><span className="action-heading__label">Favorite</span><span className="sr-only">Favorite or my roster</span></th>
             <th className="draft-heading">Draft</th>
           </tr>
         </thead>
@@ -150,7 +150,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                 aria-selected={selectedId === id}
                 data-ranking-id={id}
               >
-                <td className="row-action">{isDrafted ? <button className={`mine-action ${isMine ? 'active' : ''}`} type="button" aria-label={`${isMine ? 'Remove' : 'Add'} ${row.player} ${isMine ? 'from' : 'to'} my roster`} aria-pressed={isMine} onClick={(event) => { event.stopPropagation(); onMine(id) }}>{isMine ? '✓' : '+'}</button> : <button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button>}</td>
+                <td className="num rank-cell"><span className="rank-parenthetical"><strong>{formatRank(row.sourceRank)}</strong><small>({formatRank(row.adjustedRank)})</small></span></td>
                 <td className="player-cell">
                   <div className="player-cell__inner">
                     <TeamBadge team={team} asset={asset} />
@@ -158,11 +158,11 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                   </div>
                 </td>
                 <td className="position-cell"><span className={`pos-chip pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span></td>
-                <td className="num rank-cell"><span className="rank-pair"><strong>{formatRank(row.sourceRank)}</strong><span>→</span><strong>{formatRank(row.adjustedRank)}</strong></span></td>
                 {showValueColumn ? <td className="num price-cell"><span className="stacked-price"><strong>{formatValue(row.sourceValue)}</strong><small>Adjusted {formatValue(row.adjustedValue)}</small></span></td> : null}
                 {showYahooProjections ? <td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{typeof week1Projection === 'number' ? week1Projection.toFixed(2) : '—'}</strong><small>{typeof weeklyAverage === 'number' ? `${weeklyAverage.toFixed(1)} avg` : typeof weeklyAverageFallback === 'number' ? `${(weeklyAverageFallback / 17).toFixed(1)} avg` : 'No data'}</small></span></td> : null}
                 {showRegressionDiff ? <td className={`num emphasis regression-diff-cell ${typeof row.regressionDiff === 'number' && row.regressionDiff > 0 ? 'diff-positive' : typeof row.regressionDiff === 'number' && row.regressionDiff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{formatSignedRank(row.regressionDiff)}</span></td> : null}
                 <td className={`num emphasis diff-cell ${typeof row.diff === 'number' && row.diff > 0 ? 'diff-positive' : typeof row.diff === 'number' && row.diff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{showValueColumn ? formatSignedValue(row.diff) : formatRank(row.diff)}</span></td>
+                <td className="row-action">{isDrafted ? <button className={`mine-action ${isMine ? 'active' : ''}`} type="button" aria-label={`${isMine ? 'Remove' : 'Add'} ${row.player} ${isMine ? 'from' : 'to'} my roster`} aria-pressed={isMine} onClick={(event) => { event.stopPropagation(); onMine(id) }}>{isMine ? '✓' : '+'}</button> : <button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button>}</td>
                 <td className="draft-cell"><button className={`draft-action ${isDrafted ? 'active' : ''}`} type="button" aria-label={`${isDrafted ? 'Undo drafted' : 'Mark drafted'} ${row.player}`} onClick={(event) => { event.stopPropagation(); onDrafted(id) }}>{isDrafted ? 'Undo' : 'Draft'}</button></td>
               </tr>
               </Fragment>

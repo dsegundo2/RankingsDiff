@@ -676,7 +676,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     <main className={`dashboard ${showMobileActions ? '' : 'mobile-actions-hidden'}`} hidden={route === 'analytics'}>
       <section className="hero hero--compact hero--editorial" aria-label="RankingsDiff header">
         <div className="hero__brand">
-          <span className="hero__mark" aria-hidden="true"><b>R</b><b>D</b></span>
+          <img className="hero__mark" src={withBasePath('/assets/rankingsdiff-mark.png')} alt="RankingsDiff" />
           <div>
             <span className="eyebrow">Fantasy football</span>
             <h1>RankingsDiff</h1>

@@ -92,6 +92,36 @@ a { color: inherit; }
   background: linear-gradient(145deg, #e8f6f1 0%, #f8fbf8 58%, #f0f8f4 100%);
 }
 body:has(.app-theme--studio-mint) { background: #edf7f3; }
+.app-theme--ranking-blue {
+  --ink: #10284b;
+  --muted: #60718b;
+  --surface: #eef5fd;
+  --panel: #ffffff;
+  --panel-soft: #f2f7fd;
+  --line: #d4e0f0;
+  --accent: #1f5fae;
+  --accent-2: #6ea7df;
+  --accent-soft: #e6f0fc;
+  --accent-hover: #174d91;
+  --good: #13795b;
+  --qb: #5477c8;
+  --rb: #149b84;
+  --wr: #367ac5;
+  --te: #3e9db7;
+  min-height: 100vh;
+  color: var(--ink);
+  background: linear-gradient(145deg, #eaf3fc 0%, #f8fbfe 58%, #edf5fc 100%);
+}
+body:has(.app-theme--ranking-blue) { background: #eef5fd; }
+.app-theme--ranking-blue .hero__mark { object-fit: cover; background: #000; box-shadow: 0 10px 24px rgb(31 95 174 / 20%); }
+.app-theme--ranking-blue .hero--editorial { border-bottom-color: var(--line); }
+.app-theme--ranking-blue .table-wrap, .app-theme--ranking-blue .target-queue, .app-theme--ranking-blue .ranking-card { border-color: var(--line); }
+.app-theme--ranking-blue th { background: rgb(230 240 252 / 94%); }
+.app-theme--ranking-blue .player-heading { padding-left: 13px; }
+.app-theme--ranking-blue .ranking-card__header { gap: var(--space-2); }
+.app-theme--ranking-blue .ranking-card__rank { display: inline-flex; flex: 0 0 48px; gap: 3px; align-items: baseline; justify-content: flex-start; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.app-theme--ranking-blue .ranking-card__rank strong { color: var(--accent); font-size: 1.1rem; }
+.app-theme--ranking-blue .ranking-card__rank small { color: var(--muted); font-size: .66rem; font-weight: 750; white-space: nowrap; }
 .app-theme--studio-mint .hero--editorial { border-bottom-color: var(--line); }
 .app-theme--studio-mint .hero__mark { box-shadow: 0 10px 24px rgb(22 143 122 / 18%); }
 .app-theme--studio-mint .loading-shell { border-color: var(--line); background: linear-gradient(135deg, rgb(255 253 249 / 98%), rgb(224 244 238 / 88%)); }
@@ -476,6 +506,9 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .rank-heading__sorts .sort-button:hover, .rank-heading__sorts .sort-button:focus-visible { color: var(--accent); background: var(--accent-soft); }
 .rank-pair { display: inline-flex; gap: 5px; align-items: baseline; justify-content: flex-end; font-variant-numeric: tabular-nums; }
 .rank-pair span { color: var(--muted); font-weight: 700; }
+.rank-parenthetical { display: inline-flex; gap: 3px; align-items: baseline; justify-content: flex-end; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rank-parenthetical strong { color: var(--accent); font-size: 1.05rem; }
+.rank-parenthetical small { color: var(--muted); font-size: .72rem; font-weight: 750; }
 .stacked-price { display: grid; gap: 2px; justify-items: end; font-variant-numeric: tabular-nums; }
 .stacked-price small { color: var(--muted); font-size: .68rem; font-weight: 750; }
 .diff-cell { white-space: nowrap; }
@@ -862,7 +895,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 
 @media (max-width: 360px) {
   .ranking-card dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ranking-card dl > div:last-child { grid-column: 1 / -1; }
+.ranking-card dl > div:last-child { grid-column: 1 / -1; }
   .target-queue button { grid-template-columns: 38px minmax(0, 1fr) 30px 18px; padding-inline: var(--space-2); }
   .target-queue__pos { min-width: 34px; padding-inline: var(--space-1); }
   .position-lane__columns,

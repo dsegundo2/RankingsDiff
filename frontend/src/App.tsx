@@ -191,5 +191,5 @@ export default function App() {
   if (window.location.pathname.endsWith('/draft-cutoff-mockups')) return <DraftCutoffMockups />
   if (window.location.pathname.endsWith('/column-mockups')) return <ColumnMockups />
   if (window.location.pathname.endsWith('/mockups')) return <ThemeMockups />
-  return <div className="app-theme app-theme--studio-mint"><AppData /></div>
+  return <div className="app-theme app-theme--ranking-blue"><AppData /></div>
 }
