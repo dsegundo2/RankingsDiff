@@ -1,6 +1,6 @@
 import { Fragment, type CSSProperties } from 'react'
 import type { RankingRow, RankingSource, SortDirection, SortKey, TeamAsset, YahooProjection } from '../types'
-import { formatRank, formatSignedRank, formatSignedValue, formatValue, sourceLabel } from '../data/rankings'
+import { adjustedRankTone, formatRank, formatSignedRank, formatSignedValue, formatValue, sourceLabel } from '../data/rankings'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
 import { rankingId } from '../data/draftState'
@@ -150,7 +150,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                 aria-selected={selectedId === id}
                 data-ranking-id={id}
               >
-                <td className="num rank-cell"><span className="rank-parenthetical"><strong>{formatRank(row.sourceRank)}</strong><small>({formatRank(row.adjustedRank)})</small></span></td>
+                <td className="num rank-cell"><span className="rank-parenthetical"><strong>{formatRank(row.sourceRank)}</strong><small className={`adjusted-rank-value adjusted-rank-value--${adjustedRankTone(row)}`}>({formatRank(row.adjustedRank)})</small></span></td>
                 <td className="player-cell">
                   <div className="player-cell__inner">
                     <TeamBadge team={team} asset={asset} />

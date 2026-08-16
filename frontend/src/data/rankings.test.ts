@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { RankingRow } from '../types'
-import { applyAdjustedProfile, filterRankings, rankingDifference, sortRankings } from './rankings'
+import { adjustedRankTone, applyAdjustedProfile, filterRankings, rankingDifference, sortRankings } from './rankings'
 import { getTeamAsset, hasTeamLogo, normalizeTeamAbbreviation } from './teams'
 
 const rows: RankingRow[] = [
@@ -92,5 +92,14 @@ describe('ranking helpers', () => {
     expect(rankingDifference({ sourceRank: 22, adjustedRank: 10, player: 'Kenneth Walker', team: 'KC', position: 'RB' })).toBe(12)
     expect(rankingDifference({ sourceRank: 198, adjustedRank: 115, player: 'Jordan Love', team: 'GB', position: 'QB' })).toBe(83)
     expect(rankingDifference({ player: 'Missing rank', team: 'FA', position: 'RB' })).toBeUndefined()
+  })
+
+  it('colors meaningful adjusted movement by trend or draft round threshold', () => {
+    expect(adjustedRankTone({ ...rows[0], sourceRank: 1, adjustedRank: 3 })).toBe('negative')
+    expect(adjustedRankTone({ ...rows[0], sourceRank: 1, adjustedRank: 2 })).toBe('neutral')
+    expect(adjustedRankTone({ ...rows[0], sourceRank: 13, adjustedRank: 9 })).toBe('positive')
+    expect(adjustedRankTone({ ...rows[0], sourceRank: 25, adjustedRank: 31 })).toBe('negative')
+    expect(adjustedRankTone({ ...rows[0], sourceRank: 100, adjustedRank: 101, regressionDiff: 1 })).toBe('positive')
+    expect(adjustedRankTone({ ...rows[0], sourceRank: 100, adjustedRank: 101, regressionDiff: -1 })).toBe('negative')
   })
 })

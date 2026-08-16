@@ -150,6 +150,27 @@ export function rankingDifference(row: RankingRow): number | undefined {
   return row.sourceRank - row.adjustedRank
 }
 
+export type AdjustedRankTone = 'positive' | 'negative' | 'neutral'
+
+/**
+ * Highlight meaningful adjusted-rank movement without making small changes
+ * noisy. A populated trend score uses the requested +/-1.0 signal; the raw
+ * rank movement fallback scales by 2 spots per 12-player draft round.
+ */
+export function adjustedRankTone(row: RankingRow, draftSize = 12): AdjustedRankTone {
+  if (typeof row.regressionDiff === 'number' && Number.isFinite(row.regressionDiff)) {
+    if (row.regressionDiff >= 1) return 'positive'
+    if (row.regressionDiff <= -1) return 'negative'
+  }
+  if (typeof row.sourceRank !== 'number' || typeof row.adjustedRank !== 'number') return 'neutral'
+  const movement = row.sourceRank - row.adjustedRank
+  const round = Math.max(1, Math.ceil(row.sourceRank / draftSize))
+  const threshold = round * 2
+  if (movement >= threshold) return 'positive'
+  if (movement <= -threshold) return 'negative'
+  return 'neutral'
+}
+
 export function sourceLabel(id: string): string {
   if (id === 'fpros') return 'Fantasy Pros'
   if (id === 'espn') return 'ESPN'

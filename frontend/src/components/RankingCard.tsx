@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import type { RankingRow, RankingSource, TeamAsset } from '../types'
-import { formatRank, formatSignedValue, formatValue } from '../data/rankings'
+import { adjustedRankTone, formatRank, formatSignedValue, formatValue } from '../data/rankings'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
 import { rankingId } from '../data/draftState'
@@ -29,7 +29,7 @@ export function RankingCard({ row, teams, source, showAuctionValues = source ===
   const isValueDiff = source === 'espn' && showAuctionValues
   return (
     <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''} ${selected ? 'is-selected' : ''}`} style={diffSignalStyle(row.diff, isValueDiff)} onClick={onSelect} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect?.() } }} aria-label={`${row.player}, ${row.positionRank ?? row.position}, ${drafted ? 'drafted' : 'available'}`} role="button" tabIndex={0} aria-pressed={selected} data-ranking-id={rankingId(row)}>
-      <div className="ranking-card__header"><span className="ranking-card__rank"><strong>{formatRank(row.sourceRank)}</strong><small>({formatRank(row.adjustedRank)})</small></span><div className="player-line">
+      <div className="ranking-card__header"><span className="ranking-card__rank"><strong>{formatRank(row.sourceRank)}</strong><small className={`adjusted-rank-value adjusted-rank-value--${adjustedRankTone(row)}`}>({formatRank(row.adjustedRank)})</small></span><div className="player-line">
         <TeamBadge team={team} asset={asset} />
         <div>
           <strong>{row.player}</strong>
