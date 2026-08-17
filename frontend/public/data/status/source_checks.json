@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T13:03:26.341582Z",
+  "generatedAt": "2026-08-17T13:11:39.505087Z",
   "checks": [
     {
       "id": "2025:espn:raw:data/raw/2025/espn_rankings.csv",
@@ -8,7 +8,7 @@
       "sourceLabel": "ESPN",
       "kind": "raw",
       "file": "data/raw/2025/espn_rankings.csv",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
       "lastChangedAt": "2026-07-17T01:26:40.919496Z",
       "previousChecksum": "cb58f95d6f6263141c2077b1bc3a518441b9ae90b7b5ca5bfa6b5f3d7c438b1f",
       "currentChecksum": "cb58f95d6f6263141c2077b1bc3a518441b9ae90b7b5ca5bfa6b5f3d7c438b1f",
@@ -21,7 +21,7 @@
       "sourceLabel": "FantasyPros",
       "kind": "raw",
       "file": "data/raw/2025/fpros_rankings.csv",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
       "lastChangedAt": "2026-07-17T01:26:40.919496Z",
       "previousChecksum": "7853aef0fd143929d3e84bb5be93daca560b047ff59ede40470240bc6fc2be6a",
       "currentChecksum": "7853aef0fd143929d3e84bb5be93daca560b047ff59ede40470240bc6fc2be6a",
@@ -34,10 +34,10 @@
       "sourceLabel": "Yahoo \u00b7 Hayden Winks Full-PPR column",
       "kind": "raw",
       "file": "data/raw/2026/adjusted_full_ppr.csv",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
-      "lastChangedAt": "2026-08-15T13:03:26.341582Z",
-      "previousChecksum": "fa46fe306dcafbef3f59ebe05c789d457228c2345cee24bc457a85afbff8d93e",
-      "currentChecksum": "c6925a4748584663da33ba544fa2117aeb9a6913c27d1b665753edc2b7fa889e",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
+      "lastChangedAt": "2026-08-17T13:11:39.505087Z",
+      "previousChecksum": "c6925a4748584663da33ba544fa2117aeb9a6913c27d1b665753edc2b7fa889e",
+      "currentChecksum": "f26912c53e0c82cefd47b3df91249629aa743dd595ebd4393ab1503e95352d72",
       "status": "changed"
     },
     {
@@ -47,11 +47,11 @@
       "sourceLabel": "Yahoo \u00b7 Hayden Winks Half-PPR",
       "kind": "raw",
       "file": "data/raw/2026/adjusted_half_ppr.csv",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
-      "lastChangedAt": "2026-08-14T13:49:24.838644Z",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
+      "lastChangedAt": "2026-08-17T13:11:39.505087Z",
       "previousChecksum": "c5caf61774104c10822e571a2f0e1997ccb826e1f37e011d23495ab73abf40cb",
-      "currentChecksum": "c5caf61774104c10822e571a2f0e1997ccb826e1f37e011d23495ab73abf40cb",
-      "status": "unchanged"
+      "currentChecksum": "ad68cffd76cdb5303db95c604d478d10c15f3790b235b8dd9bf3096acc4a4f86",
+      "status": "changed"
     },
     {
       "id": "2026:espn:output:data/output/2026/espn/merged.csv",
@@ -60,10 +60,10 @@
       "sourceLabel": "ESPN",
       "kind": "output",
       "file": "data/output/2026/espn/merged.csv",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
-      "lastChangedAt": "2026-08-15T13:03:26.341582Z",
-      "previousChecksum": "77291729c14255c1e3a860d18446ff7aa4c21044f1bcaa5d9a1dc13040d664ee",
-      "currentChecksum": "90e70b0db6fb106c4c83a2c31d7815cfac1c1bb0a1afd19c34d4da34015c3879",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
+      "lastChangedAt": "2026-08-17T13:11:39.505087Z",
+      "previousChecksum": "90e70b0db6fb106c4c83a2c31d7815cfac1c1bb0a1afd19c34d4da34015c3879",
+      "currentChecksum": "760b472d1a7e7a9706fe280ddaacb3a7984e80130ce5f952b41ee085dd5de632",
       "status": "changed"
     },
     {
@@ -73,11 +73,11 @@
       "sourceLabel": "ESPN",
       "kind": "raw",
       "file": "data/raw/2026/espn_ppr300_cheatsheet.pdf",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
-      "lastChangedAt": "2026-08-14T13:49:24.838644Z",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
+      "lastChangedAt": "2026-08-17T13:11:39.505087Z",
       "previousChecksum": "1f922541a8ee21567f38ebf97dee4f2200167519e17404d9dcb206a650fd4827",
-      "currentChecksum": "1f922541a8ee21567f38ebf97dee4f2200167519e17404d9dcb206a650fd4827",
-      "status": "unchanged"
+      "currentChecksum": "22f1f45361d565f855d1ccbb5092e31cdf362199e73227dda303c6ca4876414a",
+      "status": "changed"
     },
     {
       "id": "2026:espn:raw:data/raw/2026/espn_rankings.csv",
@@ -86,11 +86,11 @@
       "sourceLabel": "ESPN",
       "kind": "raw",
       "file": "data/raw/2026/espn_rankings.csv",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
-      "lastChangedAt": "2026-08-14T13:49:24.838644Z",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
+      "lastChangedAt": "2026-08-17T13:11:39.505087Z",
       "previousChecksum": "19616f4cf227480c8a82644a15202733b462534886b7e3912b90497400913e85",
-      "currentChecksum": "19616f4cf227480c8a82644a15202733b462534886b7e3912b90497400913e85",
-      "status": "unchanged"
+      "currentChecksum": "58b6c0ffce2e39ea8221cb8458e8c5f7010f3c14e43e39252b7f3a68c08b78e6",
+      "status": "changed"
     },
     {
       "id": "2026:fpros:output:data/output/2026/fpros/fpros_merged.csv",
@@ -99,10 +99,10 @@
       "sourceLabel": "FantasyPros",
       "kind": "output",
       "file": "data/output/2026/fpros/fpros_merged.csv",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
-      "lastChangedAt": "2026-08-15T13:03:26.341582Z",
-      "previousChecksum": "538113d8e3472732c117c1094ccb19f2d32d2c4a5241b9de8738485de552ba7f",
-      "currentChecksum": "cca1434624d3e1c74fc4eafa5c32386cf181fa60c0feb43eb81cd791d0f1ce29",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
+      "lastChangedAt": "2026-08-17T13:11:39.505087Z",
+      "previousChecksum": "cca1434624d3e1c74fc4eafa5c32386cf181fa60c0feb43eb81cd791d0f1ce29",
+      "currentChecksum": "00fad5070db0e93a7a66197b15f2b5b0106e89f8bf373f097635bc98bfee56d9",
       "status": "changed"
     },
     {
@@ -112,7 +112,7 @@
       "sourceLabel": "FantasyPros",
       "kind": "raw",
       "file": "data/raw/2026/fantasypros_public_rankings.html",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
       "lastChangedAt": "2026-07-17T01:26:40.919496Z",
       "previousChecksum": "54510ce53eb6eec64f260deac69430d6a8b9faa1d359f8b481751c65aeeced13",
       "currentChecksum": "54510ce53eb6eec64f260deac69430d6a8b9faa1d359f8b481751c65aeeced13",
@@ -125,7 +125,7 @@
       "sourceLabel": "FantasyPros",
       "kind": "raw",
       "file": "data/raw/2026/fpros_rankings.csv",
-      "lastCheckedAt": "2026-08-15T13:03:26.341582Z",
+      "lastCheckedAt": "2026-08-17T13:11:39.505087Z",
       "lastChangedAt": "2026-07-17T01:26:40.919496Z",
       "previousChecksum": "0c59a1799af92d1a35bf2e886e6908f9f5d70004310d9bf9a64bf46f08cddfbe",
       "currentChecksum": "0c59a1799af92d1a35bf2e886e6908f9f5d70004310d9bf9a64bf46f08cddfbe",
