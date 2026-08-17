@@ -1023,7 +1023,8 @@ test('adjusted-rank sorting promotes adjusted rank while retaining movement colo
   const row = page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Bijan Robinson' }).first()
   await expect(row.locator('.rank-pair > strong').first()).toHaveText('4')
   await expect(row.locator('.rank-pair > small')).toHaveText('(2)')
-  await expect(row.locator('.rank-pair > strong').first()).toHaveClass(/adjusted-rank-value--negative/)
+  await expect(row.locator('.rank-pair > small')).toHaveClass(/adjusted-rank-value--negative/)
+  await expect(row.locator('.rank-pair > strong').first()).not.toHaveClass(/adjusted-rank-value/)
 })
 
 test('roster settings show total spend and support additional slots', async ({ page }) => {

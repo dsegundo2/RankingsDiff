@@ -517,13 +517,9 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .rank-pair span { color: var(--muted); font-weight: 700; }
 .rank-parenthetical { display: inline-flex; gap: 3px; align-items: baseline; justify-content: flex-end; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rank-parenthetical strong { color: var(--accent); font-size: 1.05rem; }
-.rank-parenthetical strong.adjusted-rank-value--positive { color: var(--good) !important; }
-.rank-parenthetical strong.adjusted-rank-value--negative { color: var(--danger) !important; }
 .rank-parenthetical small { color: var(--muted); font-size: .72rem; font-weight: 750; }
 .adjusted-rank-value--positive { color: var(--good) !important; }
 .adjusted-rank-value--negative { color: var(--danger) !important; }
-.ranking-card__rank strong.adjusted-rank-value--positive { color: var(--good) !important; }
-.ranking-card__rank strong.adjusted-rank-value--negative { color: var(--danger) !important; }
 .stacked-price { display: grid; gap: 2px; justify-items: end; font-variant-numeric: tabular-nums; }
 .stacked-price small { color: var(--muted); font-size: .68rem; font-weight: 750; }
 .diff-cell { white-space: nowrap; }

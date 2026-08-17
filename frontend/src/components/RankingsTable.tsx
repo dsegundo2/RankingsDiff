@@ -150,7 +150,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                 aria-selected={selectedId === id}
                 data-ranking-id={id}
               >
-                <td className="num rank-cell"><span className="rank-parenthetical rank-pair"><strong className={sortKey === 'adjustedRank' ? `adjusted-rank-value--${adjustedRankTone(row)}` : undefined}>{formatRank(sortKey === 'adjustedRank' ? row.adjustedRank : row.sourceRank)}</strong><small className={sortKey === 'adjustedRank' ? undefined : `adjusted-rank-value adjusted-rank-value--${adjustedRankTone(row)}`}>({formatRank(sortKey === 'adjustedRank' ? row.sourceRank : row.adjustedRank)})</small>{sortKey !== 'adjustedRank' ? <strong className="sr-only">{formatRank(row.adjustedRank)}</strong> : null}<span className="sr-only">Base rank {formatRank(row.sourceRank)}. Adjusted rank {formatRank(row.adjustedRank)}.</span></span></td>
+                <td className="num rank-cell"><span className="rank-parenthetical rank-pair"><strong>{formatRank(sortKey === 'adjustedRank' ? row.adjustedRank : row.sourceRank)}</strong><small className={`adjusted-rank-value adjusted-rank-value--${adjustedRankTone(row)}`}>({formatRank(sortKey === 'adjustedRank' ? row.sourceRank : row.adjustedRank)})</small>{sortKey !== 'adjustedRank' ? <strong className="sr-only">{formatRank(row.adjustedRank)}</strong> : null}<span className="sr-only">Base rank {formatRank(row.sourceRank)}. Adjusted rank {formatRank(row.adjustedRank)}.</span></span></td>
                 <td className="player-cell">
                   <div className="player-cell__inner">
                     <TeamBadge team={team} asset={asset} />
