@@ -129,7 +129,10 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     const line = calculateRegression(filteredRows)
     return filteredRows.map((row) => ({ ...row, regressionDiff: regressionDifference(row, line, filteredRows) }))
   }, [filteredRows])
-  const visibleRows = useMemo(() => sortRankings(regressionRows, sortKey, sortDirection).filter((row) => showDrafted || !drafted.has(rankingId(row))), [regressionRows, sortKey, sortDirection, showDrafted, drafted])
+  const visibleRows = useMemo(() => {
+    const searchActive = search.trim().length > 0
+    return sortRankings(regressionRows, sortKey, sortDirection).filter((row) => searchActive || showDrafted || !drafted.has(rankingId(row)))
+  }, [regressionRows, search, sortKey, sortDirection, showDrafted, drafted])
   const matchHealth = useMemo<MatchHealth>(() => ({
     total: rows.length,
     full: rows.filter((row) => typeof row.adjustedRank === 'number' && Number.isFinite(row.adjustedRank)).length,
@@ -159,10 +162,11 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   }, [rows, drafted])
   const positionRows = useMemo(() => sortRankings(filteredRows, 'sourceRank', 'asc'), [filteredRows])
   const visiblePositionRows = useMemo(() => {
+    const searchActive = search.trim().length > 0
     return ['RB', 'WR', 'QB', 'TE', 'K']
-      .filter((pos): pos is PositionKey => positionViews.has(pos as PositionKey))
-      .flatMap((pos) => positionRows.filter((row) => row.position.toUpperCase() === pos && (showDrafted || !drafted.has(rankingId(row)))))
-  }, [positionRows, positionViews, showDrafted, drafted])
+      .filter((pos): pos is PositionKey => searchActive || positionViews.has(pos as PositionKey))
+      .flatMap((pos) => positionRows.filter((row) => row.position.toUpperCase() === pos && (searchActive || showDrafted || !drafted.has(rankingId(row)))))
+  }, [positionRows, positionViews, search, showDrafted, drafted])
   const navigationRows = view === 'board' ? visibleRows : visiblePositionRows
   function yahooProjectionFor(row: RankingRow) {
     return yahooProjections[yahooProjectionId(row.player, row.team)]

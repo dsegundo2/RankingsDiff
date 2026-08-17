@@ -987,6 +987,24 @@ test('search temporarily bypasses position filters and restores them after draft
   await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Josh Allen' })).toHaveCount(0)
 })
 
+test('search shows drafted players even when drafted rows are hidden, then restores the hidden filter', async ({ page }) => {
+  await page.goto('./')
+  await page.evaluate(() => localStorage.clear())
+  await page.reload()
+  const search = page.getByPlaceholder('Search by player or team')
+  await search.fill('Josh Allen')
+  await page.keyboard.press('Enter')
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  await page.getByRole('checkbox', { name: 'Show drafted' }).uncheck()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await search.fill('Josh Allen')
+  const draftedRow = page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Josh Allen' })
+  await expect(draftedRow).toHaveClass(/is-drafted/)
+  await search.fill('')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Josh Allen' })).toHaveCount(0)
+})
+
 test('recent snake picks show round and pick shorthand for the configured draft size', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: 'Settings' }).click()
