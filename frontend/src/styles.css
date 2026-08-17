@@ -466,7 +466,14 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .settings-popover input[type='number']::-webkit-inner-spin-button, .settings-popover input[type='number']::-webkit-outer-spin-button { margin: 0; appearance: none; }
 .draft-slot-input input:focus { outline: 3px solid rgba(79, 93, 228, .2); outline-offset: 2px; border-color: var(--accent); }
 .roster-target-settings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+.roster-target-summary { display: flex; gap: var(--space-2); align-items: baseline; margin-bottom: var(--space-2); color: var(--muted); font-size: .78rem; }
+.roster-target-summary strong { color: var(--accent); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
 .roster-target-setting { display: flex; min-width: 0; justify-content: space-between; gap: var(--space-2); align-items: center; padding: 9px 10px; border: 1px solid var(--line); border-radius: var(--radius-md); color: var(--muted); background: rgba(255,255,255,.82); font-size: .75rem; font-weight: 800; }
+.roster-target-setting__remove { margin-left: auto; border: 0; color: var(--muted); background: transparent; font-size: 1rem; }
+.roster-target-setting__remove:hover, .roster-target-setting__remove:focus-visible { color: var(--danger); }
+.roster-target-add { display: flex; gap: var(--space-2); align-items: end; margin-top: var(--space-3); }
+.roster-target-add label { display: grid; gap: 4px; color: var(--muted); font-size: .72rem; font-weight: 800; }
+.roster-target-add select { min-height: 34px; padding: 0 28px 0 9px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--panel); }
 .roster-target-setting__input { display: inline-flex; min-width: 54px; align-items: center; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--muted); background: var(--panel-soft); }
 .roster-target-setting__input span { padding-left: 6px; }
 .roster-target-setting__input input { width: 42px; border: 0; padding: 6px 5px 6px 2px; color: var(--ink); background: transparent; font: inherit; text-align: right; }
@@ -510,9 +517,13 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .rank-pair span { color: var(--muted); font-weight: 700; }
 .rank-parenthetical { display: inline-flex; gap: 3px; align-items: baseline; justify-content: flex-end; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rank-parenthetical strong { color: var(--accent); font-size: 1.05rem; }
+.rank-parenthetical strong.adjusted-rank-value--positive { color: var(--good) !important; }
+.rank-parenthetical strong.adjusted-rank-value--negative { color: var(--danger) !important; }
 .rank-parenthetical small { color: var(--muted); font-size: .72rem; font-weight: 750; }
 .adjusted-rank-value--positive { color: var(--good) !important; }
 .adjusted-rank-value--negative { color: var(--danger) !important; }
+.ranking-card__rank strong.adjusted-rank-value--positive { color: var(--good) !important; }
+.ranking-card__rank strong.adjusted-rank-value--negative { color: var(--danger) !important; }
 .stacked-price { display: grid; gap: 2px; justify-items: end; font-variant-numeric: tabular-nums; }
 .stacked-price small { color: var(--muted); font-size: .68rem; font-weight: 750; }
 .diff-cell { white-space: nowrap; }
@@ -1312,6 +1323,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .recent-draft__mine.active { border-color: color-mix(in srgb, var(--good) 40%, var(--line)); color: var(--good); background: var(--good-soft); }
 .recent-draft__pick, .recent-draft__player small { color: var(--muted); font-size: .68rem; }
 .recent-draft__pick { font-variant-numeric: tabular-nums; }
+.recent-draft__round-pick { margin-left: 5px; color: var(--accent); font-weight: 800; font-variant-numeric: tabular-nums; }
 .recent-draft__pos { min-width: 28px; padding: 3px 5px; border-radius: var(--radius-sm); font-size: .66rem; font-weight: 850; text-align: center; }
 .recent-draft__player { display: flex; min-width: 0; gap: var(--space-2); align-items: center; }
 .recent-draft__player > span { min-width: 0; }

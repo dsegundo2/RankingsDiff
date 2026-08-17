@@ -309,7 +309,7 @@ test('command-k focuses search and position filters rows', async ({ page }) => {
   await page.keyboard.press('Escape')
   await expect(page.getByPlaceholder(/Search by player or team/)).not.toBeFocused()
   await page.keyboard.press('KeyW')
-  await expect(page.getByRole('button', { name: 'WR' })).toHaveClass(/active/)
+  await expect(page.getByRole('button', { name: 'WR' }).first()).toHaveClass(/active/)
   await expect(page.getByRole('button', { name: /Settings/ })).toBeVisible()
 
   await page.keyboard.press(',')
@@ -974,6 +974,52 @@ test('recent picks show newest first with team logos and expanded names', async 
   await expect(log.locator('li').first()).not.toContainText('$55')
 })
 
+test('search temporarily bypasses position filters and restores them after drafting', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'RB', exact: true }).first().click()
+  const search = page.getByPlaceholder('Search by player or team')
+  await search.fill('J')
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Josh Allen' })).toBeVisible()
+  await search.fill('Josh Allen')
+  await page.keyboard.press('Enter')
+  await expect(search).toHaveValue('')
+  await expect(page.getByRole('button', { name: 'RB', exact: true }).first()).toHaveClass(/active/)
+  await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Josh Allen' })).toHaveCount(0)
+})
+
+test('recent snake picks show round and pick shorthand for the configured draft size', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  await page.getByRole('spinbutton', { name: 'Draft size' }).fill('10')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
+  const pick = page.getByLabel('Recent draft picks').locator('li').first()
+  await pick.getByRole('spinbutton', { name: 'Overall pick for Jahmyr Gibbs' }).fill('15')
+  await expect(pick).toContainText('R2, P5')
+})
+
+test('adjusted-rank sorting promotes adjusted rank while retaining movement color', async ({ page }) => {
+  await page.goto('./')
+  await page.getByLabel('Sort by', { exact: true }).selectOption('adjustedRank')
+  const row = page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Bijan Robinson' }).first()
+  await expect(row.locator('.rank-pair > strong').first()).toHaveText('4')
+  await expect(row.locator('.rank-pair > small')).toHaveText('(2)')
+  await expect(row.locator('.rank-pair > strong').first()).toHaveClass(/adjusted-rank-value--negative/)
+})
+
+test('roster settings show total spend and support additional slots', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await page.getByRole('button', { name: /^Roster targets/ }).click()
+  await expect(page.getByLabel('Roster target summary')).toContainText('$200')
+  await expect(page.getByLabel('Roster target summary')).toContainText('14 total positions')
+  await page.getByLabel('New roster slot type').selectOption('BENCH')
+  await page.getByRole('button', { name: 'Add slot' }).click()
+  await expect(page.getByLabel('Roster target summary')).toContainText('$205')
+  await expect(page.getByLabel('Roster target summary')).toContainText('15 total positions')
+})
+
 test('draft view and filters survive refresh', async ({ page }) => {
   await page.goto('./')
   await setPositionView(page)
@@ -1095,6 +1141,24 @@ test('snake recent picks show editable overall picks and support reordering', as
   await expect(pickInput).toHaveValue('24')
   await list.locator('li').nth(2).dragTo(list.locator('li').first())
   await expect(list.locator('li')).toHaveCount(3)
+})
+
+test('reordering snake picks reassigns the current pick to my roster', async ({ page }) => {
+  await page.goto('./')
+  await page.evaluate(() => localStorage.clear())
+  await page.reload()
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.getByLabel('Sheet').selectOption('fpros')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  const rows = page.locator('.rankings-table--fpros tbody tr[data-ranking-id]')
+  await rows.nth(2).locator('.draft-action').click()
+  await rows.nth(3).locator('.draft-action').click()
+  const list = page.getByLabel('Recent draft picks').locator('.recent-draft__list')
+  await expect(page.getByLabel('My draft roster')).toContainText('Jahmyr Gibbs')
+  await list.locator('li').nth(1).dragTo(list.locator('li').first())
+  await expect(page.getByLabel('My draft roster')).toContainText('Bijan Robinson')
+  await expect(page.getByLabel('My draft roster')).not.toContainText('Jahmyr Gibbs')
 })
 
 test('Yahoo projection column is hidden by default and can be toggled', async ({ page }) => {

@@ -3,7 +3,7 @@ import type { AdjustedProfile, DataManifest, SourceCheckPayload, SourceLink, Sou
 import { DownloadPanel } from './DownloadPanel'
 import { DraftStateControls } from './DraftStateControls'
 import { SourceChecksPanel } from './SourceChecksPanel'
-import { rosterTargetLabel, ROSTER_TARGET_SLOTS, type RosterTargetGoals } from '../data/rosterTargets'
+import { nextRosterSlot, rosterTargetLabel, rosterTargetSlots, rosterTargetTotal, STARTER_ROSTER_SLOTS, type RosterTargetGoals } from '../data/rosterTargets'
 import { sourceLabel } from '../data/rankings'
 
 type SettingsPane = 'sheet' | 'snapshots' | 'checks' | 'display' | 'roster'
@@ -104,6 +104,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   const [draftSlotInput, setDraftSlotInput] = useState(String(draftSlot))
   const [draftSizeInput, setDraftSizeInput] = useState(String(draftSize))
+  const [addSlotType, setAddSlotType] = useState<'QB' | 'RB' | 'WR' | 'TE' | 'FLEX' | 'BENCH'>('BENCH')
   useEffect(() => {
     if (open) setActivePane('display')
   }, [open])
@@ -113,6 +114,11 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
   const currentSeason = manifest.seasons.find((season) => season.season === selectedSeason) ?? manifest.seasons[0]
 
   const activePaneMeta = panes.find((pane) => pane.id === activePane) ?? panes[0]
+  const targetSlots = rosterTargetSlots(targetGoals)
+  function addRosterSlot() {
+    const slot = nextRosterSlot(targetGoals, addSlotType)
+    onTargetGoals({ ...targetGoals, [slot]: addSlotType === 'BENCH' ? 5 : 0 })
+  }
 
   return (
     <div className="settings-layer" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
@@ -191,9 +197,11 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
 
             {activePane === 'roster' ? <section className="settings-section settings-section--tools">
               <div className="settings-section__copy"><span className="eyebrow">Roster targets</span><h3>Expected spend by slot</h3><p>Set your opening auction targets. The roster panel adjusts open-slot targets as you enter prices.</p></div>
+              <div className="roster-target-summary" aria-label="Roster target summary"><strong>${rosterTargetTotal(targetGoals)}</strong><span>expected spend · {targetSlots.length} total positions</span></div>
               <div className="roster-target-settings" aria-label="Roster target values">
-                {ROSTER_TARGET_SLOTS.map((slot) => <label className="roster-target-setting" key={slot}><span>{rosterTargetLabel(slot)}</span><span className="roster-target-setting__input"><span>$</span><input aria-label={`Expected price for ${rosterTargetLabel(slot)}`} type="number" min="0" step="1" inputMode="numeric" value={targetGoals[slot] ?? 0} onChange={(event) => onTargetGoals({ ...targetGoals, [slot]: Math.max(0, Number(event.target.value) || 0) })} /></span></label>)}
+                {targetSlots.map((slot) => <label className="roster-target-setting" key={slot}><span>{rosterTargetLabel(slot)}</span><span className="roster-target-setting__input"><span>$</span><input aria-label={`Expected price for ${rosterTargetLabel(slot)}`} type="number" min="0" step="1" inputMode="numeric" value={targetGoals[slot] ?? 0} onChange={(event) => onTargetGoals({ ...targetGoals, [slot]: Math.max(0, Number(event.target.value) || 0) })} /></span>{!STARTER_ROSTER_SLOTS.includes(slot as typeof STARTER_ROSTER_SLOTS[number]) ? <button type="button" className="roster-target-setting__remove" aria-label={`Remove ${rosterTargetLabel(slot)}`} onClick={() => { const next = { ...targetGoals }; delete next[slot]; onTargetGoals(next) }}>×</button> : null}</label>)}
               </div>
+              <div className="roster-target-add"><label><span>Add slot</span><select aria-label="New roster slot type" value={addSlotType} onChange={(event) => setAddSlotType(event.target.value as typeof addSlotType)}><option value="BENCH">Bench</option><option value="RB">Running back</option><option value="WR">Wide receiver</option><option value="QB">Quarterback</option><option value="TE">Tight end</option><option value="FLEX">Flex</option></select></label><button type="button" className="secondary-action" onClick={addRosterSlot}>Add slot</button></div>
             </section> : null}
 
             {activePane === 'display' ? <section className="settings-section settings-section--tools">
