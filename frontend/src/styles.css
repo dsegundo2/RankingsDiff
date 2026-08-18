@@ -1909,6 +1909,16 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .recent-draft__pick-input:hover, .recent-draft__pick-input:focus { border-bottom-color: var(--accent); outline: 0; }
 .recent-draft__pick-input::-webkit-inner-spin-button, .recent-draft__pick-input::-webkit-outer-spin-button { appearance: none; margin: 0; }
 
+/* Keep the pick number and its round context together. The action rail gets
+   its own column so the check/X controls never sit on top of the metadata. */
+.recent-draft__list li { grid-template-columns: minmax(0, 1fr) auto; padding-right: var(--space-2); }
+.recent-draft__player, .recent-draft__identity { min-width: 0; }
+.recent-draft__details { display: flex !important; min-width: 0; align-items: center; gap: 4px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.recent-draft__pick-input { width: 2.4em; margin: 0; text-align: center; }
+.recent-draft__round-pick { margin: 0; font: inherit; font-weight: 800; white-space: nowrap; }
+.recent-draft__actions { position: static; grid-column: 2; grid-row: 1; transform: none; pointer-events: auto; }
+.recent-draft__mine, .recent-draft__hide { flex: 0 0 26px; }
+
 /* Keep the sort field as one aligned unit at every workbench width. */
 .search-sort-control { min-width: 0; }
 .search-sort-control__select { min-width: 0; }
