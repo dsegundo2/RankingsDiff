@@ -35,6 +35,7 @@ test('dashboard renders and exposes settings downloads', async ({ page }) => {
   await expect(page.locator('.team-badge').first()).toBeVisible()
   await expect(page.locator('.hero__context')).toContainText('Draft board')
   await expect(page.getByText('Full PPR', { exact: true })).toBeVisible()
+  await expect(page.locator('.action-heading__label')).toHaveText('Fav')
   await page.getByRole('button', { name: /Settings/ }).click()
   await page.getByRole('button', { name: /^Snapshots/ }).click()
   await expect(page.getByRole('link', { name: 'CSV' })).toBeVisible()
@@ -178,6 +179,16 @@ test('header mockup lab offers six compact directions', async ({ page }) => {
   await page.getByRole('button', { name: /Studio Mint/ }).click()
   await expect(page.locator('.mock-dashboard__header--studio-mint')).toBeVisible()
   await expect(page.locator('body')).toHaveCSS('overflow-x', 'visible')
+})
+
+test('position color mockup lab offers four palette directions and uses Fav', async ({ page }) => {
+  await page.goto('./position-color-mockups')
+  await expect(page.getByRole('heading', { name: /Make the position colors easier/ })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Position color options' }).getByRole('button')).toHaveCount(4)
+  await expect(page.getByRole('columnheader', { name: 'Fav' })).toHaveCount(0)
+  await expect(page.locator('.position-color-table__head')).toContainText('Fav')
+  await page.getByRole('button', { name: /Color-safe signal/ }).click()
+  await expect(page.locator('.position-color-lab[data-palette="accessible"]')).toBeVisible()
 })
 
 test('drafted row mockup lab compares four quieting treatments', async ({ page }) => {

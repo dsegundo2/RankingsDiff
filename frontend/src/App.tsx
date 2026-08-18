@@ -11,6 +11,7 @@ import { DraftDividerMockups } from './components/DraftDividerMockups'
 import { DraftedRowMockups } from './components/DraftedRowMockups'
 import { HeroRecentMockups } from './components/HeroRecentMockups'
 import { RankingLayoutMockups } from './components/RankingLayoutMockups'
+import { PositionColorMockups } from './components/PositionColorMockups'
 
 const emptyManifest: DataManifest = { generatedAt: '', seasons: [] }
 
@@ -190,6 +191,7 @@ export default function App() {
   if (window.location.pathname.endsWith('/ranking-layout-mockups')) return <RankingLayoutMockups />
   if (window.location.pathname.endsWith('/draft-cutoff-mockups')) return <DraftCutoffMockups />
   if (window.location.pathname.endsWith('/column-mockups')) return <ColumnMockups />
+  if (window.location.pathname.endsWith('/position-color-mockups')) return <PositionColorMockups />
   if (window.location.pathname.endsWith('/mockups')) return <ThemeMockups />
   return <div className="app-theme app-theme--ranking-blue"><AppData /></div>
 }

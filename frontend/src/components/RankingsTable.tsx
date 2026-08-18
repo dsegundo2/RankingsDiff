@@ -123,7 +123,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             {showYahooProjections ? <th className="num-heading yahoo-projection-heading"><SortButton label="Yahoo proj" sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
             {showRegressionDiff ? <th className="num-heading regression-diff-heading"><SortButton label="Trend" ariaLabel="Sort by trend" sortKey="regressionDiff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
             <th className="num-heading diff-heading"><SortButton label="Delta" ariaLabel={showValueColumn ? 'Sort by value delta' : 'Sort by ranking delta'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
-            <th className="action-heading" title="Favorite before drafting; add to my roster after drafting"><span className="action-heading__label">Favorite</span><span className="sr-only">Favorite or my roster</span></th>
+            <th className="action-heading" title="Favorite before drafting; add to my roster after drafting"><span className="action-heading__label">Fav</span><span className="sr-only">Favorite or my roster</span></th>
             <th className="draft-heading">Draft</th>
           </tr>
         </thead>
