@@ -1867,6 +1867,91 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
   .settings-grid { grid-template-columns: 1fr; }
 }
 
+/* Sticky controls are the same workbench, not a separate header treatment.
+   Flatten the nested search panel and keep sort at the leading edge so the
+   sticky and non-sticky states share one visual order and spacing rhythm. */
+@media (min-width: 1101px) {
+  .dashboard-workbench:not(.dashboard-workbench--sticky) {
+    grid-template-columns: minmax(220px, auto) minmax(220px, 1fr) minmax(360px, auto);
+  }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-sort-control { grid-column: 1; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-field { grid-column: 2; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .position-filter-wrap { grid-column: 3; }
+  .dashboard-workbench--sticky {
+    display: grid;
+    grid-template-columns: minmax(220px, auto) minmax(220px, 1fr) minmax(360px, auto);
+    gap: var(--space-2);
+    align-items: center;
+    margin-inline: calc(var(--space-2) * -1);
+    padding: var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--panel);
+    box-shadow: var(--shadow-md);
+  }
+  .dashboard-workbench--sticky > .recent-draft {
+    grid-column: 1 / -1;
+    margin: 0 0 var(--space-1);
+  }
+  .dashboard-workbench--sticky > .search-panel,
+  .dashboard-workbench--sticky > .draft-toolbar,
+  .dashboard-workbench--sticky > .search-panel > .filters,
+  .dashboard-workbench--sticky .draft-toolbar__actions { display: contents; }
+  .dashboard-workbench--sticky .search-sort-control { grid-column: 1; grid-row: 2; }
+  .dashboard-workbench--sticky .search-field { grid-column: 2; grid-row: 2; }
+  .dashboard-workbench--sticky .position-filter-wrap { grid-column: 3; grid-row: 2; min-width: 0; }
+  .dashboard-workbench--sticky .search-panel { margin: 0; padding: 0; border: 0; }
+  .dashboard-workbench--sticky .search-panel .position-pills { flex-wrap: nowrap; }
+  .dashboard-workbench--sticky .search-field input,
+  .dashboard-workbench--sticky .search-sort-control,
+  .dashboard-workbench--sticky .search-sort-control select { min-height: 48px; height: 48px; }
+  .dashboard-workbench--sticky .search-field { display: flex; align-items: center; }
+  .dashboard-workbench--sticky .search-field input { width: 100%; }
+  .dashboard-workbench--sticky .search-sort-control { padding-block: 0; }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  .dashboard-workbench:not(.dashboard-workbench--sticky) {
+    grid-template-columns: minmax(190px, auto) minmax(220px, 1fr) minmax(0, auto);
+  }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-sort-control { grid-column: 1; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-field { grid-column: 2; }
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .position-filter-wrap { grid-column: 3; }
+  .dashboard-workbench--sticky {
+    display: grid;
+    grid-template-columns: minmax(190px, auto) minmax(220px, 1fr) minmax(0, auto);
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--panel);
+    box-shadow: var(--shadow-md);
+  }
+  .dashboard-workbench--sticky > .recent-draft { grid-column: 1 / -1; margin: 0 0 var(--space-1); }
+  .dashboard-workbench--sticky > .search-panel,
+  .dashboard-workbench--sticky > .draft-toolbar,
+  .dashboard-workbench--sticky > .search-panel > .filters,
+  .dashboard-workbench--sticky .draft-toolbar__actions { display: contents; }
+  .dashboard-workbench--sticky .search-sort-control { grid-column: 1; grid-row: 2; }
+  .dashboard-workbench--sticky .search-field { grid-column: 2; grid-row: 2; }
+  .dashboard-workbench--sticky .position-filter-wrap { grid-column: 3; grid-row: 2; min-width: 0; }
+  .dashboard-workbench--sticky .search-panel { margin: 0; padding: 0; border: 0; }
+}
+
+@media (max-width: 760px) {
+  .dashboard-workbench:not(.dashboard-workbench--sticky) .search-sort-control { order: -1; }
+  .dashboard-workbench--sticky {
+    margin-inline: 0;
+    padding: var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--panel);
+    box-shadow: var(--shadow-md);
+  }
+  .dashboard-workbench--sticky .search-panel { margin-bottom: 0; border: 0; background: transparent; box-shadow: none; }
+}
+
 /* Settings controls: the switch communicates state; the card copy explains it. */
 .settings-preference-card > .drafted-toggle { min-width: 44px; justify-content: flex-end; gap: var(--space-1); }
 .settings-preference-card > .drafted-toggle input { flex: 0 0 auto; }
