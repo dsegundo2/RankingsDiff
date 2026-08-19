@@ -729,6 +729,20 @@ test('display settings can hide and restore the recent draft log', async ({ page
   await expect(page.getByLabel('Recent draft picks')).toHaveCount(0)
 })
 
+test('auto lineup apply is configurable and persists in display settings', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  const toggle = page.getByRole('checkbox', { name: 'Auto lineup apply' })
+  await expect(toggle).toBeChecked()
+  await toggle.uncheck()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  await expect(page.getByRole('checkbox', { name: 'Auto lineup apply' })).not.toBeChecked()
+})
+
 test('roster target settings update expected spend by slot', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()

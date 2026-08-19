@@ -36,6 +36,7 @@ type Props = {
   showDrafted: boolean
   showDraftLog: boolean
   showRosterPanel: boolean
+  autoLineupApply: boolean
   stickyWorkbench: boolean
   showYahooProjections: boolean
   showRegressionDiff: boolean
@@ -55,6 +56,7 @@ type Props = {
   onShowDrafted: (value: boolean) => void
   onShowDraftLog: (value: boolean) => void
   onShowRosterPanel: (value: boolean) => void
+  onAutoLineupApply: (value: boolean) => void
   onShowStickyWorkbench: (value: boolean) => void
   onShowYahooProjections: (value: boolean) => void
   onShowRegressionDiff: (value: boolean) => void
@@ -100,7 +102,7 @@ function sourceFreshness(source?: SourceManifest): string | null {
   return [updated, observed].filter(Boolean).join(' · ')
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, matchHealth, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, stickyWorkbench, showYahooProjections, showRegressionDiff, viewMode, targets, drafted, picks, draftSlot, draftSize, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onShowStickyWorkbench, onShowYahooProjections, onShowRegressionDiff, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onDraftSlot, onDraftSize, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, matchHealth, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, autoLineupApply, stickyWorkbench, showYahooProjections, showRegressionDiff, viewMode, targets, drafted, picks, draftSlot, draftSize, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onAutoLineupApply, onShowStickyWorkbench, onShowYahooProjections, onShowRegressionDiff, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onDraftSlot, onDraftSize, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   const [draftSlotInput, setDraftSlotInput] = useState(String(draftSlot))
   const [draftSizeInput, setDraftSizeInput] = useState(String(draftSize))
@@ -212,6 +214,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
                 <label className="settings-preference-card"><span><strong>My draft spot</strong><small>Show your current and future snake picks across 17 rounds.</small></span><span className="draft-slot-input"><input aria-label="My draft spot" type="number" min="1" max={draftSize} step="1" value={draftSlotInput} onChange={(event) => { setDraftSlotInput(event.target.value); const value = Number(event.target.value); if (Number.isInteger(value) && value >= 1 && value <= draftSize) onDraftSlot(value) }} onBlur={() => setDraftSlotInput(String(draftSlot))} /><small>/ {draftSize}</small></span></label>
                 <label className="settings-preference-card"><span><strong>Draft size</strong><small>Set the number of teams in the snake draft.</small></span><span className="draft-slot-input"><input aria-label="Draft size" type="number" min="2" max="20" step="1" value={draftSizeInput} onChange={(event) => { setDraftSizeInput(event.target.value); const value = Number(event.target.value); if (Number.isInteger(value) && value >= 2 && value <= 20) onDraftSize(value) }} onBlur={() => setDraftSizeInput(String(draftSize))} /><small>teams</small></span></label>
                 <label className="settings-preference-card"><span><strong>My roster panel</strong><small>Show the shortlist above every roster slot, including empty slots.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show my roster" checked={showRosterPanel} onChange={(event) => onShowRosterPanel(event.target.checked)} /></span></label>
+                <label className="settings-preference-card"><span><strong>Auto lineup apply</strong><small>Automatically place my drafted players in the next open roster slot.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Auto lineup apply" checked={autoLineupApply} onChange={(event) => onAutoLineupApply(event.target.checked)} /></span></label>
                 <label className="settings-preference-card"><span><strong>Target queue</strong><small>{targetCount.toLocaleString()} shortlisted player{targetCount === 1 ? '' : 's'}</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show target queue" checked={showTargetQueue} onChange={(event) => onShowTargetQueue(event.target.checked)} /></span></label>
                 <label className="settings-preference-card"><span><strong>Recent draft log</strong><small>Show the latest picks above player search.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show draft log" checked={showDraftLog} onChange={(event) => onShowDraftLog(event.target.checked)} /></span></label>
                 <label className="settings-preference-card"><span><strong>Yahoo projections</strong><small>Show Week 1 and season projected points using the selected PPR setting. Off by default.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show Yahoo projections" checked={showYahooProjections} onChange={(event) => onShowYahooProjections(event.target.checked)} /></span></label>
