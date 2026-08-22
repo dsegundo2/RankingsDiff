@@ -150,7 +150,7 @@
     "positionRank": "WR9",
     "sourceRank": 13,
     "adjustedRank": 22,
-    "adjustedRankHalfPpr": 24,
+    "adjustedRankHalfPpr": 22,
     "diff": -9,
     "diffTone": "bad",
     "positionTone": "wr"
@@ -174,7 +174,7 @@
     "positionRank": "WR10",
     "sourceRank": 15,
     "adjustedRank": 23,
-    "adjustedRankHalfPpr": 22,
+    "adjustedRankHalfPpr": 23,
     "diff": -8,
     "diffTone": "bad",
     "positionTone": "wr"
@@ -258,7 +258,7 @@
     "positionRank": "WR12",
     "sourceRank": 22,
     "adjustedRank": 43,
-    "adjustedRankHalfPpr": 44,
+    "adjustedRankHalfPpr": 43,
     "diff": -21,
     "diffTone": "very-bad",
     "positionTone": "wr"
@@ -282,7 +282,7 @@
     "positionRank": "RB9",
     "sourceRank": 24,
     "adjustedRank": 25,
-    "adjustedRankHalfPpr": 23,
+    "adjustedRankHalfPpr": 24,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -294,7 +294,7 @@
     "positionRank": "WR13",
     "sourceRank": 25,
     "adjustedRank": 30,
-    "adjustedRankHalfPpr": 29,
+    "adjustedRankHalfPpr": 30,
     "diff": -5,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -378,7 +378,7 @@
     "positionRank": "QB2",
     "sourceRank": 32,
     "adjustedRank": 58,
-    "adjustedRankHalfPpr": 51,
+    "adjustedRankHalfPpr": 54,
     "diff": -26,
     "diffTone": "very-bad",
     "positionTone": "qb"
@@ -390,7 +390,7 @@
     "positionRank": "QB3",
     "sourceRank": 33,
     "adjustedRank": 68,
-    "adjustedRankHalfPpr": 59,
+    "adjustedRankHalfPpr": 61,
     "diff": -35,
     "diffTone": "very-bad",
     "positionTone": "qb"
@@ -402,7 +402,7 @@
     "positionRank": "WR18",
     "sourceRank": 34,
     "adjustedRank": 42,
-    "adjustedRankHalfPpr": 43,
+    "adjustedRankHalfPpr": 42,
     "diff": -8,
     "diffTone": "bad",
     "positionTone": "wr"
@@ -450,7 +450,7 @@
     "positionRank": "WR20",
     "sourceRank": 38,
     "adjustedRank": 29,
-    "adjustedRankHalfPpr": 35,
+    "adjustedRankHalfPpr": 29,
     "diff": 9,
     "diffTone": "good",
     "positionTone": "wr"
@@ -474,7 +474,7 @@
     "positionRank": "WR21",
     "sourceRank": 40,
     "adjustedRank": 41,
-    "adjustedRankHalfPpr": 42,
+    "adjustedRankHalfPpr": 41,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -486,7 +486,7 @@
     "positionRank": "RB14",
     "sourceRank": 41,
     "adjustedRank": 32,
-    "adjustedRankHalfPpr": 32,
+    "adjustedRankHalfPpr": 34,
     "diff": 9,
     "diffTone": "good",
     "positionTone": "rb"
@@ -498,7 +498,7 @@
     "positionRank": "RB15",
     "sourceRank": 42,
     "adjustedRank": 40,
-    "adjustedRankHalfPpr": 34,
+    "adjustedRankHalfPpr": 33,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -510,7 +510,7 @@
     "positionRank": "WR22",
     "sourceRank": 43,
     "adjustedRank": 52,
-    "adjustedRankHalfPpr": 54,
+    "adjustedRankHalfPpr": 52,
     "diff": -9,
     "diffTone": "bad",
     "positionTone": "wr"
@@ -522,7 +522,7 @@
     "positionRank": "QB4",
     "sourceRank": 44,
     "adjustedRank": 67,
-    "adjustedRankHalfPpr": 58,
+    "adjustedRankHalfPpr": 60,
     "diff": -23,
     "diffTone": "very-bad",
     "positionTone": "qb"
@@ -534,7 +534,7 @@
     "positionRank": "RB16",
     "sourceRank": 45,
     "adjustedRank": 39,
-    "adjustedRankHalfPpr": 33,
+    "adjustedRankHalfPpr": 35,
     "diff": 6,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -546,7 +546,7 @@
     "positionRank": "WR23",
     "sourceRank": 46,
     "adjustedRank": 50,
-    "adjustedRankHalfPpr": 53,
+    "adjustedRankHalfPpr": 51,
     "diff": -4,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -558,7 +558,7 @@
     "positionRank": "RB17",
     "sourceRank": 47,
     "adjustedRank": 38,
-    "adjustedRankHalfPpr": 30,
+    "adjustedRankHalfPpr": 32,
     "diff": 9,
     "diffTone": "good",
     "positionTone": "rb"
@@ -582,7 +582,7 @@
     "positionRank": "WR24",
     "sourceRank": 49,
     "adjustedRank": 55,
-    "adjustedRankHalfPpr": 61,
+    "adjustedRankHalfPpr": 56,
     "diff": -6,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -594,7 +594,7 @@
     "positionRank": "WR25",
     "sourceRank": 50,
     "adjustedRank": 47,
-    "adjustedRankHalfPpr": 48,
+    "adjustedRankHalfPpr": 47,
     "diff": 3,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -606,7 +606,7 @@
     "positionRank": "WR26",
     "sourceRank": 51,
     "adjustedRank": 51,
-    "adjustedRankHalfPpr": 50,
+    "adjustedRankHalfPpr": 49,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -618,7 +618,7 @@
     "positionRank": "TE4",
     "sourceRank": 52,
     "adjustedRank": 53,
-    "adjustedRankHalfPpr": 66,
+    "adjustedRankHalfPpr": 67,
     "diff": -1,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -642,7 +642,7 @@
     "positionRank": "RB19",
     "sourceRank": 54,
     "adjustedRank": 48,
-    "adjustedRankHalfPpr": 45,
+    "adjustedRankHalfPpr": 48,
     "diff": 6,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -654,7 +654,7 @@
     "positionRank": "QB5",
     "sourceRank": 55,
     "adjustedRank": 69,
-    "adjustedRankHalfPpr": 60,
+    "adjustedRankHalfPpr": 62,
     "diff": -14,
     "diffTone": "bad",
     "positionTone": "qb"
@@ -666,7 +666,7 @@
     "positionRank": "WR28",
     "sourceRank": 56,
     "adjustedRank": 49,
-    "adjustedRankHalfPpr": 49,
+    "adjustedRankHalfPpr": 50,
     "diff": 7,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -678,7 +678,7 @@
     "positionRank": "RB20",
     "sourceRank": 57,
     "adjustedRank": 59,
-    "adjustedRankHalfPpr": 63,
+    "adjustedRankHalfPpr": 58,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -690,7 +690,7 @@
     "positionRank": "QB6",
     "sourceRank": 58,
     "adjustedRank": 66,
-    "adjustedRankHalfPpr": 57,
+    "adjustedRankHalfPpr": 59,
     "diff": -8,
     "diffTone": "bad",
     "positionTone": "qb"
@@ -702,7 +702,7 @@
     "positionRank": "WR29",
     "sourceRank": 59,
     "adjustedRank": 45,
-    "adjustedRankHalfPpr": 46,
+    "adjustedRankHalfPpr": 45,
     "diff": 14,
     "diffTone": "good",
     "positionTone": "wr"
@@ -714,7 +714,7 @@
     "positionRank": "RB21",
     "sourceRank": 60,
     "adjustedRank": 71,
-    "adjustedRankHalfPpr": 70,
+    "adjustedRankHalfPpr": 73,
     "diff": -11,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -726,7 +726,7 @@
     "positionRank": "RB22",
     "sourceRank": 61,
     "adjustedRank": 56,
-    "adjustedRankHalfPpr": 52,
+    "adjustedRankHalfPpr": 53,
     "diff": 5,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -738,7 +738,7 @@
     "positionRank": "RB23",
     "sourceRank": 62,
     "adjustedRank": 44,
-    "adjustedRankHalfPpr": 41,
+    "adjustedRankHalfPpr": 44,
     "diff": 18,
     "diffTone": "good",
     "positionTone": "rb"
@@ -762,7 +762,7 @@
     "positionRank": "RB24",
     "sourceRank": 64,
     "adjustedRank": 57,
-    "adjustedRankHalfPpr": 56,
+    "adjustedRankHalfPpr": 65,
     "diff": 7,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -774,7 +774,7 @@
     "positionRank": "QB7",
     "sourceRank": 65,
     "adjustedRank": 74,
-    "adjustedRankHalfPpr": 67,
+    "adjustedRankHalfPpr": 70,
     "diff": -9,
     "diffTone": "bad",
     "positionTone": "qb"
@@ -786,7 +786,7 @@
     "positionRank": "WR31",
     "sourceRank": 66,
     "adjustedRank": 76,
-    "adjustedRankHalfPpr": 74,
+    "adjustedRankHalfPpr": 72,
     "diff": -10,
     "diffTone": "bad",
     "positionTone": "wr"
@@ -798,7 +798,7 @@
     "positionRank": "QB8",
     "sourceRank": 67,
     "adjustedRank": 86,
-    "adjustedRankHalfPpr": 73,
+    "adjustedRankHalfPpr": 80,
     "diff": -19,
     "diffTone": "bad",
     "positionTone": "qb"
@@ -810,7 +810,7 @@
     "positionRank": "TE5",
     "sourceRank": 68,
     "adjustedRank": 64,
-    "adjustedRankHalfPpr": 72,
+    "adjustedRankHalfPpr": 69,
     "diff": 4,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -834,7 +834,7 @@
     "positionRank": "RB26",
     "sourceRank": 70,
     "adjustedRank": 60,
-    "adjustedRankHalfPpr": 65,
+    "adjustedRankHalfPpr": 63,
     "diff": 10,
     "diffTone": "good",
     "positionTone": "rb"
@@ -846,7 +846,7 @@
     "positionRank": "TE6",
     "sourceRank": 71,
     "adjustedRank": 73,
-    "adjustedRankHalfPpr": 91,
+    "adjustedRankHalfPpr": 90,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -858,7 +858,7 @@
     "positionRank": "WR32",
     "sourceRank": 72,
     "adjustedRank": 103,
-    "adjustedRankHalfPpr": 110,
+    "adjustedRankHalfPpr": 113,
     "diff": -31,
     "diffTone": "very-bad",
     "positionTone": "wr"
@@ -870,7 +870,7 @@
     "positionRank": "WR33",
     "sourceRank": 73,
     "adjustedRank": 65,
-    "adjustedRankHalfPpr": 78,
+    "adjustedRankHalfPpr": 79,
     "diff": 8,
     "diffTone": "good",
     "positionTone": "wr"
@@ -882,7 +882,7 @@
     "positionRank": "WR34",
     "sourceRank": 74,
     "adjustedRank": 87,
-    "adjustedRankHalfPpr": 93,
+    "adjustedRankHalfPpr": 92,
     "diff": -13,
     "diffTone": "bad",
     "positionTone": "wr"
@@ -894,7 +894,7 @@
     "positionRank": "RB27",
     "sourceRank": 75,
     "adjustedRank": 61,
-    "adjustedRankHalfPpr": 62,
+    "adjustedRankHalfPpr": 57,
     "diff": 14,
     "diffTone": "good",
     "positionTone": "rb"
@@ -918,7 +918,7 @@
     "positionRank": "WR35",
     "sourceRank": 77,
     "adjustedRank": 77,
-    "adjustedRankHalfPpr": 80,
+    "adjustedRankHalfPpr": 78,
     "diff": 0,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -930,7 +930,7 @@
     "positionRank": "TE7",
     "sourceRank": 78,
     "adjustedRank": 72,
-    "adjustedRankHalfPpr": 82,
+    "adjustedRankHalfPpr": 81,
     "diff": 6,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -942,7 +942,7 @@
     "positionRank": "QB10",
     "sourceRank": 79,
     "adjustedRank": 85,
-    "adjustedRankHalfPpr": 68,
+    "adjustedRankHalfPpr": 71,
     "diff": -6,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -966,7 +966,7 @@
     "positionRank": "RB28",
     "sourceRank": 81,
     "adjustedRank": 70,
-    "adjustedRankHalfPpr": 69,
+    "adjustedRankHalfPpr": 66,
     "diff": 11,
     "diffTone": "good",
     "positionTone": "rb"
@@ -978,7 +978,7 @@
     "positionRank": "RB29",
     "sourceRank": 82,
     "adjustedRank": 99,
-    "adjustedRankHalfPpr": 90,
+    "adjustedRankHalfPpr": 89,
     "diff": -17,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -990,7 +990,7 @@
     "positionRank": "WR37",
     "sourceRank": 83,
     "adjustedRank": 108,
-    "adjustedRankHalfPpr": 125,
+    "adjustedRankHalfPpr": 126,
     "diff": -25,
     "diffTone": "very-bad",
     "positionTone": "wr"
@@ -1002,7 +1002,7 @@
     "positionRank": "RB30",
     "sourceRank": 84,
     "adjustedRank": 94,
-    "adjustedRankHalfPpr": 83,
+    "adjustedRankHalfPpr": 82,
     "diff": -10,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -1014,7 +1014,7 @@
     "positionRank": "RB31",
     "sourceRank": 85,
     "adjustedRank": 101,
-    "adjustedRankHalfPpr": 116,
+    "adjustedRankHalfPpr": 119,
     "diff": -16,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -1026,7 +1026,7 @@
     "positionRank": "WR38",
     "sourceRank": 86,
     "adjustedRank": 122,
-    "adjustedRankHalfPpr": 128,
+    "adjustedRankHalfPpr": 129,
     "diff": -36,
     "diffTone": "very-bad",
     "positionTone": "wr"
@@ -1038,7 +1038,7 @@
     "positionRank": "WR39",
     "sourceRank": 87,
     "adjustedRank": 123,
-    "adjustedRankHalfPpr": 162,
+    "adjustedRankHalfPpr": 163,
     "diff": -36,
     "diffTone": "very-bad",
     "positionTone": "wr"
@@ -1050,7 +1050,7 @@
     "positionRank": "TE8",
     "sourceRank": 88,
     "adjustedRank": 63,
-    "adjustedRankHalfPpr": 71,
+    "adjustedRankHalfPpr": 68,
     "diff": 25,
     "diffTone": "very-good",
     "positionTone": "te"
@@ -1062,7 +1062,7 @@
     "positionRank": "RB32",
     "sourceRank": 89,
     "adjustedRank": 100,
-    "adjustedRankHalfPpr": 85,
+    "adjustedRankHalfPpr": 84,
     "diff": -11,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -1074,7 +1074,7 @@
     "positionRank": "WR40",
     "sourceRank": 90,
     "adjustedRank": 88,
-    "adjustedRankHalfPpr": 81,
+    "adjustedRankHalfPpr": 94,
     "diff": 2,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1086,7 +1086,7 @@
     "positionRank": "QB11",
     "sourceRank": 91,
     "adjustedRank": 129,
-    "adjustedRankHalfPpr": 121,
+    "adjustedRankHalfPpr": 124,
     "diff": -38,
     "diffTone": "very-bad",
     "positionTone": "qb"
@@ -1098,7 +1098,7 @@
     "positionRank": "WR41",
     "sourceRank": 92,
     "adjustedRank": 46,
-    "adjustedRankHalfPpr": 47,
+    "adjustedRankHalfPpr": 46,
     "diff": 46,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -1110,7 +1110,7 @@
     "positionRank": "WR42",
     "sourceRank": 93,
     "adjustedRank": 124,
-    "adjustedRankHalfPpr": 145,
+    "adjustedRankHalfPpr": 146,
     "diff": -31,
     "diffTone": "very-bad",
     "positionTone": "wr"
@@ -1122,7 +1122,7 @@
     "positionRank": "QB12",
     "sourceRank": 94,
     "adjustedRank": 130,
-    "adjustedRankHalfPpr": 122,
+    "adjustedRankHalfPpr": 103,
     "diff": -36,
     "diffTone": "very-bad",
     "positionTone": "qb"
@@ -1146,7 +1146,7 @@
     "positionRank": "WR44",
     "sourceRank": 96,
     "adjustedRank": 80,
-    "adjustedRankHalfPpr": 88,
+    "adjustedRankHalfPpr": 87,
     "diff": 16,
     "diffTone": "good",
     "positionTone": "wr"
@@ -1158,7 +1158,7 @@
     "positionRank": "TE9",
     "sourceRank": 97,
     "adjustedRank": 117,
-    "adjustedRankHalfPpr": 124,
+    "adjustedRankHalfPpr": 125,
     "diff": -20,
     "diffTone": "very-bad",
     "positionTone": "te"
@@ -1170,7 +1170,7 @@
     "positionRank": "RB33",
     "sourceRank": 98,
     "adjustedRank": 115,
-    "adjustedRankHalfPpr": 115,
+    "adjustedRankHalfPpr": 118,
     "diff": -17,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -1206,7 +1206,7 @@
     "positionRank": "RB34",
     "sourceRank": 102,
     "adjustedRank": 119,
-    "adjustedRankHalfPpr": 130,
+    "adjustedRankHalfPpr": 131,
     "diff": -17,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -1230,7 +1230,7 @@
     "positionRank": "WR46",
     "sourceRank": 104,
     "adjustedRank": 84,
-    "adjustedRankHalfPpr": 92,
+    "adjustedRankHalfPpr": 91,
     "diff": 20,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -1254,7 +1254,7 @@
     "positionRank": "WR47",
     "sourceRank": 106,
     "adjustedRank": 83,
-    "adjustedRankHalfPpr": 79,
+    "adjustedRankHalfPpr": 77,
     "diff": 23,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -1266,7 +1266,7 @@
     "positionRank": "RB35",
     "sourceRank": 107,
     "adjustedRank": 92,
-    "adjustedRankHalfPpr": 77,
+    "adjustedRankHalfPpr": 75,
     "diff": 15,
     "diffTone": "good",
     "positionTone": "rb"
@@ -1278,7 +1278,7 @@
     "positionRank": "RB36",
     "sourceRank": 108,
     "adjustedRank": 120,
-    "adjustedRankHalfPpr": 131,
+    "adjustedRankHalfPpr": 132,
     "diff": -12,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -1290,7 +1290,7 @@
     "positionRank": "QB16",
     "sourceRank": 109,
     "adjustedRank": 128,
-    "adjustedRankHalfPpr": 120,
+    "adjustedRankHalfPpr": 123,
     "diff": -19,
     "diffTone": "bad",
     "positionTone": "qb"
@@ -1302,7 +1302,7 @@
     "positionRank": "RB37",
     "sourceRank": 110,
     "adjustedRank": 106,
-    "adjustedRankHalfPpr": 89,
+    "adjustedRankHalfPpr": 88,
     "diff": 4,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1314,7 +1314,7 @@
     "positionRank": "TE11",
     "sourceRank": 111,
     "adjustedRank": 97,
-    "adjustedRankHalfPpr": 104,
+    "adjustedRankHalfPpr": 105,
     "diff": 14,
     "diffTone": "good",
     "positionTone": "te"
@@ -1338,7 +1338,7 @@
     "positionRank": "RB38",
     "sourceRank": 113,
     "adjustedRank": 105,
-    "adjustedRankHalfPpr": 112,
+    "adjustedRankHalfPpr": 114,
     "diff": 8,
     "diffTone": "good",
     "positionTone": "rb"
@@ -1362,7 +1362,7 @@
     "positionRank": "TE12",
     "sourceRank": 115,
     "adjustedRank": 91,
-    "adjustedRankHalfPpr": 103,
+    "adjustedRankHalfPpr": 104,
     "diff": 24,
     "diffTone": "very-good",
     "positionTone": "te"
@@ -1374,7 +1374,7 @@
     "positionRank": "WR49",
     "sourceRank": 116,
     "adjustedRank": 110,
-    "adjustedRankHalfPpr": 143,
+    "adjustedRankHalfPpr": 144,
     "diff": 6,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1386,7 +1386,7 @@
     "positionRank": "QB18",
     "sourceRank": 117,
     "adjustedRank": 127,
-    "adjustedRankHalfPpr": 119,
+    "adjustedRankHalfPpr": 122,
     "diff": -10,
     "diffTone": "bad",
     "positionTone": "qb"
@@ -1410,7 +1410,7 @@
     "positionRank": "TE13",
     "sourceRank": 119,
     "adjustedRank": 116,
-    "adjustedRankHalfPpr": 123,
+    "adjustedRankHalfPpr": 107,
     "diff": 3,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1422,7 +1422,7 @@
     "positionRank": "WR51",
     "sourceRank": 121,
     "adjustedRank": 102,
-    "adjustedRankHalfPpr": 108,
+    "adjustedRankHalfPpr": 111,
     "diff": 19,
     "diffTone": "good",
     "positionTone": "wr"
@@ -1446,7 +1446,7 @@
     "positionRank": "TE14",
     "sourceRank": 123,
     "adjustedRank": 98,
-    "adjustedRankHalfPpr": 105,
+    "adjustedRankHalfPpr": 106,
     "diff": 25,
     "diffTone": "very-good",
     "positionTone": "te"
@@ -1458,7 +1458,7 @@
     "positionRank": "RB39",
     "sourceRank": 124,
     "adjustedRank": 93,
-    "adjustedRankHalfPpr": 84,
+    "adjustedRankHalfPpr": 83,
     "diff": 31,
     "diffTone": "very-good",
     "positionTone": "rb"
@@ -1470,7 +1470,7 @@
     "positionRank": "RB40",
     "sourceRank": 125,
     "adjustedRank": 107,
-    "adjustedRankHalfPpr": 113,
+    "adjustedRankHalfPpr": 115,
     "diff": 18,
     "diffTone": "good",
     "positionTone": "rb"
@@ -1482,7 +1482,7 @@
     "positionRank": "WR52",
     "sourceRank": 126,
     "adjustedRank": 78,
-    "adjustedRankHalfPpr": 87,
+    "adjustedRankHalfPpr": 85,
     "diff": 48,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -1494,7 +1494,7 @@
     "positionRank": "WR53",
     "sourceRank": 127,
     "adjustedRank": 109,
-    "adjustedRankHalfPpr": 109,
+    "adjustedRankHalfPpr": 112,
     "diff": 18,
     "diffTone": "good",
     "positionTone": "wr"
@@ -1506,7 +1506,7 @@
     "positionRank": "RB41",
     "sourceRank": 128,
     "adjustedRank": 75,
-    "adjustedRankHalfPpr": 76,
+    "adjustedRankHalfPpr": 74,
     "diff": 53,
     "diffTone": "very-good",
     "positionTone": "rb"
@@ -1530,7 +1530,7 @@
     "positionRank": "TE15",
     "sourceRank": 130,
     "adjustedRank": 132,
-    "adjustedRankHalfPpr": 129,
+    "adjustedRankHalfPpr": 130,
     "diff": -2,
     "diffTone": "neutral",
     "positionTone": "te"
@@ -1554,7 +1554,7 @@
     "positionRank": "WR54",
     "sourceRank": 132,
     "adjustedRank": 121,
-    "adjustedRankHalfPpr": 127,
+    "adjustedRankHalfPpr": 128,
     "diff": 11,
     "diffTone": "good",
     "positionTone": "wr"
@@ -1566,7 +1566,7 @@
     "positionRank": "WR55",
     "sourceRank": 133,
     "adjustedRank": 82,
-    "adjustedRankHalfPpr": 75,
+    "adjustedRankHalfPpr": 76,
     "diff": 51,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -1590,7 +1590,7 @@
     "positionRank": "RB43",
     "sourceRank": 135,
     "adjustedRank": 149,
-    "adjustedRankHalfPpr": 137,
+    "adjustedRankHalfPpr": 117,
     "diff": -14,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -1602,7 +1602,7 @@
     "positionRank": "RB44",
     "sourceRank": 136,
     "adjustedRank": 180,
-    "adjustedRankHalfPpr": 160,
+    "adjustedRankHalfPpr": 161,
     "diff": -44,
     "diffTone": "very-bad",
     "positionTone": "rb"
@@ -1614,7 +1614,7 @@
     "positionRank": "RB45",
     "sourceRank": 137,
     "adjustedRank": 150,
-    "adjustedRankHalfPpr": 159,
+    "adjustedRankHalfPpr": 160,
     "diff": -13,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -1638,7 +1638,7 @@
     "positionRank": "RB46",
     "sourceRank": 139,
     "adjustedRank": 131,
-    "adjustedRankHalfPpr": 114,
+    "adjustedRankHalfPpr": 116,
     "diff": 8,
     "diffTone": "good",
     "positionTone": "rb"
@@ -1650,7 +1650,7 @@
     "positionRank": "RB47",
     "sourceRank": 140,
     "adjustedRank": 148,
-    "adjustedRankHalfPpr": 141,
+    "adjustedRankHalfPpr": 142,
     "diff": -8,
     "diffTone": "bad",
     "positionTone": "rb"
@@ -1662,7 +1662,7 @@
     "positionRank": "TE16",
     "sourceRank": 141,
     "adjustedRank": 118,
-    "adjustedRankHalfPpr": 152,
+    "adjustedRankHalfPpr": 141,
     "diff": 23,
     "diffTone": "very-good",
     "positionTone": "te"
@@ -1722,7 +1722,7 @@
     "positionRank": "WR56",
     "sourceRank": 146,
     "adjustedRank": 134,
-    "adjustedRankHalfPpr": 142,
+    "adjustedRankHalfPpr": 143,
     "diff": 12,
     "diffTone": "good",
     "positionTone": "wr"
@@ -1758,7 +1758,7 @@
     "positionRank": "WR58",
     "sourceRank": 149,
     "adjustedRank": 136,
-    "adjustedRankHalfPpr": 126,
+    "adjustedRankHalfPpr": 127,
     "diff": 13,
     "diffTone": "good",
     "positionTone": "wr"
@@ -1854,7 +1854,7 @@
     "positionRank": "RB51",
     "sourceRank": 158,
     "adjustedRank": 181,
-    "adjustedRankHalfPpr": 176,
+    "adjustedRankHalfPpr": 177,
     "diff": -23,
     "diffTone": "very-bad",
     "positionTone": "rb"
@@ -1866,7 +1866,7 @@
     "positionRank": "RB52",
     "sourceRank": 159,
     "adjustedRank": 104,
-    "adjustedRankHalfPpr": 111,
+    "adjustedRankHalfPpr": 108,
     "diff": 55,
     "diffTone": "very-good",
     "positionTone": "rb"
@@ -1890,7 +1890,7 @@
     "positionRank": "WR62",
     "sourceRank": 161,
     "adjustedRank": 164,
-    "adjustedRankHalfPpr": 161,
+    "adjustedRankHalfPpr": 162,
     "diff": -3,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1914,7 +1914,7 @@
     "positionRank": "RB53",
     "sourceRank": 164,
     "adjustedRank": 199,
-    "adjustedRankHalfPpr": 168,
+    "adjustedRankHalfPpr": 169,
     "diff": -35,
     "diffTone": "very-bad",
     "positionTone": "rb"
@@ -1926,7 +1926,7 @@
     "positionRank": "RB54",
     "sourceRank": 165,
     "adjustedRank": 159,
-    "adjustedRankHalfPpr": 154,
+    "adjustedRankHalfPpr": 155,
     "diff": 6,
     "diffTone": "neutral",
     "positionTone": "rb"
@@ -1938,7 +1938,7 @@
     "positionRank": "TE21",
     "sourceRank": 166,
     "adjustedRank": 158,
-    "adjustedRankHalfPpr": 177,
+    "adjustedRankHalfPpr": 154,
     "diff": 8,
     "diffTone": "good",
     "positionTone": "te"
@@ -1950,7 +1950,7 @@
     "positionRank": "WR64",
     "sourceRank": 167,
     "adjustedRank": 135,
-    "adjustedRankHalfPpr": 144,
+    "adjustedRankHalfPpr": 145,
     "diff": 32,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -1962,7 +1962,7 @@
     "positionRank": "RB55",
     "sourceRank": 169,
     "adjustedRank": 200,
-    "adjustedRankHalfPpr": 175,
+    "adjustedRankHalfPpr": 176,
     "diff": -31,
     "diffTone": "very-bad",
     "positionTone": "rb"
@@ -1974,7 +1974,7 @@
     "positionRank": "WR65",
     "sourceRank": 170,
     "adjustedRank": 177,
-    "adjustedRankHalfPpr": 165,
+    "adjustedRankHalfPpr": 166,
     "diff": -7,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -1986,7 +1986,7 @@
     "positionRank": "TE22",
     "sourceRank": 173,
     "adjustedRank": 211,
-    "adjustedRankHalfPpr": 204,
+    "adjustedRankHalfPpr": 202,
     "diff": -38,
     "diffTone": "very-bad",
     "positionTone": "te"
@@ -1997,9 +1997,9 @@
     "position": "WR",
     "positionRank": "WR66",
     "sourceRank": 174,
-    "adjustedRank": 273,
+    "adjustedRank": 271,
     "adjustedRankHalfPpr": null,
-    "diff": -99,
+    "diff": -97,
     "diffTone": "very-bad",
     "positionTone": "wr"
   },
@@ -2010,7 +2010,7 @@
     "positionRank": "WR67",
     "sourceRank": 175,
     "adjustedRank": 184,
-    "adjustedRankHalfPpr": 212,
+    "adjustedRankHalfPpr": 215,
     "diff": -9,
     "diffTone": "bad",
     "positionTone": "wr"
@@ -2070,7 +2070,7 @@
     "positionRank": "WR70",
     "sourceRank": 185,
     "adjustedRank": 182,
-    "adjustedRankHalfPpr": 208,
+    "adjustedRankHalfPpr": 210,
     "diff": 3,
     "diffTone": "neutral",
     "positionTone": "wr"
@@ -2118,7 +2118,7 @@
     "positionRank": "TE23",
     "sourceRank": 191,
     "adjustedRank": 263,
-    "adjustedRankHalfPpr": 206,
+    "adjustedRankHalfPpr": 204,
     "diff": -72,
     "diffTone": "very-bad",
     "positionTone": "te"
@@ -2154,7 +2154,7 @@
     "positionRank": "RB60",
     "sourceRank": 195,
     "adjustedRank": 162,
-    "adjustedRankHalfPpr": 167,
+    "adjustedRankHalfPpr": 168,
     "diff": 33,
     "diffTone": "very-good",
     "positionTone": "rb"
@@ -2190,7 +2190,7 @@
     "positionRank": "WR74",
     "sourceRank": 199,
     "adjustedRank": 165,
-    "adjustedRankHalfPpr": 164,
+    "adjustedRankHalfPpr": 165,
     "diff": 34,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -2226,7 +2226,7 @@
     "positionRank": "RB61",
     "sourceRank": 204,
     "adjustedRank": 161,
-    "adjustedRankHalfPpr": 156,
+    "adjustedRankHalfPpr": 157,
     "diff": 43,
     "diffTone": "very-good",
     "positionTone": "rb"
@@ -2274,7 +2274,7 @@
     "positionRank": "WR79",
     "sourceRank": 211,
     "adjustedRank": 178,
-    "adjustedRankHalfPpr": 166,
+    "adjustedRankHalfPpr": 167,
     "diff": 33,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -2322,7 +2322,7 @@
     "positionRank": "QB28",
     "sourceRank": 219,
     "adjustedRank": 242,
-    "adjustedRankHalfPpr": 203,
+    "adjustedRankHalfPpr": 209,
     "diff": -23,
     "diffTone": "very-bad",
     "positionTone": "qb"
@@ -2358,7 +2358,7 @@
     "positionRank": "QB29",
     "sourceRank": 223,
     "adjustedRank": 218,
-    "adjustedRankHalfPpr": 202,
+    "adjustedRankHalfPpr": 208,
     "diff": 5,
     "diffTone": "neutral",
     "positionTone": "qb"
@@ -2382,7 +2382,7 @@
     "positionRank": "WR83",
     "sourceRank": 225,
     "adjustedRank": 96,
-    "adjustedRankHalfPpr": 94,
+    "adjustedRankHalfPpr": 93,
     "diff": 129,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -2406,7 +2406,7 @@
     "positionRank": "WR85",
     "sourceRank": 230,
     "adjustedRank": 219,
-    "adjustedRankHalfPpr": 207,
+    "adjustedRankHalfPpr": 211,
     "diff": 11,
     "diffTone": "good",
     "positionTone": "wr"
@@ -2538,7 +2538,7 @@
     "positionRank": "TE29",
     "sourceRank": 243,
     "adjustedRank": 187,
-    "adjustedRankHalfPpr": 215,
+    "adjustedRankHalfPpr": 206,
     "diff": 56,
     "diffTone": "very-good",
     "positionTone": "te"
@@ -2562,7 +2562,7 @@
     "positionRank": "RB68",
     "sourceRank": 245,
     "adjustedRank": 160,
-    "adjustedRankHalfPpr": 155,
+    "adjustedRankHalfPpr": 156,
     "diff": 85,
     "diffTone": "very-good",
     "positionTone": "rb"
@@ -2586,7 +2586,7 @@
     "positionRank": "TE30",
     "sourceRank": 248,
     "adjustedRank": 212,
-    "adjustedRankHalfPpr": 214,
+    "adjustedRankHalfPpr": 205,
     "diff": 36,
     "diffTone": "very-good",
     "positionTone": "te"
@@ -2598,7 +2598,7 @@
     "positionRank": "WR91",
     "sourceRank": 249,
     "adjustedRank": 204,
-    "adjustedRankHalfPpr": 213,
+    "adjustedRankHalfPpr": 216,
     "diff": 45,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -2609,9 +2609,9 @@
     "position": "RB",
     "positionRank": "RB69",
     "sourceRank": 250,
-    "adjustedRank": 301,
+    "adjustedRank": 300,
     "adjustedRankHalfPpr": null,
-    "diff": -51,
+    "diff": -50,
     "diffTone": "very-bad",
     "positionTone": "rb"
   },
@@ -2622,7 +2622,7 @@
     "positionRank": "WR92",
     "sourceRank": 251,
     "adjustedRank": 205,
-    "adjustedRankHalfPpr": 209,
+    "adjustedRankHalfPpr": 212,
     "diff": 46,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -2633,9 +2633,9 @@
     "position": "WR",
     "positionRank": "WR93",
     "sourceRank": 252,
-    "adjustedRank": 272,
+    "adjustedRank": 274,
     "adjustedRankHalfPpr": 277,
-    "diff": -20,
+    "diff": -22,
     "diffTone": "very-bad",
     "positionTone": "wr"
   },
@@ -2670,7 +2670,7 @@
     "positionRank": "WR95",
     "sourceRank": 256,
     "adjustedRank": 248,
-    "adjustedRankHalfPpr": 211,
+    "adjustedRankHalfPpr": 214,
     "diff": 8,
     "diffTone": "good",
     "positionTone": "wr"
@@ -2693,9 +2693,9 @@
     "position": "WR",
     "positionRank": "WR96",
     "sourceRank": 258,
-    "adjustedRank": 375,
+    "adjustedRank": 374,
     "adjustedRankHalfPpr": null,
-    "diff": -117,
+    "diff": -116,
     "diffTone": "very-bad",
     "positionTone": "wr"
   },
@@ -2717,9 +2717,9 @@
     "position": "WR",
     "positionRank": "WR97",
     "sourceRank": 260,
-    "adjustedRank": 281,
+    "adjustedRank": 283,
     "adjustedRankHalfPpr": 291,
-    "diff": -21,
+    "diff": -23,
     "diffTone": "very-bad",
     "positionTone": "wr"
   },
@@ -2729,9 +2729,9 @@
     "position": "WR",
     "positionRank": "WR98",
     "sourceRank": 261,
-    "adjustedRank": 309,
+    "adjustedRank": 308,
     "adjustedRankHalfPpr": 292,
-    "diff": -48,
+    "diff": -47,
     "diffTone": "very-bad",
     "positionTone": "wr"
   },
@@ -2837,9 +2837,9 @@
     "position": "RB",
     "positionRank": "RB75",
     "sourceRank": 271,
-    "adjustedRank": 254,
+    "adjustedRank": 255,
     "adjustedRankHalfPpr": null,
-    "diff": 17,
+    "diff": 16,
     "diffTone": "good",
     "positionTone": "rb"
   },
@@ -2861,9 +2861,9 @@
     "position": "RB",
     "positionRank": "RB77",
     "sourceRank": 273,
-    "adjustedRank": 344,
+    "adjustedRank": 352,
     "adjustedRankHalfPpr": null,
-    "diff": -71,
+    "diff": -79,
     "diffTone": "very-bad",
     "positionTone": "rb"
   },
@@ -2922,7 +2922,7 @@
     "positionRank": "TE35",
     "sourceRank": 278,
     "adjustedRank": 186,
-    "adjustedRankHalfPpr": 205,
+    "adjustedRankHalfPpr": 203,
     "diff": 92,
     "diffTone": "very-good",
     "positionTone": "te"
@@ -2933,9 +2933,9 @@
     "position": "RB",
     "positionRank": "RB80",
     "sourceRank": 280,
-    "adjustedRank": 323,
+    "adjustedRank": 329,
     "adjustedRankHalfPpr": null,
-    "diff": -43,
+    "diff": -49,
     "diffTone": "very-bad",
     "positionTone": "rb"
   },
@@ -2981,9 +2981,9 @@
     "position": "RB",
     "positionRank": "RB83",
     "sourceRank": 284,
-    "adjustedRank": 288,
+    "adjustedRank": 289,
     "adjustedRankHalfPpr": null,
-    "diff": -4,
+    "diff": -5,
     "diffTone": "neutral",
     "positionTone": "rb"
   },
@@ -3005,9 +3005,9 @@
     "position": "WR",
     "positionRank": "WR104",
     "sourceRank": 288,
-    "adjustedRank": 342,
+    "adjustedRank": 343,
     "adjustedRankHalfPpr": null,
-    "diff": -54,
+    "diff": -55,
     "diffTone": "very-bad",
     "positionTone": "wr"
   },
@@ -3030,7 +3030,7 @@
     "positionRank": "WR105",
     "sourceRank": 290,
     "adjustedRank": 137,
-    "adjustedRankHalfPpr": 146,
+    "adjustedRankHalfPpr": 147,
     "diff": 153,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -3077,9 +3077,9 @@
     "position": "RB",
     "positionRank": "RB86",
     "sourceRank": 296,
-    "adjustedRank": 325,
+    "adjustedRank": 321,
     "adjustedRankHalfPpr": null,
-    "diff": -29,
+    "diff": -25,
     "diffTone": "very-bad",
     "positionTone": "rb"
   },
@@ -3137,9 +3137,9 @@
     "position": "RB",
     "positionRank": "RB88",
     "sourceRank": 301,
-    "adjustedRank": 311,
+    "adjustedRank": 310,
     "adjustedRankHalfPpr": null,
-    "diff": -10,
+    "diff": -9,
     "diffTone": "bad",
     "positionTone": "rb"
   },
@@ -3173,9 +3173,9 @@
     "position": "RB",
     "positionRank": "RB91",
     "sourceRank": 305,
-    "adjustedRank": 267,
+    "adjustedRank": 265,
     "adjustedRankHalfPpr": null,
-    "diff": 38,
+    "diff": 40,
     "diffTone": "very-good",
     "positionTone": "rb"
   },
@@ -3197,10 +3197,10 @@
     "position": "RB",
     "positionRank": "RB93",
     "sourceRank": 309,
-    "adjustedRank": 314,
+    "adjustedRank": 323,
     "adjustedRankHalfPpr": null,
-    "diff": -5,
-    "diffTone": "neutral",
+    "diff": -14,
+    "diffTone": "bad",
     "positionTone": "rb"
   },
   {
@@ -3221,9 +3221,9 @@
     "position": "WR",
     "positionRank": "WR110",
     "sourceRank": 311,
-    "adjustedRank": 327,
+    "adjustedRank": 326,
     "adjustedRankHalfPpr": null,
-    "diff": -16,
+    "diff": -15,
     "diffTone": "bad",
     "positionTone": "wr"
   },
@@ -3245,9 +3245,9 @@
     "position": "RB",
     "positionRank": "RB95",
     "sourceRank": 314,
-    "adjustedRank": 300,
+    "adjustedRank": 304,
     "adjustedRankHalfPpr": null,
-    "diff": 14,
+    "diff": 10,
     "diffTone": "good",
     "positionTone": "rb"
   },
@@ -3269,9 +3269,9 @@
     "position": "RB",
     "positionRank": "RB96",
     "sourceRank": 317,
-    "adjustedRank": 372,
+    "adjustedRank": 360,
     "adjustedRankHalfPpr": null,
-    "diff": -55,
+    "diff": -43,
     "diffTone": "very-bad",
     "positionTone": "rb"
   },
@@ -3293,9 +3293,9 @@
     "position": "WR",
     "positionRank": "WR112",
     "sourceRank": 324,
-    "adjustedRank": 374,
+    "adjustedRank": 366,
     "adjustedRankHalfPpr": null,
-    "diff": -50,
+    "diff": -42,
     "diffTone": "very-bad",
     "positionTone": "wr"
   },
@@ -3329,9 +3329,9 @@
     "position": "WR",
     "positionRank": "WR115",
     "sourceRank": 329,
-    "adjustedRank": 366,
+    "adjustedRank": 367,
     "adjustedRankHalfPpr": null,
-    "diff": -37,
+    "diff": -38,
     "diffTone": "very-bad",
     "positionTone": "wr"
   },
@@ -3353,9 +3353,9 @@
     "position": "WR",
     "positionRank": "WR117",
     "sourceRank": 331,
-    "adjustedRank": 347,
+    "adjustedRank": 346,
     "adjustedRankHalfPpr": null,
-    "diff": -16,
+    "diff": -15,
     "diffTone": "bad",
     "positionTone": "wr"
   },
@@ -3365,9 +3365,9 @@
     "position": "TE",
     "positionRank": "TE40",
     "sourceRank": 332,
-    "adjustedRank": 373,
+    "adjustedRank": 372,
     "adjustedRankHalfPpr": null,
-    "diff": -41,
+    "diff": -40,
     "diffTone": "very-bad",
     "positionTone": "te"
   },
@@ -3378,7 +3378,7 @@
     "positionRank": "WR118",
     "sourceRank": 333,
     "adjustedRank": 203,
-    "adjustedRankHalfPpr": 210,
+    "adjustedRankHalfPpr": 213,
     "diff": 130,
     "diffTone": "very-good",
     "positionTone": "wr"
@@ -3401,9 +3401,9 @@
     "position": "WR",
     "positionRank": "WR120",
     "sourceRank": 335,
-    "adjustedRank": 358,
+    "adjustedRank": 357,
     "adjustedRankHalfPpr": 298,
-    "diff": -23,
+    "diff": -22,
     "diffTone": "very-bad",
     "positionTone": "wr"
   },
@@ -3449,9 +3449,9 @@
     "position": "TE",
     "positionRank": "TE43",
     "sourceRank": 341,
-    "adjustedRank": 308,
+    "adjustedRank": 309,
     "adjustedRankHalfPpr": null,
-    "diff": 33,
+    "diff": 32,
     "diffTone": "very-good",
     "positionTone": "te"
   },
@@ -3461,9 +3461,9 @@
     "position": "QB",
     "positionRank": "QB37",
     "sourceRank": 342,
-    "adjustedRank": 376,
+    "adjustedRank": 375,
     "adjustedRankHalfPpr": null,
-    "diff": -34,
+    "diff": -33,
     "diffTone": "very-bad",
     "positionTone": "qb"
   },
@@ -3473,9 +3473,9 @@
     "position": "TE",
     "positionRank": "TE45",
     "sourceRank": 344,
-    "adjustedRank": 377,
+    "adjustedRank": 376,
     "adjustedRankHalfPpr": null,
-    "diff": -33,
+    "diff": -32,
     "diffTone": "very-bad",
     "positionTone": "te"
   },
@@ -3485,9 +3485,9 @@
     "position": "QB",
     "positionRank": "QB38",
     "sourceRank": 348,
-    "adjustedRank": 343,
+    "adjustedRank": 342,
     "adjustedRankHalfPpr": null,
-    "diff": 5,
+    "diff": 6,
     "diffTone": "neutral",
     "positionTone": "qb"
   },
@@ -3509,9 +3509,9 @@
     "position": "WR",
     "positionRank": "WR124",
     "sourceRank": 350,
-    "adjustedRank": 353,
+    "adjustedRank": 351,
     "adjustedRankHalfPpr": null,
-    "diff": -3,
+    "diff": -1,
     "diffTone": "neutral",
     "positionTone": "wr"
   },
@@ -3557,9 +3557,9 @@
     "position": "RB",
     "positionRank": "RB104",
     "sourceRank": 360,
-    "adjustedRank": 352,
+    "adjustedRank": 350,
     "adjustedRankHalfPpr": null,
-    "diff": 8,
+    "diff": 10,
     "diffTone": "good",
     "positionTone": "rb"
   },
@@ -3569,9 +3569,9 @@
     "position": "WR",
     "positionRank": "WR130",
     "sourceRank": 363,
-    "adjustedRank": 320,
+    "adjustedRank": 319,
     "adjustedRankHalfPpr": 293,
-    "diff": 43,
+    "diff": 44,
     "diffTone": "very-good",
     "positionTone": "wr"
   },
@@ -3581,10 +3581,10 @@
     "position": "WR",
     "positionRank": "WR132",
     "sourceRank": 365,
-    "adjustedRank": 367,
+    "adjustedRank": 373,
     "adjustedRankHalfPpr": null,
-    "diff": -2,
-    "diffTone": "neutral",
+    "diff": -8,
+    "diffTone": "bad",
     "positionTone": "wr"
   },
   {
@@ -3593,9 +3593,9 @@
     "position": "WR",
     "positionRank": "WR133",
     "sourceRank": 367,
-    "adjustedRank": 357,
+    "adjustedRank": 356,
     "adjustedRankHalfPpr": null,
-    "diff": 10,
+    "diff": 11,
     "diffTone": "good",
     "positionTone": "wr"
   },
@@ -3605,9 +3605,9 @@
     "position": "RB",
     "positionRank": "RB107",
     "sourceRank": 374,
-    "adjustedRank": 350,
+    "adjustedRank": 349,
     "adjustedRankHalfPpr": null,
-    "diff": 24,
+    "diff": 25,
     "diffTone": "very-good",
     "positionTone": "rb"
   },
@@ -3617,9 +3617,9 @@
     "position": "TE",
     "positionRank": "TE50",
     "sourceRank": 377,
-    "adjustedRank": 317,
+    "adjustedRank": 316,
     "adjustedRankHalfPpr": null,
-    "diff": 60,
+    "diff": 61,
     "diffTone": "very-good",
     "positionTone": "te"
   },
@@ -3629,9 +3629,9 @@
     "position": "WR",
     "positionRank": "WR138",
     "sourceRank": 383,
-    "adjustedRank": 359,
+    "adjustedRank": 358,
     "adjustedRankHalfPpr": null,
-    "diff": 24,
+    "diff": 25,
     "diffTone": "very-good",
     "positionTone": "wr"
   },
@@ -3641,9 +3641,9 @@
     "position": "RB",
     "positionRank": "RB109",
     "sourceRank": 386,
-    "adjustedRank": 321,
+    "adjustedRank": 320,
     "adjustedRankHalfPpr": null,
-    "diff": 65,
+    "diff": 66,
     "diffTone": "very-good",
     "positionTone": "rb"
   },
