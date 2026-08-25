@@ -47,6 +47,10 @@ function DraftDividerRow({ markers, columnCount, atTop = false }: { markers: Dra
   return <tr className={`draft-divider-row${atTop ? ' draft-divider-row--top' : ''}`} data-draft-divider="true" data-draft-marker-overall={markers.map((marker) => marker.overallPick).join(',')} data-draft-marker-current={markers.some((marker) => marker.isCurrent) ? 'true' : undefined} aria-label={markers.map((marker) => marker.isCurrent && marker.isMine ? 'Your pick' : `Round ${marker.round}, pick ${marker.pickInRound}`).join(' · ')}><td colSpan={columnCount}><div className="draft-divider" style={draftDividerStyle()}>{markers.map((marker) => <span className={`${marker.isCurrent ? 'is-current ' : ''}${marker.isMine ? 'is-mine' : 'is-future'}`} key={marker.overallPick}>{marker.isCurrent && marker.isMine ? 'Your pick' : `R${marker.round} · Pick ${marker.pickInRound}`}</span>)}</div></td></tr>
 }
 
+function AuctionRoundDividerRow({ round, columnCount }: { round: number; columnCount: number }) {
+  return <tr className="draft-divider-row auction-round-divider-row" data-auction-round-divider="true" data-auction-round={round} aria-label={`Round ${round}`}><td colSpan={columnCount}><div className="draft-divider" style={draftDividerStyle()}><span className="is-future">Round {round}</span></div></td></tr>
+}
+
 function pickDetails(overallPick: number, draftSize: number): { round: number; pickInRound: number } {
   const round = Math.floor((overallPick - 1) / draftSize) + 1
   return { round, pickInRound: ((overallPick - 1) % draftSize) + 1 }
@@ -72,6 +76,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
   const showValueColumn = isEspn && showAuctionValues
   const dividerColumnCount = 6 + (showValueColumn ? 1 : 0) + (showYahooProjections ? 1 : 0) + (showRegressionDiff ? 1 : 0)
   const showDraftDivider = (sortKey === 'sourceRank' || sortKey === 'adjustedRank') && sortDirection === 'asc'
+  const showAuctionRoundDivider = showValueColumn && showDraftDivider
   const rankForDraft = (row: RankingRow): number | undefined => sortKey === 'adjustedRank' ? row.adjustedRank : row.sourceRank
   const rankSortKey = sortKey === 'adjustedRank' ? 'adjustedRank' : 'sourceRank'
   const nextRankSortKey = rankSortKey === 'sourceRank' ? 'adjustedRank' : 'sourceRank'
@@ -141,7 +146,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             const weeklyAverageFallback = yahooProjectionMode === 'half' ? projection?.seasonHalfPpr : projection?.seasonPpr
             return (
               <Fragment key={`${row.player}-${row.team}-${row.sourceRank}`}>
-              {showDraftDivider && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} atTop={index === 0} /> : null}
+              {showAuctionRoundDivider && index > 0 && index % draftSize === 0 ? <AuctionRoundDividerRow round={Math.floor(index / draftSize) + 1} columnCount={dividerColumnCount} /> : showDraftDivider && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} atTop={index === 0} /> : null}
               <tr
                 key={`${row.player}-${row.team}-${row.sourceRank}`}
                 className={`${isDrafted ? 'is-drafted' : ''} ${selectedId === id ? 'is-selected' : ''} pos-${row.positionTone ?? 'other'}`}
@@ -168,7 +173,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
               </Fragment>
             )
           })}
-          {showDraftDivider && markerGroups.has(rows.length) && rows.length ? <DraftDividerRow markers={markerGroups.get(rows.length) ?? []} columnCount={dividerColumnCount} /> : null}
+          {showAuctionRoundDivider && rows.length && rows.length % draftSize === 0 ? <AuctionRoundDividerRow round={Math.floor(rows.length / draftSize) + 1} columnCount={dividerColumnCount} /> : showDraftDivider && markerGroups.has(rows.length) && rows.length ? <DraftDividerRow markers={markerGroups.get(rows.length) ?? []} columnCount={dividerColumnCount} /> : null}
         </tbody>
       </table>
       {rows.length === 0 && <div className="empty-state">No players match the current filters.</div>}
