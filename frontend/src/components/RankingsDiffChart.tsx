@@ -4,13 +4,14 @@ import { calculateRegression, formatRank, formatValue, regressionDifference, sou
 import { getTeamAsset } from '../data/teams'
 import { rankingId } from '../data/draftState'
 import { TeamBadge } from './TeamBadge'
+import { ViewTabs } from './ViewTabs'
 
 type Props = {
   rows: RankingRow[]
   teams: Record<string, TeamAsset>
   source: string
   drafted: Set<string>
-  onBack: () => void
+  onNavigate: (path: 'board' | 'analytics' | 'draft') => void
 }
 
 type WindowOption = { id: string; label: string; start: number; end?: number }
@@ -36,7 +37,7 @@ function windowOptions(maxRank: number): WindowOption[] {
   ]
 }
 
-export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Props) {
+export function RankingsDiffChart({ rows, teams, source, drafted, onNavigate }: Props) {
   const maxRank = rankMax(rows)
   const windows = windowOptions(maxRank)
   const [position, setPosition] = useState<PositionFilter>('ALL')
@@ -105,7 +106,7 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onBack }: Prop
         <h1>Rankings diff</h1>
         <p>{sourceLabel(source)} base rank vs. adjusted overall rank</p>
       </div>
-      <button className="secondary-action" type="button" onClick={onBack}>← Back to rankings</button>
+      <ViewTabs active="analytics" onNavigate={onNavigate} />
     </header>
 
     <section className="rankings-diff-controls" aria-label="Rankings diff filters">

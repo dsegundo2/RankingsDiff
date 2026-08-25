@@ -12,6 +12,7 @@ import { RecentDraftPanel } from './RecentDraftPanel'
 import { AuctionRosterPanel } from './AuctionRosterPanel'
 import { withBasePath } from '../data/paths'
 import { RankingsDiffChart } from './RankingsDiffChart'
+import { ViewTabs } from './ViewTabs'
 
 type ViewMode = 'board' | 'positions'
 type DraftMode = 'snake' | 'auction'
@@ -738,7 +739,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
             <div className="view-summary" aria-live="polite">
               <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{draftMode === 'auction' ? 'Auction' : 'Snake'}</strong> · <strong>{draftSlot}/{draftSize}</strong>
             </div>
-            <div className="hero__links"><button className="analytics-link" type="button" onClick={() => onNavigate('analytics')}>Rankings diff</button><button className="analytics-link" type="button" onClick={() => onNavigate('draft')}>2025 auction</button></div>
+            <ViewTabs active={route} onNavigate={onNavigate} />
           </div>
         </div>
       </section>
@@ -859,7 +860,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       />
     </main>
     <div hidden={route !== 'analytics'}>
-      <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onBack={() => onNavigate('board')} />
+      <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onNavigate={onNavigate} />
     </div>
   </>)
 }
