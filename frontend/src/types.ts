@@ -11,6 +11,7 @@ export type RankingRow = {
   adjustedRank?: number
   adjustedRankHalfPpr?: number
   diff?: number
+  rankingDiff?: number
   sourceValue?: number
   adjustedValue?: number
   priceRank?: number
@@ -88,7 +89,7 @@ export type DataManifest = {
   seasons: SeasonManifest[]
 }
 
-export type SortKey = 'sourceRank' | 'adjustedRank' | 'diff' | 'regressionDiff' | 'player' | 'position' | 'sourceValue' | 'adjustedValue' | 'priceRank' | 'yahooProjection'
+export type SortKey = 'sourceRank' | 'adjustedRank' | 'diff' | 'rankingDiff' | 'regressionDiff' | 'player' | 'position' | 'sourceValue' | 'adjustedValue' | 'priceRank' | 'yahooProjection'
 export type SortDirection = 'asc' | 'desc'
 
 export type RankingSource = 'fpros' | 'espn' | string

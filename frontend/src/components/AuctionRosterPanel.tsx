@@ -6,12 +6,15 @@ import { formatRank, formatValue } from '../data/rankings'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
 
+type TargetQueueView = 'normal' | 'position'
+
 type Props = {
   rows: RankingRow[]
   teams: Record<string, TeamAsset>
   targetGoals: RosterTargetGoals
   drafted: Set<string>
   targetRows: RankingRow[]
+  targetQueueView: TargetQueueView
   showTargetQueue: boolean
   mode: 'auction' | 'snake'
   source: RankingSource
@@ -22,7 +25,7 @@ type Props = {
   onTarget: (id: string) => void
 }
 
-export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRows, showTargetQueue, mode, source, prices, slots, onPrice, onMoveSlot, onTarget }: Props) {
+export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRows, targetQueueView, showTargetQueue, mode, source, prices, slots, onPrice, onMoveSlot, onTarget }: Props) {
   const [editingPriceId, setEditingPriceId] = useState<string | null>(null)
   const [priceDraft, setPriceDraft] = useState('')
   const [draggingId, setDraggingId] = useState<string | null>(null)
@@ -39,6 +42,9 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
   const pace = pricedPicks.reduce((total, { id }) => total + (targetGoals[slots[id]] ?? DEFAULT_ROSTER_TARGETS[slots[id]] ?? 0) - (prices[id] ?? 0), 0)
   const positionsRemaining = Math.max(1, starterSlots.length + benchSlots.length - pricedPicks.length)
   const targetAdjustment = pace / positionsRemaining
+  const targetQueueGroups = targetQueueView === 'normal'
+    ? [{ key: 'all', label: '', rows: targetRows }]
+    : ['QB', 'RB', 'WR', 'TE', 'K'].map((positionKey) => ({ key: positionKey, label: positionKey, rows: targetRows.filter((row) => row.position.toUpperCase() === positionKey) })).filter((group) => group.rows.length)
 
   function slotName(slot: string): string {
     return rosterTargetLabel(slot)
@@ -106,12 +112,14 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
     </div>
     {showTargetQueue ? <section className="auction-shortlist target-queue target-queue--embedded" aria-label="Target queue">
       <div className="auction-roster-panel__section-heading"><strong>Shortlist</strong><span>{targetRows.length}</span></div>
-      {targetRows.length ? <div className="auction-shortlist__list">{targetRows.slice(0, 6).map((row) => {
+      {targetRows.length ? <div className="auction-shortlist__list">{targetQueueGroups.map((group) => <div className="auction-shortlist__group" key={group.key}>
+        {group.label ? <h3>{group.label}</h3> : null}
+        {group.rows.map((row) => {
         const id = rankingId(row)
         const team = normalizeTeamAbbreviation(row.team)
         const valueSummary = mode === 'auction' && source === 'espn' ? `${formatValue(row.sourceValue)} → ${formatValue(row.adjustedValue)}` : `Draft rank #${formatRank(row.sourceRank)} → #${formatRank(row.adjustedRank)}`
         return <button type="button" key={id} className="auction-shortlist__item" onClick={() => onTarget(id)} aria-label={`Remove target ${row.player}`}><span className={`auction-shortlist__pos pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span><span><strong>{row.player}</strong><small>{team} · {valueSummary}</small></span><span className="auction-shortlist__remove" aria-hidden="true" /></button>
-      })}</div> : <p className="auction-roster-panel__empty">Target players to keep a short list here.</p>}
+      })}</div>)}</div> : <p className="auction-roster-panel__empty">Target players to keep a short list here.</p>}
     </section> : null}
     {mode === 'auction' ? <div className="auction-roster-panel__budget"><span>Budget remaining</span><strong className={remaining < 0 ? 'is-negative' : ''}>${remaining}</strong><small>of ${budget}</small></div> : null}
     <section className="auction-roster-panel__roster" aria-label="Roster slots">

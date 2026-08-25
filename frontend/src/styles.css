@@ -839,6 +839,14 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .settings-preference-card strong, .settings-preference-card small { display: block; }
 .settings-preference-card strong { margin-top: 2px; font-size: .96rem; }
 .settings-preference-card small { margin-top: 2px; color: var(--muted); font-size: .72rem; }
+.settings-segmented { display: inline-flex; flex: 0 0 auto; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel-soft); }
+.settings-segmented button { min-height: 32px; border: 0; border-radius: var(--radius-sm); padding: 5px 10px; color: var(--muted); background: transparent; font-size: .72rem; font-weight: 850; }
+.settings-segmented button:hover { color: var(--accent); background: var(--accent-soft); }
+.settings-segmented button.is-active { color: #fff; background: var(--ink); }
+.target-queue__group, .auction-shortlist__group { display: grid; gap: 7px; }
+.target-queue__group + .target-queue__group, .auction-shortlist__group + .auction-shortlist__group { margin-top: 8px; }
+.target-queue__group h3, .auction-shortlist__group h3 { margin: 3px 2px 0; color: var(--muted); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
+.auction-shortlist__list { max-height: min(45vh, 420px); overflow: auto; padding-right: 2px; }
 .position-view-layout { align-items: start; }
 
 @media (max-width: 1100px) {
@@ -897,7 +905,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
   .ranking-card__actions button { min-height: 44px; min-width: 0; justify-content: center; padding-inline: var(--space-2); white-space: normal; }
 
   .target-queue { width: 100%; padding: var(--space-3); border-radius: var(--radius-lg); }
-  .target-queue__list { max-height: none; overflow: visible; }
+  .target-queue__list { max-height: min(55vh, 520px); overflow: auto; }
   .target-queue button { min-height: 58px; grid-template-columns: 42px minmax(0, 1fr) 34px 20px; }
 
   .position-board { gap: var(--space-3); }

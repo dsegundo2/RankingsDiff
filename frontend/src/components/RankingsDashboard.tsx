@@ -15,6 +15,7 @@ import { RankingsDiffChart } from './RankingsDiffChart'
 
 type ViewMode = 'board' | 'positions'
 type DraftMode = 'snake' | 'auction'
+type TargetQueueView = 'normal' | 'position'
 type PositionKey = Exclude<PositionFilter, 'ALL'>
 type DraftSnapshot = { targets: string[]; drafted: string[]; picks: Record<string, number>; mine: string[]; prices: Record<string, number>; slots: Record<string, string> }
 const allPositionKeys = new Set<PositionKey>(['RB', 'WR', 'QB', 'TE', 'K'])
@@ -81,6 +82,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   const [targetGoals, setTargetGoals] = useState<RosterTargetGoals>(DEFAULT_ROSTER_TARGETS)
   const [showDrafted, setShowDrafted] = useState(true)
   const [showTargetQueue, setShowTargetQueue] = useState(true)
+  const [targetQueueView, setTargetQueueView] = useState<TargetQueueView>('normal')
   const [showDraftLog, setShowDraftLog] = useState(true)
   const [showRosterPanel, setShowRosterPanel] = useState(true)
   const [autoLineupApply, setAutoLineupApply] = useState(true)
@@ -106,7 +108,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
 
   const handleSort = useCallback((key: SortKey) => {
     if (key === sortKey) setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')
-    else { setSortKey(key); setSortDirection('asc') }
+    else { setSortKey(key); setSortDirection(key === 'diff' || key === 'rankingDiff' ? 'desc' : 'asc') }
   }, [sortKey])
 
   useEffect(() => {
@@ -118,7 +120,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     observer.observe(workbench)
     return () => observer.disconnect()
   }, [showDraftLog, stickyWorkbench, showMobileActions, view, selectedSeason, selectedSource])
-  const displayRows = useMemo(() => rows.map((row) => selectedSource === 'espn' && draftMode === 'snake' ? { ...row, diff: rankingDifference(row) } : row), [draftMode, rows, selectedSource])
+  const displayRows = useMemo(() => rows.map((row) => ({ ...row, ...(selectedSource === 'espn' && draftMode === 'snake' ? { diff: rankingDifference(row) } : {}), rankingDiff: rankingDifference(row) })), [draftMode, rows, selectedSource])
   const rowsWithYahooProjection = useMemo(() => displayRows.map((row) => ({ ...row, yahooProjection: yahooProjections[yahooProjectionId(row.player, row.team)]?.[projectionMode === 'half' ? 'week1HalfPpr' : 'week1Ppr'] })), [displayRows, projectionMode, yahooProjections])
   const filteredRows = useMemo(() => {
     const searchedRows = filterRankings(rowsWithYahooProjection, search, 'ALL', teams)
@@ -139,7 +141,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     full: rows.filter((row) => typeof row.adjustedRank === 'number' && Number.isFinite(row.adjustedRank)).length,
     half: rows.filter((row) => typeof row.adjustedRankHalfPpr === 'number' && Number.isFinite(row.adjustedRankHalfPpr)).length,
   }), [rows])
-  const targetRows = useMemo(() => sortRankings(rows.filter((row) => targets.has(rankingId(row)) && !drafted.has(rankingId(row))), sortKey, 'asc'), [rows, sortKey, targets, drafted])
+  const targetRows = useMemo(() => sortRankings(displayRows.filter((row) => targets.has(rankingId(row)) && !drafted.has(rankingId(row))), sortKey, sortKey === 'diff' || sortKey === 'rankingDiff' ? 'desc' : 'asc'), [displayRows, sortKey, targets, drafted])
   const targetSummary = useMemo(() => {
     const positions = targetRows.reduce<Record<string, number>>((counts, row) => {
       const key = row.position.toUpperCase()
@@ -148,6 +150,10 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     }, {})
     return ['RB', 'WR', 'QB', 'TE'].filter((key) => positions[key]).map((key) => `${positions[key]} ${key}`).join(' · ')
   }, [targetRows])
+  const targetQueueGroups = useMemo(() => {
+    if (targetQueueView === 'normal') return [{ key: 'all', label: '', rows: targetRows }]
+    return ['QB', 'RB', 'WR', 'TE', 'K'].map((positionKey) => ({ key: positionKey, label: positionKey, rows: targetRows.filter((row) => row.position.toUpperCase() === positionKey) })).filter((group) => group.rows.length)
+  }, [targetQueueView, targetRows])
   const draftedCounts = useMemo(() => {
     const counts: Record<PositionFilter, number> = { ALL: 0, RB: 0, WR: 0, QB: 0, TE: 0, K: 0, FX: 0 }
     rows.forEach((row) => {
@@ -333,16 +339,17 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
   useEffect(() => {
     setHydratedViewKey('')
     try {
-      const saved = JSON.parse(localStorage.getItem(viewStorageKey) ?? '{}') as Partial<{ search: string; position: PositionFilter; sortKey: SortKey; sortDirection: SortDirection; view: ViewMode; boardPositions: PositionKey[]; positionViews: PositionKey[]; showDrafted: boolean; showTargetQueue: boolean; showDraftLog: boolean; showRosterPanel: boolean; autoLineupApply: boolean; stickyWorkbench: boolean; showMobileActions: boolean; showYahooProjections: boolean; showRegressionDiff: boolean; draftMode: DraftMode }>
+      const saved = JSON.parse(localStorage.getItem(viewStorageKey) ?? '{}') as Partial<{ search: string; position: PositionFilter; sortKey: SortKey; sortDirection: SortDirection; view: ViewMode; boardPositions: PositionKey[]; positionViews: PositionKey[]; showDrafted: boolean; showTargetQueue: boolean; targetQueueView: TargetQueueView; showDraftLog: boolean; showRosterPanel: boolean; autoLineupApply: boolean; stickyWorkbench: boolean; showMobileActions: boolean; showYahooProjections: boolean; showRegressionDiff: boolean; draftMode: DraftMode }>
       if (typeof saved.search === 'string') setSearch(saved.search)
       if (saved.position && ['ALL', 'QB', 'RB', 'WR', 'TE', 'K', 'FX'].includes(saved.position)) setPosition(saved.position)
-      if (saved.sortKey && ['sourceRank', 'adjustedRank', 'yahooProjection', 'diff', 'regressionDiff'].includes(saved.sortKey)) setSortKey(saved.sortKey)
+      if (saved.sortKey && ['sourceRank', 'adjustedRank', 'yahooProjection', 'diff', 'rankingDiff', 'regressionDiff'].includes(saved.sortKey)) setSortKey(saved.sortKey)
       if (saved.sortDirection === 'asc' || saved.sortDirection === 'desc') setSortDirection(saved.sortDirection)
       if (saved.view === 'board' || saved.view === 'positions') setView(saved.view)
       if (Array.isArray(saved.boardPositions)) setBoardPositions(new Set(saved.boardPositions.filter((value): value is PositionKey => allPositionKeys.has(value))))
       if (Array.isArray(saved.positionViews)) setPositionViews(new Set(saved.positionViews.filter((value): value is PositionKey => allPositionKeys.has(value))))
       if (typeof saved.showDrafted === 'boolean') setShowDrafted(saved.showDrafted)
       if (typeof saved.showTargetQueue === 'boolean') setShowTargetQueue(saved.showTargetQueue)
+      if (saved.targetQueueView === 'normal' || saved.targetQueueView === 'position') setTargetQueueView(saved.targetQueueView)
       if (typeof saved.showDraftLog === 'boolean') setShowDraftLog(saved.showDraftLog)
       if (typeof saved.showRosterPanel === 'boolean') setShowRosterPanel(saved.showRosterPanel)
       if (typeof saved.autoLineupApply === 'boolean') setAutoLineupApply(saved.autoLineupApply)
@@ -357,8 +364,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
 
   useEffect(() => {
     if (hydratedViewKey !== viewStorageKey) return
-    localStorage.setItem(viewStorageKey, JSON.stringify({ search, position, sortKey, sortDirection, view, boardPositions: [...boardPositions], positionViews: [...positionViews], showDrafted, showTargetQueue, showDraftLog, showRosterPanel, autoLineupApply, stickyWorkbench, showMobileActions, showYahooProjections, showRegressionDiff, draftMode }))
-  }, [hydratedViewKey, viewStorageKey, search, position, sortKey, sortDirection, view, boardPositions, positionViews, showDrafted, showTargetQueue, showDraftLog, showRosterPanel, autoLineupApply, stickyWorkbench, showMobileActions, showYahooProjections, showRegressionDiff, draftMode])
+    localStorage.setItem(viewStorageKey, JSON.stringify({ search, position, sortKey, sortDirection, view, boardPositions: [...boardPositions], positionViews: [...positionViews], showDrafted, showTargetQueue, targetQueueView, showDraftLog, showRosterPanel, autoLineupApply, stickyWorkbench, showMobileActions, showYahooProjections, showRegressionDiff, draftMode }))
+  }, [hydratedViewKey, viewStorageKey, search, position, sortKey, sortDirection, view, boardPositions, positionViews, showDrafted, showTargetQueue, targetQueueView, showDraftLog, showRosterPanel, autoLineupApply, stickyWorkbench, showMobileActions, showYahooProjections, showRegressionDiff, draftMode])
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
@@ -695,7 +702,9 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
     </div>
     {targetRows.length ? <p className="target-queue__summary">{targetSummary || 'No position mix yet'} · sorted by {sortKey === 'adjustedRank' ? 'adjusted rank' : sortKey === 'sourceRank' ? 'base rank' : sortKey}</p> : null}
     <div className="target-queue__list">
-      {targetRows.slice(0, 12).map((row) => (
+      {targetQueueGroups.map((group) => <div className="target-queue__group" key={group.key}>
+        {group.label ? <h3>{group.label}</h3> : null}
+        {group.rows.map((row) => (
         <button type="button" key={rankingId(row)} onClick={() => toggleTarget(rankingId(row))} aria-label={`Remove ${row.player} from queue`}>
           <span className={`target-queue__pos pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span>
           <span className="target-queue__player">
@@ -708,7 +717,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
           <span className="target-queue__diff">{selectedSource === 'espn' ? formatSignedValue(row.diff) : formatRank(row.diff)}</span>
           <span className="target-queue__remove" aria-hidden="true">×</span>
         </button>
-      ))}
+      ))}</div>)}
     </div>
     {!targetRows.length ? <p>Star players to build a shortlist that stays visible while you search and filter.</p> : null}
   </aside> : null
@@ -759,7 +768,8 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
               <option value="adjustedRank">Adjusted rank</option>
               <option value="yahooProjection">Yahoo projection</option>
               <option value="regressionDiff">Trend</option>
-              <option value="diff">Delta</option>
+              <option value="diff">{draftMode === 'auction' ? 'Price delta' : 'Delta'}</option>
+              {draftMode === 'auction' ? <option value="rankingDiff">Rank delta</option> : null}
             </select><span className="search-sort-control__chevron" aria-hidden="true">⌄</span></span>
           <button type="button" className="search-sort-direction" onClick={() => setSortDirection((current) => current === 'asc' ? 'desc' : 'asc')} aria-label={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`} title={`Sort ${sortDirection === 'asc' ? 'descending' : 'ascending'}`}>
             {sortDirection === 'asc' ? '↑' : '↓'}
@@ -785,12 +795,12 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
               })}
             </section>
           </div>
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} targetQueueView={targetQueueView} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showAuctionValues={draftMode === 'auction'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} targetQueueView={targetQueueView} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
         </div>
       )}
       <SettingsPopover
@@ -808,6 +818,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         visibleCount={visibleRows.length}
         targetCount={targetRows.length}
         showTargetQueue={showTargetQueue}
+        targetQueueView={targetQueueView}
         showDrafted={showDrafted}
         showDraftLog={showDraftLog}
         showRosterPanel={showRosterPanel}
@@ -828,6 +839,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         onRestoreDraft={restoreDraft}
         onClearDraft={clearDraft}
         onShowTargetQueue={setShowTargetQueue}
+        onTargetQueueView={setTargetQueueView}
         onShowDrafted={setShowDrafted}
         onShowDraftLog={setShowDraftLog}
         onShowRosterPanel={setShowRosterPanel}
