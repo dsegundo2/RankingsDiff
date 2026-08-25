@@ -57,8 +57,8 @@ type Props = {
   onAdjustedProfile: (profile: string) => void
   onSeason: (season: number) => void
   onSource: (source: string) => void
-  route: 'board' | 'analytics'
-  onNavigate: (path: 'board' | 'analytics') => void
+  route: 'board' | 'analytics' | 'draft'
+  onNavigate: (path: 'board' | 'analytics' | 'draft') => void
 }
 
 export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sourceChecks, selectedSeason, selectedSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, onSeason, onSource, route, onNavigate }: Props) {
@@ -738,7 +738,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
             <div className="view-summary" aria-live="polite">
               <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{draftMode === 'auction' ? 'Auction' : 'Snake'}</strong> · <strong>{draftSlot}/{draftSize}</strong>
             </div>
-            <button className="analytics-link" type="button" onClick={() => onNavigate('analytics')}>Rankings diff</button>
+            <div className="hero__links"><button className="analytics-link" type="button" onClick={() => onNavigate('analytics')}>Rankings diff</button><button className="analytics-link" type="button" onClick={() => onNavigate('draft')}>2025 auction</button></div>
           </div>
         </div>
       </section>
