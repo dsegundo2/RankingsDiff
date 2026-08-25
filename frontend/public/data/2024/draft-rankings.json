@@ -1,0 +1,1362 @@
+[
+  {
+    "manager": "Dane",
+    "rank": 14,
+    "player": "Travis Kelce",
+    "nfl_team": "KC",
+    "position": "TE",
+    "offer_amount": 21
+  },
+  {
+    "manager": "Dane",
+    "rank": 18,
+    "player": "Amon-Ra St. Brown",
+    "nfl_team": "Det",
+    "position": "WR",
+    "offer_amount": 59
+  },
+  {
+    "manager": "Dane",
+    "rank": 19,
+    "player": "Travis Etienne Jr.",
+    "nfl_team": "Jax",
+    "position": "RB",
+    "offer_amount": 40
+  },
+  {
+    "manager": "Dane",
+    "rank": 41,
+    "player": "Stefon Diggs",
+    "nfl_team": "Hou",
+    "position": "WR",
+    "offer_amount": 17
+  },
+  {
+    "manager": "Dane",
+    "rank": 42,
+    "player": "Kenneth Walker III",
+    "nfl_team": "Sea",
+    "position": "RB",
+    "offer_amount": 25
+  },
+  {
+    "manager": "Dane",
+    "rank": 52,
+    "player": "C.J. Stroud",
+    "nfl_team": "Hou",
+    "position": "QB",
+    "offer_amount": 9
+  },
+  {
+    "manager": "Dane",
+    "rank": 60,
+    "player": "Calvin Ridley",
+    "nfl_team": "Ten",
+    "position": "WR",
+    "offer_amount": 7
+  },
+  {
+    "manager": "Dane",
+    "rank": 61,
+    "player": "Keenan Allen",
+    "nfl_team": "Chi",
+    "position": "WR",
+    "offer_amount": 6
+  },
+  {
+    "manager": "Dane",
+    "rank": 78,
+    "player": "Amari Cooper",
+    "nfl_team": "Buf",
+    "position": "WR",
+    "offer_amount": 6
+  },
+  {
+    "manager": "Dane",
+    "rank": 89,
+    "player": "Tony Pollard",
+    "nfl_team": "Ten",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Dane",
+    "rank": 97,
+    "player": "Keon Coleman",
+    "nfl_team": "Buf",
+    "position": "WR",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Dane",
+    "rank": 99,
+    "player": "Harrison Butker",
+    "nfl_team": "KC",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Dane",
+    "rank": 109,
+    "player": "Browns D/ST",
+    "nfl_team": "Cle",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Dane",
+    "rank": 119,
+    "player": "Jordan Mason",
+    "nfl_team": "Min",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Dane",
+    "rank": 129,
+    "player": "Cole Kmet",
+    "nfl_team": "Chi",
+    "position": "TE",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Dane",
+    "rank": 139,
+    "player": "Jerry Jeudy",
+    "nfl_team": "Cle",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Dane",
+    "rank": 148,
+    "player": "Justin Herbert",
+    "nfl_team": "LAC",
+    "position": "QB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick H",
+    "rank": 17,
+    "player": "Chris Olave",
+    "nfl_team": "NO",
+    "position": "WR",
+    "offer_amount": 30
+  },
+  {
+    "manager": "Nick H",
+    "rank": 26,
+    "player": "De'Von Achane",
+    "nfl_team": "Mia",
+    "position": "RB",
+    "offer_amount": 26
+  },
+  {
+    "manager": "Nick H",
+    "rank": 28,
+    "player": "Michael Pittman Jr.",
+    "nfl_team": "Ind",
+    "position": "WR",
+    "offer_amount": 26
+  },
+  {
+    "manager": "Nick H",
+    "rank": 43,
+    "player": "Alvin Kamara",
+    "nfl_team": "NO",
+    "position": "RB",
+    "offer_amount": 31
+  },
+  {
+    "manager": "Nick H",
+    "rank": 46,
+    "player": "Cooper Kupp",
+    "nfl_team": "Sea",
+    "position": "WR",
+    "offer_amount": 31
+  },
+  {
+    "manager": "Nick H",
+    "rank": 53,
+    "player": "DeVonta Smith",
+    "nfl_team": "Phi",
+    "position": "WR",
+    "offer_amount": 22
+  },
+  {
+    "manager": "Nick H",
+    "rank": 69,
+    "player": "Aaron Jones",
+    "nfl_team": "Min",
+    "position": "RB",
+    "offer_amount": 8
+  },
+  {
+    "manager": "Nick H",
+    "rank": 75,
+    "player": "Dalton Kincaid",
+    "nfl_team": "Buf",
+    "position": "TE",
+    "offer_amount": 7
+  },
+  {
+    "manager": "Nick H",
+    "rank": 79,
+    "player": "Raheem Mostert",
+    "nfl_team": "LV",
+    "position": "RB",
+    "offer_amount": 5
+  },
+  {
+    "manager": "Nick H",
+    "rank": 81,
+    "player": "Tyjae Spears",
+    "nfl_team": "Ten",
+    "position": "RB",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Nick H",
+    "rank": 86,
+    "player": "Christian Kirk",
+    "nfl_team": "Hou",
+    "position": "WR",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Nick H",
+    "rank": 91,
+    "player": "Kyler Murray",
+    "nfl_team": "Ari",
+    "position": "QB",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Nick H",
+    "rank": 94,
+    "player": "Jayden Reed",
+    "nfl_team": "GB",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick H",
+    "rank": 114,
+    "player": "Dallas Goedert",
+    "nfl_team": "Phi",
+    "position": "TE",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick H",
+    "rank": 115,
+    "player": "Jameson Williams",
+    "nfl_team": "Det",
+    "position": "WR",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Nick H",
+    "rank": 124,
+    "player": "Brandon Aubrey",
+    "nfl_team": "Dal",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick H",
+    "rank": 134,
+    "player": "Jets D/ST",
+    "nfl_team": "NYJ",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Diego",
+    "rank": 4,
+    "player": "Bijan Robinson",
+    "nfl_team": "Atl",
+    "position": "RB",
+    "offer_amount": 53
+  },
+  {
+    "manager": "Diego",
+    "rank": 9,
+    "player": "A.J. Brown",
+    "nfl_team": "Phi",
+    "position": "WR",
+    "offer_amount": 51
+  },
+  {
+    "manager": "Diego",
+    "rank": 21,
+    "player": "Josh Jacobs",
+    "nfl_team": "GB",
+    "position": "RB",
+    "offer_amount": 32
+  },
+  {
+    "manager": "Diego",
+    "rank": 22,
+    "player": "Malik Nabers",
+    "nfl_team": "NYG",
+    "position": "WR",
+    "offer_amount": 27
+  },
+  {
+    "manager": "Diego",
+    "rank": 50,
+    "player": "Jalen Hurts",
+    "nfl_team": "Phi",
+    "position": "QB",
+    "offer_amount": 20
+  },
+  {
+    "manager": "Diego",
+    "rank": 103,
+    "player": "Jake Ferguson",
+    "nfl_team": "Dal",
+    "position": "TE",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Diego",
+    "rank": 104,
+    "player": "Zack Moss",
+    "nfl_team": "Cin",
+    "position": "RB",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Diego",
+    "rank": 106,
+    "player": "Brian Thomas Jr.",
+    "nfl_team": "Jax",
+    "position": "WR",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Diego",
+    "rank": 113,
+    "player": "Tyler Allgeier",
+    "nfl_team": "Atl",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Diego",
+    "rank": 116,
+    "player": "Hollywood Brown",
+    "nfl_team": "KC",
+    "position": "WR",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Diego",
+    "rank": 127,
+    "player": "Adonai Mitchell",
+    "nfl_team": "Ind",
+    "position": "WR",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Diego",
+    "rank": 133,
+    "player": "Blake Corum",
+    "nfl_team": "LAR",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Diego",
+    "rank": 143,
+    "player": "Caleb Williams",
+    "nfl_team": "Chi",
+    "position": "QB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Diego",
+    "rank": 151,
+    "player": "Brandin Cooks",
+    "nfl_team": "Dal",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Diego",
+    "rank": 158,
+    "player": "Dontayvion Wicks",
+    "nfl_team": "GB",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Diego",
+    "rank": 163,
+    "player": "Younghoe Koo",
+    "nfl_team": "Atl",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Diego",
+    "rank": 167,
+    "player": "Seahawks D/ST",
+    "nfl_team": "Sea",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Jordan",
+    "rank": 10,
+    "player": "Saquon Barkley",
+    "nfl_team": "Phi",
+    "position": "RB",
+    "offer_amount": 50
+  },
+  {
+    "manager": "Jordan",
+    "rank": 15,
+    "player": "Kyren Williams",
+    "nfl_team": "LAR",
+    "position": "RB",
+    "offer_amount": 38
+  },
+  {
+    "manager": "Jordan",
+    "rank": 29,
+    "player": "DJ Moore",
+    "nfl_team": "Chi",
+    "position": "WR",
+    "offer_amount": 19
+  },
+  {
+    "manager": "Jordan",
+    "rank": 31,
+    "player": "Josh Allen",
+    "nfl_team": "Buf",
+    "position": "QB",
+    "offer_amount": 24
+  },
+  {
+    "manager": "Jordan",
+    "rank": 39,
+    "player": "Xavier Worthy",
+    "nfl_team": "KC",
+    "position": "WR",
+    "offer_amount": 11
+  },
+  {
+    "manager": "Jordan",
+    "rank": 48,
+    "player": "Sam LaPorta",
+    "nfl_team": "Det",
+    "position": "TE",
+    "offer_amount": 19
+  },
+  {
+    "manager": "Jordan",
+    "rank": 54,
+    "player": "Tank Dell",
+    "nfl_team": "Hou",
+    "position": "WR",
+    "offer_amount": 10
+  },
+  {
+    "manager": "Jordan",
+    "rank": 59,
+    "player": "Terry McLaurin",
+    "nfl_team": "Wsh",
+    "position": "WR",
+    "offer_amount": 11
+  },
+  {
+    "manager": "Jordan",
+    "rank": 82,
+    "player": "Ladd McConkey",
+    "nfl_team": "LAC",
+    "position": "WR",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Jordan",
+    "rank": 85,
+    "player": "Brian Robinson Jr.",
+    "nfl_team": "Wsh",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Jordan",
+    "rank": 87,
+    "player": "David Montgomery",
+    "nfl_team": "Det",
+    "position": "RB",
+    "offer_amount": 5
+  },
+  {
+    "manager": "Jordan",
+    "rank": 92,
+    "player": "Brock Bowers",
+    "nfl_team": "LV",
+    "position": "TE",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Jordan",
+    "rank": 95,
+    "player": "Rome Odunze",
+    "nfl_team": "Chi",
+    "position": "WR",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Jordan",
+    "rank": 125,
+    "player": "Jordan Love",
+    "nfl_team": "GB",
+    "position": "QB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Jordan",
+    "rank": 135,
+    "player": "Gus Edwards",
+    "nfl_team": "FA",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Jordan",
+    "rank": 144,
+    "player": "Dolphins D/ST",
+    "nfl_team": "Mia",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Jordan",
+    "rank": 152,
+    "player": "Greg Zuerlein",
+    "nfl_team": "NYJ",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick J",
+    "rank": 2,
+    "player": "Garrett Wilson",
+    "nfl_team": "NYJ",
+    "position": "WR",
+    "offer_amount": 44
+  },
+  {
+    "manager": "Nick J",
+    "rank": 6,
+    "player": "Kirk Cousins",
+    "nfl_team": "Atl",
+    "position": "QB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick J",
+    "rank": 23,
+    "player": "Isiah Pacheco",
+    "nfl_team": "KC",
+    "position": "RB",
+    "offer_amount": 39
+  },
+  {
+    "manager": "Nick J",
+    "rank": 25,
+    "player": "Breece Hall",
+    "nfl_team": "NYJ",
+    "position": "RB",
+    "offer_amount": 62
+  },
+  {
+    "manager": "Nick J",
+    "rank": 45,
+    "player": "Rashee Rice",
+    "nfl_team": "KC",
+    "position": "WR",
+    "offer_amount": 10
+  },
+  {
+    "manager": "Nick J",
+    "rank": 47,
+    "player": "DK Metcalf",
+    "nfl_team": "Pit",
+    "position": "WR",
+    "offer_amount": 28
+  },
+  {
+    "manager": "Nick J",
+    "rank": 71,
+    "player": "Najee Harris",
+    "nfl_team": "LAC",
+    "position": "RB",
+    "offer_amount": 4
+  },
+  {
+    "manager": "Nick J",
+    "rank": 74,
+    "player": "Kyle Pitts",
+    "nfl_team": "Atl",
+    "position": "TE",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Nick J",
+    "rank": 96,
+    "player": "Ezekiel Elliott",
+    "nfl_team": "FA",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick J",
+    "rank": 105,
+    "player": "J.K. Dobbins",
+    "nfl_team": "LAC",
+    "position": "RB",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Nick J",
+    "rank": 126,
+    "player": "Darnell Mooney",
+    "nfl_team": "Atl",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick J",
+    "rank": 136,
+    "player": "DeAndre Hopkins",
+    "nfl_team": "Bal",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick J",
+    "rank": 145,
+    "player": "Romeo Doubs",
+    "nfl_team": "GB",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick J",
+    "rank": 153,
+    "player": "Curtis Samuel",
+    "nfl_team": "Buf",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick J",
+    "rank": 159,
+    "player": "Chiefs D/ST",
+    "nfl_team": "KC",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick J",
+    "rank": 164,
+    "player": "Adam Thielen",
+    "nfl_team": "Car",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Nick J",
+    "rank": 168,
+    "player": "Cameron Dicker",
+    "nfl_team": "LAC",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Luca",
+    "rank": 5,
+    "player": "Jonathan Taylor",
+    "nfl_team": "Ind",
+    "position": "RB",
+    "offer_amount": 46
+  },
+  {
+    "manager": "Luca",
+    "rank": 20,
+    "player": "Justin Jefferson",
+    "nfl_team": "Min",
+    "position": "WR",
+    "offer_amount": 60
+  },
+  {
+    "manager": "Luca",
+    "rank": 32,
+    "player": "Davante Adams",
+    "nfl_team": "LAR",
+    "position": "WR",
+    "offer_amount": 35
+  },
+  {
+    "manager": "Luca",
+    "rank": 33,
+    "player": "Rachaad White",
+    "nfl_team": "TB",
+    "position": "RB",
+    "offer_amount": 25
+  },
+  {
+    "manager": "Luca",
+    "rank": 68,
+    "player": "Dak Prescott",
+    "nfl_team": "Dal",
+    "position": "QB",
+    "offer_amount": 4
+  },
+  {
+    "manager": "Luca",
+    "rank": 70,
+    "player": "Chris Godwin",
+    "nfl_team": "TB",
+    "position": "WR",
+    "offer_amount": 7
+  },
+  {
+    "manager": "Luca",
+    "rank": 73,
+    "player": "Zamir White",
+    "nfl_team": "LV",
+    "position": "RB",
+    "offer_amount": 5
+  },
+  {
+    "manager": "Luca",
+    "rank": 80,
+    "player": "George Kittle",
+    "nfl_team": "SF",
+    "position": "TE",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Luca",
+    "rank": 84,
+    "player": "Austin Ekeler",
+    "nfl_team": "Wsh",
+    "position": "RB",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Luca",
+    "rank": 93,
+    "player": "Courtland Sutton",
+    "nfl_team": "Den",
+    "position": "WR",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Luca",
+    "rank": 102,
+    "player": "Bucky Irving",
+    "nfl_team": "TB",
+    "position": "RB",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Luca",
+    "rank": 108,
+    "player": "Nick Chubb",
+    "nfl_team": "Cle",
+    "position": "RB",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Luca",
+    "rank": 111,
+    "player": "Mike Williams",
+    "nfl_team": "LAC",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Luca",
+    "rank": 121,
+    "player": "Jakobi Meyers",
+    "nfl_team": "LV",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Luca",
+    "rank": 123,
+    "player": "Joshua Palmer",
+    "nfl_team": "Buf",
+    "position": "WR",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Luca",
+    "rank": 131,
+    "player": "Ravens D/ST",
+    "nfl_team": "Bal",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Luca",
+    "rank": 141,
+    "player": "Justin Tucker",
+    "nfl_team": "Bal",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Sammy",
+    "rank": 3,
+    "player": "CeeDee Lamb",
+    "nfl_team": "Dal",
+    "position": "WR",
+    "offer_amount": 59
+  },
+  {
+    "manager": "Sammy",
+    "rank": 24,
+    "player": "Drake London",
+    "nfl_team": "Atl",
+    "position": "WR",
+    "offer_amount": 25
+  },
+  {
+    "manager": "Sammy",
+    "rank": 35,
+    "player": "James Cook",
+    "nfl_team": "Buf",
+    "position": "RB",
+    "offer_amount": 22
+  },
+  {
+    "manager": "Sammy",
+    "rank": 37,
+    "player": "Joe Mixon",
+    "nfl_team": "Hou",
+    "position": "RB",
+    "offer_amount": 20
+  },
+  {
+    "manager": "Sammy",
+    "rank": 49,
+    "player": "D'Andre Swift",
+    "nfl_team": "Chi",
+    "position": "RB",
+    "offer_amount": 13
+  },
+  {
+    "manager": "Sammy",
+    "rank": 55,
+    "player": "Tee Higgins",
+    "nfl_team": "Cin",
+    "position": "WR",
+    "offer_amount": 13
+  },
+  {
+    "manager": "Sammy",
+    "rank": 56,
+    "player": "George Pickens",
+    "nfl_team": "Pit",
+    "position": "WR",
+    "offer_amount": 8
+  },
+  {
+    "manager": "Sammy",
+    "rank": 57,
+    "player": "Diontae Johnson",
+    "nfl_team": "Bal",
+    "position": "WR",
+    "offer_amount": 6
+  },
+  {
+    "manager": "Sammy",
+    "rank": 58,
+    "player": "Anthony Richardson",
+    "nfl_team": "Ind",
+    "position": "QB",
+    "offer_amount": 11
+  },
+  {
+    "manager": "Sammy",
+    "rank": 63,
+    "player": "Mark Andrews",
+    "nfl_team": "Bal",
+    "position": "TE",
+    "offer_amount": 9
+  },
+  {
+    "manager": "Sammy",
+    "rank": 77,
+    "player": "James Conner",
+    "nfl_team": "Ari",
+    "position": "RB",
+    "offer_amount": 8
+  },
+  {
+    "manager": "Sammy",
+    "rank": 88,
+    "player": "Jaylen Warren",
+    "nfl_team": "Pit",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Sammy",
+    "rank": 118,
+    "player": "Zach Charbonnet",
+    "nfl_team": "Sea",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Sammy",
+    "rank": 128,
+    "player": "Jayden Daniels",
+    "nfl_team": "Wsh",
+    "position": "QB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Sammy",
+    "rank": 138,
+    "player": "Steelers D/ST",
+    "nfl_team": "Pit",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Sammy",
+    "rank": 147,
+    "player": "Dalton Schultz",
+    "nfl_team": "Hou",
+    "position": "TE",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Sammy",
+    "rank": 155,
+    "player": "Jake Elliott",
+    "nfl_team": "Phi",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Logan",
+    "rank": 1,
+    "player": "Ja'Marr Chase",
+    "nfl_team": "Cin",
+    "position": "WR",
+    "offer_amount": 56
+  },
+  {
+    "manager": "Logan",
+    "rank": 7,
+    "player": "Jahmyr Gibbs",
+    "nfl_team": "Det",
+    "position": "RB",
+    "offer_amount": 43
+  },
+  {
+    "manager": "Logan",
+    "rank": 11,
+    "player": "Mike Evans",
+    "nfl_team": "TB",
+    "position": "WR",
+    "offer_amount": 31
+  },
+  {
+    "manager": "Logan",
+    "rank": 40,
+    "player": "Brandon Aiyuk",
+    "nfl_team": "SF",
+    "position": "WR",
+    "offer_amount": 20
+  },
+  {
+    "manager": "Logan",
+    "rank": 51,
+    "player": "Evan Engram",
+    "nfl_team": "Den",
+    "position": "TE",
+    "offer_amount": 7
+  },
+  {
+    "manager": "Logan",
+    "rank": 62,
+    "player": "Joe Burrow",
+    "nfl_team": "Cin",
+    "position": "QB",
+    "offer_amount": 5
+  },
+  {
+    "manager": "Logan",
+    "rank": 66,
+    "player": "Jaxon Smith-Njigba",
+    "nfl_team": "Sea",
+    "position": "WR",
+    "offer_amount": 4
+  },
+  {
+    "manager": "Logan",
+    "rank": 67,
+    "player": "Zay Flowers",
+    "nfl_team": "Bal",
+    "position": "WR",
+    "offer_amount": 18
+  },
+  {
+    "manager": "Logan",
+    "rank": 83,
+    "player": "Javonte Williams",
+    "nfl_team": "Dal",
+    "position": "RB",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Logan",
+    "rank": 90,
+    "player": "Devin Singletary",
+    "nfl_team": "NYG",
+    "position": "RB",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Logan",
+    "rank": 98,
+    "player": "Jerome Ford",
+    "nfl_team": "Cle",
+    "position": "RB",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Logan",
+    "rank": 107,
+    "player": "Jonathon Brooks",
+    "nfl_team": "Car",
+    "position": "RB",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Logan",
+    "rank": 117,
+    "player": "Ty Chandler",
+    "nfl_team": "Min",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Logan",
+    "rank": 137,
+    "player": "Cowboys D/ST",
+    "nfl_team": "Dal",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Logan",
+    "rank": 146,
+    "player": "Khalil Shakir",
+    "nfl_team": "Buf",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Logan",
+    "rank": 154,
+    "player": "Trey Benson",
+    "nfl_team": "Ari",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Logan",
+    "rank": 160,
+    "player": "Evan McPherson",
+    "nfl_team": "Cin",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Mike",
+    "rank": 8,
+    "player": "Christian McCaffrey",
+    "nfl_team": "SF",
+    "position": "RB",
+    "offer_amount": 67
+  },
+  {
+    "manager": "Mike",
+    "rank": 12,
+    "player": "Marvin Harrison Jr.",
+    "nfl_team": "Ari",
+    "position": "WR",
+    "offer_amount": 36
+  },
+  {
+    "manager": "Mike",
+    "rank": 30,
+    "player": "Jaylen Waddle",
+    "nfl_team": "Mia",
+    "position": "WR",
+    "offer_amount": 23
+  },
+  {
+    "manager": "Mike",
+    "rank": 36,
+    "player": "Deebo Samuel Sr.",
+    "nfl_team": "Wsh",
+    "position": "WR",
+    "offer_amount": 34
+  },
+  {
+    "manager": "Mike",
+    "rank": 44,
+    "player": "Patrick Mahomes",
+    "nfl_team": "KC",
+    "position": "QB",
+    "offer_amount": 17
+  },
+  {
+    "manager": "Mike",
+    "rank": 65,
+    "player": "Rhamondre Stevenson",
+    "nfl_team": "NE",
+    "position": "RB",
+    "offer_amount": 7
+  },
+  {
+    "manager": "Mike",
+    "rank": 72,
+    "player": "David Njoku",
+    "nfl_team": "Cle",
+    "position": "TE",
+    "offer_amount": 4
+  },
+  {
+    "manager": "Mike",
+    "rank": 101,
+    "player": "Jordan Addison",
+    "nfl_team": "Min",
+    "position": "WR",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Mike",
+    "rank": 112,
+    "player": "Rico Dowdle",
+    "nfl_team": "Car",
+    "position": "RB",
+    "offer_amount": 2
+  },
+  {
+    "manager": "Mike",
+    "rank": 122,
+    "player": "Gabe Davis",
+    "nfl_team": "Jax",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Mike",
+    "rank": 132,
+    "player": "49ers D/ST",
+    "nfl_team": "SF",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Mike",
+    "rank": 142,
+    "player": "Jake Moody",
+    "nfl_team": "SF",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Mike",
+    "rank": 150,
+    "player": "Brock Purdy",
+    "nfl_team": "SF",
+    "position": "QB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Mike",
+    "rank": 157,
+    "player": "Khalil Herbert",
+    "nfl_team": "Ind",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Mike",
+    "rank": 162,
+    "player": "Pat Freiermuth",
+    "nfl_team": "Pit",
+    "position": "TE",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Mike",
+    "rank": 166,
+    "player": "Kyle Juszczyk",
+    "nfl_team": "SF",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Mike",
+    "rank": 170,
+    "player": "Antonio Gibson",
+    "nfl_team": "NE",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 13,
+    "player": "Puka Nacua",
+    "nfl_team": "LAR",
+    "position": "WR",
+    "offer_amount": 39
+  },
+  {
+    "manager": "Adrian",
+    "rank": 16,
+    "player": "Tyreek Hill",
+    "nfl_team": "Mia",
+    "position": "WR",
+    "offer_amount": 70
+  },
+  {
+    "manager": "Adrian",
+    "rank": 27,
+    "player": "Derrick Henry",
+    "nfl_team": "Bal",
+    "position": "RB",
+    "offer_amount": 35
+  },
+  {
+    "manager": "Adrian",
+    "rank": 34,
+    "player": "Lamar Jackson",
+    "nfl_team": "Bal",
+    "position": "QB",
+    "offer_amount": 14
+  },
+  {
+    "manager": "Adrian",
+    "rank": 38,
+    "player": "Nico Collins",
+    "nfl_team": "Hou",
+    "position": "WR",
+    "offer_amount": 23
+  },
+  {
+    "manager": "Adrian",
+    "rank": 64,
+    "player": "Trey McBride",
+    "nfl_team": "Ari",
+    "position": "TE",
+    "offer_amount": 6
+  },
+  {
+    "manager": "Adrian",
+    "rank": 76,
+    "player": "Christian Watson",
+    "nfl_team": "GB",
+    "position": "WR",
+    "offer_amount": 3
+  },
+  {
+    "manager": "Adrian",
+    "rank": 100,
+    "player": "Chase Brown",
+    "nfl_team": "Cin",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 110,
+    "player": "Chuba Hubbard",
+    "nfl_team": "Car",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 120,
+    "player": "Tyler Lockett",
+    "nfl_team": "FA",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 130,
+    "player": "Jaleel McLaughlin",
+    "nfl_team": "Den",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 140,
+    "player": "T.J. Hockenson",
+    "nfl_team": "Min",
+    "position": "TE",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 149,
+    "player": "Saints D/ST",
+    "nfl_team": "NO",
+    "position": "D/ST",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 156,
+    "player": "Ka'imi Fairbairn",
+    "nfl_team": "Hou",
+    "position": "K",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 161,
+    "player": "DeMario Douglas",
+    "nfl_team": "NE",
+    "position": "WR",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 165,
+    "player": "MarShawn Lloyd",
+    "nfl_team": "GB",
+    "position": "RB",
+    "offer_amount": 1
+  },
+  {
+    "manager": "Adrian",
+    "rank": 169,
+    "player": "Rashid Shaheed",
+    "nfl_team": "NO",
+    "position": "WR",
+    "offer_amount": 1
+  }
+]

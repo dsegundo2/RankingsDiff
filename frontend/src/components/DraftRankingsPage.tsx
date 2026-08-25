@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import type { DraftRankingRow } from '../types'
 
 type SortKey = 'rank' | 'player' | 'position' | 'offer_amount' | 'manager' | 'nfl_team'
-type Props = { rows: DraftRankingRow[]; onNavigate: (path: 'board' | 'analytics' | 'draft') => void }
+type Props = { season: 2024 | 2025; rows: DraftRankingRow[]; onNavigate: (path: 'board' | 'analytics' | 'draft') => void }
 
 const POSITION_ORDER = ['ALL', 'QB', 'RB', 'WR', 'TE', 'K', 'D/ST']
 const DRAFT_SIZE = 10
@@ -11,7 +11,7 @@ const STORAGE_KEY = 'rankingsdiff:auction-results:v1:2025'
 function rowId(row: DraftRankingRow): string { return `${row.player.toLowerCase()}|${row.nfl_team.toLowerCase()}` }
 function money(value: number): string { return `$${value}` }
 
-export function DraftRankingsPage({ rows, onNavigate }: Props) {
+export function DraftRankingsPage({ season, rows, onNavigate }: Props) {
   const [position, setPosition] = useState('ALL')
   const [search, setSearch] = useState('')
   const [sortKey, setSortKey] = useState<SortKey>('offer_amount')
@@ -19,7 +19,7 @@ export function DraftRankingsPage({ rows, onNavigate }: Props) {
   const [showUndrafted, setShowUndrafted] = useState(true)
   const [drafted, setDrafted] = useState<Set<string>>(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? 'null') as string[] | null
+      const saved = JSON.parse(localStorage.getItem(`${STORAGE_KEY}:${season}`) ?? 'null') as string[] | null
       return saved ? new Set(saved) : new Set(rows.map(rowId))
     } catch { return new Set(rows.map(rowId)) }
   })
@@ -29,7 +29,7 @@ export function DraftRankingsPage({ rows, onNavigate }: Props) {
       const next = new Set(current)
       const id = rowId(row)
       if (next.has(id)) next.delete(id); else next.add(id)
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...next]))
+      localStorage.setItem(`${STORAGE_KEY}:${season}`, JSON.stringify([...next]))
       return next
     })
   }
@@ -61,7 +61,7 @@ export function DraftRankingsPage({ rows, onNavigate }: Props) {
 
   return <main className="dashboard draft-rankings-page">
     <section className="hero hero--compact hero--editorial" aria-label="Draft rankings header">
-      <div className="hero__brand"><div className="loading-mark draft-rankings-mark" aria-hidden="true"><span>25</span></div><div><span className="eyebrow">Auction results</span><h1>2025 Draft</h1><p className="view-summary"><strong>{rows.length}</strong> players · <strong>{new Set(rows.map((row) => row.manager)).size}</strong> managers</p></div></div>
+      <div className="hero__brand"><div className="loading-mark draft-rankings-mark" aria-hidden="true"><span>{season}</span></div><div><span className="eyebrow">Auction results</span><h1>{season} Draft</h1><p className="view-summary"><strong>{rows.length}</strong> players · <strong>{new Set(rows.map((row) => row.manager)).size}</strong> managers</p></div></div>
       <div className="hero__context"><div className="hero__context-actions"><span>Draft rankings</span><button className="settings-icon-trigger" type="button" onClick={() => onNavigate('board')} aria-label="Back to rankings board">×</button></div><div className="hero__context-bottom"><button className="analytics-link" type="button" onClick={() => onNavigate('board')}>Rankings board</button><button className="analytics-link" type="button" onClick={() => onNavigate('analytics')}>Rankings diff</button></div></div>
     </section>
 

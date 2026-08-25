@@ -103,6 +103,13 @@ test('2025 auction rankings supports manager aliases, position sorting, and live
   await expect(page.getByRole('button', { name: 'Undrafted' }).first()).toBeVisible()
 })
 
+test('2024 auction rankings loads from its own direct route', async ({ page }) => {
+  await page.goto('./draft-rankings/2024')
+  await expect(page.getByRole('heading', { name: '2024 Draft' })).toBeVisible()
+  await expect(page.getByText('Christian McCaffrey · $67').first()).toBeVisible()
+  await expect(page.getByText('Mike', { exact: true }).first()).toBeVisible()
+})
+
 test('trend is off by default and can be shown and sorted', async ({ page }) => {
   await page.goto('./')
   await expect(page.getByRole('columnheader', { name: /regression/i })).toHaveCount(0)
