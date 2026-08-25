@@ -75,8 +75,8 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 }
 
 function AppData() {
-  const [route, setRoute] = useState<'board' | 'analytics' | 'draft'>(() => window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : window.location.pathname.match(/\/draft-rankings\/(2023|2024|2025)$/) ? 'draft' : 'board')
-  const [draftSeason, setDraftSeason] = useState<2023 | 2024 | 2025>(() => window.location.pathname.endsWith('/draft-rankings/2023') ? 2023 : window.location.pathname.endsWith('/draft-rankings/2024') ? 2024 : 2025)
+  const [route, setRoute] = useState<'board' | 'analytics' | 'draft'>(() => window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : window.location.pathname.match(/\/draft-rankings\/(2022|2023|2024|2025)$/) ? 'draft' : 'board')
+  const [draftSeason, setDraftSeason] = useState<2022 | 2023 | 2024 | 2025>(() => window.location.pathname.endsWith('/draft-rankings/2022') ? 2022 : window.location.pathname.endsWith('/draft-rankings/2023') ? 2023 : window.location.pathname.endsWith('/draft-rankings/2024') ? 2024 : 2025)
   const [manifest, setManifest] = useState<DataManifest>(emptyManifest)
   const [teams, setTeams] = useState<Record<string, TeamAsset>>({})
   const [rows, setRows] = useState<RankingRow[]>([])
@@ -94,9 +94,9 @@ function AppData() {
 
   useEffect(() => {
     const handlePopState = () => {
-      const match = window.location.pathname.match(/\/draft-rankings\/(2023|2024|2025)$/)
+      const match = window.location.pathname.match(/\/draft-rankings\/(2022|2023|2024|2025)$/)
       setRoute(window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : match ? 'draft' : 'board')
-      if (match) setDraftSeason(Number(match[1]) as 2023 | 2024 | 2025)
+      if (match) setDraftSeason(Number(match[1]) as 2022 | 2023 | 2024 | 2025)
     }
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
@@ -118,14 +118,15 @@ function AppData() {
       fetchJson<DataManifest>('/data/manifest.json', controller.signal),
       fetchJson<Record<string, TeamAsset>>('/data/assets/espn_nfl_teams.json', controller.signal).catch(() => ({})),
       fetchJson<SourceCheckPayload>('/data/status/source_checks.json', controller.signal).catch(() => undefined),
+      fetchJson<DraftRankingRow[]>('/data/2022/draft-rankings.json', controller.signal),
       fetchJson<DraftRankingRow[]>('/data/2023/draft-rankings.json', controller.signal),
       fetchJson<DraftRankingRow[]>('/data/2024/draft-rankings.json', controller.signal),
       fetchJson<DraftRankingRow[]>('/data/2025/draft-rankings.json', controller.signal)
-    ]).then(([loadedManifest, loadedTeams, loadedChecks, loadedDraftRows2023, loadedDraftRows2024, loadedDraftRows2025]) => {
+    ]).then(([loadedManifest, loadedTeams, loadedChecks, loadedDraftRows2022, loadedDraftRows2023, loadedDraftRows2024, loadedDraftRows2025]) => {
       setManifest(loadedManifest)
       setTeams(loadedTeams)
       setSourceChecks(loadedChecks)
-      setDraftRowsBySeason({ 2023: loadedDraftRows2023, 2024: loadedDraftRows2024, 2025: loadedDraftRows2025 })
+      setDraftRowsBySeason({ 2022: loadedDraftRows2022, 2023: loadedDraftRows2023, 2024: loadedDraftRows2024, 2025: loadedDraftRows2025 })
       const firstSeason = loadedManifest.seasons[0]
       const sharedDraft = readDraftShare(new URLSearchParams(window.location.search).get('draft'))
       let saved: { season?: number; source?: string; adjustedProfile?: string } = {}

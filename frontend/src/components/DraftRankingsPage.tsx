@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import type { DraftRankingRow } from '../types'
 
 type SortKey = 'rank' | 'player' | 'position' | 'offer_amount' | 'manager' | 'nfl_team'
-type Props = { season: 2023 | 2024 | 2025; rows: DraftRankingRow[]; onNavigate: (path: 'board' | 'analytics' | 'draft') => void }
+type Props = { season: 2022 | 2023 | 2024 | 2025; rows: DraftRankingRow[]; onNavigate: (path: 'board' | 'analytics' | 'draft') => void }
 
 const POSITION_ORDER = ['ALL', 'QB', 'RB', 'WR', 'TE', 'K', 'D/ST']
 const DRAFT_SIZE = 10

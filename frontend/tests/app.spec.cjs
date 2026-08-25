@@ -117,6 +117,13 @@ test('2023 auction rankings loads from its own direct route', async ({ page }) =
   await expect(page.getByText('Sammy', { exact: true }).first()).toBeVisible()
 })
 
+test('2022 auction rankings loads from its own direct route', async ({ page }) => {
+  await page.goto('./draft-rankings/2022')
+  await expect(page.getByRole('heading', { name: '2022 Draft' })).toBeVisible()
+  await expect(page.locator('.draft-rankings-table tbody tr').filter({ hasText: 'Austin Ekeler' })).toBeVisible()
+  await expect(page.getByText('Adrian', { exact: true }).first()).toBeVisible()
+})
+
 test('trend is off by default and can be shown and sorted', async ({ page }) => {
   await page.goto('./')
   await expect(page.getByRole('columnheader', { name: /regression/i })).toHaveCount(0)
