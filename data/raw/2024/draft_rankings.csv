@@ -1,171 +1,171 @@
-manager,rank,player,nfl_team,position,offer_amount
-Dane,14,Travis Kelce,KC,TE,21
-Dane,18,Amon-Ra St. Brown,Det,WR,59
-Dane,19,Travis Etienne Jr.,Jax,RB,40
-Dane,41,Stefon Diggs,Hou,WR,17
-Dane,42,Kenneth Walker III,Sea,RB,25
-Dane,52,C.J. Stroud,Hou,QB,9
-Dane,60,Calvin Ridley,Ten,WR,7
-Dane,61,Keenan Allen,Chi,WR,6
-Dane,78,Amari Cooper,Buf,WR,6
-Dane,89,Tony Pollard,Ten,RB,1
-Dane,97,Keon Coleman,Buf,WR,3
-Dane,99,Harrison Butker,KC,K,1
-Dane,109,Browns D/ST,Cle,D/ST,1
-Dane,119,Jordan Mason,Min,RB,1
-Dane,129,Cole Kmet,Chi,TE,1
-Dane,139,Jerry Jeudy,Cle,WR,1
-Dane,148,Justin Herbert,LAC,QB,1
-Nick H.,17,Chris Olave,NO,WR,30
-Nick H.,26,De'Von Achane,Mia,RB,26
-Nick H.,28,Michael Pittman Jr.,Ind,WR,26
-Nick H.,43,Alvin Kamara,NO,RB,31
-Nick H.,46,Cooper Kupp,Sea,WR,31
-Nick H.,53,DeVonta Smith,Phi,WR,22
-Nick H.,69,Aaron Jones,Min,RB,8
-Nick H.,75,Dalton Kincaid,Buf,TE,7
-Nick H.,79,Raheem Mostert,LV,RB,5
-Nick H.,81,Tyjae Spears,Ten,RB,2
-Nick H.,86,Christian Kirk,Hou,WR,3
-Nick H.,91,Kyler Murray,Ari,QB,2
-Nick H.,94,Jayden Reed,GB,WR,1
-Nick H.,114,Dallas Goedert,Phi,TE,1
-Nick H.,115,Jameson Williams,Det,WR,2
-Nick H.,124,Brandon Aubrey,Dal,K,1
-Nick H.,134,Jets D/ST,NYJ,D/ST,1
-Diego,4,Bijan Robinson,Atl,RB,53
-Diego,9,A.J. Brown,Phi,WR,51
-Diego,21,Josh Jacobs,GB,RB,32
-Diego,22,Malik Nabers,NYG,WR,27
-Diego,50,Jalen Hurts,Phi,QB,20
-Diego,103,Jake Ferguson,Dal,TE,2
-Diego,104,Zack Moss,Cin,RB,2
-Diego,106,Brian Thomas Jr.,Jax,WR,2
-Diego,113,Tyler Allgeier,Atl,RB,1
-Diego,116,Hollywood Brown,KC,WR,2
-Diego,127,Adonai Mitchell,Ind,WR,2
-Diego,133,Blake Corum,LAR,RB,1
-Diego,143,Caleb Williams,Chi,QB,1
-Diego,151,Brandin Cooks,Dal,WR,1
-Diego,158,Dontayvion Wicks,GB,WR,1
-Diego,163,Younghoe Koo,Atl,K,1
-Diego,167,Seahawks D/ST,Sea,D/ST,1
-Jordan,10,Saquon Barkley,Phi,RB,50
-Jordan,15,Kyren Williams,LAR,RB,38
-Jordan,29,DJ Moore,Chi,WR,19
-Jordan,31,Josh Allen,Buf,QB,24
-Jordan,39,Xavier Worthy,KC,WR,11
-Jordan,48,Sam LaPorta,Det,TE,19
-Jordan,54,Tank Dell,Hou,WR,10
-Jordan,59,Terry McLaurin,Wsh,WR,11
-Jordan,82,Ladd McConkey,LAC,WR,3
-Jordan,85,Brian Robinson Jr.,Wsh,RB,1
-Jordan,87,David Montgomery,Det,RB,5
-Jordan,92,Brock Bowers,LV,TE,2
-Jordan,95,Rome Odunze,Chi,WR,3
-Jordan,125,Jordan Love,GB,QB,1
-Jordan,135,Gus Edwards,FA,RB,1
-Jordan,144,Dolphins D/ST,Mia,D/ST,1
-Jordan,152,Greg Zuerlein,NYJ,K,1
-Nick J,2,Garrett Wilson,NYJ,WR,44
-Nick J,6,Kirk Cousins,Atl,QB,1
-Nick J,23,Isiah Pacheco,KC,RB,39
-Nick J,25,Breece Hall,NYJ,RB,62
-Nick J,45,Rashee Rice,KC,WR,10
-Nick J,47,DK Metcalf,Pit,WR,28
-Nick J,71,Najee Harris,LAC,RB,4
-Nick J,74,Kyle Pitts,Atl,TE,2
-Nick J,96,Ezekiel Elliott,FA,RB,1
-Nick J,105,J.K. Dobbins,LAC,RB,2
-Nick J,126,Darnell Mooney,Atl,WR,1
-Nick J,136,DeAndre Hopkins,Bal,WR,1
-Nick J,145,Romeo Doubs,GB,WR,1
-Nick J,153,Curtis Samuel,Buf,WR,1
-Nick J,159,Chiefs D/ST,KC,D/ST,1
-Nick J,164,Adam Thielen,Car,WR,1
-Nick J,168,Cameron Dicker,LAC,K,1
-Luca,5,Jonathan Taylor,Ind,RB,46
-Luca,20,Justin Jefferson,Min,WR,60
-Luca,32,Davante Adams,LAR,WR,35
-Luca,33,Rachaad White,TB,RB,25
-Luca,68,Dak Prescott,Dal,QB,4
-Luca,70,Chris Godwin,TB,WR,7
-Luca,73,Zamir White,LV,RB,5
-Luca,80,George Kittle,SF,TE,2
-Luca,84,Austin Ekeler,Wsh,RB,2
-Luca,93,Courtland Sutton,Den,WR,2
-Luca,102,Bucky Irving,TB,RB,3
-Luca,108,Nick Chubb,Cle,RB,3
-Luca,111,Mike Williams,LAC,WR,1
-Luca,121,Jakobi Meyers,LV,WR,1
-Luca,123,Joshua Palmer,Buf,WR,2
-Luca,131,Ravens D/ST,Bal,D/ST,1
-Luca,141,Justin Tucker,Bal,K,1
-Sammy,3,CeeDee Lamb,Dal,WR,59
-Sammy,24,Drake London,Atl,WR,25
-Sammy,35,James Cook,Buf,RB,22
-Sammy,37,Joe Mixon,Hou,RB,20
-Sammy,49,D'Andre Swift,Chi,RB,13
-Sammy,55,Tee Higgins,Cin,WR,13
-Sammy,56,George Pickens,Pit,WR,8
-Sammy,57,Diontae Johnson,Bal,WR,6
-Sammy,58,Anthony Richardson,Ind,QB,11
-Sammy,63,Mark Andrews,Bal,TE,9
-Sammy,77,James Conner,Ari,RB,8
-Sammy,88,Jaylen Warren,Pit,RB,1
-Sammy,118,Zach Charbonnet,Sea,RB,1
-Sammy,128,Jayden Daniels,Wsh,QB,1
-Sammy,138,Steelers D/ST,Pit,D/ST,1
-Sammy,147,Dalton Schultz,Hou,TE,1
-Sammy,155,Jake Elliott,Phi,K,1
-Logan,1,Ja'Marr Chase,Cin,WR,56
-Logan,7,Jahmyr Gibbs,Det,RB,43
-Logan,11,Mike Evans,TB,WR,31
-Logan,40,Brandon Aiyuk,SF,WR,20
-Logan,51,Evan Engram,Den,TE,7
-Logan,62,Joe Burrow,Cin,QB,5
-Logan,66,Jaxon Smith-Njigba,Sea,WR,4
-Logan,67,Zay Flowers,Bal,WR,18
-Logan,83,Javonte Williams,Dal,RB,3
-Logan,90,Devin Singletary,NYG,RB,3
-Logan,98,Jerome Ford,Cle,RB,3
-Logan,107,Jonathon Brooks,Car,RB,2
-Logan,117,Ty Chandler,Min,RB,1
-Logan,137,Cowboys D/ST,Dal,D/ST,1
-Logan,146,Khalil Shakir,Buf,WR,1
-Logan,154,Trey Benson,Ari,RB,1
-Logan,160,Evan McPherson,Cin,K,1
-Mike,8,Christian McCaffrey,SF,RB,67
-Mike,12,Marvin Harrison Jr.,Ari,WR,36
-Mike,30,Jaylen Waddle,Mia,WR,23
-Mike,36,Deebo Samuel Sr.,Wsh,WR,34
-Mike,44,Patrick Mahomes,KC,QB,17
-Mike,65,Rhamondre Stevenson,NE,RB,7
-Mike,72,David Njoku,Cle,TE,4
-Mike,101,Jordan Addison,Min,WR,2
-Mike,112,Rico Dowdle,Car,RB,2
-Mike,122,Gabe Davis,Jax,WR,1
-Mike,132,49ers D/ST,SF,D/ST,1
-Mike,142,Jake Moody,SF,K,1
-Mike,150,Brock Purdy,SF,QB,1
-Mike,157,Khalil Herbert,Ind,RB,1
-Mike,162,Pat Freiermuth,Pit,TE,1
-Mike,166,Kyle Juszczyk,SF,RB,1
-Mike,170,Antonio Gibson,NE,RB,1
-Adrian,13,Puka Nacua,LAR,WR,39
-Adrian,16,Tyreek Hill,Mia,WR,70
-Adrian,27,Derrick Henry,Bal,RB,35
-Adrian,34,Lamar Jackson,Bal,QB,14
-Adrian,38,Nico Collins,Hou,WR,23
-Adrian,64,Trey McBride,Ari,TE,6
-Adrian,76,Christian Watson,GB,WR,3
-Adrian,100,Chase Brown,Cin,RB,1
-Adrian,110,Chuba Hubbard,Car,RB,1
-Adrian,120,Tyler Lockett,FA,WR,1
-Adrian,130,Jaleel McLaughlin,Den,RB,1
-Adrian,140,T.J. Hockenson,Min,TE,1
-Adrian,149,Saints D/ST,NO,D/ST,1
-Adrian,156,Ka'imi Fairbairn,Hou,K,1
-Adrian,161,DeMario Douglas,NE,WR,1
-Adrian,165,MarShawn Lloyd,GB,RB,1
-Adrian,169,Rashid Shaheed,NO,WR,1
+manager,rank,player,nfl_team,position,offer_amount,espn_suggested_value,value_diff
+Dane,14,Travis Kelce,KC,TE,21,22,-1
+Dane,18,Amon-Ra St. Brown,Det,WR,59,53,6
+Dane,19,Travis Etienne Jr.,Jax,RB,40,38,2
+Dane,41,Stefon Diggs,Hou,WR,17,19,-2
+Dane,42,Kenneth Walker III,Sea,RB,25,20,5
+Dane,52,C.J. Stroud,Hou,QB,9,9,0
+Dane,60,Calvin Ridley,Ten,WR,7,15,-8
+Dane,61,Keenan Allen,Chi,WR,6,6,0
+Dane,78,Amari Cooper,Buf,WR,6,7,-1
+Dane,89,Tony Pollard,Ten,RB,1,3,-2
+Dane,97,Keon Coleman,Buf,WR,3,3,0
+Dane,99,Harrison Butker,KC,K,1,0,1
+Dane,109,Browns D/ST,Cle,D/ST,1,0,1
+Dane,119,Jordan Mason,Min,RB,1,1,0
+Dane,129,Cole Kmet,Chi,TE,1,0,1
+Dane,139,Jerry Jeudy,Cle,WR,1,1,0
+Dane,148,Justin Herbert,LAC,QB,1,2,-1
+Nick H.,17,Chris Olave,NO,WR,30,37,-7
+Nick H.,26,De'Von Achane,Mia,RB,26,19,7
+Nick H.,28,Michael Pittman Jr.,Ind,WR,26,36,-10
+Nick H.,43,Alvin Kamara,NO,RB,31,29,2
+Nick H.,46,Cooper Kupp,Sea,WR,31,17,14
+Nick H.,53,DeVonta Smith,Phi,WR,22,18,4
+Nick H.,69,Aaron Jones,Min,RB,8,7,1
+Nick H.,75,Dalton Kincaid,Buf,TE,7,5,2
+Nick H.,79,Raheem Mostert,LV,RB,5,2,3
+Nick H.,81,Tyjae Spears,Ten,RB,2,3,-1
+Nick H.,86,Christian Kirk,Hou,WR,3,6,-3
+Nick H.,91,Kyler Murray,Ari,QB,2,3,-1
+Nick H.,94,Jayden Reed,GB,WR,1,4,-3
+Nick H.,114,Dallas Goedert,Phi,TE,1,2,-1
+Nick H.,115,Jameson Williams,Det,WR,2,1,1
+Nick H.,124,Brandon Aubrey,Dal,K,1,0,1
+Nick H.,134,Jets D/ST,NYJ,D/ST,1,0,1
+Diego,4,Bijan Robinson,Atl,RB,53,56,-3
+Diego,9,A.J. Brown,Phi,WR,51,48,3
+Diego,21,Josh Jacobs,GB,RB,32,27,5
+Diego,22,Malik Nabers,NYG,WR,27,30,-3
+Diego,50,Jalen Hurts,Phi,QB,20,21,-1
+Diego,103,Jake Ferguson,Dal,TE,2,2,0
+Diego,104,Zack Moss,Cin,RB,2,2,0
+Diego,106,Brian Thomas Jr.,Jax,WR,2,2,0
+Diego,113,Tyler Allgeier,Atl,RB,1,1,0
+Diego,116,Hollywood Brown,KC,WR,2,2,0
+Diego,127,Adonai Mitchell,Ind,WR,2,1,1
+Diego,133,Blake Corum,LAR,RB,1,1,0
+Diego,143,Caleb Williams,Chi,QB,1,1,0
+Diego,151,Brandin Cooks,Dal,WR,1,1,0
+Diego,158,Dontayvion Wicks,GB,WR,1,1,0
+Diego,163,Younghoe Koo,Atl,K,1,0,1
+Diego,167,Seahawks D/ST,Sea,D/ST,1,0,1
+Jordan,10,Saquon Barkley,Phi,RB,50,50,0
+Jordan,15,Kyren Williams,LAR,RB,38,42,-4
+Jordan,29,DJ Moore,Chi,WR,19,23,-4
+Jordan,31,Josh Allen,Buf,QB,24,22,2
+Jordan,39,Xavier Worthy,KC,WR,11,4,7
+Jordan,48,Sam LaPorta,Det,TE,19,22,-3
+Jordan,54,Tank Dell,Hou,WR,10,10,0
+Jordan,59,Terry McLaurin,Wsh,WR,11,6,5
+Jordan,82,Ladd McConkey,LAC,WR,3,3,0
+Jordan,85,Brian Robinson Jr.,Wsh,RB,1,5,-4
+Jordan,87,David Montgomery,Det,RB,5,4,1
+Jordan,92,Brock Bowers,LV,TE,2,2,0
+Jordan,95,Rome Odunze,Chi,WR,3,4,-1
+Jordan,125,Jordan Love,GB,QB,1,3,-2
+Jordan,135,Gus Edwards,FA,RB,1,2,-1
+Jordan,144,Dolphins D/ST,Mia,D/ST,1,0,1
+Jordan,152,Greg Zuerlein,NYJ,K,1,0,1
+Shep,2,Garrett Wilson,NYJ,WR,44,45,-1
+Shep,6,Kirk Cousins,Atl,QB,1,2,-1
+Shep,23,Isiah Pacheco,KC,RB,39,40,-1
+Shep,25,Breece Hall,NYJ,RB,62,55,7
+Shep,45,Rashee Rice,KC,WR,10,14,-4
+Shep,47,DK Metcalf,Pit,WR,28,26,2
+Shep,71,Najee Harris,LAC,RB,4,4,0
+Shep,74,Kyle Pitts,Atl,TE,2,5,-3
+Shep,96,Ezekiel Elliott,FA,RB,1,2,-1
+Shep,105,J.K. Dobbins,LAC,RB,2,2,0
+Shep,126,Darnell Mooney,Atl,WR,1,1,0
+Shep,136,DeAndre Hopkins,Bal,WR,1,2,-1
+Shep,145,Romeo Doubs,GB,WR,1,1,0
+Shep,153,Curtis Samuel,Buf,WR,1,1,0
+Shep,159,Chiefs D/ST,KC,D/ST,1,0,1
+Shep,164,Adam Thielen,Car,WR,1,1,0
+Shep,168,Cameron Dicker,LAC,K,1,0,1
+Luca,5,Jonathan Taylor,Ind,RB,46,51,-5
+Luca,20,Justin Jefferson,Min,WR,60,52,8
+Luca,32,Davante Adams,LAR,WR,35,34,1
+Luca,33,Rachaad White,TB,RB,25,31,-6
+Luca,68,Dak Prescott,Dal,QB,4,8,-4
+Luca,70,Chris Godwin,TB,WR,7,10,-3
+Luca,73,Zamir White,LV,RB,5,7,-2
+Luca,80,George Kittle,SF,TE,2,6,-4
+Luca,84,Austin Ekeler,Wsh,RB,2,3,-1
+Luca,93,Courtland Sutton,Den,WR,2,4,-2
+Luca,102,Bucky Irving,TB,RB,3,1,2
+Luca,108,Nick Chubb,Cle,RB,3,2,1
+Luca,111,Mike Williams,LAC,WR,1,2,-1
+Luca,121,Jakobi Meyers,LV,WR,1,2,-1
+Luca,123,Joshua Palmer,Buf,WR,2,1,1
+Luca,131,Ravens D/ST,Bal,D/ST,1,0,1
+Luca,141,Justin Tucker,Bal,K,1,0,1
+Sammy,3,CeeDee Lamb,Dal,WR,59,55,4
+Sammy,24,Drake London,Atl,WR,25,32,-7
+Sammy,35,James Cook,Buf,RB,22,28,-6
+Sammy,37,Joe Mixon,Hou,RB,20,21,-1
+Sammy,49,D'Andre Swift,Chi,RB,13,8,5
+Sammy,55,Tee Higgins,Cin,WR,13,11,2
+Sammy,56,George Pickens,Pit,WR,8,11,-3
+Sammy,57,Diontae Johnson,Bal,WR,6,6,0
+Sammy,58,Anthony Richardson,Ind,QB,11,9,2
+Sammy,63,Mark Andrews,Bal,TE,9,12,-3
+Sammy,77,James Conner,Ari,RB,8,7,1
+Sammy,88,Jaylen Warren,Pit,RB,1,4,-3
+Sammy,118,Zach Charbonnet,Sea,RB,1,1,0
+Sammy,128,Jayden Daniels,Wsh,QB,1,2,-1
+Sammy,138,Steelers D/ST,Pit,D/ST,1,0,1
+Sammy,147,Dalton Schultz,Hou,TE,1,1,0
+Sammy,155,Jake Elliott,Phi,K,1,0,1
+Logan,1,Ja'Marr Chase,Cin,WR,56,53,3
+Logan,7,Jahmyr Gibbs,Det,RB,43,43,0
+Logan,11,Mike Evans,TB,WR,31,35,-4
+Logan,40,Brandon Aiyuk,SF,WR,20,24,-4
+Logan,51,Evan Engram,Den,TE,7,10,-3
+Logan,62,Joe Burrow,Cin,QB,5,9,-4
+Logan,66,Jaxon Smith-Njigba,Sea,WR,4,6,-2
+Logan,67,Zay Flowers,Bal,WR,18,15,3
+Logan,83,Javonte Williams,Dal,RB,3,5,-2
+Logan,90,Devin Singletary,NYG,RB,3,3,0
+Logan,98,Jerome Ford,Cle,RB,3,2,1
+Logan,107,Jonathon Brooks,Car,RB,2,2,0
+Logan,117,Ty Chandler,Min,RB,1,1,0
+Logan,137,Cowboys D/ST,Dal,D/ST,1,0,1
+Logan,146,Khalil Shakir,Buf,WR,1,1,0
+Logan,154,Trey Benson,Ari,RB,1,1,0
+Logan,160,Evan McPherson,Cin,K,1,0,1
+Mike,8,Christian McCaffrey,SF,RB,67,57,10
+Mike,12,Marvin Harrison Jr.,Ari,WR,36,33,3
+Mike,30,Jaylen Waddle,Mia,WR,23,17,6
+Mike,36,Deebo Samuel Sr.,Wsh,WR,34,25,9
+Mike,44,Patrick Mahomes,KC,QB,17,13,4
+Mike,65,Rhamondre Stevenson,NE,RB,7,8,-1
+Mike,72,David Njoku,Cle,TE,4,2,2
+Mike,101,Jordan Addison,Min,WR,2,4,-2
+Mike,112,Rico Dowdle,Car,RB,2,1,1
+Mike,122,Gabe Davis,Jax,WR,1,1,0
+Mike,132,49ers D/ST,SF,D/ST,1,0,1
+Mike,142,Jake Moody,SF,K,1,0,1
+Mike,150,Brock Purdy,SF,QB,1,3,-2
+Mike,157,Khalil Herbert,Ind,RB,1,1,0
+Mike,162,Pat Freiermuth,Pit,TE,1,1,0
+Mike,166,Kyle Juszczyk,SF,RB,1,0,1
+Mike,170,Antonio Gibson,NE,RB,1,1,0
+Adrian,13,Puka Nacua,LAR,WR,39,46,-7
+Adrian,16,Tyreek Hill,Mia,WR,70,54,16
+Adrian,27,Derrick Henry,Bal,RB,35,32,3
+Adrian,34,Lamar Jackson,Bal,QB,14,13,1
+Adrian,38,Nico Collins,Hou,WR,23,30,-7
+Adrian,64,Trey McBride,Ari,TE,6,10,-4
+Adrian,76,Christian Watson,GB,WR,3,4,-1
+Adrian,100,Chase Brown,Cin,RB,1,2,-1
+Adrian,110,Chuba Hubbard,Car,RB,1,2,-1
+Adrian,120,Tyler Lockett,FA,WR,1,2,-1
+Adrian,130,Jaleel McLaughlin,Den,RB,1,1,0
+Adrian,140,T.J. Hockenson,Min,TE,1,2,-1
+Adrian,149,Saints D/ST,NO,D/ST,1,0,1
+Adrian,156,Ka'imi Fairbairn,Hou,K,1,0,1
+Adrian,161,DeMario Douglas,NE,WR,1,1,0
+Adrian,165,MarShawn Lloyd,GB,RB,1,1,0
+Adrian,169,Rashid Shaheed,NO,WR,1,1,0

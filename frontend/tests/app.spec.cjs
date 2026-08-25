@@ -86,21 +86,19 @@ test('rankings diff direct URL loads as a first-class view', async ({ page }) =>
   await expect(page.getByRole('button', { name: 'Draft board', exact: true })).toBeVisible()
 })
 
-test('2025 auction rankings supports manager aliases, position sorting, and live draft dividers', async ({ page }) => {
+test('2025 historic auction results show ESPN value deltas and position dividers', async ({ page }) => {
   await page.goto('./draft-rankings/2025')
   await expect(page.getByRole('heading', { name: '2025 Draft' })).toBeVisible()
   await expect(page.getByText('Ja\'Marr Chase · $63').first()).toBeVisible()
+  await expect(page.locator('.draft-rankings-table tbody tr').filter({ hasText: 'Ja\'Marr Chase' }).first()).toContainText('$57')
+  await expect(page.locator('.draft-rankings-table tbody tr').filter({ hasText: 'Ja\'Marr Chase' }).first()).toContainText('+$6')
+  await expect(page.locator('.draft-rankings-table th').nth(6)).toContainText('Over / under')
   await expect(page.locator('.draft-rankings-table tbody tr.draft-rankings-divider')).toHaveCount(16)
+  await expect(page.getByRole('link', { name: /View original ESPN rankings PDF/ })).toHaveAttribute('href', /NFL25_CS_PPR300/)
   await page.getByRole('button', { name: 'RB', exact: true }).click()
   await expect(page.locator('.draft-rankings-table tbody tr').filter({ hasText: 'RB' }).first()).toBeVisible()
-  await expect(page.locator('.draft-rankings-meta')).toContainText('drafted')
-  const firstPlayer = page.locator('.draft-rankings-table tbody tr').filter({ has: page.locator('.draft-status-button') }).first()
-  await firstPlayer.getByRole('button', { name: 'Drafted' }).click()
-  await expect(firstPlayer.getByRole('button', { name: 'Undrafted' })).toBeVisible()
-  await page.getByRole('checkbox', { name: 'Show undrafted' }).uncheck()
-  await expect(page.getByRole('button', { name: 'Undrafted' })).toHaveCount(0)
-  await page.getByRole('checkbox', { name: 'Show undrafted' }).check()
-  await expect(page.getByRole('button', { name: 'Undrafted' }).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Show undrafted' })).toHaveCount(0)
+  await expect(page.locator('.draft-status-button')).toHaveCount(0)
 })
 
 test('2024 auction rankings loads from its own direct route', async ({ page }) => {

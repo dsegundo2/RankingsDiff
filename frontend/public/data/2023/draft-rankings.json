@@ -5,7 +5,9 @@
     "player": "A.J. Brown",
     "nfl_team": "Phi",
     "position": "WR",
-    "offer_amount": 39
+    "offer_amount": 39,
+    "espn_suggested_value": 37,
+    "value_diff": 2
   },
   {
     "manager": "Dane",
@@ -13,7 +15,9 @@
     "player": "DJ Moore",
     "nfl_team": "Chi",
     "position": "WR",
-    "offer_amount": 13
+    "offer_amount": 13,
+    "espn_suggested_value": 10,
+    "value_diff": 3
   },
   {
     "manager": "Dane",
@@ -21,7 +25,9 @@
     "player": "Patrick Mahomes",
     "nfl_team": "KC",
     "position": "QB",
-    "offer_amount": 33
+    "offer_amount": 33,
+    "espn_suggested_value": 30,
+    "value_diff": 3
   },
   {
     "manager": "Dane",
@@ -29,7 +35,9 @@
     "player": "Stefon Diggs",
     "nfl_team": "Buf",
     "position": "WR",
-    "offer_amount": 51
+    "offer_amount": 51,
+    "espn_suggested_value": 46,
+    "value_diff": 5
   },
   {
     "manager": "Dane",
@@ -37,7 +45,9 @@
     "player": "Alvin Kamara",
     "nfl_team": "NO",
     "position": "RB",
-    "offer_amount": 12
+    "offer_amount": 12,
+    "espn_suggested_value": 14,
+    "value_diff": -2
   },
   {
     "manager": "Dane",
@@ -45,7 +55,9 @@
     "player": "Amari Cooper",
     "nfl_team": "Cle",
     "position": "WR",
-    "offer_amount": 21
+    "offer_amount": 21,
+    "espn_suggested_value": 19,
+    "value_diff": 2
   },
   {
     "manager": "Dane",
@@ -53,7 +65,9 @@
     "player": "Isiah Pacheco",
     "nfl_team": "KC",
     "position": "RB",
-    "offer_amount": 16
+    "offer_amount": 16,
+    "espn_suggested_value": 5,
+    "value_diff": 11
   },
   {
     "manager": "Dane",
@@ -61,7 +75,9 @@
     "player": "George Kittle",
     "nfl_team": "SF",
     "position": "TE",
-    "offer_amount": 6
+    "offer_amount": 6,
+    "espn_suggested_value": 6,
+    "value_diff": 0
   },
   {
     "manager": "Dane",
@@ -69,7 +85,9 @@
     "player": "Jaxon Smith-Njigba",
     "nfl_team": "Sea",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 4,
+    "value_diff": -3
   },
   {
     "manager": "Dane",
@@ -77,7 +95,9 @@
     "player": "49ers D/ST",
     "nfl_team": "SF",
     "position": "D/ST",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Dane",
@@ -85,7 +105,9 @@
     "player": "Younghoe Koo",
     "nfl_team": "Atl",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Dane",
@@ -93,7 +115,9 @@
     "player": "Cole Kmet",
     "nfl_team": "Chi",
     "position": "TE",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 3,
+    "value_diff": -2
   },
   {
     "manager": "Dane",
@@ -101,7 +125,9 @@
     "player": "Tyler Boyd",
     "nfl_team": "Cin",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Dane",
@@ -109,7 +135,9 @@
     "player": "Jameson Williams",
     "nfl_team": "Det",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Dane",
@@ -117,7 +145,9 @@
     "player": "Damien Harris",
     "nfl_team": "Buf",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Dane",
@@ -125,7 +155,9 @@
     "player": "Geno Smith",
     "nfl_team": "Sea",
     "position": "QB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Dane",
@@ -133,7 +165,9 @@
     "player": "Kenneth Gainwell",
     "nfl_team": "Phi",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Nick H.",
@@ -141,7 +175,9 @@
     "player": "Travis Kelce",
     "nfl_team": "KC",
     "position": "TE",
-    "offer_amount": 55
+    "offer_amount": 55,
+    "espn_suggested_value": 57,
+    "value_diff": -2
   },
   {
     "manager": "Nick H.",
@@ -149,7 +185,9 @@
     "player": "Tee Higgins",
     "nfl_team": "Cin",
     "position": "WR",
-    "offer_amount": 26
+    "offer_amount": 26,
+    "espn_suggested_value": 32,
+    "value_diff": -6
   },
   {
     "manager": "Nick H.",
@@ -157,7 +195,9 @@
     "player": "CeeDee Lamb",
     "nfl_team": "Dal",
     "position": "WR",
-    "offer_amount": 46
+    "offer_amount": 46,
+    "espn_suggested_value": 41,
+    "value_diff": 5
   },
   {
     "manager": "Nick H.",
@@ -165,7 +205,9 @@
     "player": "Jahmyr Gibbs",
     "nfl_team": "Det",
     "position": "RB",
-    "offer_amount": 21
+    "offer_amount": 21,
+    "espn_suggested_value": 26,
+    "value_diff": -5
   },
   {
     "manager": "Nick H.",
@@ -173,7 +215,9 @@
     "player": "DeVonta Smith",
     "nfl_team": "Phi",
     "position": "WR",
-    "offer_amount": 24
+    "offer_amount": 24,
+    "espn_suggested_value": 31,
+    "value_diff": -7
   },
   {
     "manager": "Nick H.",
@@ -181,7 +225,9 @@
     "player": "James Cook",
     "nfl_team": "Buf",
     "position": "RB",
-    "offer_amount": 9
+    "offer_amount": 9,
+    "espn_suggested_value": 10,
+    "value_diff": -1
   },
   {
     "manager": "Nick H.",
@@ -189,7 +235,9 @@
     "player": "Trevor Lawrence",
     "nfl_team": "Jax",
     "position": "QB",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 5,
+    "value_diff": -3
   },
   {
     "manager": "Nick H.",
@@ -197,7 +245,9 @@
     "player": "David Montgomery",
     "nfl_team": "Det",
     "position": "RB",
-    "offer_amount": 6
+    "offer_amount": 6,
+    "espn_suggested_value": 5,
+    "value_diff": 1
   },
   {
     "manager": "Nick H.",
@@ -205,7 +255,9 @@
     "player": "JuJu Smith-Schuster",
     "nfl_team": "NE",
     "position": "WR",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 2,
+    "value_diff": 0
   },
   {
     "manager": "Nick H.",
@@ -213,7 +265,9 @@
     "player": "Daniel Carlson",
     "nfl_team": "LV",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Nick H.",
@@ -221,7 +275,9 @@
     "player": "Allen Lazard",
     "nfl_team": "NYJ",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Nick H.",
@@ -229,7 +285,9 @@
     "player": "Adam Thielen",
     "nfl_team": "Car",
     "position": "WR",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 1,
+    "value_diff": 1
   },
   {
     "manager": "Nick H.",
@@ -237,7 +295,9 @@
     "player": "Ravens D/ST",
     "nfl_team": "Bal",
     "position": "D/ST",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Nick H.",
@@ -245,7 +305,9 @@
     "player": "K.J. Osborn",
     "nfl_team": "NE",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Nick H.",
@@ -253,7 +315,9 @@
     "player": "Tyler Higbee",
     "nfl_team": "LAR",
     "position": "TE",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Nick H.",
@@ -261,7 +325,9 @@
     "player": "Gus Edwards",
     "nfl_team": "LAC",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Nick H.",
@@ -269,7 +335,9 @@
     "player": "Hunter Renfrow",
     "nfl_team": "LV",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Diego",
@@ -277,7 +345,9 @@
     "player": "DK Metcalf",
     "nfl_team": "Sea",
     "position": "WR",
-    "offer_amount": 30
+    "offer_amount": 30,
+    "espn_suggested_value": 33,
+    "value_diff": -3
   },
   {
     "manager": "Diego",
@@ -285,7 +355,9 @@
     "player": "Lamar Jackson",
     "nfl_team": "Bal",
     "position": "QB",
-    "offer_amount": 21
+    "offer_amount": 21,
+    "espn_suggested_value": 21,
+    "value_diff": 0
   },
   {
     "manager": "Diego",
@@ -293,7 +365,9 @@
     "player": "Rhamondre Stevenson",
     "nfl_team": "NE",
     "position": "RB",
-    "offer_amount": 18
+    "offer_amount": 18,
+    "espn_suggested_value": 24,
+    "value_diff": -6
   },
   {
     "manager": "Diego",
@@ -301,7 +375,9 @@
     "player": "Joe Mixon",
     "nfl_team": "Hou",
     "position": "RB",
-    "offer_amount": 31
+    "offer_amount": 31,
+    "espn_suggested_value": 35,
+    "value_diff": -4
   },
   {
     "manager": "Diego",
@@ -309,7 +385,9 @@
     "player": "Dameon Pierce",
     "nfl_team": "Hou",
     "position": "RB",
-    "offer_amount": 13
+    "offer_amount": 13,
+    "espn_suggested_value": 23,
+    "value_diff": -10
   },
   {
     "manager": "Diego",
@@ -317,7 +395,9 @@
     "player": "Calvin Ridley",
     "nfl_team": "Ten",
     "position": "WR",
-    "offer_amount": 28
+    "offer_amount": 28,
+    "espn_suggested_value": 22,
+    "value_diff": 6
   },
   {
     "manager": "Diego",
@@ -325,7 +405,9 @@
     "player": "Mike Williams",
     "nfl_team": "NYJ",
     "position": "WR",
-    "offer_amount": 14
+    "offer_amount": 14,
+    "espn_suggested_value": 9,
+    "value_diff": 5
   },
   {
     "manager": "Diego",
@@ -333,7 +415,9 @@
     "player": "Drake London",
     "nfl_team": "Atl",
     "position": "WR",
-    "offer_amount": 9
+    "offer_amount": 9,
+    "espn_suggested_value": 6,
+    "value_diff": 3
   },
   {
     "manager": "Diego",
@@ -341,7 +425,9 @@
     "player": "Cam Akers",
     "nfl_team": "Min",
     "position": "RB",
-    "offer_amount": 6
+    "offer_amount": 6,
+    "espn_suggested_value": 8,
+    "value_diff": -2
   },
   {
     "manager": "Diego",
@@ -349,7 +435,9 @@
     "player": "Christian Watson",
     "nfl_team": "GB",
     "position": "WR",
-    "offer_amount": 13
+    "offer_amount": 13,
+    "espn_suggested_value": 19,
+    "value_diff": -6
   },
   {
     "manager": "Diego",
@@ -357,7 +445,9 @@
     "player": "Dallas Goedert",
     "nfl_team": "Phi",
     "position": "TE",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 6,
+    "value_diff": -1
   },
   {
     "manager": "Diego",
@@ -365,7 +455,9 @@
     "player": "Gabe Davis",
     "nfl_team": "Jax",
     "position": "WR",
-    "offer_amount": 3
+    "offer_amount": 3,
+    "espn_suggested_value": 2,
+    "value_diff": 1
   },
   {
     "manager": "Diego",
@@ -373,7 +465,9 @@
     "player": "Jordan Addison",
     "nfl_team": "Min",
     "position": "WR",
-    "offer_amount": 4
+    "offer_amount": 4,
+    "espn_suggested_value": 2,
+    "value_diff": 2
   },
   {
     "manager": "Diego",
@@ -381,7 +475,9 @@
     "player": "Justin Tucker",
     "nfl_team": "Bal",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Diego",
@@ -389,7 +485,9 @@
     "player": "Steelers D/ST",
     "nfl_team": "Pit",
     "position": "D/ST",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Diego",
@@ -397,7 +495,9 @@
     "player": "Brian Robinson Jr.",
     "nfl_team": "Wsh",
     "position": "RB",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 3,
+    "value_diff": -1
   },
   {
     "manager": "Diego",
@@ -405,7 +505,9 @@
     "player": "Anthony Richardson",
     "nfl_team": "Ind",
     "position": "QB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Jordan",
@@ -413,7 +515,9 @@
     "player": "Tony Pollard",
     "nfl_team": "Ten",
     "position": "RB",
-    "offer_amount": 47
+    "offer_amount": 47,
+    "espn_suggested_value": 44,
+    "value_diff": 3
   },
   {
     "manager": "Jordan",
@@ -421,7 +525,9 @@
     "player": "Garrett Wilson",
     "nfl_team": "NYJ",
     "position": "WR",
-    "offer_amount": 45
+    "offer_amount": 45,
+    "espn_suggested_value": 40,
+    "value_diff": 5
   },
   {
     "manager": "Jordan",
@@ -429,7 +535,9 @@
     "player": "Josh Allen",
     "nfl_team": "Buf",
     "position": "QB",
-    "offer_amount": 30
+    "offer_amount": 30,
+    "espn_suggested_value": 30,
+    "value_diff": 0
   },
   {
     "manager": "Jordan",
@@ -437,7 +545,9 @@
     "player": "Deebo Samuel",
     "nfl_team": "SF",
     "position": "WR",
-    "offer_amount": 26
+    "offer_amount": 26,
+    "espn_suggested_value": 22,
+    "value_diff": 4
   },
   {
     "manager": "Jordan",
@@ -445,7 +555,9 @@
     "player": "T.J. Hockenson",
     "nfl_team": "Min",
     "position": "TE",
-    "offer_amount": 10
+    "offer_amount": 10,
+    "espn_suggested_value": 13,
+    "value_diff": -3
   },
   {
     "manager": "Jordan",
@@ -453,7 +565,9 @@
     "player": "George Pickens",
     "nfl_team": "Pit",
     "position": "WR",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 4,
+    "value_diff": 1
   },
   {
     "manager": "Jordan",
@@ -461,7 +575,9 @@
     "player": "Miles Sanders",
     "nfl_team": "Car",
     "position": "RB",
-    "offer_amount": 12
+    "offer_amount": 12,
+    "espn_suggested_value": 13,
+    "value_diff": -1
   },
   {
     "manager": "Jordan",
@@ -469,7 +585,9 @@
     "player": "DJ Chark Jr.",
     "nfl_team": "Car",
     "position": "WR",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 2,
+    "value_diff": 0
   },
   {
     "manager": "Jordan",
@@ -477,7 +595,9 @@
     "player": "Christian Kirk",
     "nfl_team": "Jax",
     "position": "WR",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 4,
+    "value_diff": 1
   },
   {
     "manager": "Jordan",
@@ -485,7 +605,9 @@
     "player": "Dalvin Cook",
     "nfl_team": "Bal",
     "position": "RB",
-    "offer_amount": 6
+    "offer_amount": 6,
+    "espn_suggested_value": 4,
+    "value_diff": 2
   },
   {
     "manager": "Jordan",
@@ -493,7 +615,9 @@
     "player": "Jahan Dotson",
     "nfl_team": "Wsh",
     "position": "WR",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 4,
+    "value_diff": 1
   },
   {
     "manager": "Jordan",
@@ -501,7 +625,9 @@
     "player": "Jamaal Williams",
     "nfl_team": "NO",
     "position": "RB",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 2,
+    "value_diff": 0
   },
   {
     "manager": "Jordan",
@@ -509,7 +635,9 @@
     "player": "Tyler Allgeier",
     "nfl_team": "Atl",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Jordan",
@@ -517,7 +645,9 @@
     "player": "Quentin Johnston",
     "nfl_team": "LAC",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Jordan",
@@ -525,7 +655,9 @@
     "player": "Dolphins D/ST",
     "nfl_team": "Mia",
     "position": "D/ST",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Jordan",
@@ -533,7 +665,9 @@
     "player": "Jaylen Warren",
     "nfl_team": "Pit",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Jordan",
@@ -541,143 +675,179 @@
     "player": "Brett Maher",
     "nfl_team": "LAR",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 4,
     "player": "Ja'Marr Chase",
     "nfl_team": "Cin",
     "position": "WR",
-    "offer_amount": 62
+    "offer_amount": 62,
+    "espn_suggested_value": 58,
+    "value_diff": 4
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 6,
     "player": "Cooper Kupp",
     "nfl_team": "LAR",
     "position": "WR",
-    "offer_amount": 53
+    "offer_amount": 53,
+    "espn_suggested_value": 43,
+    "value_diff": 10
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 9,
     "player": "Evan Engram",
     "nfl_team": "Jax",
     "position": "TE",
-    "offer_amount": 4
+    "offer_amount": 4,
+    "espn_suggested_value": 3,
+    "value_diff": 1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 14,
     "player": "Derrick Henry",
     "nfl_team": "Bal",
     "position": "RB",
-    "offer_amount": 49
+    "offer_amount": 49,
+    "espn_suggested_value": 48,
+    "value_diff": 1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 57,
     "player": "Justin Herbert",
     "nfl_team": "LAC",
     "position": "QB",
-    "offer_amount": 11
+    "offer_amount": 11,
+    "espn_suggested_value": 10,
+    "value_diff": 1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 66,
     "player": "Mike Evans",
     "nfl_team": "TB",
     "position": "WR",
-    "offer_amount": 7
+    "offer_amount": 7,
+    "espn_suggested_value": 9,
+    "value_diff": -2
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 79,
     "player": "Jerick McKinnon",
     "nfl_team": "KC",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 81,
     "player": "Odell Beckham Jr.",
     "nfl_team": "FA",
     "position": "WR",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 2,
+    "value_diff": 0
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 99,
     "player": "Ezekiel Elliott",
     "nfl_team": "NE",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 109,
     "player": "Rashaad Penny",
     "nfl_team": "Phi",
     "position": "RB",
-    "offer_amount": 3
+    "offer_amount": 3,
+    "espn_suggested_value": 2,
+    "value_diff": 1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 119,
     "player": "Eagles D/ST",
     "nfl_team": "Phi",
     "position": "D/ST",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 129,
     "player": "Graham Gano",
     "nfl_team": "NYG",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 139,
     "player": "Dak Prescott",
     "nfl_team": "Dal",
     "position": "QB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 146,
     "player": "Kirk Cousins",
     "nfl_team": "Atl",
     "position": "QB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 153,
     "player": "Daniel Jones",
     "nfl_team": "NYG",
     "position": "QB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 160,
     "player": "Dalton Kincaid",
     "nfl_team": "Buf",
     "position": "TE",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
-    "manager": "Nick J",
+    "manager": "Shep",
     "rank": 167,
     "player": "Chigoziem Okonkwo",
     "nfl_team": "Ten",
     "position": "TE",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Luca",
@@ -685,7 +855,9 @@
     "player": "Josh Jacobs",
     "nfl_team": "GB",
     "position": "RB",
-    "offer_amount": 37
+    "offer_amount": 37,
+    "espn_suggested_value": 36,
+    "value_diff": 1
   },
   {
     "manager": "Luca",
@@ -693,7 +865,9 @@
     "player": "Jonathan Taylor",
     "nfl_team": "Ind",
     "position": "RB",
-    "offer_amount": 29
+    "offer_amount": 29,
+    "espn_suggested_value": 8,
+    "value_diff": 21
   },
   {
     "manager": "Luca",
@@ -701,7 +875,9 @@
     "player": "Keenan Allen",
     "nfl_team": "Chi",
     "position": "WR",
-    "offer_amount": 18
+    "offer_amount": 18,
+    "espn_suggested_value": 22,
+    "value_diff": -4
   },
   {
     "manager": "Luca",
@@ -709,7 +885,9 @@
     "player": "Aaron Jones",
     "nfl_team": "Min",
     "position": "RB",
-    "offer_amount": 19
+    "offer_amount": 19,
+    "espn_suggested_value": 25,
+    "value_diff": -6
   },
   {
     "manager": "Luca",
@@ -717,7 +895,9 @@
     "player": "Jaylen Waddle",
     "nfl_team": "Mia",
     "position": "WR",
-    "offer_amount": 35
+    "offer_amount": 35,
+    "espn_suggested_value": 34,
+    "value_diff": 1
   },
   {
     "manager": "Luca",
@@ -725,7 +905,9 @@
     "player": "Kenneth Walker III",
     "nfl_team": "Sea",
     "position": "RB",
-    "offer_amount": 15
+    "offer_amount": 15,
+    "espn_suggested_value": 11,
+    "value_diff": 4
   },
   {
     "manager": "Luca",
@@ -733,7 +915,9 @@
     "player": "Mark Andrews",
     "nfl_team": "Bal",
     "position": "TE",
-    "offer_amount": 17
+    "offer_amount": 17,
+    "espn_suggested_value": 21,
+    "value_diff": -4
   },
   {
     "manager": "Luca",
@@ -741,7 +925,9 @@
     "player": "Tyler Lockett",
     "nfl_team": "Sea",
     "position": "WR",
-    "offer_amount": 6
+    "offer_amount": 6,
+    "espn_suggested_value": 7,
+    "value_diff": -1
   },
   {
     "manager": "Luca",
@@ -749,7 +935,9 @@
     "player": "Marquise Brown",
     "nfl_team": "KC",
     "position": "WR",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 7,
+    "value_diff": -2
   },
   {
     "manager": "Luca",
@@ -757,7 +945,9 @@
     "player": "Deshaun Watson",
     "nfl_team": "Cle",
     "position": "QB",
-    "offer_amount": 4
+    "offer_amount": 4,
+    "espn_suggested_value": 6,
+    "value_diff": -2
   },
   {
     "manager": "Luca",
@@ -765,7 +955,9 @@
     "player": "Michael Pittman Jr.",
     "nfl_team": "Ind",
     "position": "WR",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 4,
+    "value_diff": 1
   },
   {
     "manager": "Luca",
@@ -773,7 +965,9 @@
     "player": "AJ Dillon",
     "nfl_team": "GB",
     "position": "RB",
-    "offer_amount": 3
+    "offer_amount": 3,
+    "espn_suggested_value": 3,
+    "value_diff": 0
   },
   {
     "manager": "Luca",
@@ -781,7 +975,9 @@
     "player": "Treylon Burks",
     "nfl_team": "Ten",
     "position": "WR",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 2,
+    "value_diff": 0
   },
   {
     "manager": "Luca",
@@ -789,7 +985,9 @@
     "player": "Bills D/ST",
     "nfl_team": "Buf",
     "position": "D/ST",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 1,
+    "value_diff": 1
   },
   {
     "manager": "Luca",
@@ -797,7 +995,9 @@
     "player": "Aaron Rodgers",
     "nfl_team": "NYJ",
     "position": "QB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Luca",
@@ -805,7 +1005,9 @@
     "player": "Evan McPherson",
     "nfl_team": "Cin",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Luca",
@@ -813,7 +1015,9 @@
     "player": "Raheem Mostert",
     "nfl_team": "Mia",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Sammy",
@@ -821,7 +1025,9 @@
     "player": "Justin Jefferson",
     "nfl_team": "Min",
     "position": "WR",
-    "offer_amount": 63
+    "offer_amount": 63,
+    "espn_suggested_value": 59,
+    "value_diff": 4
   },
   {
     "manager": "Sammy",
@@ -829,7 +1035,9 @@
     "player": "Saquon Barkley",
     "nfl_team": "Phi",
     "position": "RB",
-    "offer_amount": 45
+    "offer_amount": 45,
+    "espn_suggested_value": 49,
+    "value_diff": -4
   },
   {
     "manager": "Sammy",
@@ -837,7 +1045,9 @@
     "player": "Bijan Robinson",
     "nfl_team": "Atl",
     "position": "RB",
-    "offer_amount": 54
+    "offer_amount": 54,
+    "espn_suggested_value": 51,
+    "value_diff": 3
   },
   {
     "manager": "Sammy",
@@ -845,7 +1055,9 @@
     "player": "Kyle Pitts",
     "nfl_team": "Atl",
     "position": "TE",
-    "offer_amount": 4
+    "offer_amount": 4,
+    "espn_suggested_value": 6,
+    "value_diff": -2
   },
   {
     "manager": "Sammy",
@@ -853,7 +1065,9 @@
     "player": "J.K. Dobbins",
     "nfl_team": "Bal",
     "position": "RB",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 5,
+    "value_diff": 0
   },
   {
     "manager": "Sammy",
@@ -861,7 +1075,9 @@
     "player": "Justin Fields",
     "nfl_team": "Pit",
     "position": "QB",
-    "offer_amount": 12
+    "offer_amount": 12,
+    "espn_suggested_value": 10,
+    "value_diff": 2
   },
   {
     "manager": "Sammy",
@@ -869,7 +1085,9 @@
     "player": "Brandin Cooks",
     "nfl_team": "Dal",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 4,
+    "value_diff": -3
   },
   {
     "manager": "Sammy",
@@ -877,7 +1095,9 @@
     "player": "Zay Flowers",
     "nfl_team": "Bal",
     "position": "WR",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 2,
+    "value_diff": 3
   },
   {
     "manager": "Sammy",
@@ -885,7 +1105,9 @@
     "player": "Skky Moore",
     "nfl_team": "KC",
     "position": "WR",
-    "offer_amount": 3
+    "offer_amount": 3,
+    "espn_suggested_value": 4,
+    "value_diff": -1
   },
   {
     "manager": "Sammy",
@@ -893,7 +1115,9 @@
     "player": "Darnell Mooney",
     "nfl_team": "Atl",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Sammy",
@@ -901,7 +1125,9 @@
     "player": "Samaje Perine",
     "nfl_team": "Den",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Sammy",
@@ -909,7 +1135,9 @@
     "player": "Elijah Moore",
     "nfl_team": "Cle",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Sammy",
@@ -917,7 +1145,9 @@
     "player": "Zach Ertz",
     "nfl_team": "Wsh",
     "position": "TE",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Sammy",
@@ -925,7 +1155,9 @@
     "player": "Tank Bigsby",
     "nfl_team": "Jax",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Sammy",
@@ -933,7 +1165,9 @@
     "player": "Roschon Johnson",
     "nfl_team": "Chi",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Sammy",
@@ -941,7 +1175,9 @@
     "player": "Patriots D/ST",
     "nfl_team": "NE",
     "position": "D/ST",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Sammy",
@@ -949,7 +1185,9 @@
     "player": "Jason Myers",
     "nfl_team": "Sea",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Logan",
@@ -957,7 +1195,9 @@
     "player": "Darren Waller",
     "nfl_team": "NYG",
     "position": "TE",
-    "offer_amount": 8
+    "offer_amount": 8,
+    "espn_suggested_value": 7,
+    "value_diff": 1
   },
   {
     "manager": "Logan",
@@ -965,7 +1205,9 @@
     "player": "Amon-Ra St. Brown",
     "nfl_team": "Det",
     "position": "WR",
-    "offer_amount": 39
+    "offer_amount": 39,
+    "espn_suggested_value": 38,
+    "value_diff": 1
   },
   {
     "manager": "Logan",
@@ -973,7 +1215,9 @@
     "player": "Tyreek Hill",
     "nfl_team": "Mia",
     "position": "WR",
-    "offer_amount": 54
+    "offer_amount": 54,
+    "espn_suggested_value": 55,
+    "value_diff": -1
   },
   {
     "manager": "Logan",
@@ -981,7 +1225,9 @@
     "player": "Najee Harris",
     "nfl_team": "Pit",
     "position": "RB",
-    "offer_amount": 23
+    "offer_amount": 23,
+    "espn_suggested_value": 26,
+    "value_diff": -3
   },
   {
     "manager": "Logan",
@@ -989,7 +1235,9 @@
     "player": "Breece Hall",
     "nfl_team": "NYJ",
     "position": "RB",
-    "offer_amount": 16
+    "offer_amount": 16,
+    "espn_suggested_value": 15,
+    "value_diff": 1
   },
   {
     "manager": "Logan",
@@ -997,7 +1245,9 @@
     "player": "Jerry Jeudy",
     "nfl_team": "Cle",
     "position": "WR",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 7,
+    "value_diff": -2
   },
   {
     "manager": "Logan",
@@ -1005,7 +1255,9 @@
     "player": "Diontae Johnson",
     "nfl_team": "Car",
     "position": "WR",
-    "offer_amount": 11
+    "offer_amount": 11,
+    "espn_suggested_value": 17,
+    "value_diff": -6
   },
   {
     "manager": "Logan",
@@ -1013,7 +1265,9 @@
     "player": "Javonte Williams",
     "nfl_team": "Den",
     "position": "RB",
-    "offer_amount": 5
+    "offer_amount": 5,
+    "espn_suggested_value": 8,
+    "value_diff": -3
   },
   {
     "manager": "Logan",
@@ -1021,7 +1275,9 @@
     "player": "Alexander Mattison",
     "nfl_team": "LV",
     "position": "RB",
-    "offer_amount": 12
+    "offer_amount": 12,
+    "espn_suggested_value": 11,
+    "value_diff": 1
   },
   {
     "manager": "Logan",
@@ -1029,7 +1285,9 @@
     "player": "D'Andre Swift",
     "nfl_team": "Chi",
     "position": "RB",
-    "offer_amount": 9
+    "offer_amount": 9,
+    "espn_suggested_value": 3,
+    "value_diff": 6
   },
   {
     "manager": "Logan",
@@ -1037,7 +1295,9 @@
     "player": "Brandon Aiyuk",
     "nfl_team": "SF",
     "position": "WR",
-    "offer_amount": 6
+    "offer_amount": 6,
+    "espn_suggested_value": 6,
+    "value_diff": 0
   },
   {
     "manager": "Logan",
@@ -1045,7 +1305,9 @@
     "player": "Courtland Sutton",
     "nfl_team": "Den",
     "position": "WR",
-    "offer_amount": 4
+    "offer_amount": 4,
+    "espn_suggested_value": 4,
+    "value_diff": 0
   },
   {
     "manager": "Logan",
@@ -1053,7 +1315,9 @@
     "player": "Tua Tagovailoa",
     "nfl_team": "Mia",
     "position": "QB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Logan",
@@ -1061,7 +1325,9 @@
     "player": "Elijah Mitchell",
     "nfl_team": "SF",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Logan",
@@ -1069,7 +1335,9 @@
     "player": "Zach Charbonnet",
     "nfl_team": "Sea",
     "position": "RB",
-    "offer_amount": 2
+    "offer_amount": 2,
+    "espn_suggested_value": 1,
+    "value_diff": 1
   },
   {
     "manager": "Logan",
@@ -1077,7 +1345,9 @@
     "player": "Tyler Bass",
     "nfl_team": "Buf",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Logan",
@@ -1085,7 +1355,9 @@
     "player": "Jets D/ST",
     "nfl_team": "NYJ",
     "position": "D/ST",
-    "offer_amount": 3
+    "offer_amount": 3,
+    "espn_suggested_value": 1,
+    "value_diff": 2
   },
   {
     "manager": "Mike",
@@ -1093,7 +1365,9 @@
     "player": "Austin Ekeler",
     "nfl_team": "Wsh",
     "position": "RB",
-    "offer_amount": 57
+    "offer_amount": 57,
+    "espn_suggested_value": 58,
+    "value_diff": -1
   },
   {
     "manager": "Mike",
@@ -1101,7 +1375,9 @@
     "player": "Christian McCaffrey",
     "nfl_team": "SF",
     "position": "RB",
-    "offer_amount": 65
+    "offer_amount": 65,
+    "espn_suggested_value": 57,
+    "value_diff": 8
   },
   {
     "manager": "Mike",
@@ -1109,7 +1385,9 @@
     "player": "Jalen Hurts",
     "nfl_team": "Phi",
     "position": "QB",
-    "offer_amount": 29
+    "offer_amount": 29,
+    "espn_suggested_value": 29,
+    "value_diff": 0
   },
   {
     "manager": "Mike",
@@ -1117,7 +1395,9 @@
     "player": "Terry McLaurin",
     "nfl_team": "Wsh",
     "position": "WR",
-    "offer_amount": 11
+    "offer_amount": 11,
+    "espn_suggested_value": 9,
+    "value_diff": 2
   },
   {
     "manager": "Mike",
@@ -1125,7 +1405,9 @@
     "player": "DeAndre Hopkins",
     "nfl_team": "Ten",
     "position": "WR",
-    "offer_amount": 13
+    "offer_amount": 13,
+    "espn_suggested_value": 18,
+    "value_diff": -5
   },
   {
     "manager": "Mike",
@@ -1133,7 +1415,9 @@
     "player": "David Njoku",
     "nfl_team": "Cle",
     "position": "TE",
-    "offer_amount": 4
+    "offer_amount": 4,
+    "espn_suggested_value": 3,
+    "value_diff": 1
   },
   {
     "manager": "Mike",
@@ -1141,7 +1425,9 @@
     "player": "James Conner",
     "nfl_team": "Ari",
     "position": "RB",
-    "offer_amount": 9
+    "offer_amount": 9,
+    "espn_suggested_value": 12,
+    "value_diff": -3
   },
   {
     "manager": "Mike",
@@ -1149,7 +1435,9 @@
     "player": "Michael Thomas",
     "nfl_team": "NO",
     "position": "WR",
-    "offer_amount": 3
+    "offer_amount": 3,
+    "espn_suggested_value": 2,
+    "value_diff": 1
   },
   {
     "manager": "Mike",
@@ -1157,7 +1445,9 @@
     "player": "Antonio Gibson",
     "nfl_team": "NE",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 3,
+    "value_diff": -2
   },
   {
     "manager": "Mike",
@@ -1165,7 +1455,9 @@
     "player": "Jakobi Meyers",
     "nfl_team": "LV",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Mike",
@@ -1173,7 +1465,9 @@
     "player": "Cowboys D/ST",
     "nfl_team": "Dal",
     "position": "D/ST",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Mike",
@@ -1181,7 +1475,9 @@
     "player": "Jeff Wilson Jr.",
     "nfl_team": "Mia",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Mike",
@@ -1189,7 +1485,9 @@
     "player": "Jake Elliott",
     "nfl_team": "Phi",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Mike",
@@ -1197,7 +1495,9 @@
     "player": "Michael Gallup",
     "nfl_team": "Dal",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Mike",
@@ -1205,7 +1505,9 @@
     "player": "Deuce Vaughn",
     "nfl_team": "Dal",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Mike",
@@ -1213,7 +1515,9 @@
     "player": "Jared Goff",
     "nfl_team": "Det",
     "position": "QB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Mike",
@@ -1221,7 +1525,9 @@
     "player": "Marquez Valdes-Scantling",
     "nfl_team": "KC",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 0,
+    "value_diff": 1
   },
   {
     "manager": "Adrian",
@@ -1229,7 +1535,9 @@
     "player": "Chris Olave",
     "nfl_team": "NO",
     "position": "WR",
-    "offer_amount": 36
+    "offer_amount": 36,
+    "espn_suggested_value": 32,
+    "value_diff": 4
   },
   {
     "manager": "Adrian",
@@ -1237,7 +1545,9 @@
     "player": "Davante Adams",
     "nfl_team": "LV",
     "position": "WR",
-    "offer_amount": 44
+    "offer_amount": 44,
+    "espn_suggested_value": 53,
+    "value_diff": -9
   },
   {
     "manager": "Adrian",
@@ -1245,7 +1555,9 @@
     "player": "Travis Etienne Jr.",
     "nfl_team": "Jax",
     "position": "RB",
-    "offer_amount": 22
+    "offer_amount": 22,
+    "espn_suggested_value": 28,
+    "value_diff": -6
   },
   {
     "manager": "Adrian",
@@ -1253,7 +1565,9 @@
     "player": "Nick Chubb",
     "nfl_team": "Cle",
     "position": "RB",
-    "offer_amount": 47
+    "offer_amount": 47,
+    "espn_suggested_value": 42,
+    "value_diff": 5
   },
   {
     "manager": "Adrian",
@@ -1261,7 +1575,9 @@
     "player": "Joe Burrow",
     "nfl_team": "Cin",
     "position": "QB",
-    "offer_amount": 16
+    "offer_amount": 16,
+    "espn_suggested_value": 20,
+    "value_diff": -4
   },
   {
     "manager": "Adrian",
@@ -1269,7 +1585,9 @@
     "player": "Chris Godwin",
     "nfl_team": "TB",
     "position": "WR",
-    "offer_amount": 12
+    "offer_amount": 12,
+    "espn_suggested_value": 17,
+    "value_diff": -5
   },
   {
     "manager": "Adrian",
@@ -1277,7 +1595,9 @@
     "player": "Rachaad White",
     "nfl_team": "TB",
     "position": "RB",
-    "offer_amount": 10
+    "offer_amount": 10,
+    "espn_suggested_value": 15,
+    "value_diff": -5
   },
   {
     "manager": "Adrian",
@@ -1285,7 +1605,9 @@
     "player": "Pat Freiermuth",
     "nfl_team": "Pit",
     "position": "TE",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 3,
+    "value_diff": -2
   },
   {
     "manager": "Adrian",
@@ -1293,7 +1615,9 @@
     "player": "Harrison Butker",
     "nfl_team": "KC",
     "position": "K",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Adrian",
@@ -1301,7 +1625,9 @@
     "player": "Khalil Herbert",
     "nfl_team": "Chi",
     "position": "RB",
-    "offer_amount": 4
+    "offer_amount": 4,
+    "espn_suggested_value": 3,
+    "value_diff": 1
   },
   {
     "manager": "Adrian",
@@ -1309,7 +1635,9 @@
     "player": "Rondale Moore",
     "nfl_team": "Atl",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Adrian",
@@ -1317,7 +1645,9 @@
     "player": "Saints D/ST",
     "nfl_team": "NO",
     "position": "D/ST",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Adrian",
@@ -1325,7 +1655,9 @@
     "player": "Dalton Schultz",
     "nfl_team": "Hou",
     "position": "TE",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Adrian",
@@ -1333,7 +1665,9 @@
     "player": "Nico Collins",
     "nfl_team": "Hou",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 2,
+    "value_diff": -1
   },
   {
     "manager": "Adrian",
@@ -1341,7 +1675,9 @@
     "player": "Devin Singletary",
     "nfl_team": "NYG",
     "position": "RB",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Adrian",
@@ -1349,7 +1685,9 @@
     "player": "Kadarius Toney",
     "nfl_team": "KC",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   },
   {
     "manager": "Adrian",
@@ -1357,6 +1695,8 @@
     "player": "Parris Campbell",
     "nfl_team": "Phi",
     "position": "WR",
-    "offer_amount": 1
+    "offer_amount": 1,
+    "espn_suggested_value": 1,
+    "value_diff": 0
   }
 ]

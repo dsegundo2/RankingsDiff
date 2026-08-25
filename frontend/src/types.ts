@@ -29,6 +29,8 @@ export type DraftRankingRow = {
   nfl_team: string
   position: string
   offer_amount: number
+  espn_suggested_value: number
+  value_diff: number
 }
 
 export type YahooProjection = {
