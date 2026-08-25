@@ -75,11 +75,12 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 }
 
 function AppData() {
-  const [route, setRoute] = useState<'board' | 'analytics' | 'draft'>(() => window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : window.location.pathname.endsWith('/draft-rankings/2025') ? 'draft' : 'board')
+  const [route, setRoute] = useState<'board' | 'analytics' | 'draft'>(() => window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : window.location.pathname.match(/\/draft-rankings\/(2024|2025)$/) ? 'draft' : 'board')
+  const [draftSeason, setDraftSeason] = useState<2024 | 2025>(() => window.location.pathname.endsWith('/draft-rankings/2024') ? 2024 : 2025)
   const [manifest, setManifest] = useState<DataManifest>(emptyManifest)
   const [teams, setTeams] = useState<Record<string, TeamAsset>>({})
   const [rows, setRows] = useState<RankingRow[]>([])
-  const [draftRows, setDraftRows] = useState<DraftRankingRow[]>([])
+  const [draftRowsBySeason, setDraftRowsBySeason] = useState<Record<number, DraftRankingRow[]>>({})
   const [yahooProjections, setYahooProjections] = useState<YahooProjectionMap>({})
   const [sourceChecks, setSourceChecks] = useState<SourceCheckPayload | undefined>()
   const [selectedSeason, setSelectedSeason] = useState<number>(0)
@@ -92,7 +93,11 @@ function AppData() {
   const [retryKey, setRetryKey] = useState(0)
 
   useEffect(() => {
-    const handlePopState = () => setRoute(window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : window.location.pathname.endsWith('/draft-rankings/2025') ? 'draft' : 'board')
+    const handlePopState = () => {
+      const match = window.location.pathname.match(/\/draft-rankings\/(2024|2025)$/)
+      setRoute(window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : match ? 'draft' : 'board')
+      if (match) setDraftSeason(Number(match[1]) as 2024 | 2025)
+    }
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
@@ -113,12 +118,13 @@ function AppData() {
       fetchJson<DataManifest>('/data/manifest.json', controller.signal),
       fetchJson<Record<string, TeamAsset>>('/data/assets/espn_nfl_teams.json', controller.signal).catch(() => ({})),
       fetchJson<SourceCheckPayload>('/data/status/source_checks.json', controller.signal).catch(() => undefined),
+      fetchJson<DraftRankingRow[]>('/data/2024/draft-rankings.json', controller.signal),
       fetchJson<DraftRankingRow[]>('/data/2025/draft-rankings.json', controller.signal)
-    ]).then(([loadedManifest, loadedTeams, loadedChecks, loadedDraftRows]) => {
+    ]).then(([loadedManifest, loadedTeams, loadedChecks, loadedDraftRows2024, loadedDraftRows2025]) => {
       setManifest(loadedManifest)
       setTeams(loadedTeams)
       setSourceChecks(loadedChecks)
-      setDraftRows(loadedDraftRows)
+      setDraftRowsBySeason({ 2024: loadedDraftRows2024, 2025: loadedDraftRows2025 })
       const firstSeason = loadedManifest.seasons[0]
       const sharedDraft = readDraftShare(new URLSearchParams(window.location.search).get('draft'))
       let saved: { season?: number; source?: string; adjustedProfile?: string } = {}
@@ -184,7 +190,7 @@ function AppData() {
   if (error) return <ErrorState message={error} onRetry={() => { setRows([]); setRowsLoading(true); setHasLoadedRows(false); setRetryKey((current) => current + 1) }} />
   if (manifestLoading || !manifest.seasons.length || !selectedSource || !hasLoadedRows) return <LoadingState detail={manifestLoading ? undefined : `Loading ${selectedMeta?.label ?? 'the selected source'} rankings…`} />
 
-  if (route === 'draft') return <DraftRankingsPage rows={draftRows} onNavigate={navigate} />
+  if (route === 'draft') return <DraftRankingsPage season={draftSeason} rows={draftRowsBySeason[draftSeason] ?? []} onNavigate={navigate} />
 
   const displayedRows = applyAdjustedProfile(rows, selectedProfile?.id ?? 'full-ppr', selectedSource)
   return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} route={route} onNavigate={navigate} />
