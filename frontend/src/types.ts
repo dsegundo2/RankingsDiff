@@ -22,6 +22,15 @@ export type RankingRow = {
   positionTone?: PositionTone
 }
 
+export type DraftRankingRow = {
+  manager: string
+  rank: number
+  player: string
+  nfl_team: string
+  position: string
+  offer_amount: number
+}
+
 export type YahooProjection = {
   player?: string
   team?: string
