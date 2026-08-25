@@ -192,7 +192,7 @@ function AppData() {
   if (error) return <ErrorState message={error} onRetry={() => { setRows([]); setRowsLoading(true); setHasLoadedRows(false); setRetryKey((current) => current + 1) }} />
   if (manifestLoading || !manifest.seasons.length || !selectedSource || !hasLoadedRows) return <LoadingState detail={manifestLoading ? undefined : `Loading ${selectedMeta?.label ?? 'the selected source'} rankings…`} />
 
-  if (route === 'draft') return <DraftRankingsPage season={draftSeason} rows={draftRowsBySeason[draftSeason] ?? []} onNavigate={navigate} />
+  if (route === 'draft') return <DraftRankingsPage season={draftSeason} rows={draftRowsBySeason[draftSeason] ?? []} rowsBySeason={draftRowsBySeason} onNavigate={navigate} />
 
   const displayedRows = applyAdjustedProfile(rows, selectedProfile?.id ?? 'full-ppr', selectedSource)
   return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} route={route} onNavigate={navigate} />

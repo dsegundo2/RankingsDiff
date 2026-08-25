@@ -53,7 +53,7 @@ test('rankings diff opens as a separate route and returns without disturbing dra
   await page.goto('./')
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
   await page.getByRole('button', { name: 'WR', exact: true }).first().click()
-  await page.getByRole('button', { name: 'Rankings diff', exact: true }).click()
+  await page.getByRole('button', { name: 'Charts', exact: true }).click()
 
   await expect(page).toHaveURL(/\/analytics\/rankings-diff$/)
   await expect(page.getByRole('heading', { name: 'Rankings diff' })).toBeVisible()
@@ -73,7 +73,7 @@ test('rankings diff opens as a separate route and returns without disturbing dra
   await page.getByRole('spinbutton', { name: 'End pick' }).fill('180')
   await expect(page.locator('.rankings-diff-card__header')).toContainText('Picks 80–180')
 
-  await page.getByRole('button', { name: '← Back to rankings' }).click()
+  await page.getByRole('button', { name: 'Draft board', exact: true }).click()
   await expect(page).toHaveURL(/\/RankingsDiff\/$|\/$/)
   await expect(page.getByRole('button', { name: 'WR', exact: true }).first()).toHaveClass(/active/)
   await page.getByRole('button', { name: 'ALL', exact: true }).first().click()
@@ -83,7 +83,7 @@ test('rankings diff opens as a separate route and returns without disturbing dra
 test('rankings diff direct URL loads as a first-class view', async ({ page }) => {
   await page.goto('./analytics/rankings-diff')
   await expect(page.getByRole('heading', { name: 'Rankings diff' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '← Back to rankings' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Draft board', exact: true })).toBeVisible()
 })
 
 test('2025 auction rankings supports manager aliases, position sorting, and live draft dividers', async ({ page }) => {
@@ -122,6 +122,18 @@ test('2022 auction rankings loads from its own direct route', async ({ page }) =
   await expect(page.getByRole('heading', { name: '2022 Draft' })).toBeVisible()
   await expect(page.locator('.draft-rankings-table tbody tr').filter({ hasText: 'Austin Ekeler' })).toBeVisible()
   await expect(page.getByText('Adrian', { exact: true }).first()).toBeVisible()
+})
+
+test('historic results offers positional league averages across all seasons', async ({ page }) => {
+  await page.goto('./draft-rankings/2025')
+  await page.getByRole('button', { name: 'League averages', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'League average prices' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'RB · top 30', exact: true })).toHaveClass(/active/)
+  await expect(page.locator('.historic-averages__table tbody tr').first()).toContainText('RB1')
+  await expect(page.locator('.historic-averages__table thead')).toContainText('2022')
+  await page.getByRole('button', { name: 'TE · top 15', exact: true }).click()
+  await expect(page.locator('.historic-averages__table tbody tr').first()).toContainText('TE1')
+  await expect(page.locator('.historic-averages__table tbody tr')).toHaveCount(15)
 })
 
 test('trend is off by default and can be shown and sorted', async ({ page }) => {

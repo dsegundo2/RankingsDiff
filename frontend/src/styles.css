@@ -2133,6 +2133,10 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 
 /* 2025 auction draft results */
 .hero__links { display: flex; gap: 8px; flex-wrap: wrap; }
+.view-tabs { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--panel) 88%, var(--accent-soft)); }
+.view-tabs button { min-height: 32px; border: 0; border-radius: 9px; padding: 7px 11px; color: var(--muted); background: transparent; font-size: .74rem; font-weight: 850; white-space: nowrap; }
+.view-tabs button:hover, .view-tabs button:focus-visible { color: var(--accent); background: var(--accent-soft); outline: 0; }
+.view-tabs button.active { color: var(--ink); background: var(--panel); box-shadow: var(--shadow-sm); }
 .draft-rankings-page { max-width: 1440px; }
 .draft-rankings-mark { width: 58px; height: 58px; margin: 0; border-radius: 18px; font-size: 1.1rem; letter-spacing: -.06em; }
 .draft-rankings-summary { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 18px 0 12px; }
@@ -2154,5 +2158,18 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .draft-status-button:hover, .draft-status-button:focus-visible { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 .draft-rankings-divider td { padding: 9px 14px; border-top: 2px solid color-mix(in srgb, var(--accent) 35%, var(--line)); border-bottom: 1px solid var(--line); color: var(--accent); background: color-mix(in srgb, var(--accent-soft) 72%, var(--panel)); font-size: .76rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
 .draft-rankings-divider small { margin-left: 14px; color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: 0; text-transform: none; }
-@media (max-width: 980px) { .draft-rankings-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); } .draft-rankings-controls { grid-template-columns: 1fr; } .drafted-toggle { justify-self: start; } }
-@media (max-width: 620px) { .draft-rankings-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } .draft-rankings-summary article:first-child { grid-column: 1 / -1; } .draft-rankings-meta { align-items: flex-start; flex-direction: column; } .draft-rankings-meta span { margin-left: 0; } .hero__links { justify-content: flex-start; } }
+.draft-view-switcher { display: flex; gap: 4px; width: fit-content; margin: 14px 0 16px; padding: 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+.draft-view-switcher button { border: 0; border-radius: 8px; padding: 8px 13px; color: var(--muted); background: transparent; font-size: .78rem; font-weight: 850; }
+.draft-view-switcher button.active { color: var(--ink); background: var(--accent-soft); }
+.historic-averages { display: grid; gap: 14px; }
+.historic-averages__intro { display: flex; justify-content: space-between; gap: 24px; align-items: end; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); box-shadow: var(--shadow-sm); }
+.historic-averages__intro h2 { margin: 4px 0; font-size: 1.25rem; letter-spacing: -.04em; }
+.historic-averages__intro p { max-width: 580px; margin: 0; color: var(--muted); font-size: .83rem; line-height: 1.45; }
+.historic-averages__intro .position-pills { justify-content: flex-end; }
+.historic-averages__table-wrap { overflow-x: auto; }
+.historic-averages__table { min-width: 720px; }
+.historic-averages__table th, .historic-averages__table td { padding: 11px 14px; }
+.historic-averages__table th:not(:first-child), .historic-averages__table td:not(:first-child) { text-align: right; }
+.historic-averages__table tbody tr:first-child td { border-top: 2px solid color-mix(in srgb, var(--accent) 35%, var(--line)); }
+@media (max-width: 980px) { .draft-rankings-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); } .draft-rankings-controls { grid-template-columns: 1fr; } .drafted-toggle { justify-self: start; } .historic-averages__intro { align-items: flex-start; flex-direction: column; } .historic-averages__intro .position-pills { justify-content: flex-start; } }
+@media (max-width: 620px) { .draft-rankings-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } .draft-rankings-summary article:first-child { grid-column: 1 / -1; } .draft-rankings-meta { align-items: flex-start; flex-direction: column; } .draft-rankings-meta span { margin-left: 0; } .hero__links { justify-content: flex-start; } .view-tabs { width: 100%; } .view-tabs button { flex: 1; padding-inline: 6px; font-size: .69rem; } }
