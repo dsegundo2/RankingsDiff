@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent as ReactDragEvent } from 'react'
 import type { AdjustedProfile, DataManifest, DraftRankingRow, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset, YahooProjectionMap } from '../types'
 import { calculateRegression, filterRankings, formatRank, formatSignedValue, formatValue, rankingDifference, regressionDifference, sortRankings, sourceLabel, yahooProjectionId } from '../data/rankings'
 import { DEFAULT_DRAFT_SIZE, DEFAULT_DRAFT_SLOT, MAX_DRAFT_SIZE, MIN_DRAFT_SIZE, rankingId, readAuctionDraftState, readDraftShare, readDraftState, writeAuctionDraftState, writeDraftState } from '../data/draftState'
@@ -73,6 +73,8 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   const [view, setView] = useState<ViewMode>('board')
   const [selectedId, setSelectedId] = useState<string>('')
   const [inspectorOffset, setInspectorOffset] = useState({ x: 0, y: 0 })
+  const [boardDropActive, setBoardDropActive] = useState(false)
+  const [draggedRosterId, setDraggedRosterId] = useState<string | null>(null)
   const [boardPositions, setBoardPositions] = useState<Set<PositionKey>>(new Set(allPositionKeys))
   const [positionViews, setPositionViews] = useState<Set<PositionKey>>(new Set(['RB', 'WR', 'QB', 'TE']))
   const [targets, setTargets] = useState<Set<string>>(new Set())
@@ -262,6 +264,13 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     }
     applyDraftState(new Set(targets), new Set(drafted), nextPrices, nextSlots, nextMine, draftPicks)
   }, [applyDraftState, autoLineupApply, drafted, draftMode, draftPicks, draftPrices, draftSlots, mine, rows, targetGoals, targets])
+
+  const removeRosterPlayerFromBoard = useCallback((event: ReactDragEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    setBoardDropActive(false)
+    const id = event.dataTransfer.getData('text/plain') || draggedRosterId
+    if (id && drafted.has(id)) toggleDrafted(id)
+  }, [drafted, draggedRosterId, toggleDrafted])
 
   const handleAutoLineupApply = useCallback((enabled: boolean) => {
     setAutoLineupApply(enabled)
@@ -807,7 +816,8 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
 
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
-          <div>
+          <div className={`draft-board-drop-zone${boardDropActive ? ' is-drop-target' : ''}`} aria-label="Player board. Drop a roster player here to remove them" onDragOver={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; setBoardDropActive(true) }} onDragLeave={() => setBoardDropActive(false)} onDrop={removeRosterPlayerFromBoard}>
+            <div className="draft-board-remove-target" data-player-board-drop-target="true" onDragOver={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = 'move' }} onDrop={removeRosterPlayerFromBoard}>Drop a roster player here to remove</div>
             <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} draftSize={draftSize} yahooProjectionMode={projectionMode} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
@@ -816,12 +826,12 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
               })}
             </section>
           </div>
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} targetQueueView={targetQueueView} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} targetQueueView={targetQueueView} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} onDragStateChange={setDraggedRosterId} /> : targetQueue}</div>
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showAuctionValues={draftMode === 'auction'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
-          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} targetQueueView={targetQueueView} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} /> : targetQueue}</div>
+          <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} targetQueueView={targetQueueView} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} onDragStateChange={setDraggedRosterId} /> : targetQueue}</div>
         </div>
       )}
       <SettingsPopover

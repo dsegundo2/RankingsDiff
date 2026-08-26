@@ -2151,6 +2151,9 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .draft-rankings-meta { display: flex; gap: 6px; align-items: center; margin: 8px 2px 10px; color: var(--muted); font-size: .82rem; }
 .draft-rankings-meta span { margin-left: auto; }
 .draft-rankings-table-wrap { overflow-x: auto; }
+.draft-board-drop-zone { position: relative; min-width: 0; }
+.draft-board-remove-target { margin: 0 0 var(--space-2); border: 1px dashed var(--accent); border-radius: var(--radius-sm); padding: 8px 12px; color: var(--accent); background: var(--accent-soft); font-size: .75rem; font-weight: 800; text-align: center; }
+.draft-board-drop-zone.is-drop-target::after { position: absolute; z-index: 3; inset: 8px; display: grid; place-items: center; border: 2px dashed var(--accent); border-radius: var(--radius-md); color: var(--accent); background: color-mix(in srgb, var(--accent-soft) 82%, transparent); content: 'Drop to remove from roster'; font-size: .85rem; font-weight: 850; pointer-events: none; }
 .draft-rankings-table { min-width: 980px; }
 .draft-rankings-table th, .draft-rankings-table td { padding: 12px 14px; }
 .draft-rankings-table th:nth-child(1), .draft-rankings-table th:nth-child(5), .draft-rankings-table th:nth-child(6), .draft-rankings-table th:nth-child(7), .draft-rankings-table th:nth-child(8), .draft-rankings-table td:nth-child(1), .draft-rankings-table td:nth-child(5), .draft-rankings-table td:nth-child(6), .draft-rankings-table td:nth-child(7), .draft-rankings-table td:nth-child(8) { text-align: right; }
