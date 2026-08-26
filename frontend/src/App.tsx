@@ -13,6 +13,7 @@ import { HeroRecentMockups } from './components/HeroRecentMockups'
 import { RankingLayoutMockups } from './components/RankingLayoutMockups'
 import { PositionColorMockups } from './components/PositionColorMockups'
 import { DraftRankingsPage } from './components/DraftRankingsPage'
+import { LeagueStatsMockup } from './components/LeagueStatsMockup'
 
 const emptyManifest: DataManifest = { generatedAt: '', seasons: [] }
 
@@ -214,6 +215,7 @@ export default function App() {
   if (window.location.pathname.endsWith('/draft-cutoff-mockups')) return <DraftCutoffMockups />
   if (window.location.pathname.endsWith('/column-mockups')) return <ColumnMockups />
   if (window.location.pathname.endsWith('/position-color-mockups')) return <PositionColorMockups />
+  if (window.location.pathname.endsWith('/league-stats-mockup')) return <LeagueStatsMockup />
   if (window.location.pathname.endsWith('/mockups')) return <ThemeMockups />
   return <div className="app-theme app-theme--ranking-blue"><AppData /></div>
 }
