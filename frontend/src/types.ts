@@ -33,6 +33,27 @@ export type DraftRankingRow = {
   value_diff: number
 }
 
+export type HistoricalDraftRow = DraftRankingRow & {
+  overall_rank: number
+  position_rank: number
+  tier: number
+  tier_label: string
+}
+
+export type HistoricalSlotSummary = {
+  rank: number
+  position: string
+  sample_size: number
+  average_paid: number | null
+  average_expected: number | null
+  average_over_under: number | null
+}
+
+export type HistoricalTierSummary = HistoricalSlotSummary & {
+  start_rank: number
+  end_rank: number
+}
+
 export type YahooProjection = {
   player?: string
   team?: string

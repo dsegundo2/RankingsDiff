@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { DraftRankingRow } from '../types'
 import { ViewTabs } from './ViewTabs'
+import { enrichDraftRows, slotSummaries, tierSummaries } from '../data/draftAnalytics'
 
 type SortKey = 'rank' | 'player' | 'position' | 'offer_amount' | 'espn_suggested_value' | 'value_diff' | 'manager' | 'nfl_team'
 type Props = { season: 2022 | 2023 | 2024 | 2025; rows: DraftRankingRow[]; rowsBySeason: Record<number, DraftRankingRow[]>; onNavigate: (path: 'board' | 'analytics' | 'draft') => void; onSeason: (season: 2022 | 2023 | 2024 | 2025) => void }
@@ -32,9 +33,10 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, onNavigate, onSe
     else { setSortKey(nextKey); setSortDirection(nextKey === 'offer_amount' || nextKey === 'espn_suggested_value' || nextKey === 'value_diff' ? 'desc' : 'asc') }
   }
 
+  const historicalRows = useMemo(() => enrichDraftRows(rows), [rows])
   const filteredRows = useMemo(() => {
     const query = search.trim().toLowerCase()
-    const visible = rows.filter((row) => {
+    const visible = historicalRows.filter((row) => {
       const matchesPosition = position === 'ALL' || row.position.toUpperCase() === position
       const matchesSearch = !query || [row.player, row.manager, row.nfl_team, row.position].some((value) => value.toLowerCase().includes(query))
       return matchesPosition && matchesSearch
@@ -44,19 +46,11 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, onNavigate, onSe
       const comparison = typeof a === 'number' && typeof b === 'number' ? a - b : String(a).localeCompare(String(b))
       return sortDirection === 'asc' ? comparison : -comparison
     })
-  }, [position, rows, search, sortDirection, sortKey])
+  }, [historicalRows, position, search, sortDirection, sortKey])
   const mostExpensive = useMemo(() => [...rows].sort((a, b) => b.offer_amount - a.offer_amount)[0], [rows])
   const mostExpensiveByPosition = useMemo(() => ['QB', 'RB', 'WR', 'TE', 'K'].map((key) => ({ position: key, row: rows.filter((row) => row.position === key).sort((a, b) => b.offer_amount - a.offer_amount)[0] })).filter((item) => item.row), [rows])
-  const averageRows = useMemo(() => {
-    const seasons: Array<2022 | 2023 | 2024 | 2025> = [2022, 2023, 2024, 2025]
-    const bySeason = new Map<number, DraftRankingRow[]>()
-    seasons.forEach((year) => bySeason.set(year, rowsBySeason[year] ?? []))
-    return Array.from({ length: HISTORIC_LIMITS[averagePosition] }, (_, index) => {
-      const prices = seasons.map((year) => bySeason.get(year)?.filter((row) => row.position === averagePosition).sort((a, b) => b.offer_amount - a.offer_amount)[index]?.offer_amount)
-      const present = prices.filter((price): price is number => typeof price === 'number')
-      return { rank: index + 1, prices, total: present.reduce((sum, price) => sum + price, 0), average: present.length ? present.reduce((sum, price) => sum + price, 0) / present.length : null }
-    }).filter((row) => row.average !== null)
-  }, [averagePosition, rowsBySeason])
+  const slotRows = useMemo(() => slotSummaries(rowsBySeason, averagePosition), [averagePosition, rowsBySeason])
+  const tierRows = useMemo(() => tierSummaries(rowsBySeason, averagePosition), [averagePosition, rowsBySeason])
 
   return <main className="dashboard draft-rankings-page">
     <section className="hero hero--compact hero--editorial" aria-label="Draft rankings header">
@@ -67,9 +61,10 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, onNavigate, onSe
     <section className="draft-view-switcher" aria-label="Historic results views"><button type="button" className={view === 'results' ? 'active' : ''} onClick={() => setView('results')}>Player results</button><button type="button" className={view === 'averages' ? 'active' : ''} onClick={() => setView('averages')}>League averages</button></section>
     <nav className="historic-season-tabs" aria-label="Draft season">{([2022, 2023, 2024, 2025] as const).map((year) => <button type="button" key={year} className={season === year ? 'active' : ''} aria-current={season === year ? 'page' : undefined} onClick={() => onSeason(year)}>{year}</button>)}</nav>
 
-    {view === 'averages' ? <section className="historic-averages" aria-label="League average auction prices">
-      <div className="historic-averages__intro"><div><span className="eyebrow">Across 2022–2025</span><h2>League average prices</h2><p>Compare the average auction cost and total spend for each positional slot across the four historical drafts.</p></div><div className="position-pills">{HISTORIC_POSITIONS.map((key) => <button type="button" key={key} className={averagePosition === key ? 'active' : ''} onClick={() => setAveragePosition(key)}>{key} · top {HISTORIC_LIMITS[key]}</button>)}</div></div>
-      <div className="table-wrap historic-averages__table-wrap"><table className="rankings-table historic-averages__table"><thead><tr><th>Slot</th><th>Average / year</th><th>Total</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr></thead><tbody>{averageRows.map((row) => <tr key={row.rank}><td><strong>{averagePosition}{row.rank}</strong></td><td className="num"><strong>{row.average === null ? '—' : money(Math.round(row.average))}</strong></td><td className="num">{money(row.total)}</td>{row.prices.map((price, index) => <td className="num" key={`${row.rank}-${index}`}>{price === undefined ? '—' : money(price)}</td>)}</tr>)}</tbody></table></div>
+    {view === 'averages' ? <section className="historic-averages" aria-label="Historical auction price signals">
+      <div className="historic-averages__intro"><div><span className="eyebrow">Historical price signals · across 2022–2025</span><h2>League average prices</h2><p>Use the exact positional slot first, then the tier for a steadier read. Over / under is actual paid minus that season’s ESPN expectation.</p></div><div className="position-pills">{HISTORIC_POSITIONS.map((key) => <button type="button" key={key} className={averagePosition === key ? 'active' : ''} onClick={() => setAveragePosition(key)}>{key} · top {HISTORIC_LIMITS[key]}</button>)}</div></div>
+      <div className="historic-signal-cards"><article><span className="eyebrow">Tier model</span><strong>Every 6 {averagePosition.toLowerCase()}s</strong><small>10-team default · weighted 2022–2025</small></article><article><span className="eyebrow">Strongest signal</span><strong>Exact slot</strong><small>Example: {averagePosition}4, not just tier 1</small></article><article><span className="eyebrow">Room behavior</span><strong>Paid − expected</strong><small>Positive means the room paid more</small></article></div>
+      <div className="table-wrap historic-averages__table-wrap"><table className="rankings-table historic-averages__table"><thead><tr><th>Slot</th><th>Avg paid</th><th>Avg expected</th><th>Over / under</th><th>Sample</th><th>Tier avg</th><th>Tier O/U</th><th>Seasons 2022–2025</th></tr></thead><tbody>{slotRows.slice(0, HISTORIC_LIMITS[averagePosition]).map((summary) => { const tier = tierRows.find((item) => summary.rank >= item.start_rank && summary.rank <= item.end_rank); return <tr key={summary.rank}><td><strong>{averagePosition}{summary.rank}</strong></td><td className="num"><strong>{summary.average_paid === null ? '—' : money(Math.round(summary.average_paid))}</strong></td><td className="num">{summary.average_expected === null ? '—' : money(Math.round(summary.average_expected))}</td><td className={`num draft-value-diff ${summary.average_over_under && summary.average_over_under > 0 ? 'is-over' : summary.average_over_under && summary.average_over_under < 0 ? 'is-under' : ''}`}>{summary.average_over_under === null ? '—' : delta(Math.round(summary.average_over_under))}</td><td className="num">{summary.sample_size}</td><td className="num">{tier?.average_paid === null || !tier ? '—' : money(Math.round(tier.average_paid))}</td><td className={`num draft-value-diff ${tier?.average_over_under && tier.average_over_under > 0 ? 'is-over' : tier?.average_over_under && tier.average_over_under < 0 ? 'is-under' : ''}`}>{tier?.average_over_under == null ? '—' : delta(Math.round(tier.average_over_under))}</td><td className="num">2022–2025</td></tr> })}</tbody></table></div>
     </section> : <>
 
     <section className="draft-rankings-summary" aria-label="Draft highlights">
@@ -84,9 +79,9 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, onNavigate, onSe
 
     <section className="draft-rankings-meta" aria-live="polite"><strong>{filteredRows.length}</strong> shown <span>Lines mark every {DRAFT_SIZE} players in the current view.</span></section>
 
-    <div className="table-wrap draft-rankings-table-wrap"><table className="rankings-table draft-rankings-table"><thead><tr><th><button className="sort-button" onClick={() => sortBy('rank')}>Rank{sortKey === 'rank' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('player')}>Player{sortKey === 'player' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('position')}>Pos{sortKey === 'position' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('manager')}>Manager{sortKey === 'manager' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('offer_amount')}>Paid{sortKey === 'offer_amount' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('espn_suggested_value')}>ESPN value{sortKey === 'espn_suggested_value' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('value_diff')}>Over / under{sortKey === 'value_diff' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th></tr></thead><tbody>
-      {filteredRows.map((row, index) => <>{index > 0 && index % DRAFT_SIZE === 0 ? <tr className="draft-rankings-divider" key={`divider-${index}`}><td colSpan={7}><span>Top {index}</span></td></tr> : null}<tr key={`${row.player}|${row.nfl_team}`}><td className="num">{row.rank}</td><td><strong>{row.player}</strong><small className="draft-rankings-team">{row.nfl_team}</small></td><td><span className={`pos-chip pos-${row.position.toLowerCase().replace('/', '-')}`}>{row.position}</span></td><td>{row.manager}</td><td className="num"><strong>{money(row.offer_amount)}</strong></td><td className="num">{money(row.espn_suggested_value)}</td><td className={`num draft-value-diff ${row.value_diff > 0 ? 'is-over' : row.value_diff < 0 ? 'is-under' : ''}`}><strong>{delta(row.value_diff)}</strong></td></tr></>)}
-      {!filteredRows.length ? <tr><td colSpan={7}><div className="empty-state">No players match the current filters.</div></td></tr> : null}
+    <div className="table-wrap draft-rankings-table-wrap"><table className="rankings-table draft-rankings-table"><thead><tr><th><button className="sort-button" onClick={() => sortBy('rank')}>Rank{sortKey === 'rank' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('player')}>Player{sortKey === 'player' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('position')}>Pos{sortKey === 'position' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('manager')}>Manager{sortKey === 'manager' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('offer_amount')}>Paid{sortKey === 'offer_amount' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('espn_suggested_value')}>ESPN value / expected{sortKey === 'espn_suggested_value' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th><button className="sort-button" onClick={() => sortBy('value_diff')}>Over / under{sortKey === 'value_diff' ? ` ${sortDirection === 'asc' ? '↑' : '↓'}` : ''}</button></th><th>Slot</th><th>Tier</th></tr></thead><tbody>
+      {filteredRows.map((row, index) => <>{index > 0 && index % DRAFT_SIZE === 0 ? <tr className="draft-rankings-divider" key={`divider-${index}`}><td colSpan={9}><span>Top {index}</span></td></tr> : null}<tr key={`${row.player}|${row.nfl_team}`}><td className="num">{row.rank}</td><td><strong>{row.player}</strong><small className="draft-rankings-team">{row.nfl_team}</small></td><td><span className={`pos-chip pos-${row.position.toLowerCase().replace('/', '-')}`}>{row.position}</span></td><td>{row.manager}</td><td className="num"><strong>{money(row.offer_amount)}</strong></td><td className="num">{money(row.espn_suggested_value)}</td><td className={`num draft-value-diff ${row.value_diff > 0 ? 'is-over' : row.value_diff < 0 ? 'is-under' : ''}`}><strong>{delta(row.value_diff)}</strong></td><td className="num"><strong>{row.position_rank ? `${row.position}${row.position_rank}` : '—'}</strong></td><td>{row.tier_label}</td></tr></>)}
+      {!filteredRows.length ? <tr><td colSpan={9}><div className="empty-state">No players match the current filters.</div></td></tr> : null}
     </tbody></table></div><footer className="draft-reference"><span>Reference: ESPN PPR auction values for {season}</span><a href={ESPN_REFERENCE_URLS[season]} target="_blank" rel="noreferrer">View original ESPN rankings PDF ↗</a></footer></>}
   </main>
 }
