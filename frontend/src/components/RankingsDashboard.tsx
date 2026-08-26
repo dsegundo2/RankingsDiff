@@ -72,6 +72,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [view, setView] = useState<ViewMode>('board')
   const [selectedId, setSelectedId] = useState<string>('')
+  const [inspectorOffset, setInspectorOffset] = useState({ x: 0, y: 0 })
   const [boardPositions, setBoardPositions] = useState<Set<PositionKey>>(new Set(allPositionKeys))
   const [positionViews, setPositionViews] = useState<Set<PositionKey>>(new Set(['RB', 'WR', 'QB', 'TE']))
   const [targets, setTargets] = useState<Set<string>>(new Set())
@@ -877,7 +878,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         onDraftSize={updateDraftSize}
         onClose={() => setSettingsOpen(false)}
       />
-      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} draftedCount={rows.filter((candidate) => candidate.position.toUpperCase() === selectedRow.position.toUpperCase() && drafted.has(rankingId(candidate))).length} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} favorited={targets.has(selectedId)} onFavorite={() => toggleTarget(selectedId)} onClose={() => setSelectedId('')} onDraft={() => draftPlayer(selectedId)} onAdd={() => toggleMine(selectedId)} onNavigate={navigateInspector} /> : null}
+      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} draftedCount={rows.filter((candidate) => candidate.position.toUpperCase() === selectedRow.position.toUpperCase() && drafted.has(rankingId(candidate))).length} dragOffset={inspectorOffset} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} favorited={targets.has(selectedId)} onFavorite={() => toggleTarget(selectedId)} onClose={() => setSelectedId('')} onDraft={() => draftPlayer(selectedId)} onAdd={() => toggleMine(selectedId)} onNavigate={navigateInspector} onDragOffsetChange={setInspectorOffset} /> : null}
     </main>
     <div hidden={route !== 'analytics'}>
       <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onNavigate={onNavigate} />

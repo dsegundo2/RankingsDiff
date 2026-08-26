@@ -402,11 +402,20 @@ test('auction player inspector shows history and supports close and draft action
     expect(afterDrag.x).toBeGreaterThan(beforeDrag.x + 30)
     expect(afterDrag.y).toBeGreaterThan(beforeDrag.y + 10)
   }
+  const heldPosition = await inspector.boundingBox()
   await inspector.getByRole('button', { name: 'Add to team' }).click()
   await expect(row.locator('.draft-action')).toContainText('Undo')
   await expect(row.locator('.mine-action.active')).toBeVisible()
   await inspector.getByRole('button', { name: 'Close player details' }).click()
   await expect(page.getByRole('dialog')).toHaveCount(0)
+  await page.locator('tbody tr[data-ranking-id]').nth(1).click()
+  const reopenedInspector = page.getByRole('dialog')
+  await expect(reopenedInspector).toBeVisible()
+  const reopenedPosition = await reopenedInspector.boundingBox()
+  if (heldPosition && reopenedPosition) {
+    expect(Math.abs(reopenedPosition.x - heldPosition.x)).toBeLessThan(1)
+    expect(Math.abs(reopenedPosition.y - heldPosition.y)).toBeLessThan(1)
+  }
 })
 
 test('FantasyPros position view emphasizes source rank', async ({ page }) => {

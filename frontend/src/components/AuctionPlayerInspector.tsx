@@ -5,11 +5,10 @@ import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { formatSignedValue, formatValue, formatRank } from '../data/rankings'
 import { TeamBadge } from './TeamBadge'
 
-type Props = { row: RankingRow; allRows: RankingRow[]; draftedCount: number; rowsBySeason: Record<number, DraftRankingRow[]>; season: number; teams: Record<string, TeamAsset>; favorited: boolean; onFavorite: () => void; onClose: () => void; onDraft: () => void; onAdd: () => void; onNavigate: (direction: -1 | 1) => void }
+type Props = { row: RankingRow; allRows: RankingRow[]; draftedCount: number; dragOffset: { x: number; y: number }; rowsBySeason: Record<number, DraftRankingRow[]>; season: number; teams: Record<string, TeamAsset>; favorited: boolean; onFavorite: () => void; onClose: () => void; onDraft: () => void; onAdd: () => void; onNavigate: (direction: -1 | 1) => void; onDragOffsetChange: (offset: { x: number; y: number }) => void }
 
-export function AuctionPlayerInspector({ row, allRows, draftedCount, rowsBySeason, season, teams, favorited, onFavorite, onClose, onDraft, onAdd, onNavigate }: Props) {
+export function AuctionPlayerInspector({ row, allRows, draftedCount, dragOffset, rowsBySeason, season, teams, favorited, onFavorite, onClose, onDraft, onAdd, onNavigate, onDragOffsetChange }: Props) {
   const [focusedAction, setFocusedAction] = useState<'draft' | 'team'>('draft')
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
   const dragStart = useRef<{ pointerId: number; x: number; y: number; offsetX: number; offsetY: number } | null>(null)
   const draftButton = useRef<HTMLButtonElement>(null)
   const teamButton = useRef<HTMLButtonElement>(null)
@@ -50,7 +49,7 @@ export function AuctionPlayerInspector({ row, allRows, draftedCount, rowsBySeaso
   }
   function handleDragMove(event: ReactPointerEvent<HTMLElement>) {
     if (!dragStart.current || dragStart.current.pointerId !== event.pointerId) return
-    setDragOffset({ x: dragStart.current.offsetX + event.clientX - dragStart.current.x, y: dragStart.current.offsetY + event.clientY - dragStart.current.y })
+    onDragOffsetChange({ x: dragStart.current.offsetX + event.clientX - dragStart.current.x, y: dragStart.current.offsetY + event.clientY - dragStart.current.y })
   }
   function handleDragEnd(event: ReactPointerEvent<HTMLElement>) {
     if (dragStart.current?.pointerId === event.pointerId) dragStart.current = null
