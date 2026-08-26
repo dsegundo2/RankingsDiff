@@ -235,7 +235,15 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   }, [applyDraftState, autoLineupApply, drafted, draftMode, draftPicks, draftPrices, draftSize, draftSlot, draftSlots, mine, rows, targetGoals, targets])
 
   const toggleMine = useCallback((id: string) => {
-    if (!drafted.has(id)) return
+    if (!drafted.has(id)) {
+      const nextDrafted = new Set(drafted).add(id)
+      const nextMine = new Set(mine).add(id)
+      const nextSlots = { ...draftSlots }
+      const row = rows.find((candidate) => rankingId(candidate) === id)
+      if (row && autoLineupApply) nextSlots[id] = autoRosterSlot(row, nextDrafted, nextSlots, targetGoals)
+      applyDraftState(new Set(targets), nextDrafted, { ...draftPrices }, nextSlots, nextMine, { ...draftPicks, [id]: Math.max(0, ...Object.values(draftPicks)) + 1 })
+      return
+    }
     const nextMine = new Set(mine)
     const nextPrices = { ...draftPrices }
     const nextSlots = { ...draftSlots }
@@ -861,7 +869,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         onDraftSize={updateDraftSize}
         onClose={() => setSettingsOpen(false)}
       />
-      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} onClose={() => setSelectedId('')} onDraft={() => draftPlayer(selectedId)} onAdd={() => { if (!drafted.has(selectedId)) draftPlayer(selectedId); else toggleMine(selectedId) }} /> : null}
+      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} onClose={() => setSelectedId('')} onDraft={() => draftPlayer(selectedId)} onAdd={() => toggleMine(selectedId)} /> : null}
     </main>
     <div hidden={route !== 'analytics'}>
       <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onNavigate={onNavigate} />
