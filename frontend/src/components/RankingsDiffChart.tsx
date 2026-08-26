@@ -42,7 +42,7 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onNavigate }: 
   const windows = windowOptions(maxRank)
   const [position, setPosition] = useState<PositionFilter>('ALL')
   const [status, setStatus] = useState<'everyone' | 'available' | 'drafted'>('everyone')
-  const [range, setRange] = useState(20)
+  const [range, setRange] = useState(100)
   const [windowId, setWindowId] = useState('first-100')
   const [customStart, setCustomStart] = useState(0)
   const [customEnd, setCustomEnd] = useState(100)

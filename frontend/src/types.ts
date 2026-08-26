@@ -47,6 +47,8 @@ export type HistoricalSlotSummary = {
   average_paid: number | null
   average_expected: number | null
   average_over_under: number | null
+  highest_paid: number | null
+  lowest_paid: number | null
 }
 
 export type HistoricalTierSummary = HistoricalSlotSummary & {

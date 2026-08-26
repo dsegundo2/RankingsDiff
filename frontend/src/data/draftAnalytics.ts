@@ -2,6 +2,7 @@ import type { DraftRankingRow, HistoricalDraftRow, HistoricalSlotSummary, Histor
 
 export const HISTORICAL_SEASONS = [2022, 2023, 2024, 2025] as const
 export const POSITIONS = ['QB', 'RB', 'WR', 'TE'] as const
+export type HistoricalYear = { season: number; paid: number; expected: number; over_under: number }
 
 export function tierSize(draftSize = 10): number {
   return draftSize >= 12 ? 5 : 6
@@ -48,8 +49,17 @@ export function slotSummaries(rowsBySeason: Record<number, DraftRankingRow[]>, p
     rank, position, sample_size: values.length,
     average_paid: weightedAverage(values.map((value) => ({ value: value.paid, weight: value.weight }))),
     average_expected: weightedAverage(values.map((value) => ({ value: value.expected, weight: value.weight }))),
-    average_over_under: weightedAverage(values.map((value) => ({ value: value.delta, weight: value.weight })))
+    average_over_under: weightedAverage(values.map((value) => ({ value: value.delta, weight: value.weight }))),
+    highest_paid: Math.max(...values.map((value) => value.paid)),
+    lowest_paid: Math.min(...values.map((value) => value.paid))
   }))
+}
+
+export function slotHistory(rowsBySeason: Record<number, DraftRankingRow[]>, position: string, rank: number, draftSize = 10): HistoricalYear[] {
+  return HISTORICAL_SEASONS.flatMap((season) => {
+    const match = enrichDraftRows(rowsBySeason[season] ?? [], draftSize).find((row) => row.position.toUpperCase() === position && row.position_rank === rank)
+    return match ? [{ season, paid: match.offer_amount, expected: match.espn_suggested_value, over_under: match.value_diff }] : []
+  })
 }
 
 export function tierSummaries(rowsBySeason: Record<number, DraftRankingRow[]>, position: string, draftSize = 10): HistoricalTierSummary[] {
@@ -60,9 +70,10 @@ export function tierSummaries(rowsBySeason: Record<number, DraftRankingRow[]>, p
   return [...byTier.entries()].map(([tier, values]) => ({
     rank: tier, position, start_rank: (tier - 1) * size + 1, end_rank: tier * size,
     sample_size: values.reduce((sum, value) => sum + value.sample_size, 0),
+    highest_paid: Math.max(...values.flatMap((value) => value.highest_paid === null ? [] : [value.highest_paid])),
+    lowest_paid: Math.min(...values.flatMap((value) => value.lowest_paid === null ? [] : [value.lowest_paid])),
     average_paid: weightedAverage(values.flatMap((value) => value.average_paid === null ? [] : [{ value: value.average_paid, weight: value.sample_size }])),
     average_expected: weightedAverage(values.flatMap((value) => value.average_expected === null ? [] : [{ value: value.average_expected, weight: value.sample_size }])),
     average_over_under: weightedAverage(values.flatMap((value) => value.average_over_under === null ? [] : [{ value: value.average_over_under, weight: value.sample_size }]))
   }))
 }
-
