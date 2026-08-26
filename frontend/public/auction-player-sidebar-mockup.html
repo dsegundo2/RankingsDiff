@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auction player sidebar mockup</title>
+  <style>
+    :root { color-scheme: light; --ink:#10294d; --muted:#6d809d; --line:#d8e4f3; --wash:#f2f7fd; --blue:#2365b5; --green:#168260; --red:#bd2e4d; }
+    * { box-sizing:border-box; } body { margin:0; min-height:100vh; background:linear-gradient(135deg,#edf5ff,#f8fbff); font:600 15px/1.35 Inter,ui-sans-serif,system-ui,sans-serif; color:var(--ink); }
+    .shell { max-width:1280px; margin:0 auto; padding:34px; } .eyebrow { color:var(--blue); letter-spacing:.16em; text-transform:uppercase; font-size:12px; } h1 { margin:5px 0 24px; font-size:28px; letter-spacing:-.04em; }
+    .board { position:relative; min-height:690px; background:#fff; border:1px solid var(--line); border-radius:22px; overflow:hidden; box-shadow:0 18px 50px #2c5c9614; padding-right:430px; }
+    .board-head,.row { display:grid; grid-template-columns:60px 1.6fr 70px 100px 90px; gap:20px; align-items:center; padding:18px 26px; } .board-head { background:var(--wash); color:var(--muted); font-size:11px; letter-spacing:.11em; text-transform:uppercase; } .row { min-height:76px; border-top:1px solid var(--line); }
+    .player { display:flex; align-items:center; gap:12px; } .logo { width:38px;height:38px;border-radius:11px;border:1px solid #b9cbe3;display:grid;place-items:center;background:#f1f6fc;font-weight:800; } .player small { display:block;color:var(--muted);font-weight:500; } .tag { border:1px solid #a7c4e9;border-radius:999px;padding:5px 9px;color:var(--blue);font-size:12px; } .money { font-size:17px; } .sidebar { position:absolute; inset:0 0 0 auto; width:410px; background:#fff; border-left:1px solid var(--line); box-shadow:-18px 0 42px #2c5c9614; padding:28px; }
+    .side-top { display:flex;justify-content:space-between;align-items:flex-start; } .identity { display:flex;gap:13px;align-items:center; } .identity .logo { width:48px;height:48px;font-size:18px; } button { font:inherit; color:inherit; border:0; background:none; cursor:pointer; } .close { color:var(--muted);font-size:24px;line-height:1; } h2 { margin:3px 0 0;font-size:25px;letter-spacing:-.04em; } .sub { color:var(--blue);font-size:12px;letter-spacing:.14em;text-transform:uppercase; }
+    .pills { display:flex;gap:8px;margin:20px 0; } .pill { border:1px solid #c9d9ed;border-radius:999px;padding:6px 10px;color:var(--muted); } .pill.tier { color:var(--blue);background:#edf5ff;border-color:#a8c7ed; } .stats { display:grid;grid-template-columns:repeat(3,1fr);gap:9px; } .stat { background:var(--wash);border-radius:12px;padding:13px 12px; } .stat b { display:block;font-size:21px; } .stat span { color:var(--muted);font-size:12px;font-weight:500; } .history { margin-top:22px;border-top:1px solid var(--line);padding-top:18px; } .history h3 { margin:0 0 12px;font-size:18px; } table { width:100%;border-collapse:collapse;font-size:13px; } th { color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;text-align:left; } td,th { padding:9px 4px;border-bottom:1px solid var(--line); } th:not(:first-child),td:not(:first-child){text-align:right;} .over { color:var(--red); } .under { color:var(--green); } .actions { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px; } .action { border:1px solid #b8d0ed;border-radius:12px;padding:12px;text-align:center; } .action.primary { background:var(--blue);color:#fff;border-color:var(--blue); } .hint { color:var(--muted);font-size:12px;margin-top:14px;font-weight:500; }
+    @media (max-width:900px) { .shell{padding:18px}.board{padding-right:0}.board-head,.row{grid-template-columns:40px 1fr 55px 75px;gap:10px;padding:15px}.board-head span:nth-child(4),.row span:nth-child(4){display:none}.sidebar{position:relative;width:100%;border-left:0;border-top:1px solid var(--line);}.board{display:flex;flex-direction:column}.sidebar{order:2} }
+  </style>
+</head>
+<body>
+  <main class="shell"><div class="eyebrow">Auction draft · sidebar direction</div><h1>Keep the roster and draft board in view</h1>
+    <section class="board" aria-label="Draft board with player sidebar">
+      <div class="board-head"><span>Rank</span><span>Player</span><span>Pos</span><span>Adj</span><span>Base</span></div>
+      <div class="row"><span>1</span><span class="player"><span class="logo">MC</span><span>Christian McCaffrey<small>SF · Shep</small></span></span><span class="tag">RB</span><span class="money">$53</span><span class="money">$48</span></div>
+      <div class="row"><span>2</span><span class="player"><span class="logo">SB</span><span>Bijan Robinson<small>ATL · Logan</small></span></span><span class="tag">RB</span><span class="money">$56</span><span class="money">$61</span></div>
+      <div class="row"><span>3</span><span class="player"><span class="logo">JC</span><span>Ja'Marr Chase<small>CIN · Shep</small></span></span><span class="tag">WR</span><span class="money">$57</span><span class="money">$63</span></div>
+      <aside class="sidebar">
+        <div class="side-top"><div class="identity"><span class="logo">SB</span><div><div class="sub">RB4 · historical signal</div><h2>Bijan Robinson</h2></div></div><button class="close" aria-label="Close">×</button></div>
+        <div class="pills"><span class="pill">OVR 19</span><span class="pill">ADJ 12</span><span class="pill tier">Tier 1</span></div>
+        <div class="stats"><div class="stat"><b>$61</b><span>Base price</span></div><div class="stat"><b>$56</b><span>Adjusted price</span></div><div class="stat"><b class="over">+$5</b><span>Historical O/U</span></div></div>
+        <div class="history"><h3>Past years</h3><table><thead><tr><th>Year</th><th>Suggested</th><th>Paid</th><th>Diff</th></tr></thead><tbody><tr><td>2025</td><td>$56</td><td>$61</td><td class="over">+$5</td></tr><tr><td>2024</td><td>$54</td><td>$57</td><td class="over">+$3</td></tr><tr><td>2023</td><td>$52</td><td>$50</td><td class="under">-$2</td></tr></tbody></table></div>
+        <div class="actions"><button class="action primary">Draft</button><button class="action">Add to team</button></div><div class="hint">Actions stay available while your roster remains visible.</div>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
