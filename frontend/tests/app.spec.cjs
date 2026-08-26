@@ -365,6 +365,27 @@ test('ESPN defaults to snake and exposes an auction format switch', async ({ pag
   await expect(page.locator('.view-summary')).toContainText('Snake')
 })
 
+test('auction player inspector shows history and supports close and draft actions', async ({ page }) => {
+  await page.goto('./')
+  await page.evaluate(() => localStorage.clear())
+  await page.reload()
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await openCurrentSheet(page)
+  await page.getByRole('group', { name: 'Draft format' }).getByRole('button', { name: 'Auction', exact: true }).click()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  const row = page.locator('tbody tr[data-ranking-id]').first()
+  await row.click()
+  const inspector = page.getByRole('dialog', { name: /Jahmyr Gibbs|Christian McCaffrey|Bijan Robinson|Ja'Marr Chase/ })
+  await expect(inspector).toBeVisible()
+  await expect(inspector).toContainText('Base price')
+  await expect(inspector).toContainText('Adjusted price')
+  await expect(inspector).toContainText('Past years')
+  await inspector.getByRole('button', { name: 'Draft' }).click()
+  await expect(row.locator('.draft-action')).toContainText('Undo')
+  await inspector.getByRole('button', { name: 'Close player details' }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+})
+
 test('FantasyPros position view emphasizes source rank', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()

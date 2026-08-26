@@ -203,7 +203,7 @@ function AppData() {
   if (route === 'draft') return <DraftRankingsPage season={draftSeason} rows={draftRowsBySeason[draftSeason] ?? []} rowsBySeason={draftRowsBySeason} teams={teams} onNavigate={navigate} onSeason={navigateDraftSeason} />
 
   const displayedRows = applyAdjustedProfile(rows, selectedProfile?.id ?? 'full-ppr', selectedSource)
-  return <RankingsDashboard manifest={manifest} rows={displayedRows} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} route={route} onNavigate={navigate} />
+  return <RankingsDashboard manifest={manifest} rows={displayedRows} draftRowsBySeason={draftRowsBySeason} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} route={route} onNavigate={navigate} />
 }
 
 export default function App() {

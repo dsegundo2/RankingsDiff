@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { AdjustedProfile, DataManifest, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset, YahooProjectionMap } from '../types'
+import type { AdjustedProfile, DataManifest, DraftRankingRow, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset, YahooProjectionMap } from '../types'
 import { calculateRegression, filterRankings, formatRank, formatSignedValue, formatValue, rankingDifference, regressionDifference, sortRankings, sourceLabel, yahooProjectionId } from '../data/rankings'
 import { DEFAULT_DRAFT_SIZE, DEFAULT_DRAFT_SLOT, MAX_DRAFT_SIZE, MIN_DRAFT_SIZE, rankingId, readAuctionDraftState, readDraftShare, readDraftState, writeAuctionDraftState, writeDraftState } from '../data/draftState'
 import { DEFAULT_ROSTER_TARGETS, rosterTargetSlots, type RosterTargetGoals } from '../data/rosterTargets'
@@ -13,6 +13,7 @@ import { AuctionRosterPanel } from './AuctionRosterPanel'
 import { withBasePath } from '../data/paths'
 import { RankingsDiffChart } from './RankingsDiffChart'
 import { ViewTabs } from './ViewTabs'
+import { AuctionPlayerInspector } from './AuctionPlayerInspector'
 
 type ViewMode = 'board' | 'positions'
 type DraftMode = 'snake' | 'auction'
@@ -48,6 +49,7 @@ function snakePickForSlot(round: number, slot: number, draftSize: number): numbe
 type Props = {
   manifest: DataManifest
   rows: RankingRow[]
+  draftRowsBySeason: Record<number, DraftRankingRow[]>
   teams: Record<string, TeamAsset>
   sourceChecks?: SourceCheckPayload
   selectedSeason: number
@@ -62,7 +64,7 @@ type Props = {
   onNavigate: (path: 'board' | 'analytics' | 'draft') => void
 }
 
-export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sourceChecks, selectedSeason, selectedSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, onSeason, onSource, route, onNavigate }: Props) {
+export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, yahooProjections, sourceChecks, selectedSeason, selectedSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, onSeason, onSource, route, onNavigate }: Props) {
   const [search, setSearch] = useState('')
   const [position, setPosition] = useState<PositionFilter>('ALL')
   const [sortKey, setSortKey] = useState<SortKey>('sourceRank')
@@ -176,6 +178,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
       .flatMap((pos) => positionRows.filter((row) => row.position.toUpperCase() === pos && (searchActive || showDrafted || !drafted.has(rankingId(row)))))
   }, [positionRows, positionViews, search, showDrafted, drafted])
   const navigationRows = view === 'board' ? visibleRows : visiblePositionRows
+  const selectedRow = rows.find((row) => rankingId(row) === selectedId)
   function yahooProjectionFor(row: RankingRow) {
     return yahooProjections[yahooProjectionId(row.player, row.team)]
   }
@@ -858,6 +861,7 @@ export function RankingsDashboard({ manifest, rows, teams, yahooProjections, sou
         onDraftSize={updateDraftSize}
         onClose={() => setSettingsOpen(false)}
       />
+      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} onClose={() => setSelectedId('')} onDraft={() => draftPlayer(selectedId)} onAdd={() => { if (!drafted.has(selectedId)) draftPlayer(selectedId); else toggleMine(selectedId) }} /> : null}
     </main>
     <div hidden={route !== 'analytics'}>
       <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onNavigate={onNavigate} />

@@ -2156,6 +2156,30 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .draft-rankings-table th:nth-child(1), .draft-rankings-table th:nth-child(5), .draft-rankings-table th:nth-child(6), .draft-rankings-table th:nth-child(7), .draft-rankings-table th:nth-child(8), .draft-rankings-table td:nth-child(1), .draft-rankings-table td:nth-child(5), .draft-rankings-table td:nth-child(6), .draft-rankings-table td:nth-child(7), .draft-rankings-table td:nth-child(8) { text-align: right; }
 .draft-player-cell { display: flex; align-items: center; gap: 9px; }
 .draft-player-cell > span { min-width: 0; }
+.inspector-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: var(--space-6); background: rgb(16 24 40 / .28); backdrop-filter: blur(3px); }
+.auction-inspector { width: min(440px, 100%); overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--line)); border-radius: var(--radius-xl); background: var(--panel); box-shadow: var(--shadow-xl); }
+.auction-inspector__header { display: flex; justify-content: space-between; gap: var(--space-4); align-items: flex-start; padding: 20px 20px 12px; }
+.auction-inspector__player { display: flex; gap: 10px; align-items: center; min-width: 0; }
+.auction-inspector__player h2 { margin: 3px 0 0; font-size: 1.35rem; letter-spacing: -.04em; }
+.auction-inspector__pills { display: flex; gap: 6px; padding: 0 20px 16px; }
+.auction-inspector__pills span { padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius-pill); color: var(--muted); font-size: .7rem; font-weight: 850; }
+.auction-inspector__pills span:last-child { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 25%, var(--line)); background: var(--accent-soft); }
+.auction-inspector__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 0 20px 16px; }
+.auction-inspector__stats article { padding: 11px; border-radius: var(--radius-sm); background: var(--panel-soft); }
+.auction-inspector__stats strong, .auction-inspector__stats small { display: block; }
+.auction-inspector__stats strong { font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.auction-inspector__stats small { margin-top: 2px; color: var(--muted); font-size: .68rem; }
+.auction-inspector__stats .is-over strong { color: var(--danger); }
+.auction-inspector__stats .is-under strong { color: var(--good); }
+.auction-inspector__history { margin: 0 20px 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.auction-inspector__history summary { display: flex; justify-content: space-between; padding: 12px 0; color: var(--ink); cursor: pointer; list-style: none; }
+.auction-inspector__history summary::-webkit-details-marker { display: none; }
+.auction-inspector__history summary span { color: var(--muted); font-size: .7rem; font-weight: 800; }
+.auction-inspector__history div { padding: 0 0 10px; color: var(--muted); font-size: .78rem; }
+.auction-inspector__history p { margin: 4px 0; }
+.auction-inspector__history p strong { color: var(--ink); }
+.auction-inspector__actions { display: flex; gap: 8px; padding: 14px 20px 18px; background: var(--panel-soft); }
+.auction-inspector__actions button { flex: 1; }
 .draft-rankings-table td:nth-child(2) { min-width: 240px; }
 .draft-rankings-table td:nth-child(2) strong, .draft-rankings-table td:nth-child(2) small { display: block; }
 .draft-rankings-table .is-undrafted { opacity: .58; }
