@@ -94,11 +94,20 @@ test('2025 historic auction results show ESPN value deltas and position dividers
   await expect(page.locator('.draft-rankings-table tbody tr').filter({ hasText: 'Ja\'Marr Chase' }).first()).toContainText('+$6')
   await expect(page.locator('.draft-rankings-table th').nth(6)).toContainText('Over / under')
   await expect(page.locator('.draft-rankings-table tbody tr.draft-rankings-divider')).toHaveCount(16)
+  await page.getByRole('button', { name: /^Rank/ }).click()
+  const sortedRanks = await page.locator('.draft-rankings-table tbody tr:not(.draft-rankings-divider) td:first-child').evaluateAll((cells) => cells.slice(0, 3).map((cell) => Number(cell.textContent?.trim())))
+  expect(sortedRanks).toEqual([1, 2, 3])
   await expect(page.getByRole('link', { name: /View original ESPN rankings PDF/ })).toHaveAttribute('href', /NFL25_CS_PPR300/)
   await page.getByRole('button', { name: 'RB', exact: true }).click()
   await expect(page.locator('.draft-rankings-table tbody tr').filter({ hasText: 'RB' }).first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Show undrafted' })).toHaveCount(0)
   await expect(page.locator('.draft-status-button')).toHaveCount(0)
+})
+
+test('historic kicker results use the kicker position color', async ({ page }) => {
+  await page.goto('./draft-rankings/2025')
+  await page.getByRole('button', { name: 'K', exact: true }).click()
+  await expect(page.locator('.draft-rankings-table .pos-chip.pos-k').first()).toBeVisible()
 })
 
 test('2024 auction rankings loads from its own direct route', async ({ page }) => {

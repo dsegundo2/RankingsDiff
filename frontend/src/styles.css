@@ -286,7 +286,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 750; }
 .emphasis { color: var(--ink); font-weight: 800; }
 .pos-chip { display: inline-flex; min-width: 43px; justify-content: center; padding: 5px 8px; border: 1px solid color-mix(in srgb, var(--pos-color) 42%, var(--line)); border-radius: 999px; color: var(--ink); background: color-mix(in srgb, var(--pos-color) 16%, white); font-size: .76rem; font-weight: 800; }
-.pos-qb { --pos-color: var(--qb); } .pos-rb { --pos-color: var(--rb); } .pos-wr { --pos-color: var(--wr); } .pos-te { --pos-color: var(--te); } .pos-other { --pos-color: var(--muted); }
+.pos-qb { --pos-color: var(--qb); } .pos-rb { --pos-color: var(--rb); } .pos-wr { --pos-color: var(--wr); } .pos-te { --pos-color: var(--te); } .pos-k { --pos-color: var(--warning); } .pos-other { --pos-color: var(--muted); }
 .icon-action { display: inline-grid; width: 34px; height: 34px; place-items: center; padding: 0; border: 1px solid transparent; border-radius: 10px; color: #8b96a8; background: transparent; font-size: 1.05rem; line-height: 1; }
 .icon-action:hover { border-color: var(--target-hover-border); color: var(--target); background: var(--target-hover); }
 .target-action.active { border-color: var(--target-border); color: var(--target); background: var(--target-soft); }
