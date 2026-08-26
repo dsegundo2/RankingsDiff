@@ -162,6 +162,9 @@ test('historic results patterns do not overflow narrow screens', async ({ page }
     await page.setViewportSize({ width, height: 900 })
     await page.goto('./draft-rankings/2025')
     await expect(page.getByRole('heading', { name: 'Manager spending' })).toBeVisible()
+    await expect(page.locator('.historic-patterns__table-wrap')).toHaveCount(3)
+    await expect(page.locator('.historic-patterns__table-wrap').first()).toBeVisible()
+    expect(await page.locator('.historic-patterns__table-wrap').evaluateAll((wrappers) => wrappers.every((wrapper) => wrapper.scrollWidth > wrapper.clientWidth))).toBe(true)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   }
 })
