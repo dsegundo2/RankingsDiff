@@ -380,6 +380,7 @@ test('auction player inspector shows history and supports close and draft action
   await expect(inspector).toBeVisible()
   await expect(inspector).toContainText('Base price')
   await expect(inspector).toContainText('Adjusted price')
+  await expect(inspector).toContainText('RB drafted')
   await expect(inspector).toContainText('Past years')
   await expect(inspector).not.toContainText('across 0 seasons')
   await expect(inspector.locator('thead')).toContainText('Suggested')

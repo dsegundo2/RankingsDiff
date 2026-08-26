@@ -293,6 +293,13 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     }
   }, [drafted, search, toggleDrafted])
 
+  const navigateInspector = useCallback((direction: -1 | 1) => {
+    const ids = navigationRows.map(rankingId)
+    const currentIndex = ids.indexOf(selectedId)
+    if (!ids.length || currentIndex === -1) return
+    setSelectedId(ids[(currentIndex + direction + ids.length) % ids.length])
+  }, [navigationRows, selectedId])
+
   const moveDraftHistory = useCallback((direction: -1 | 1) => {
     const nextIndex = historyIndexRef.current + direction
     if (nextIndex < 0 || nextIndex >= historyRef.current.length) return
@@ -441,6 +448,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
           return
         }
       }
+      if (document.querySelector('.auction-inspector') && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'].includes(event.key)) return
       if (isPlayerSearch && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
         if (!navigationRows.length) return
         event.preventDefault()
@@ -869,7 +877,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         onDraftSize={updateDraftSize}
         onClose={() => setSettingsOpen(false)}
       />
-      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} favorited={targets.has(selectedId)} onFavorite={() => toggleTarget(selectedId)} onClose={() => setSelectedId('')} onDraft={() => draftPlayer(selectedId)} onAdd={() => toggleMine(selectedId)} /> : null}
+      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} draftedCount={rows.filter((candidate) => candidate.position.toUpperCase() === selectedRow.position.toUpperCase() && drafted.has(rankingId(candidate))).length} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} favorited={targets.has(selectedId)} onFavorite={() => toggleTarget(selectedId)} onClose={() => setSelectedId('')} onDraft={() => draftPlayer(selectedId)} onAdd={() => toggleMine(selectedId)} onNavigate={navigateInspector} /> : null}
     </main>
     <div hidden={route !== 'analytics'}>
       <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onNavigate={onNavigate} />
