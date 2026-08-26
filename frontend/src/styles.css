@@ -2259,3 +2259,22 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 @media (max-width: 620px) { .league-stats-mockup { padding: 20px 12px 36px; } .league-stats-mockup__toolbar { align-items: stretch; flex-wrap: wrap; } .league-stats-mockup__toolbar span { width: 100%; margin-left: 0; padding: 4px 10px; } .league-stats-panel__heading { flex-direction: column; gap: 8px; padding-inline: 14px; } .league-stats-panel__heading p { text-align: left; } .league-stats-table__row { padding-inline: 14px; } .league-stats-highs > div { padding-inline: 14px; } .league-stats-mockup__footer { align-items: start; flex-direction: column; } }
 
 .historic-tier-start td { border-top: 2px solid color-mix(in srgb, var(--accent) 35%, var(--line)); }
+
+/* Condensed historic league patterns */
+.historic-records, .historic-patterns { display: grid; gap: 10px; margin-bottom: 14px; }
+.historic-section-heading { display: flex; justify-content: space-between; gap: 16px; align-items: end; }
+.historic-section-heading h2 { margin: 3px 0 0; font-size: 1.1rem; letter-spacing: -.03em; }
+.historic-section-heading > span { color: var(--muted); font-size: .72rem; text-align: right; }
+.historic-records__grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.historic-records__grid article { display: grid; gap: 5px; min-width: 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow-sm); }
+.historic-records__grid article > span, .historic-records__grid article small { color: var(--muted); font-size: .68rem; }
+.historic-records__grid article strong { font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+.historic-records__grid article small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.historic-patterns__table-wrap { overflow-x: auto; }
+.historic-patterns__table { min-width: 980px; }
+.historic-patterns__table th, .historic-patterns__table td { padding: 10px 12px; }
+.historic-patterns__table th:not(:first-child), .historic-patterns__table td:not(:first-child) { text-align: right; }
+.historic-patterns__table td:last-child, .historic-patterns__table th:last-child { text-align: left; }
+.historic-position-table { min-width: 680px; }
+@media (max-width: 900px) { .historic-records__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .historic-section-heading { align-items: start; flex-direction: column; gap: 4px; } .historic-section-heading > span { text-align: left; } .historic-records__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .historic-records__grid article { padding: 11px; } }

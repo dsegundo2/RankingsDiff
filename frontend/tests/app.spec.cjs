@@ -145,24 +145,16 @@ test('historic player results can switch seasons', async ({ page }) => {
   await expect(page.getByRole('combobox', { name: 'Draft season' })).toHaveValue('2022')
 })
 
-test('historic results offers positional league averages across all seasons', async ({ page }) => {
+test('historic results condenses season records with overall manager and position patterns', async ({ page }) => {
   await page.goto('./draft-rankings/2025')
-  await page.getByRole('combobox', { name: 'Historic results view' }).selectOption('averages')
-  await expect(page.getByRole('heading', { name: 'League average prices' })).toBeVisible()
-  await expect(page.getByRole('combobox', { name: 'Average position' })).toHaveValue('RB')
-  await expect(page.locator('.historic-averages__table tbody tr').first()).toContainText('RB1')
-  await expect(page.locator('.historic-averages__table thead')).toContainText('Highest paid')
-  await expect(page.locator('.historic-averages__table thead')).not.toContainText('Sample')
-  await page.getByRole('combobox', { name: 'Average position' }).selectOption('TE')
-  await expect(page.locator('.historic-averages__table tbody tr').first()).toContainText('TE1')
-  await expect(page.locator('.historic-averages__table tbody tr')).toHaveCount(15)
-  await page.getByRole('combobox', { name: 'Average position' }).selectOption('OVERALL')
-  await expect(page.locator('.historic-averages__table tbody tr').first()).toContainText('Overall 1')
-  await expect(page.locator('.historic-averages__table tbody tr')).toHaveCount(100)
-  await page.getByRole('button', { name: /Avg paid/ }).click()
-  await expect(page.locator('.historic-averages__table tbody tr')).toHaveCount(100)
-  await page.getByRole('button', { name: /Over \/ under/ }).click()
-  await expect(page.locator('.historic-averages__table tbody tr')).toHaveCount(100)
+  await expect(page.getByRole('heading', { name: 'Biggest purchases' }).first()).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Manager spending' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Position market' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Highest paid player by position' })).toBeVisible()
+  await expect(page.locator('.historic-patterns__table').first()).toContainText('2022 avg')
+  await expect(page.locator('.historic-position-table').first()).toContainText('Avg paid / player')
+  await expect(page.locator('.historic-patterns__table').filter({ hasText: 'Dane' }).first()).toContainText('Christian McCaffrey')
+  await expect(page.locator('.draft-rankings-table')).toBeVisible()
 })
 
 test('trend is off by default and can be shown and sorted', async ({ page }) => {
