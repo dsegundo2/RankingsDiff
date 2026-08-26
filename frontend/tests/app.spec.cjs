@@ -147,6 +147,13 @@ test('historic results offers positional league averages across all seasons', as
   await page.getByRole('combobox', { name: 'Average position' }).selectOption('TE')
   await expect(page.locator('.historic-averages__table tbody tr').first()).toContainText('TE1')
   await expect(page.locator('.historic-averages__table tbody tr')).toHaveCount(15)
+  await page.getByRole('combobox', { name: 'Average position' }).selectOption('OVERALL')
+  await expect(page.locator('.historic-averages__table tbody tr').first()).toContainText('Overall 1')
+  await expect(page.locator('.historic-averages__table tbody tr')).toHaveCount(100)
+  await page.getByRole('button', { name: /Avg paid/ }).click()
+  await expect(page.locator('.historic-averages__table tbody tr')).toHaveCount(100)
+  await page.getByRole('button', { name: /Over \/ under/ }).click()
+  await expect(page.locator('.historic-averages__table tbody tr')).toHaveCount(100)
 })
 
 test('trend is off by default and can be shown and sorted', async ({ page }) => {

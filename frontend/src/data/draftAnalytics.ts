@@ -55,6 +55,23 @@ export function slotSummaries(rowsBySeason: Record<number, DraftRankingRow[]>, p
   }))
 }
 
+export function overallSummaries(rowsBySeason: Record<number, DraftRankingRow[]>, draftSize = 10): HistoricalSlotSummary[] {
+  const byRank = new Map<number, Array<{ paid: number; expected: number; delta: number; weight: number }>>()
+  HISTORICAL_SEASONS.forEach((season) => enrichDraftRows(rowsBySeason[season] ?? [], draftSize).forEach((row) => {
+    const values = byRank.get(row.overall_rank) ?? []
+    values.push({ paid: row.offer_amount, expected: row.espn_suggested_value, delta: row.value_diff, weight: recentWeight(season) })
+    byRank.set(row.overall_rank, values)
+  }))
+  return [...byRank.entries()].sort(([left], [right]) => left - right).map(([rank, values]) => ({
+    rank, position: 'OVERALL', sample_size: values.length,
+    average_paid: weightedAverage(values.map((value) => ({ value: value.paid, weight: value.weight }))),
+    average_expected: weightedAverage(values.map((value) => ({ value: value.expected, weight: value.weight }))),
+    average_over_under: weightedAverage(values.map((value) => ({ value: value.delta, weight: value.weight }))),
+    highest_paid: Math.max(...values.map((value) => value.paid)),
+    lowest_paid: Math.min(...values.map((value) => value.paid))
+  }))
+}
+
 export function slotHistory(rowsBySeason: Record<number, DraftRankingRow[]>, position: string, rank: number, draftSize = 10): HistoricalYear[] {
   return rankHistory(rowsBySeason, (row) => row.position.toUpperCase() === position && row.position_rank === rank, draftSize)
 }
