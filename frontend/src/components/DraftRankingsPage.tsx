@@ -49,7 +49,10 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, teams, onNavigat
       return matchesPosition && matchesSearch
     })
     return visible.sort((left, right) => {
-      const a = left[sortKey]; const b = right[sortKey]
+      // The table displays the paid-order rank calculated by enrichDraftRows.
+      // `rank` is the source row order and is not necessarily the same value.
+      const a = sortKey === 'rank' ? left.overall_rank : left[sortKey]
+      const b = sortKey === 'rank' ? right.overall_rank : right[sortKey]
       const comparison = typeof a === 'number' && typeof b === 'number' ? a - b : String(a).localeCompare(String(b))
       return sortDirection === 'asc' ? comparison : -comparison
     })
