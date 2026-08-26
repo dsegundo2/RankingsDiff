@@ -380,6 +380,7 @@ test('auction player inspector shows history and supports close and draft action
   await expect(inspector).toContainText('Base price')
   await expect(inspector).toContainText('Adjusted price')
   await expect(inspector).toContainText('Past years')
+  await expect(inspector).not.toContainText('across 0 seasons')
   await inspector.getByRole('button', { name: 'Add to team' }).click()
   await expect(row.locator('.draft-action')).toContainText('Undo')
   await expect(row.locator('.mine-action.active')).toBeVisible()

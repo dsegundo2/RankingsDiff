@@ -4,12 +4,14 @@ import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { formatSignedValue, formatValue, formatRank } from '../data/rankings'
 import { TeamBadge } from './TeamBadge'
 
-type Props = { row: RankingRow; rowsBySeason: Record<number, DraftRankingRow[]>; season: number; teams: Record<string, TeamAsset>; onClose: () => void; onDraft: () => void; onAdd: () => void }
+type Props = { row: RankingRow; allRows: RankingRow[]; rowsBySeason: Record<number, DraftRankingRow[]>; season: number; teams: Record<string, TeamAsset>; onClose: () => void; onDraft: () => void; onAdd: () => void }
 
-export function AuctionPlayerInspector({ row, rowsBySeason, season, teams, onClose, onDraft, onAdd }: Props) {
+export function AuctionPlayerInspector({ row, allRows, rowsBySeason, season, teams, onClose, onDraft, onAdd }: Props) {
   const current = enrichDraftRows(rowsBySeason[season] ?? []).find((candidate) => candidate.player.toLowerCase() === row.player.toLowerCase() && normalizeTeamAbbreviation(candidate.nfl_team) === normalizeTeamAbbreviation(row.team))
   const position = row.position.toUpperCase()
-  const rank = current?.position_rank ?? Number(row.positionRank?.replace(/\D/g, ''))
+  const parsedPositionRank = Number(row.positionRank?.replace(/\D/g, ''))
+  const currentPositionRank = [...allRows].filter((candidate) => candidate.position.toUpperCase() === position).sort((left, right) => (left.sourceRank ?? Number.MAX_SAFE_INTEGER) - (right.sourceRank ?? Number.MAX_SAFE_INTEGER)).findIndex((candidate) => candidate.player === row.player && candidate.team === row.team) + 1
+  const rank = current?.position_rank || (parsedPositionRank || currentPositionRank || 0)
   const slots = slotSummaries(rowsBySeason, position)
   const slot = slots.find((item) => item.rank === rank)
   const tiers = tierSummaries(rowsBySeason, position)

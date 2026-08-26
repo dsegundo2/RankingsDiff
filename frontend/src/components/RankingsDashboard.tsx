@@ -869,7 +869,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         onDraftSize={updateDraftSize}
         onClose={() => setSettingsOpen(false)}
       />
-      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} onClose={() => setSelectedId('')} onDraft={() => draftPlayer(selectedId)} onAdd={() => toggleMine(selectedId)} /> : null}
+      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} onClose={() => setSelectedId('')} onDraft={() => draftPlayer(selectedId)} onAdd={() => toggleMine(selectedId)} /> : null}
     </main>
     <div hidden={route !== 'analytics'}>
       <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onNavigate={onNavigate} />
