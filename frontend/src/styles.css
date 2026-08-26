@@ -225,6 +225,23 @@ h1 { margin: 4px 0 5px; font-size: clamp(2.7rem, 4.5vw, 4.5rem); line-height: .9
 .shortcut-help { position: relative; display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); background: var(--panel); font-weight: 800; cursor: help; }
 .shortcut-help [role="tooltip"] { position: absolute; right: 0; bottom: calc(100% + 9px); z-index: 5; width: max-content; max-width: 80vw; padding: 9px 11px; border-radius: 9px; color: #fff; background: var(--ink); opacity: 0; pointer-events: none; transform: translateY(4px); transition: .15s ease; }
 .shortcut-help:hover [role="tooltip"], .shortcut-help:focus [role="tooltip"] { opacity: 1; transform: translateY(0); }
+.shortcut-backdrop { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: var(--space-4); background: rgb(21 32 51 / 32%); backdrop-filter: blur(4px); }
+.shortcut-dialog { width: min(560px, 100%); max-height: min(720px, calc(100dvh - 32px)); overflow: auto; padding: var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--panel); box-shadow: var(--shadow-xl); animation: shortcut-dialog-in .2s ease-out both; }
+.shortcut-dialog__header { display: flex; justify-content: space-between; gap: var(--space-4); align-items: flex-start; margin-bottom: var(--space-4); }
+.shortcut-dialog__header h2 { margin: 4px 0 0; font-size: 1.45rem; letter-spacing: -.04em; }
+.shortcut-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px var(--space-6); border-block: 1px solid var(--line); }
+.shortcut-list > div { display: flex; gap: var(--space-3); align-items: center; min-width: 0; padding: var(--space-3) 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
+.shortcut-list > div:nth-last-child(-n + 2) { border-bottom: 0; }
+.shortcut-list kbd, .shortcut-dialog__hint kbd { display: inline-flex; min-width: 32px; min-height: 24px; align-items: center; justify-content: center; padding: 2px 6px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: var(--radius-sm); color: var(--ink); background: var(--panel-soft); font-family: inherit; font-size: .7rem; font-weight: 850; white-space: nowrap; }
+.shortcut-list span { min-width: 0; }
+.shortcut-dialog__hint { margin: var(--space-4) 0 0; color: var(--muted); font-size: .74rem; line-height: 1.5; }
+@keyframes shortcut-dialog-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes dashboard-surface-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes selected-row-pulse { 0% { outline-color: transparent; } 45% { outline-color: color-mix(in srgb, var(--accent) 65%, transparent); } 100% { outline-color: color-mix(in srgb, var(--accent) 32%, transparent); } }
+.dashboard:not([hidden]) > .hero { animation: dashboard-surface-in .34s ease-out both; }
+.dashboard:not([hidden]) > .dashboard-workbench { animation: dashboard-surface-in .34s .05s ease-out both; }
+.dashboard:not([hidden]) > .draft-board-layout { animation: dashboard-surface-in .34s .1s ease-out both; }
+.ranking-card.is-selected, .rankings-table tr.is-selected { animation: selected-row-pulse .3s ease-out; }
 .filter-hint { align-self: center; color: var(--muted); font-weight: 700; }
 .draft-toolbar { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 14px; align-items: center; margin: 9px 0 12px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.76); box-shadow: 0 8px 24px rgba(28,39,69,.07); }
 .draft-toolbar > .filters--positions { min-width: 0; justify-content: flex-start; }
@@ -2278,3 +2295,4 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .historic-position-table { min-width: 680px; }
 @media (max-width: 900px) { .historic-records__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .historic-section-heading { align-items: start; flex-direction: column; gap: var(--space-1); } .historic-section-heading > span { text-align: left; } .historic-records__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .historic-records__grid article { padding: var(--space-3); } }
+@media (max-width: 560px) { .shortcut-backdrop { align-items: end; padding: var(--space-2); } .shortcut-dialog { max-height: calc(100dvh - 16px); padding: var(--space-4); border-radius: var(--radius-lg); } .shortcut-list { grid-template-columns: 1fr; } .shortcut-list > div:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line); } .shortcut-list > div:last-child { border-bottom: 0; } }

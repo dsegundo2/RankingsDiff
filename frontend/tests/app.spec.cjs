@@ -169,6 +169,17 @@ test('historic results patterns do not overflow narrow screens', async ({ page }
   }
 })
 
+test('keyboard shortcut guide is discoverable and dismissible', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Keyboard shortcuts' }).click()
+  await expect(page.getByRole('dialog', { name: 'Keyboard shortcuts' })).toBeVisible()
+  await expect(page.getByRole('dialog')).toContainText('Focus player search')
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog', { name: 'Keyboard shortcuts' })).toHaveCount(0)
+  await page.keyboard.press('?')
+  await expect(page.getByRole('dialog', { name: 'Keyboard shortcuts' })).toBeVisible()
+})
+
 test('trend is off by default and can be shown and sorted', async ({ page }) => {
   await page.goto('./')
   await expect(page.getByRole('columnheader', { name: /regression/i })).toHaveCount(0)
