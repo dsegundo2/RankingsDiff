@@ -56,8 +56,16 @@ export function slotSummaries(rowsBySeason: Record<number, DraftRankingRow[]>, p
 }
 
 export function slotHistory(rowsBySeason: Record<number, DraftRankingRow[]>, position: string, rank: number, draftSize = 10): HistoricalYear[] {
+  return rankHistory(rowsBySeason, (row) => row.position.toUpperCase() === position && row.position_rank === rank, draftSize)
+}
+
+export function overallSlotHistory(rowsBySeason: Record<number, DraftRankingRow[]>, rank: number, draftSize = 10): HistoricalYear[] {
+  return rankHistory(rowsBySeason, (row) => row.overall_rank === rank, draftSize)
+}
+
+function rankHistory(rowsBySeason: Record<number, DraftRankingRow[]>, matches: (row: HistoricalDraftRow) => boolean, draftSize: number): HistoricalYear[] {
   return HISTORICAL_SEASONS.flatMap((season) => {
-    const match = enrichDraftRows(rowsBySeason[season] ?? [], draftSize).find((row) => row.position.toUpperCase() === position && row.position_rank === rank)
+    const match = enrichDraftRows(rowsBySeason[season] ?? [], draftSize).find(matches)
     return match ? [{ season, paid: match.offer_amount, expected: match.espn_suggested_value, over_under: match.value_diff }] : []
   })
 }
