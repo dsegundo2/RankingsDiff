@@ -77,6 +77,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
   const dividerColumnCount = 6 + (showValueColumn ? 1 : 0) + (showYahooProjections ? 1 : 0) + (showRegressionDiff ? 1 : 0)
   const showDraftDivider = (sortKey === 'sourceRank' || sortKey === 'adjustedRank') && sortDirection === 'asc'
   const showAuctionRoundDivider = showValueColumn && showDraftDivider
+  const showPersonalPickMarkers = showDraftDivider && !showAuctionRoundDivider
   const rankForDraft = (row: RankingRow): number | undefined => sortKey === 'adjustedRank' ? row.adjustedRank : row.sourceRank
   const rankSortKey = sortKey === 'adjustedRank' ? 'adjustedRank' : 'sourceRank'
   const nextRankSortKey = rankSortKey === 'sourceRank' ? 'adjustedRank' : 'sourceRank'
@@ -146,7 +147,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             const weeklyAverageFallback = yahooProjectionMode === 'half' ? projection?.seasonHalfPpr : projection?.seasonPpr
             return (
               <Fragment key={`${row.player}-${row.team}-${row.sourceRank}`}>
-              {showAuctionRoundDivider && index > 0 && index % draftSize === 0 ? <AuctionRoundDividerRow round={Math.floor(index / draftSize) + 1} columnCount={dividerColumnCount} /> : showDraftDivider && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} atTop={index === 0} /> : null}
+              {showAuctionRoundDivider && index > 0 && index % draftSize === 0 ? <AuctionRoundDividerRow round={Math.floor(index / draftSize) + 1} columnCount={dividerColumnCount} /> : showPersonalPickMarkers && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} atTop={index === 0} /> : null}
               <tr
                 key={`${row.player}-${row.team}-${row.sourceRank}`}
                 className={`${isDrafted ? 'is-drafted' : ''} ${selectedId === id ? 'is-selected' : ''} pos-${row.positionTone ?? 'other'}`}
@@ -173,7 +174,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
               </Fragment>
             )
           })}
-          {showAuctionRoundDivider && rows.length && rows.length % draftSize === 0 ? <AuctionRoundDividerRow round={Math.floor(rows.length / draftSize) + 1} columnCount={dividerColumnCount} /> : showDraftDivider && markerGroups.has(rows.length) && rows.length ? <DraftDividerRow markers={markerGroups.get(rows.length) ?? []} columnCount={dividerColumnCount} /> : null}
+          {showAuctionRoundDivider && rows.length && rows.length % draftSize === 0 ? <AuctionRoundDividerRow round={Math.floor(rows.length / draftSize) + 1} columnCount={dividerColumnCount} /> : showPersonalPickMarkers && markerGroups.has(rows.length) && rows.length ? <DraftDividerRow markers={markerGroups.get(rows.length) ?? []} columnCount={dividerColumnCount} /> : null}
         </tbody>
       </table>
       {rows.length === 0 && <div className="empty-state">No players match the current filters.</div>}

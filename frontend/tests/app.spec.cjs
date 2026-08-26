@@ -340,6 +340,8 @@ test('ESPN defaults to snake and exposes an auction format switch', async ({ pag
   expect(await page.locator('[data-auction-round-divider]').count()).toBeGreaterThan(0)
   await expect(page.locator('[data-auction-round-divider]').first()).toHaveAttribute('data-auction-round', '2')
   await expect(page.locator('[data-auction-round-divider]').first()).not.toContainText('Your pick')
+  await expect(page.locator('[data-draft-marker-current="true"]')).toHaveCount(0)
+  await expect(page.locator('[aria-label*="Your pick"]')).toHaveCount(0)
   await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Kenneth Walker' }).first().locator('.diff-cell')).toHaveText(/^\+\$\d+$/)
   await expect(page.locator('tbody tr[data-ranking-id]').filter({ hasText: 'Jordan Love' }).first().locator('.diff-cell')).toHaveText(/^\+?\$\d+$/)
   await page.getByRole('button', { name: /Settings/ }).click()
