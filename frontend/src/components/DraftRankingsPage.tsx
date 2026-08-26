@@ -3,7 +3,7 @@ import type { DraftRankingRow } from '../types'
 import { ViewTabs } from './ViewTabs'
 
 type SortKey = 'rank' | 'player' | 'position' | 'offer_amount' | 'espn_suggested_value' | 'value_diff' | 'manager' | 'nfl_team'
-type Props = { season: 2022 | 2023 | 2024 | 2025; rows: DraftRankingRow[]; rowsBySeason: Record<number, DraftRankingRow[]>; onNavigate: (path: 'board' | 'analytics' | 'draft') => void }
+type Props = { season: 2022 | 2023 | 2024 | 2025; rows: DraftRankingRow[]; rowsBySeason: Record<number, DraftRankingRow[]>; onNavigate: (path: 'board' | 'analytics' | 'draft') => void; onSeason: (season: 2022 | 2023 | 2024 | 2025) => void }
 type HistoricalPosition = 'RB' | 'WR' | 'QB' | 'TE'
 
 const POSITION_ORDER = ['ALL', 'QB', 'RB', 'WR', 'TE', 'K', 'D/ST']
@@ -20,7 +20,7 @@ const ESPN_REFERENCE_URLS: Record<number, string> = {
 function money(value: number): string { return `$${value}` }
 function delta(value: number): string { return `${value > 0 ? '+' : ''}${money(value)}` }
 
-export function DraftRankingsPage({ season, rows, rowsBySeason, onNavigate }: Props) {
+export function DraftRankingsPage({ season, rows, rowsBySeason, onNavigate, onSeason }: Props) {
   const [view, setView] = useState<'results' | 'averages'>('results')
   const [averagePosition, setAveragePosition] = useState<HistoricalPosition>('RB')
   const [position, setPosition] = useState('ALL')
@@ -65,6 +65,7 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, onNavigate }: Pr
     </section>
 
     <section className="draft-view-switcher" aria-label="Historic results views"><button type="button" className={view === 'results' ? 'active' : ''} onClick={() => setView('results')}>Player results</button><button type="button" className={view === 'averages' ? 'active' : ''} onClick={() => setView('averages')}>League averages</button></section>
+    <nav className="historic-season-tabs" aria-label="Draft season">{([2022, 2023, 2024, 2025] as const).map((year) => <button type="button" key={year} className={season === year ? 'active' : ''} aria-current={season === year ? 'page' : undefined} onClick={() => onSeason(year)}>{year}</button>)}</nav>
 
     {view === 'averages' ? <section className="historic-averages" aria-label="League average auction prices">
       <div className="historic-averages__intro"><div><span className="eyebrow">Across 2022–2025</span><h2>League average prices</h2><p>Compare the average auction cost and total spend for each positional slot across the four historical drafts.</p></div><div className="position-pills">{HISTORIC_POSITIONS.map((key) => <button type="button" key={key} className={averagePosition === key ? 'active' : ''} onClick={() => setAveragePosition(key)}>{key} · top {HISTORIC_LIMITS[key]}</button>)}</div></div>
