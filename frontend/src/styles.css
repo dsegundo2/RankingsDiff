@@ -2158,7 +2158,8 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .draft-player-cell > span { min-width: 0; }
 .inspector-backdrop { position: fixed; inset: 0; z-index: 20; display: block; pointer-events: none; }
 .auction-inspector { position: fixed; top: 180px; left: max(16px, calc(50vw - 680px)); width: min(520px, calc(100vw - 400px)); max-height: calc(100vh - 204px); overflow: auto; pointer-events: auto; border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--line)); border-radius: var(--radius-xl); background: var(--panel); box-shadow: var(--shadow-xl); }
-.auction-inspector__header { display: flex; justify-content: space-between; gap: var(--space-4); align-items: flex-start; padding: 20px 20px 12px; }
+.auction-inspector__header { display: flex; justify-content: space-between; gap: var(--space-4); align-items: flex-start; padding: 20px 20px 12px; cursor: grab; touch-action: none; }
+.auction-inspector__header:active { cursor: grabbing; }
 .auction-inspector__player { display: flex; gap: 10px; align-items: center; min-width: 0; }
 .auction-inspector__player h2 { margin: 3px 0 0; font-size: 1.35rem; letter-spacing: -.04em; }
 .auction-inspector__pills { display: flex; gap: 6px; padding: 0 20px 16px; }
@@ -2184,6 +2185,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .auction-inspector__history td { padding: 7px 0; border-top: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
 .auction-inspector__history td.is-over { color: var(--danger); font-weight: 800; }
 .auction-inspector__history td.is-under { color: var(--good); font-weight: 800; }
+.auction-inspector__history tfoot th, .auction-inspector__history tfoot td { padding-top: 10px; border-top: 2px solid var(--line); color: var(--ink); font-weight: 850; }
 .auction-inspector__actions { display: flex; gap: 8px; padding: 14px 20px 18px; background: var(--panel-soft); }
 .auction-inspector__actions button { flex: 1; }
 @media (max-width: 760px) { .auction-inspector { top: 72px; left: 12px; width: calc(100vw - 24px); max-height: calc(100vh - 84px); } }
