@@ -2192,7 +2192,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .draft-rankings-table td:nth-child(2) { min-width: 240px; }
 .draft-rankings-table td:nth-child(2) strong, .draft-rankings-table td:nth-child(2) small { display: block; }
 .draft-rankings-table .is-undrafted { opacity: .58; }
-.draft-value-diff.is-over { color: var(--bad); }
+.draft-value-diff.is-over { color: var(--danger); }
 .draft-value-diff.is-under { color: var(--good); }
 .draft-status-button { min-width: 80px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; color: var(--muted); background: var(--panel); font-size: .75rem; font-weight: 800; }
 .draft-status-button:hover, .draft-status-button:focus-visible { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
