@@ -122,6 +122,20 @@ test('2022 auction rankings loads from its own direct route', async ({ page }) =
   await expect(page.getByText('Adrian', { exact: true }).first()).toBeVisible()
 })
 
+test('historic player results can switch seasons', async ({ page }) => {
+  await page.goto('./draft-rankings/2025')
+  await expect(page.locator('.historic-season-tabs button.active')).toHaveText('2025')
+  await page.getByRole('button', { name: '2023', exact: true }).click()
+  await expect(page).toHaveURL(/\/draft-rankings\/2023$/)
+  await expect(page.getByRole('heading', { name: '2023 Draft' })).toBeVisible()
+  await expect(page.getByText('Justin Jefferson · $63').first()).toBeVisible()
+  await expect(page.locator('.historic-season-tabs button.active')).toHaveText('2023')
+  await page.getByRole('button', { name: '2022', exact: true }).click()
+  await expect(page).toHaveURL(/\/draft-rankings\/2022$/)
+  await expect(page.getByRole('heading', { name: '2022 Draft' })).toBeVisible()
+  await expect(page.locator('.historic-season-tabs button.active')).toHaveText('2022')
+})
+
 test('historic results offers positional league averages across all seasons', async ({ page }) => {
   await page.goto('./draft-rankings/2025')
   await page.getByRole('button', { name: 'League averages', exact: true }).click()
