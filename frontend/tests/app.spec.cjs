@@ -157,6 +157,15 @@ test('historic results condenses season records with overall manager and positio
   await expect(page.locator('.draft-rankings-table')).toBeVisible()
 })
 
+test('historic results patterns do not overflow narrow screens', async ({ page }) => {
+  for (const width of [390, 320]) {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('./draft-rankings/2025')
+    await expect(page.getByRole('heading', { name: 'Manager spending' })).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+  }
+})
+
 test('trend is off by default and can be shown and sorted', async ({ page }) => {
   await page.goto('./')
   await expect(page.getByRole('columnheader', { name: /regression/i })).toHaveCount(0)

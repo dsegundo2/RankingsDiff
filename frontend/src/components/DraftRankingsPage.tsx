@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { DraftRankingRow } from '../types'
 import { ViewTabs } from './ViewTabs'
-import { enrichDraftRows, HISTORICAL_SEASONS, POSITIONS } from '../data/draftAnalytics'
+import { enrichDraftRows, HISTORICAL_SEASONS, median, POSITIONS } from '../data/draftAnalytics'
 import type { TeamAsset } from '../types'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
@@ -19,8 +19,8 @@ const ESPN_REFERENCE_URLS: Record<number, string> = {
   2025: 'https://g.espncdn.com/s/ffldraftkit/25/NFL25_CS_PPR300.pdf?adddata=2025CS_PPR300'
 }
 
-function moneyTenth(value: number): string { return `$${value.toFixed(1)}` }
-function deltaTenth(value: number): string { return `${value > 0 ? '+' : ''}${moneyTenth(value)}` }
+function moneyTenth(value: number): string { return `$${Math.abs(value).toFixed(1)}` }
+function deltaTenth(value: number): string { return `${value > 0 ? '+' : value < 0 ? '-' : ''}${moneyTenth(value)}` }
 
 export function DraftRankingsPage({ season, rows, rowsBySeason, teams, onNavigate, onSeason }: Props) {
   const [position, setPosition] = useState('ALL')
@@ -51,13 +51,13 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, teams, onNavigat
   }, [historicalRows, position, search, sortDirection, sortKey])
   const mostExpensive = useMemo(() => [...rows].sort((a, b) => b.offer_amount - a.offer_amount)[0], [rows])
   const mostExpensiveByPosition = useMemo(() => ['QB', 'RB', 'WR', 'TE', 'K'].map((key) => ({ position: key, row: rows.filter((row) => row.position === key).sort((a, b) => b.offer_amount - a.offer_amount)[0] })).filter((item) => item.row), [rows])
-  const allDraftRows = useMemo(() => Object.values(rowsBySeason).flat(), [rowsBySeason])
+  const allDraftRows = useMemo(() => HISTORICAL_SEASONS.flatMap((year) => rowsBySeason[year] ?? []), [rowsBySeason])
   const managerPatterns = useMemo(() => {
     const leagueByYear = new Map<number, number>()
     HISTORICAL_SEASONS.forEach((year) => { const yearRows = rowsBySeason[year] ?? []; leagueByYear.set(year, yearRows.length ? yearRows.reduce((sum, row) => sum + row.offer_amount, 0) / yearRows.length : 0) })
     return [...new Set(allDraftRows.map((row) => row.manager))].sort().map((manager) => {
       const managerRows = allDraftRows.filter((row) => row.manager === manager)
-      const years = HISTORICAL_SEASONS.map((year) => { const values = managerRows.filter((row) => rowsBySeason[year]?.includes(row)); const average = values.length ? values.reduce((sum, row) => sum + row.offer_amount, 0) / values.length : null; return { year, average, variance: average === null ? null : average - (leagueByYear.get(year) ?? 0) } })
+      const years = HISTORICAL_SEASONS.map((year) => { const values = (rowsBySeason[year] ?? []).filter((row) => row.manager === manager); const average = values.length ? values.reduce((sum, row) => sum + row.offer_amount, 0) / values.length : null; return { year, average, variance: average === null ? null : average - (leagueByYear.get(year) ?? 0) } })
       const average = managerRows.length ? managerRows.reduce((sum, row) => sum + row.offer_amount, 0) / managerRows.length : 0
       const leagueAverage = allDraftRows.length ? allDraftRows.reduce((sum, row) => sum + row.offer_amount, 0) / allDraftRows.length : 0
       const biggest = [...managerRows].sort((left, right) => right.offer_amount - left.offer_amount)[0]
@@ -68,10 +68,9 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, teams, onNavigat
   const positionPatterns = useMemo(() => POSITIONS.map((position) => {
     const values = allDraftRows.filter((row) => row.position.toUpperCase() === position)
     const average = values.length ? values.reduce((sum, row) => sum + row.offer_amount, 0) / values.length : 0
-    const sorted = [...values].sort((left, right) => left.offer_amount - right.offer_amount)
-    const median = sorted.length ? sorted[Math.floor(sorted.length / 2)].offer_amount : 0
+    const medianPaid = median(values.map((row) => row.offer_amount))
     const highest = [...values].sort((left, right) => right.offer_amount - left.offer_amount)[0]
-    return { position, average, median, highest }
+    return { position, average, median: medianPaid, highest }
   }), [allDraftRows])
 
   return <main className="dashboard draft-rankings-page">

@@ -4,6 +4,13 @@ export const HISTORICAL_SEASONS = [2022, 2023, 2024, 2025] as const
 export const POSITIONS = ['QB', 'RB', 'WR', 'TE'] as const
 export type HistoricalYear = { season: number; paid: number; expected: number; over_under: number }
 
+export function median(values: number[]): number {
+  if (!values.length) return 0
+  const sorted = [...values].sort((left, right) => left - right)
+  const middle = Math.floor(sorted.length / 2)
+  return sorted.length % 2 === 1 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2
+}
+
 export function tierSize(draftSize = 10): number {
   return draftSize >= 12 ? 5 : 6
 }

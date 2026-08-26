@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { enrichDraftRows, overallSummaries, slotSummaries, tierSize, tierSummaries } from './draftAnalytics'
+import { enrichDraftRows, median, overallSummaries, slotSummaries, tierSize, tierSummaries } from './draftAnalytics'
 import type { DraftRankingRow } from '../types'
 
 const row = (player: string, position: string, paid: number, expected = paid - 2): DraftRankingRow => ({ manager: 'A', rank: 1, player, nfl_team: player, position, offer_amount: paid, espn_suggested_value: expected, value_diff: paid - expected })
@@ -23,5 +23,10 @@ describe('draft analytics', () => {
     expect(overallSummaries(rowsBySeason)).toHaveLength(2)
     expect(overallSummaries(rowsBySeason)[0]).toMatchObject({ position: 'OVERALL', rank: 1 })
     expect(overallSummaries(rowsBySeason)[0].average_paid).toBeCloseTo(66.67, 2)
+  })
+
+  it('calculates the true median for even-sized position samples', () => {
+    expect(median([10, 30])).toBe(20)
+    expect(median([10, 20, 30])).toBe(20)
   })
 })
