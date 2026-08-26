@@ -648,6 +648,8 @@ test('roster players can be dragged between slots', async ({ page }) => {
   await roster.locator('[data-roster-slot="RB1"]').dragTo(roster.locator('[data-roster-slot="RB2"]'))
   await expect(roster.locator('[data-roster-slot="RB2"]')).toContainText('Jahmyr Gibbs')
   await expect(roster.locator('[data-roster-slot="RB1"]')).toContainText('Open')
+  await roster.locator('[data-roster-slot="RB2"]').dragTo(page.locator('[data-player-board-drop-target]'))
+  await expect(roster.locator('[data-roster-slot="RB2"]')).toContainText('Open')
 })
 
 test('mobile 390px uses cards and has no horizontal overflow', async ({ page }) => {

@@ -23,9 +23,10 @@ type Props = {
   onPrice: (id: string, value: number | undefined) => void
   onMoveSlot: (id: string, value: string) => void
   onTarget: (id: string) => void
+  onDragStateChange?: (id: string | null) => void
 }
 
-export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRows, targetQueueView, showTargetQueue, mode, source, prices, slots, onPrice, onMoveSlot, onTarget }: Props) {
+export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRows, targetQueueView, showTargetQueue, mode, source, prices, slots, onPrice, onMoveSlot, onTarget, onDragStateChange }: Props) {
   const [editingPriceId, setEditingPriceId] = useState<string | null>(null)
   const [priceDraft, setPriceDraft] = useState('')
   const [draggingId, setDraggingId] = useState<string | null>(null)
@@ -84,6 +85,7 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
 
   function handleDragStart(id: string, event: DragEvent<HTMLDivElement>): void {
     setDraggingId(id)
+    onDragStateChange?.(id)
     event.dataTransfer.effectAllowed = 'move'
     event.dataTransfer.setData('text/plain', id)
   }
@@ -93,13 +95,14 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
     const id = event.dataTransfer.getData('text/plain') || draggingId
     if (id) onMoveSlot(id, slot)
     setDraggingId(null)
+    onDragStateChange?.(null)
     setDropSlot(null)
   }
 
   function renderSlot(slot: string) {
     const pick = picks.find(({ id }) => slots[id] === slot)
     const team = pick ? normalizeTeamAbbreviation(pick.row.team) : ''
-    return <div className={`auction-slot${pick ? ' is-filled' : ''}${dropSlot === slot ? ' is-drop-target' : ''}`} key={slot} data-roster-slot={slot} draggable={Boolean(pick)} aria-label={pick ? `${pick.row.player} in ${slotName(slot)}, draggable` : `${slotName(slot)} open, drop a player here`} onDragStart={pick ? (event) => handleDragStart(pick.id, event) : undefined} onDragEnd={() => { setDraggingId(null); setDropSlot(null) }} onDragOver={(event) => { event.preventDefault(); setDropSlot(slot) }} onDrop={(event) => handleDrop(slot, event)}>
+    return <div className={`auction-slot${pick ? ' is-filled' : ''}${dropSlot === slot ? ' is-drop-target' : ''}`} key={slot} data-roster-slot={slot} draggable={Boolean(pick)} aria-label={pick ? `${pick.row.player} in ${slotName(slot)}, draggable` : `${slotName(slot)} open, drop a player here`} onDragStart={pick ? (event) => handleDragStart(pick.id, event) : undefined} onDragEnd={() => { setDraggingId(null); setDropSlot(null); onDragStateChange?.(null) }} onDragOver={(event) => { event.preventDefault(); setDropSlot(slot) }} onDrop={(event) => handleDrop(slot, event)}>
       <span className="auction-slot__label">{slotName(slot)}</span>
       {pick ? <><div className="auction-slot__identity"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><span><strong>{pick.row.player}</strong><small>{team}{slotTargetText(slot)}</small></span></div>{pickControls(pick.id, pick.row)}</> : <span className="auction-slot__empty">Open{slotTargetText(slot)}</span>}
     </div>
