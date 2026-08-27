@@ -2305,7 +2305,17 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .historic-patterns__table th, .historic-patterns__table td { padding: var(--space-3) var(--space-4); }
 .historic-patterns__table th:not(:first-child), .historic-patterns__table td:not(:first-child) { text-align: right; }
 .historic-patterns__table td:last-child, .historic-patterns__table th:last-child { text-align: left; }
-.historic-position-table { min-width: 860px; }
+.historic-position-table { width: 100%; min-width: 1120px; table-layout: fixed; }
+.historic-position-table th, .historic-position-table td { white-space: nowrap; }
+.historic-position-table th:first-child, .historic-position-table td:first-child { width: 14%; }
+.historic-position-table th:nth-child(2), .historic-position-table td:nth-child(2) { width: 14%; }
+.historic-position-table th:nth-child(3), .historic-position-table td:nth-child(3) { width: 17%; }
+.historic-position-table th:nth-child(4), .historic-position-table td:nth-child(4) { width: 29%; }
+.historic-position-table th:nth-child(5), .historic-position-table td:nth-child(5) { width: 14%; }
+.historic-position-table th:nth-child(6), .historic-position-table td:nth-child(6) { width: 12%; }
+.historic-player { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.historic-player .team-badge { width: 24px; height: 24px; flex: 0 0 24px; }
+.historic-player .team-badge img { width: 20px; height: 20px; }
 @media (max-width: 900px) { .historic-records__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .historic-section-heading { align-items: start; flex-direction: column; gap: var(--space-1); } .historic-section-heading > span { text-align: left; } .historic-records__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .historic-records__grid article { padding: var(--space-3); } }
 @media (max-width: 560px) { .shortcut-backdrop { align-items: end; padding: var(--space-2); } .shortcut-dialog { max-height: calc(100dvh - 16px); padding: var(--space-4); border-radius: var(--radius-lg); } .shortcut-list { grid-template-columns: 1fr; } .shortcut-list > div:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line); } .shortcut-list > div:last-child { border-bottom: 0; } }
