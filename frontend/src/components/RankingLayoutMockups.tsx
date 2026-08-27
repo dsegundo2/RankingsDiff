@@ -16,7 +16,7 @@ const players = [
 ]
 
 function Brand() {
-  return <div className="ranking-layout-mock__brand"><img src="/assets/rankingsdiff-mark.png" alt="RankingsDiff" /><span><strong>RankingsDiff</strong><small>Fantasy football command center</small></span></div>
+  return <div className="ranking-layout-mock__brand"><img src="/assets/rankingsdiff-mark.png" alt="Draft Distillery" /><span><strong>Draft Distillery</strong><small>Fantasy football command center</small></span></div>
 }
 
 function Rank({ variant, rank, adjusted }: { variant: MockupId; rank: string; adjusted: string }) {
@@ -43,7 +43,7 @@ export function RankingLayoutMockups() {
   const [selected, setSelected] = useState<MockupId>('parenthetical')
   const active = mockups.find((mockup) => mockup.id === selected) ?? mockups[1]
   return <main className="ranking-layout-mock">
-    <div className="ranking-layout-mock__topbar"><a href="./">← Back to dashboard</a><span>RankingsDiff · ranking layout study</span><b>Blue theme exploration</b></div>
+    <div className="ranking-layout-mock__topbar"><a href="./">← Back to dashboard</a><span>Draft Distillery · ranking layout study</span><b>Blue theme exploration</b></div>
     <header className="ranking-layout-mock__intro"><div><span className="ranking-layout-mock__eyebrow">Three directions</span><h1>Put the rank where your eye lands first.</h1><p>Each mockup moves Favorite beside Draft and replaces the RD mark with the supplied football ranking artwork. The blue palette keeps the data surface focused and professional.</p></div><div className="ranking-layout-mock__selected"><span>Selected preview</span><strong>{active.number} · {active.name}</strong><small>{active.description}</small></div></header>
     <nav className="ranking-layout-mock__options" aria-label="Ranking layout options">{mockups.map((mockup) => <button type="button" key={mockup.id} className={selected === mockup.id ? 'is-selected' : ''} onClick={() => setSelected(mockup.id)}><span>{mockup.number}</span><strong>{mockup.name}</strong><small>{mockup.description}</small></button>)}</nav>
     <section className="ranking-layout-mock__showcase" aria-label="Ranking layout mockups">

@@ -28,7 +28,7 @@ export function DraftCutoffMockups() {
   const [selected, setSelected] = useState<CutoffView>('chip')
   const active = options.find((option) => option.id === selected) ?? options[0]
   return <main className="cutoff-mock-page">
-    <div className="cutoff-mock-page__topbar"><a href="./">← Back to dashboard</a><span>RankingsDiff · draft controls study</span><b>HTML mockups</b></div>
+    <div className="cutoff-mock-page__topbar"><a href="./">← Back to dashboard</a><span>Draft Distillery · draft controls study</span><b>HTML mockups</b></div>
     <header className="cutoff-mock-page__intro"><span className="cutoff-mock-eyebrow">Focus: draft spot → next pick cutoff</span><h1>Keep the next selection visible without adding a heavy column.</h1><p>Four treatments for showing the current draft spot, next pick, and the cutoff between them. The examples keep the information glanceable while the player name remains the main event.</p></header>
     <section className="cutoff-mock-options" aria-label="Draft cutoff options">{options.map((option, index) => <button key={option.id} className={selected === option.id ? 'is-selected' : ''} onClick={() => setSelected(option.id)}><span>0{index + 1}</span><strong>{option.name}</strong><small>{option.description}</small></button>)}</section>
     <section className="cutoff-mock-browser" aria-label={`${active.name} table preview`}>

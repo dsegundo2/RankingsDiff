@@ -25,7 +25,7 @@ export function DraftedRowMockups() {
   const [selected, setSelected] = useState('soft')
   const active = options.find((option) => option.id === selected) ?? options[0]
   return <main className="drafted-mock-page">
-    <div className="drafted-mock-page__topbar"><a href="./">← Back to dashboard</a><span>RankingsDiff · drafted row study</span><b>HTML mockups</b></div>
+    <div className="drafted-mock-page__topbar"><a href="./">← Back to dashboard</a><span>Draft Distillery · drafted row study</span><b>HTML mockups</b></div>
     <header className="drafted-mock-page__intro"><span className="drafted-mock-eyebrow">Focus: drafted player treatment</span><h1>Make drafted players quieter, not invisible.</h1><p>Compare four ways to gray out drafted rows while keeping rank movement and the Undo action easy to scan. This is a visual study before adding the treatment as a Display setting.</p></header>
     <section className="drafted-mock-options" aria-label="Drafted row options">{options.map((option, index) => <button key={option.id} className={selected === option.id ? 'is-selected' : ''} onClick={() => setSelected(option.id)}><span>0{index + 1}</span><strong>{option.name}</strong><small>{option.description}</small></button>)}</section>
     <section className="drafted-mock-browser" aria-label={`${active.name} drafted row preview`}>

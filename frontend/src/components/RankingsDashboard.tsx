@@ -14,6 +14,7 @@ import { withBasePath } from '../data/paths'
 import { RankingsDiffChart } from './RankingsDiffChart'
 import { ViewTabs } from './ViewTabs'
 import { AuctionPlayerInspector } from './AuctionPlayerInspector'
+import { BrandLockup } from './BrandLockup'
 
 type ViewMode = 'board' | 'positions'
 type DraftMode = 'snake' | 'auction'
@@ -762,14 +763,8 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
 
   return (<>
     <main className={`dashboard ${showMobileActions ? '' : 'mobile-actions-hidden'}`} hidden={route === 'analytics'}>
-      <section className="hero hero--compact hero--editorial" aria-label="RankingsDiff header">
-        <div className="hero__brand">
-          <img className="hero__mark" src={withBasePath('/assets/rankingsdiff-mark.png')} alt="RankingsDiff" />
-          <div>
-            <span className="eyebrow">Fantasy football</span>
-            <h1>RankingsDiff</h1>
-          </div>
-        </div>
+      <section className="hero hero--compact hero--editorial" aria-label="Draft Distillery header">
+        <BrandLockup eyebrow="Fantasy football draft room" title="Draft Distillery" />
         <div className="hero__context">
           <div className="hero__context-actions"><span>Draft board</span><button className="shortcut-help" type="button" onClick={() => setShortcutsOpen(true)} aria-label="Keyboard shortcuts" aria-haspopup="dialog" title="Keyboard shortcuts">?</button><button className="settings-icon-trigger" type="button" onClick={() => setSettingsOpen(true)} aria-label="Settings" aria-haspopup="dialog" title={`${selectedSeason} · ${source?.label ?? selectedSource} · ${visibleRows.length.toLocaleString()} showing`}><img src={withBasePath('/assets/settings.svg')} alt="" aria-hidden="true" /></button></div>
           <div className="hero__context-bottom">

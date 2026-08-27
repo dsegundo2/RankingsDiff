@@ -41,7 +41,7 @@ describe('draft state', () => {
   })
 
   it('rejects files without stable player keys', () => {
-    expect(() => parseDraftFile('{"version":2}')).toThrow(/valid RankingsDiff/)
+    expect(() => parseDraftFile('{"version":2}')).toThrow(/valid Draft Distillery/)
   })
 
   it('keeps older player-only backups restorable', () => {

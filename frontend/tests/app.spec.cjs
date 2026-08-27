@@ -30,7 +30,7 @@ async function openSnapshots(page) {
 
 test('dashboard renders and exposes settings downloads', async ({ page }) => {
   await page.goto('./')
-  await expect(page.getByRole('heading', { name: 'RankingsDiff' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Draft Distillery' })).toBeVisible()
   await expect(page.getByRole('button', { name: /Settings/ })).toBeVisible()
   await expect(page.locator('.team-badge').first()).toBeVisible()
   await expect(page.locator('.hero__context')).toContainText('Draft board')
@@ -539,7 +539,7 @@ test('command-k focuses search and position filters rows', async ({ page }) => {
 test('slash focuses search and Enter drafts the first match', async ({ page }) => {
   await page.goto('./')
   const search = page.getByPlaceholder(/Search by player or team/)
-  await page.getByRole('heading', { name: 'RankingsDiff' }).click()
+  await page.getByRole('heading', { name: 'Draft Distillery' }).click()
   await page.keyboard.press('/')
   await expect(search).toBeFocused()
   await search.fill('Ja\'Marr')
@@ -613,7 +613,7 @@ test('position filters include kickers and flex without defensive rows', async (
 test('position view keyboard shortcuts toggle individual lanes', async ({ page }) => {
   await page.goto('./')
   await setPositionView(page)
-  await page.getByRole('heading', { name: 'RankingsDiff' }).click()
+  await page.getByRole('heading', { name: 'Draft Distillery' }).click()
   await expect(page.getByRole('heading', { name: 'Running backs' })).toBeVisible()
   await page.keyboard.press('r')
   await expect(page.getByRole('heading', { name: 'Running backs' })).toHaveCount(0)
@@ -625,7 +625,7 @@ test('position view keyboard shortcuts toggle individual lanes', async ({ page }
 
 test('P toggles the position view', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('heading', { name: 'RankingsDiff' }).click()
+  await page.getByRole('heading', { name: 'Draft Distillery' }).click()
   await page.keyboard.press('p')
   let byPosition = await positionViewSetting(page)
   await expect(byPosition).toBeChecked()
@@ -640,7 +640,7 @@ test('D toggles drafted players and Display is the default settings pane', async
   await page.goto('./')
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
   await expect(page.getByText('Jahmyr Gibbs').first()).toBeVisible()
-  await page.getByRole('heading', { name: 'RankingsDiff' }).click()
+  await page.getByRole('heading', { name: 'Draft Distillery' }).click()
   await page.keyboard.press('d')
   await expect(page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first()).toHaveCount(0)
   await page.keyboard.press('d')

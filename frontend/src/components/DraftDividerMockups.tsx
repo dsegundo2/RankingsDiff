@@ -27,7 +27,7 @@ export function DraftDividerMockups() {
   const [selected, setSelected] = useState<DividerStyle>('violet-solid')
   const active = styles.find((style) => style.id === selected) ?? styles[0]
   return <main className="divider-mock-page">
-    <div className="divider-mock-page__topbar"><a href="./">← Back to dashboard</a><span>RankingsDiff · table detail study</span><b>HTML mockups</b></div>
+    <div className="divider-mock-page__topbar"><a href="./">← Back to dashboard</a><span>Draft Distillery · table detail study</span><b>HTML mockups</b></div>
     <header className="divider-mock-page__intro"><span className="divider-mock-eyebrow">Focus: next pick pill</span><h1>Give the next pick a warmer signal.</h1><p>Four HTML treatments for the next-pick marker. Three use a restrained orange; one stays neutral so the color choice is easy to compare in context.</p></header>
     <section className="divider-mock-options" aria-label="Divider options">{styles.map((style, index) => <button key={style.id} className={selected === style.id ? 'is-selected' : ''} onClick={() => setSelected(style.id)}><span>0{index + 1}</span><strong>{style.name}</strong><small>{style.description}</small></button>)}</section>
     <section className="divider-mock-browser" aria-label={`${active.name} table preview`}>

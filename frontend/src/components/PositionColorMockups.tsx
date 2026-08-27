@@ -18,7 +18,7 @@ export function PositionColorMockups() {
   const [selected, setSelected] = useState<PaletteId>('contrast')
   const active = palettes.find((palette) => palette.id === selected) ?? palettes[0]
   return <main className="position-color-lab" data-palette={active.id}>
-    <div className="position-color-lab__topbar"><a href="./">← Back to dashboard</a><span>RankingsDiff · position color lab</span><b>HTML mockups</b></div>
+    <div className="position-color-lab__topbar"><a href="./">← Back to dashboard</a><span>Draft Distillery · position color lab</span><b>HTML mockups</b></div>
     <header className="position-color-lab__intro"><span className="position-color-lab__eyebrow">Focus: position identity + compact labels</span><h1>Make the position colors easier to tell apart.</h1><p>These options use the same compact table language as the screenshot. The heading is shortened to <strong>Fav</strong>, while each position keeps its text label for accessibility.</p></header>
     <section className="position-color-lab__options" aria-label="Position color options">{palettes.map((palette, index) => <button key={palette.id} type="button" className={palette.id === selected ? 'is-selected' : ''} onClick={() => setSelected(palette.id)}><span className="position-color-lab__swatches">{['QB', 'RB', 'WR', 'TE', 'K'].map((position) => <i key={position} className={`position-color-lab__swatch--${position.toLowerCase()}`} title={position} />)}</span><small>Option {String(index + 1).padStart(2, '0')}</small><strong>{palette.name}</strong><span>{palette.description}</span></button>)}</section>
     <section className="position-color-lab__browser" aria-label={`${active.name} table preview`}>

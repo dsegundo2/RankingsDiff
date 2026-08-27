@@ -63,7 +63,7 @@ export function DraftStateControls({ season, source, targets, drafted, picks, dr
     const url = createDraftShareUrl(season, source, { targets: [...targets], drafted: [...drafted], picks, draftSlot, draftSize })
     try {
       if (navigator.share) {
-        await navigator.share({ title: `RankingsDiff ${season} draft`, text: 'Open this RankingsDiff draft board', url })
+        await navigator.share({ title: `Draft Distillery ${season} draft`, text: 'Open this Draft Distillery draft board', url })
         setMessage('Share sheet opened.')
       } else {
         await navigator.clipboard.writeText(url)

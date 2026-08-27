@@ -93,7 +93,7 @@ export function createDraftFile(season: number, source: string, state: DraftSnap
 export function parseDraftFile(contents: string): DraftFile {
   const parsed = JSON.parse(contents) as Partial<DraftFile>
   if ((parsed.version !== 1 && parsed.version !== 2) || !parsed.players || typeof parsed.season !== 'number' || typeof parsed.source !== 'string') {
-    throw new Error('This is not a valid RankingsDiff draft file.')
+    throw new Error('This is not a valid Draft Distillery draft file.')
   }
   const roster: Partial<AuctionDraftState> = parsed.version === 2 && parsed.roster ? parsed.roster : {}
   const prices = Object.fromEntries(Object.entries((roster.prices ?? {}) as Record<string, unknown>).filter(([, value]) => typeof value === 'number' && Number.isFinite(value) && value >= 0)) as Record<string, number>

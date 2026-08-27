@@ -5,7 +5,7 @@ import { enrichDraftRows, HISTORICAL_SEASONS, median, overallSummaries, POSITION
 import type { TeamAsset } from '../types'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
-import { withBasePath } from '../data/paths'
+import { BrandLockup } from './BrandLockup'
 
 type SortKey = 'rank' | 'player' | 'position' | 'offer_amount' | 'espn_suggested_value' | 'value_diff' | 'manager' | 'nfl_team'
 type HistoricView = 'players' | 'averages'
@@ -105,8 +105,8 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, teams, onNavigat
   const averageDelta = (value: number | null) => value === null ? '—' : `${value >= 0 ? '+' : '-'}$${Math.abs(value).toFixed(1)}`
 
   return <main className="dashboard draft-rankings-page">
-    <section className="hero hero--compact hero--editorial" aria-label="Draft rankings header">
-      <div className="hero__brand"><img className="hero__mark" src={withBasePath('/assets/rankingsdiff-mark.png')} alt="RankingsDiff" /><div><span className="eyebrow">Auction results</span><h1>{season} Draft</h1><p className="view-summary"><strong>{rows.length}</strong> players · <strong>{new Set(rows.map((row) => row.manager)).size}</strong> managers</p></div></div>
+    <section className="hero hero--compact hero--editorial" aria-label="Draft Distillery historic results header">
+      <BrandLockup eyebrow="Auction results · Draft Distillery" title={`${season} Draft`} summary={<p className="view-summary"><strong>{rows.length}</strong> players · <strong>{new Set(rows.map((row) => row.manager)).size}</strong> managers</p>} />
       <div className="hero__context"><ViewTabs active="draft" onNavigate={onNavigate} hideBoard={historicOnly} /></div>
     </section>
 

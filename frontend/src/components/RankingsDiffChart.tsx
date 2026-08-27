@@ -5,6 +5,7 @@ import { getTeamAsset } from '../data/teams'
 import { rankingId } from '../data/draftState'
 import { TeamBadge } from './TeamBadge'
 import { ViewTabs } from './ViewTabs'
+import { BrandLockup } from './BrandLockup'
 
 type Props = {
   rows: RankingRow[]
@@ -100,13 +101,9 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onNavigate, hi
   const hovered = chartRows.find((row) => `${row.player}|${row.team}` === hoveredId)
   const statusLabel = status === 'everyone' ? 'Everyone' : status === 'available' ? 'Available' : 'Drafted'
 
-  return <main className="rankings-diff-page" aria-label="Rankings diff analytics">
-    <header className="rankings-diff-page__header">
-      <div>
-        <span className="eyebrow">Analytics</span>
-        <h1>Rankings diff</h1>
-        <p>{sourceLabel(source)} base rank vs. adjusted overall rank</p>
-      </div>
+  return <main className="rankings-diff-page dashboard" aria-label="Draft Distillery rankings diff analytics">
+    <header className="hero hero--compact hero--editorial rankings-diff-page__header">
+      <BrandLockup eyebrow="Draft Distillery · Analytics" title="Rankings diff" summary={<p>{sourceLabel(source)} base rank vs. adjusted overall rank</p>} />
       <ViewTabs active="analytics" onNavigate={onNavigate} hideBoard={historicOnly} />
     </header>
 

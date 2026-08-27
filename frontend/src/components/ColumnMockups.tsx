@@ -26,7 +26,7 @@ export function ColumnMockups() {
   const [selected, setSelected] = useState<ViewId>('movement')
   const active = views.find((view) => view.id === selected) ?? views[0]
   return <main className="column-mock-page">
-    <div className="column-mock-page__topbar"><a href="./">← Back to dashboard</a><span>RankingsDiff · column study</span><b>HTML mockups</b></div>
+    <div className="column-mock-page__topbar"><a href="./">← Back to dashboard</a><span>Draft Distillery · column study</span><b>HTML mockups</b></div>
     <header className="column-mock-page__intro"><span className="column-mock-eyebrow">Focus: Rank →</span><h1>Make the first column easier to read at a glance.</h1><p>Four alternate treatments for the source-rank → adjusted-rank column. The examples use the same rows from your screenshot so the tradeoffs are easy to compare.</p></header>
     <section className="column-mock-options" aria-label="Rank column options">{views.map((view) => <button key={view.id} className={selected === view.id ? 'is-selected' : ''} onClick={() => setSelected(view.id)}><span>0{views.indexOf(view) + 1}</span><strong>{view.name}</strong><small>{view.description}</small></button>)}</section>
     <section className="column-mock-browser" aria-label={`${active.name} table preview`}>

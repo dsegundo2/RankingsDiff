@@ -56,7 +56,7 @@ function LoadingState({ detail = 'Preparing your rankings board…' }: { detail?
   return <main className="dashboard loading-shell" aria-live="polite" aria-busy="true">
     <div className="loading-mark" aria-hidden="true"><span>R</span><span>D</span></div>
     <span className="eyebrow">Fantasy football</span>
-    <h1>RankingsDiff</h1>
+    <h1>Draft Distillery</h1>
     <div className="loading-progress"><span /></div>
     <p className="loading-title">Loading rankings…</p>
     <p className="loading-detail">{detail}</p>
@@ -67,7 +67,7 @@ function LoadingState({ detail = 'Preparing your rankings board…' }: { detail?
 function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
   return <main className="dashboard loading-shell error-shell" role="alert">
     <div className="loading-mark loading-mark--error" aria-hidden="true">!</div>
-    <span className="eyebrow">RankingsDiff</span>
+    <span className="eyebrow">Draft Distillery</span>
     <h1>We couldn’t load the board</h1>
     <p className="loading-detail">{message}</p>
     <button className="primary-action" type="button" onClick={onRetry}>Try again</button>

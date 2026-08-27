@@ -2069,6 +2069,11 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .hero--editorial .hero__context-bottom .view-summary { justify-content: flex-start; }
 .hero--editorial .view-summary { justify-content: flex-end; gap: 5px; font-size: .78rem; }
 .hero--editorial .view-summary strong { font-weight: 800; }
+.hero--editorial .hero__brand-summary { margin: 4px 0 0; }
+.hero--editorial .hero__brand-summary p { margin: 0; color: var(--muted); }
+.app-theme--ranking-blue .hero--editorial .hero__mark { object-fit: contain; padding: 0; background: transparent; box-shadow: 0 8px 20px rgb(31 95 174 / 18%); }
+.rankings-diff-page__header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+.rankings-diff-page__header .view-tabs { align-self: end; }
 @media (max-width: 760px) {
   .hero--editorial { grid-template-columns: 1fr; gap: var(--space-3); align-items: start; margin-bottom: var(--space-3); }
   .hero--editorial .hero__context { justify-items: start; padding-left: 0; border-left: 0; }
