@@ -54,8 +54,8 @@ function normalizeYahooProjections(payload: unknown): YahooProjectionMap {
 
 function LoadingState({ detail = 'Preparing your rankings board…' }: { detail?: string }) {
   return <main className="dashboard loading-shell" aria-live="polite" aria-busy="true">
-    <div className="loading-mark" aria-hidden="true"><span>R</span><span>D</span></div>
-    <span className="eyebrow">Fantasy football</span>
+    <div className="loading-mark loading-mark--brand" aria-hidden="true"><img src={withBasePath('/assets/rankingsdiff-mark.png')} alt="" /></div>
+    <span className="eyebrow">Draft Distillery · Fantasy football</span>
     <h1>Draft Distillery</h1>
     <div className="loading-progress"><span /></div>
     <p className="loading-title">Loading rankings…</p>
