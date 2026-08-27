@@ -170,6 +170,23 @@ test('historic results condenses season records with overall manager and positio
   await expect(page.locator('.historic-averages__table')).toBeVisible()
 })
 
+test('historic-only URL hides the draft board while preserving historic results and charts', async ({ page }) => {
+  await page.goto('./draft-rankings/2025-historic')
+  await expect(page.getByRole('heading', { name: '2025 Draft' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Draft board', exact: true })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Historic results', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Charts', exact: true })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Charts', exact: true }).click()
+  await expect(page).toHaveURL(/\/analytics\/rankings-diff-historic$/)
+  await expect(page.getByRole('heading', { name: 'Rankings diff' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Draft board', exact: true })).toBeHidden()
+
+  await page.getByRole('button', { name: 'Historic results', exact: true }).click()
+  await expect(page).toHaveURL(/\/draft-rankings\/2025-historic$/)
+  await expect(page.getByRole('heading', { name: 'Biggest purchases' })).toBeVisible()
+})
+
 test('historic results patterns do not overflow narrow screens', async ({ page }) => {
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 900 })

@@ -12,6 +12,7 @@ type Props = {
   source: string
   drafted: Set<string>
   onNavigate: (path: 'board' | 'analytics' | 'draft') => void
+  historicOnly?: boolean
 }
 
 type WindowOption = { id: string; label: string; start: number; end?: number }
@@ -37,7 +38,7 @@ function windowOptions(maxRank: number): WindowOption[] {
   ]
 }
 
-export function RankingsDiffChart({ rows, teams, source, drafted, onNavigate }: Props) {
+export function RankingsDiffChart({ rows, teams, source, drafted, onNavigate, historicOnly = false }: Props) {
   const maxRank = rankMax(rows)
   const windows = windowOptions(maxRank)
   const [position, setPosition] = useState<PositionFilter>('ALL')
@@ -106,7 +107,7 @@ export function RankingsDiffChart({ rows, teams, source, drafted, onNavigate }: 
         <h1>Rankings diff</h1>
         <p>{sourceLabel(source)} base rank vs. adjusted overall rank</p>
       </div>
-      <ViewTabs active="analytics" onNavigate={onNavigate} />
+      <ViewTabs active="analytics" onNavigate={onNavigate} hideBoard={historicOnly} />
     </header>
 
     <section className="rankings-diff-controls" aria-label="Rankings diff filters">

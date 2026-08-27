@@ -1,6 +1,6 @@
 type ViewRoute = 'board' | 'analytics' | 'draft'
 
-type Props = { active: ViewRoute; onNavigate: (path: ViewRoute) => void }
+type Props = { active: ViewRoute; onNavigate: (path: ViewRoute) => void; hideBoard?: boolean }
 
 const tabs: Array<{ route: ViewRoute; label: string }> = [
   { route: 'board', label: 'Draft board' },
@@ -8,8 +8,8 @@ const tabs: Array<{ route: ViewRoute; label: string }> = [
   { route: 'analytics', label: 'Charts' }
 ]
 
-export function ViewTabs({ active, onNavigate }: Props) {
+export function ViewTabs({ active, onNavigate, hideBoard = false }: Props) {
   return <nav className="view-tabs" aria-label="Primary views">
-    {tabs.map((tab) => <button key={tab.route} type="button" className={active === tab.route ? 'active' : ''} aria-current={active === tab.route ? 'page' : undefined} onClick={() => onNavigate(tab.route)}>{tab.label}</button>)}
+    {tabs.filter((tab) => !hideBoard || tab.route !== 'board').map((tab) => <button key={tab.route} type="button" className={active === tab.route ? 'active' : ''} aria-current={active === tab.route ? 'page' : undefined} onClick={() => onNavigate(tab.route)}>{tab.label}</button>)}
   </nav>
 }

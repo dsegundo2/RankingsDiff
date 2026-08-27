@@ -62,9 +62,10 @@ type Props = {
   onSource: (source: string) => void
   route: 'board' | 'analytics' | 'draft'
   onNavigate: (path: 'board' | 'analytics' | 'draft') => void
+  historicOnly?: boolean
 }
 
-export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, yahooProjections, sourceChecks, selectedSeason, selectedSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, onSeason, onSource, route, onNavigate }: Props) {
+export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, yahooProjections, sourceChecks, selectedSeason, selectedSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, onSeason, onSource, route, onNavigate, historicOnly = false }: Props) {
   const [search, setSearch] = useState('')
   const [position, setPosition] = useState<PositionFilter>('ALL')
   const [sortKey, setSortKey] = useState<SortKey>('sourceRank')
@@ -775,7 +776,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
             <div className="view-summary" aria-live="polite">
               <strong>{selectedSeason}</strong> · <strong>{(source?.label ?? selectedSource).replace(/\s+vs\s+Yahoo$/i, '')}</strong> · <strong>{projectionMode === 'half' ? 'Half PPR' : 'Full PPR'}</strong> · <strong>{draftMode === 'auction' ? 'Auction' : 'Snake'}</strong> · <strong>{draftSlot}/{draftSize}</strong>
             </div>
-            <ViewTabs active={route} onNavigate={onNavigate} />
+            <ViewTabs active={route} onNavigate={onNavigate} hideBoard={historicOnly} />
           </div>
         </div>
       </section>
@@ -898,7 +899,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       {shortcutsOpen ? <div className="shortcut-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setShortcutsOpen(false) }}><section className="shortcut-dialog" role="dialog" aria-modal="true" aria-labelledby="shortcut-dialog-title"><div className="shortcut-dialog__header"><div><span className="eyebrow">Draft board</span><h2 id="shortcut-dialog-title">Keyboard shortcuts</h2></div><button type="button" className="icon-button" onClick={() => setShortcutsOpen(false)} aria-label="Close keyboard shortcuts">×</button></div><div className="shortcut-list"><div><kbd>⌘ K</kbd><span>Focus player search</span></div><div><kbd>/</kbd><span>Search players</span></div><div><kbd>↑ ↓</kbd><span>Move through players</span></div><div><kbd>Enter</kbd><span>Draft selected player</span></div><div><kbd>P</kbd><span>Toggle position view</span></div><div><kbd>← →</kbd><span>Change position filter or lane</span></div><div><kbd>S</kbd><span>Change sort</span></div><div><kbd>D</kbd><span>Show or hide drafted players</span></div><div><kbd>F</kbd><span>Favorite selected player</span></div><div><kbd>,</kbd><span>Open settings</span></div><div><kbd>⌘ Z</kbd><span>Undo · <kbd>⇧ ⌘ Z</kbd> redo</span></div><div><kbd>?</kbd><span>Show or hide this guide</span></div></div><p className="shortcut-dialog__hint">Shortcuts pause while you type in a field. Press <kbd>Esc</kbd> to close panels.</p></section></div> : null}
     </main>
     <div hidden={route !== 'analytics'}>
-      <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onNavigate={onNavigate} />
+      <RankingsDiffChart rows={displayRows} teams={teams} source={selectedSource} drafted={drafted} onNavigate={onNavigate} historicOnly={historicOnly} />
     </div>
   </>)
 }

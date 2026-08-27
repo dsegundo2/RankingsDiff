@@ -10,7 +10,7 @@ import { withBasePath } from '../data/paths'
 type SortKey = 'rank' | 'player' | 'position' | 'offer_amount' | 'espn_suggested_value' | 'value_diff' | 'manager' | 'nfl_team'
 type HistoricView = 'players' | 'averages'
 type AverageSortKey = 'rank' | 'average_over_under' | 'highest_paid' | 'lowest_paid'
-type Props = { season: 2022 | 2023 | 2024 | 2025; rows: DraftRankingRow[]; rowsBySeason: Record<number, DraftRankingRow[]>; teams: Record<string, TeamAsset>; onNavigate: (path: 'board' | 'analytics' | 'draft') => void; onSeason: (season: 2022 | 2023 | 2024 | 2025) => void }
+type Props = { season: 2022 | 2023 | 2024 | 2025; rows: DraftRankingRow[]; rowsBySeason: Record<number, DraftRankingRow[]>; teams: Record<string, TeamAsset>; onNavigate: (path: 'board' | 'analytics' | 'draft') => void; onSeason: (season: 2022 | 2023 | 2024 | 2025) => void; historicOnly?: boolean }
 
 const POSITION_ORDER = ['ALL', 'QB', 'RB', 'WR', 'TE', 'K', 'D/ST']
 const POSITION_MARKET_SLOTS = [['QB', 1], ['RB', 1], ['RB', 2], ['WR', 1], ['WR', 2], ['TE', 1]] as const
@@ -31,7 +31,7 @@ function HistoricPlayer({ row, teams, detail }: { row?: DraftRankingRow; teams: 
   return <span className="historic-player"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><span>{row.player}{detail ? ` · ${detail}` : ''}</span></span>
 }
 
-export function DraftRankingsPage({ season, rows, rowsBySeason, teams, onNavigate, onSeason }: Props) {
+export function DraftRankingsPage({ season, rows, rowsBySeason, teams, onNavigate, onSeason, historicOnly = false }: Props) {
   const [position, setPosition] = useState('ALL')
   const [search, setSearch] = useState('')
   const [sortKey, setSortKey] = useState<SortKey>('offer_amount')
@@ -107,7 +107,7 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, teams, onNavigat
   return <main className="dashboard draft-rankings-page">
     <section className="hero hero--compact hero--editorial" aria-label="Draft rankings header">
       <div className="hero__brand"><img className="hero__mark" src={withBasePath('/assets/rankingsdiff-mark.png')} alt="RankingsDiff" /><div><span className="eyebrow">Auction results</span><h1>{season} Draft</h1><p className="view-summary"><strong>{rows.length}</strong> players · <strong>{new Set(rows.map((row) => row.manager)).size}</strong> managers</p></div></div>
-      <div className="hero__context"><ViewTabs active="draft" onNavigate={onNavigate} /></div>
+      <div className="hero__context"><ViewTabs active="draft" onNavigate={onNavigate} hideBoard={historicOnly} /></div>
     </section>
 
     <section className="historic-controls" aria-label="Historic results filters">

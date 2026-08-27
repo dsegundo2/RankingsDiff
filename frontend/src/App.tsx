@@ -74,9 +74,28 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   </main>
 }
 
+function isHistoricOnlyPath(pathname: string): boolean {
+  return pathname.endsWith('-historic') || pathname.endsWith('/historic')
+}
+
+function routeForPath(pathname: string): 'board' | 'analytics' | 'draft' {
+  const historicOnly = isHistoricOnlyPath(pathname)
+  return pathname.includes('/analytics/rankings-diff')
+    ? 'analytics'
+    : historicOnly || pathname.match(/\/draft-rankings\/(2022|2023|2024|2025)$/)
+      ? 'draft'
+      : 'board'
+}
+
+function seasonForPath(pathname: string): 2022 | 2023 | 2024 | 2025 {
+  const match = pathname.match(/\/draft-rankings\/(2022|2023|2024|2025)/)
+  return match ? Number(match[1]) as 2022 | 2023 | 2024 | 2025 : 2025
+}
+
 function AppData() {
-  const [route, setRoute] = useState<'board' | 'analytics' | 'draft'>(() => window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : window.location.pathname.match(/\/draft-rankings\/(2022|2023|2024|2025)$/) ? 'draft' : 'board')
-  const [draftSeason, setDraftSeason] = useState<2022 | 2023 | 2024 | 2025>(() => window.location.pathname.endsWith('/draft-rankings/2022') ? 2022 : window.location.pathname.endsWith('/draft-rankings/2023') ? 2023 : window.location.pathname.endsWith('/draft-rankings/2024') ? 2024 : 2025)
+  const [route, setRoute] = useState<'board' | 'analytics' | 'draft'>(() => routeForPath(window.location.pathname))
+  const [draftSeason, setDraftSeason] = useState<2022 | 2023 | 2024 | 2025>(() => seasonForPath(window.location.pathname))
+  const [historicOnly, setHistoricOnly] = useState(() => isHistoricOnlyPath(window.location.pathname))
   const [manifest, setManifest] = useState<DataManifest>(emptyManifest)
   const [teams, setTeams] = useState<Record<string, TeamAsset>>({})
   const [rows, setRows] = useState<RankingRow[]>([])
@@ -94,23 +113,24 @@ function AppData() {
 
   useEffect(() => {
     const handlePopState = () => {
-      const match = window.location.pathname.match(/\/draft-rankings\/(2022|2023|2024|2025)$/)
-      setRoute(window.location.pathname.endsWith('/analytics/rankings-diff') ? 'analytics' : match ? 'draft' : 'board')
-      if (match) setDraftSeason(Number(match[1]) as 2022 | 2023 | 2024 | 2025)
+      setRoute(routeForPath(window.location.pathname))
+      setHistoricOnly(isHistoricOnlyPath(window.location.pathname))
+      setDraftSeason(seasonForPath(window.location.pathname))
     }
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
   function navigate(nextRoute: 'board' | 'analytics' | 'draft') {
-    const path = nextRoute === 'analytics' ? `${import.meta.env.BASE_URL}analytics/rankings-diff` : nextRoute === 'draft' ? `${import.meta.env.BASE_URL}draft-rankings/2025` : (import.meta.env.BASE_URL || '/')
+    const suffix = historicOnly ? '-historic' : ''
+    const path = nextRoute === 'analytics' ? `${import.meta.env.BASE_URL}analytics/rankings-diff${suffix}` : nextRoute === 'draft' ? `${import.meta.env.BASE_URL}draft-rankings/2025${suffix}` : (import.meta.env.BASE_URL || '/')
     window.history.pushState({}, '', path)
     setRoute(nextRoute)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   function navigateDraftSeason(nextSeason: 2022 | 2023 | 2024 | 2025) {
-    const path = `${import.meta.env.BASE_URL}draft-rankings/${nextSeason}`
+    const path = `${import.meta.env.BASE_URL}draft-rankings/${nextSeason}${historicOnly ? '-historic' : ''}`
     window.history.pushState({}, '', path)
     setRoute('draft')
     setDraftSeason(nextSeason)
@@ -200,10 +220,10 @@ function AppData() {
   if (error) return <ErrorState message={error} onRetry={() => { setRows([]); setRowsLoading(true); setHasLoadedRows(false); setRetryKey((current) => current + 1) }} />
   if (manifestLoading || !manifest.seasons.length || !selectedSource || !hasLoadedRows) return <LoadingState detail={manifestLoading ? undefined : `Loading ${selectedMeta?.label ?? 'the selected source'} rankings…`} />
 
-  if (route === 'draft') return <DraftRankingsPage season={draftSeason} rows={draftRowsBySeason[draftSeason] ?? []} rowsBySeason={draftRowsBySeason} teams={teams} onNavigate={navigate} onSeason={navigateDraftSeason} />
+  if (route === 'draft') return <DraftRankingsPage season={draftSeason} rows={draftRowsBySeason[draftSeason] ?? []} rowsBySeason={draftRowsBySeason} teams={teams} onNavigate={navigate} onSeason={navigateDraftSeason} historicOnly={historicOnly} />
 
   const displayedRows = applyAdjustedProfile(rows, selectedProfile?.id ?? 'full-ppr', selectedSource)
-  return <RankingsDashboard manifest={manifest} rows={displayedRows} draftRowsBySeason={draftRowsBySeason} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} route={route} onNavigate={navigate} />
+  return <RankingsDashboard manifest={manifest} rows={displayedRows} draftRowsBySeason={draftRowsBySeason} teams={teams} yahooProjections={yahooProjections} sourceChecks={sourceChecks} selectedSeason={selectedSeason} selectedSource={selectedSource} adjustedProfiles={adjustedProfiles} selectedAdjustedProfile={selectedProfile?.id ?? 'full-ppr'} onAdjustedProfile={setSelectedAdjustedProfile} onSeason={handleSeason} onSource={setSelectedSource} route={route} onNavigate={navigate} historicOnly={historicOnly} />
 }
 
 export default function App() {
