@@ -1,4 +1,4 @@
-import { useState, type DragEvent } from 'react'
+import { useEffect, useRef, useState, type DragEvent } from 'react'
 import type { RankingRow, RankingSource, TeamAsset } from '../types'
 import { rankingId } from '../data/draftState'
 import { DEFAULT_ROSTER_TARGETS, rosterTargetLabel, rosterTargetSlots, rosterTargetTotal, type RosterTargetGoals } from '../data/rosterTargets'
@@ -31,6 +31,17 @@ export function AuctionRosterPanel({ rows, teams, targetGoals, drafted, targetRo
   const [priceDraft, setPriceDraft] = useState('')
   const [draggingId, setDraggingId] = useState<string | null>(null)
   const [dropSlot, setDropSlot] = useState<string | null>(null)
+  const previousDraftedRef = useRef<Set<string>>(new Set(drafted))
+
+  useEffect(() => {
+    const previous = previousDraftedRef.current
+    const addedId = mode === 'auction' ? [...drafted].find((id) => !previous.has(id)) : undefined
+    previousDraftedRef.current = new Set(drafted)
+    if (addedId && prices[addedId] === undefined) {
+      setEditingPriceId(addedId)
+      setPriceDraft('')
+    }
+  }, [drafted, mode, prices])
   const rowById = new Map(rows.map((row) => [rankingId(row), row]))
   const picks = [...drafted].map((id) => ({ id, row: rowById.get(id) })).filter((pick): pick is { id: string; row: RankingRow } => Boolean(pick.row))
   const spent = picks.reduce((total, pick) => total + (prices[pick.id] ?? 0), 0)
