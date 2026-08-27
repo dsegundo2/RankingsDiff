@@ -125,10 +125,10 @@ body:has(.app-theme--studio-mint) { background: #edf7f3; }
 .app-theme--ranking-blue {
   --ink: #10284b;
   --muted: #60718b;
-  --surface: #eef5fd;
-  --panel: #ffffff;
-  --panel-soft: #f2f7fd;
-  --line: #d4e0f0;
+  --surface: #efe9df;
+  --panel: #fffdfa;
+  --panel-soft: #f8f3eb;
+  --line: #d9d0c3;
   --accent: #1f5fae;
   --accent-2: #6ea7df;
   --accent-soft: #e6f0fc;
@@ -143,8 +143,22 @@ body:has(.app-theme--studio-mint) { background: #edf7f3; }
   color: var(--ink);
   background: linear-gradient(145deg, #eaf3fc 0%, #f8fbfe 58%, #edf5fc 100%);
 }
-body:has(.app-theme--ranking-blue) { background: #eef5fd; }
+body:has(.app-theme--ranking-blue) { background: #efe9df; }
+.app-theme--ranking-blue::before {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  background:
+    linear-gradient(135deg, rgb(239 233 223 / 88%), rgb(239 233 223 / 70%)),
+    url('/assets/bourbon-walnut-background.png') center / cover;
+  opacity: .72;
+  pointer-events: none;
+}
+.app-theme--ranking-blue > * { position: relative; z-index: 1; }
 .app-theme--ranking-blue .hero__mark { object-fit: cover; background: #000; box-shadow: 0 10px 24px rgb(31 95 174 / 20%); }
+.app-theme--ranking-blue .hero-actions--workbench,
+.app-theme--ranking-blue .draft-toolbar { background: rgb(255 253 249 / 86%); }
 .app-theme--ranking-blue .hero--editorial { border-bottom-color: var(--line); }
 .app-theme--ranking-blue .table-wrap, .app-theme--ranking-blue .target-queue, .app-theme--ranking-blue .ranking-card { border-color: var(--line); }
 .app-theme--ranking-blue th { background: rgb(230 240 252 / 94%); }
