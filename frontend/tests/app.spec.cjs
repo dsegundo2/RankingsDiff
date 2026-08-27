@@ -1250,11 +1250,11 @@ test('roster settings show total spend and support additional slots', async ({ p
   await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByRole('button', { name: /^Roster targets/ }).click()
   await expect(page.getByLabel('Roster target summary')).toContainText('$210')
-  await expect(page.getByLabel('Roster target summary')).toContainText('16 total positions')
+  await expect(page.getByLabel('Roster target summary')).toContainText('15 total positions')
   await page.getByLabel('New roster slot type').selectOption('BENCH')
   await page.getByRole('button', { name: 'Add slot' }).click()
   await expect(page.getByLabel('Roster target summary')).toContainText('$215')
-  await expect(page.getByLabel('Roster target summary')).toContainText('15 total positions')
+  await expect(page.getByLabel('Roster target summary')).toContainText('16 total positions')
 })
 
 test('draft view and filters survive refresh', async ({ page }) => {
