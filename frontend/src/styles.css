@@ -2186,6 +2186,9 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .auction-inspector__pills span:last-child { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 25%, var(--line)); background: var(--accent-soft); }
 .auction-inspector__stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; padding: 0 20px 16px; }
 .auction-inspector__stats article { padding: 11px; border-radius: var(--radius-sm); background: var(--panel-soft); }
+.auction-inspector__stats article.is-highlighted { border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line)); background: linear-gradient(145deg, var(--accent-soft), var(--panel-soft)); box-shadow: 0 5px 14px color-mix(in srgb, var(--accent) 16%, transparent); }
+.auction-inspector__stats article.is-highlighted strong { color: var(--accent); font-size: 1.16rem; }
+.auction-inspector__stats article.is-highlighted small { color: var(--accent); font-weight: 800; }
 .auction-inspector__stats strong, .auction-inspector__stats small { display: block; }
 .auction-inspector__stats strong { font-size: 1.05rem; font-variant-numeric: tabular-nums; }
 .auction-inspector__stats small { margin-top: 2px; color: var(--muted); font-size: .68rem; }
