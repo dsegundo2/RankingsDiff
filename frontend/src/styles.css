@@ -2313,6 +2313,8 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .historic-position-table th:nth-child(4), .historic-position-table td:nth-child(4) { width: 29%; }
 .historic-position-table th:nth-child(5), .historic-position-table td:nth-child(5) { width: 14%; }
 .historic-position-table th:nth-child(6), .historic-position-table td:nth-child(6) { width: 12%; }
+.historic-manager-highs-table { min-width: 1280px; }
+.historic-manager-highs-table th:not(:first-child), .historic-manager-highs-table td:not(:first-child) { width: 17.2%; }
 .historic-player { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; }
 .historic-player .team-badge { width: 24px; height: 24px; flex: 0 0 24px; }
 .historic-player .team-badge img { width: 20px; height: 20px; }
