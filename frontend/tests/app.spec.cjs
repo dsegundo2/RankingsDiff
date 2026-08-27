@@ -934,6 +934,15 @@ test('roster target settings update expected spend by slot', async ({ page }) =>
   await expect(page.getByLabel('My draft roster')).toContainText('target $60')
 })
 
+test('second flex target is visible and adjustable', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Roster targets/ }).click()
+  await expect(page.getByLabel('Expected price for FLEX2')).toHaveValue('10')
+  await page.getByLabel('Expected price for FLEX2').fill('18')
+  await expect(page.getByLabel('Roster target summary')).toContainText('$218')
+})
+
 test('auction target status uses subtle under and over treatments', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()
@@ -1240,11 +1249,11 @@ test('roster settings show total spend and support additional slots', async ({ p
   await page.goto('./')
   await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByRole('button', { name: /^Roster targets/ }).click()
-  await expect(page.getByLabel('Roster target summary')).toContainText('$200')
-  await expect(page.getByLabel('Roster target summary')).toContainText('14 total positions')
+  await expect(page.getByLabel('Roster target summary')).toContainText('$210')
+  await expect(page.getByLabel('Roster target summary')).toContainText('16 total positions')
   await page.getByLabel('New roster slot type').selectOption('BENCH')
   await page.getByRole('button', { name: 'Add slot' }).click()
-  await expect(page.getByLabel('Roster target summary')).toContainText('$205')
+  await expect(page.getByLabel('Roster target summary')).toContainText('$215')
   await expect(page.getByLabel('Roster target summary')).toContainText('15 total positions')
 })
 
