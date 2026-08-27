@@ -102,8 +102,8 @@ export function DraftRankingsPage({ season, rows, rowsBySeason, teams, onNavigat
     return { year, average, change: average === null || previousAverage === null ? null : average - previousAverage, biggest }
   }), [rowsBySeason])
   const averageLabel = position === 'ALL' ? 'Overall' : position
-  const averageMoney = (value: number | null) => value === null ? '—' : `$${Math.round(value)}`
-  const averageDelta = (value: number | null) => value === null ? '—' : `${value >= 0 ? '+' : '-'}$${Math.round(Math.abs(value))}`
+  const averageMoney = (value: number | null) => value === null ? '—' : `$${value.toFixed(1)}`
+  const averageDelta = (value: number | null) => value === null ? '—' : `${value >= 0 ? '+' : '-'}$${Math.abs(value).toFixed(1)}`
 
   return <main className="dashboard draft-rankings-page">
     <section className="hero hero--compact hero--editorial" aria-label="Draft rankings header">

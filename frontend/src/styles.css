@@ -2262,6 +2262,8 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .historic-averages__table { min-width: 720px; }
 .historic-averages__table th, .historic-averages__table td { padding: 11px 14px; }
 .historic-averages__table th:not(:first-child), .historic-averages__table td:not(:first-child) { text-align: right; }
+.historic-averages__table td.is-over, .historic-year-table td.is-over { color: var(--danger); }
+.historic-averages__table td.is-under, .historic-year-table td.is-under { color: var(--good); }
 .historic-averages__table tbody tr:first-child td { border-top: 2px solid color-mix(in srgb, var(--accent) 35%, var(--line)); }
 @media (max-width: 980px) { .draft-rankings-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); } .draft-rankings-controls { grid-template-columns: 1fr; } .historic-controls { grid-template-columns: 150px 100px minmax(0, 1fr); } .historic-controls__view { grid-column: 1 / -1; } .historic-controls__positions { grid-column: 1 / -1; } .drafted-toggle { justify-self: start; } .historic-averages__intro { align-items: flex-start; flex-direction: column; } .historic-averages__intro .position-pills { justify-content: flex-start; } }
 @media (max-width: 560px) { .historic-controls { grid-template-columns: 1fr 1fr; } .historic-controls__view, .historic-controls__search, .historic-controls__positions { grid-column: 1 / -1; } .historic-controls__view { width: 100%; } .historic-view-toggle button { padding-inline: 7px; } .historic-controls__positions .position-pills { flex-wrap: wrap; } }
