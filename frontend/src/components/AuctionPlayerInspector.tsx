@@ -1,6 +1,6 @@
 import { useRef, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent } from 'react'
 import type { DraftRankingRow, RankingRow, TeamAsset } from '../types'
-import { enrichDraftRows, overallSlotHistory, slotHistory, slotSummaries, tierSummaries, type HistoricalYear } from '../data/draftAnalytics'
+import { enrichDraftRows, overallSlotHistory, slotHistory, slotSummaries, type HistoricalYear } from '../data/draftAnalytics'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { formatSignedValue, formatValue, formatRank } from '../data/rankings'
 import { TeamBadge } from './TeamBadge'
@@ -15,6 +15,7 @@ function HistoryTable({ label, history, summary }: { label: string; history: His
 
 export function AuctionPlayerInspector({ row, allRows, dragOffset, rowsBySeason, season, teams, favorited, onFavorite, onClose, onDraft, onAdd, onNavigate, onDragOffsetChange }: Props) {
   const [focusedAction, setFocusedAction] = useState<'draft' | 'team'>('draft')
+  const [historyExpanded, setHistoryExpanded] = useState(true)
   const dragStart = useRef<{ pointerId: number; x: number; y: number; offsetX: number; offsetY: number } | null>(null)
   const draftButton = useRef<HTMLButtonElement>(null)
   const teamButton = useRef<HTMLButtonElement>(null)
@@ -29,8 +30,6 @@ export function AuctionPlayerInspector({ row, allRows, dragOffset, rowsBySeason,
   const yearHistory = slotHistory(rowsBySeason, position, rank)
   const overallHistory = overallSlotHistory(rowsBySeason, overallRank)
   const overallSlots = overallHistory.length ? { average_expected: overallHistory.reduce((sum, item) => sum + item.expected, 0) / overallHistory.length, average_over_under: overallHistory.reduce((sum, item) => sum + item.over_under, 0) / overallHistory.length } : undefined
-  const tiers = tierSummaries(rowsBySeason, position)
-  const tier = tiers.find((item) => rank >= item.start_rank && rank <= item.end_rank)
   const team = normalizeTeamAbbreviation(row.team)
   const overUnder = slot?.average_over_under
   const historicalPrice = typeof row.sourceValue === 'number' && typeof overUnder === 'number' ? Math.round(row.sourceValue + overUnder) : row.sourceValue
@@ -67,9 +66,9 @@ export function AuctionPlayerInspector({ row, allRows, dragOffset, rowsBySeason,
   return <div className="inspector-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
     <section className="auction-inspector" style={{ transform: `translate(${dragOffset.x}px, ${dragOffset.y}px)` }} role="dialog" aria-modal="true" aria-labelledby="auction-inspector-title" onKeyDown={handleActionKeys}>
       <header className="auction-inspector__header" onPointerDown={handleDragStart} onPointerMove={handleDragMove} onPointerUp={handleDragEnd} onPointerCancel={handleDragEnd}><div className="auction-inspector__player"><TeamBadge team={team} asset={getTeamAsset(teams, team)} /><div><span className="eyebrow">{position}{rank || '—'} · historical signal</span><h2 id="auction-inspector-title">{row.player}</h2></div></div><div className="auction-inspector__header-actions"><button className={`icon-action target-action${favorited ? ' active' : ''}`} type="button" aria-label={favorited ? `Remove ${row.player} favorite` : `Favorite ${row.player}`} aria-pressed={favorited} title={favorited ? 'Remove favorite' : 'Favorite'} onClick={onFavorite}>★</button><button className="icon-action" type="button" aria-label="Close player details" onClick={onClose}>×</button></div></header>
-      <div className="auction-inspector__pills"><span>OVR {formatRank(row.sourceRank)}</span><span>ADJ {formatRank(row.adjustedRank)}</span><span>Tier {tier?.rank ?? '—'}</span></div>
+      <div className="auction-inspector__pills"><span>OVR {formatRank(row.sourceRank)}</span><span>ADJ {formatRank(row.adjustedRank)}</span></div>
       <div className="auction-inspector__stats"><article><strong>{formatValue(row.sourceValue)}</strong><small>Base price</small></article><article><strong>{formatValue(row.adjustedValue)}</strong><small>Adjusted price</small></article><article className={overUnder !== null && typeof overUnder === 'number' && overUnder > 1 ? 'is-over' : overUnder !== null && typeof overUnder === 'number' && overUnder < -1 ? 'is-under' : ''}><strong>{formatValue(historicalPrice)}</strong><small>Historical price estimate</small></article></div>
-      <details className="auction-inspector__history" open><summary><strong>Past years</strong><span>Expand</span></summary><div><HistoryTable label={`${position}${rank || '—'}`} history={yearHistory} summary={slot} /><HistoryTable label={`Overall ${overallRank || '—'}`} history={overallHistory} summary={overallSlots} /></div></details>
+      <details className="auction-inspector__history" open={historyExpanded} onToggle={(event) => setHistoryExpanded(event.currentTarget.open)}><summary><strong>Past years</strong><span>{historyExpanded ? 'Collapse' : 'Expand'}</span></summary><div><HistoryTable label={`${position}${rank || '—'}`} history={yearHistory} summary={slot} /><HistoryTable label={`Overall ${overallRank || '—'}`} history={overallHistory} summary={overallSlots} /></div></details>
       <footer className="auction-inspector__actions"><button ref={draftButton} autoFocus className={`primary-action${focusedAction === 'draft' ? ' action-focused' : ''}`} type="button" onMouseEnter={() => setFocusedAction('draft')} onClick={onDraft}>Draft</button><button ref={teamButton} className={`secondary-action${focusedAction === 'team' ? ' action-focused' : ''}`} type="button" onMouseEnter={() => setFocusedAction('team')} onFocus={() => setFocusedAction('team')} onClick={onAdd}>Add to team</button></footer>
     </section>
   </div>

@@ -2202,7 +2202,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .auction-inspector__history p { margin: 4px 0; }
 .auction-inspector__history p strong { color: var(--ink); }
 .auction-inspector__history-group + .auction-inspector__history-group { margin-top: 14px; }
-.auction-inspector__history-group h3 { margin: 12px 0 7px; color: var(--ink); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.auction-inspector__history-group h3 { display: inline-flex; margin: 12px 0 7px; padding: 5px 9px; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); border-radius: var(--radius-pill); color: var(--accent); background: var(--accent-soft); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
 .auction-inspector__history table { width: 100%; margin-top: 10px; border: 1px solid var(--line); border-radius: var(--radius-sm); border-spacing: 0; border-collapse: separate; overflow: hidden; color: var(--ink); font-size: .72rem; }
 .auction-inspector__history thead { background: var(--panel-soft); }
 .auction-inspector__history th { color: var(--muted); font-size: .64rem; font-weight: 800; text-align: right; text-transform: uppercase; }
