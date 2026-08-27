@@ -2055,9 +2055,9 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
   border-bottom: 1px solid var(--ink);
 }
 .hero--editorial .hero__brand { display: flex; gap: var(--space-3); align-items: center; min-width: 0; }
-.hero--editorial .hero__mark { display: inline-flex; width: 38px; height: 38px; flex: 0 0 38px; align-items: center; justify-content: center; border-radius: var(--radius-md); color: #fff; background: var(--ink); font-size: .84rem; font-weight: 950; letter-spacing: -.2em; }
+.hero--editorial .hero__mark { display: inline-flex; width: 50px; height: 50px; flex: 0 0 50px; align-items: center; justify-content: center; border-radius: var(--radius-lg); color: #fff; background: var(--ink); font-size: .84rem; font-weight: 950; letter-spacing: -.2em; }
 .hero--editorial .hero__mark b:last-child { opacity: .62; }
-.hero--editorial h1 { margin: 3px 0 0; font-size: clamp(1.45rem, 3vw, 2rem); line-height: 1; letter-spacing: -.055em; }
+.hero--editorial h1 { margin: 3px 0 0; font-size: clamp(2rem, 4vw, 2.75rem); line-height: .96; letter-spacing: -.06em; }
 .hero--editorial .hero__brand small { display: block; margin-top: 4px; color: var(--muted); font-size: .68rem; }
 .hero--editorial .hero__context { display: grid; gap: 4px; justify-items: end; padding-left: var(--space-4); border-left: 1px solid var(--line); }
 .hero--editorial .hero__context-actions { display: flex; min-height: 34px; gap: var(--space-2); align-items: center; justify-content: flex-end; width: 100%; }
@@ -2155,7 +2155,7 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .view-tabs { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--panel) 88%, var(--accent-soft)); }
 .view-tabs button { min-height: 32px; border: 0; border-radius: 9px; padding: 7px 11px; color: var(--muted); background: transparent; font-size: .74rem; font-weight: 850; white-space: nowrap; }
 .view-tabs button:hover, .view-tabs button:focus-visible { color: var(--accent); background: var(--accent-soft); outline: 0; }
-.view-tabs button.active { color: var(--ink); background: var(--panel); box-shadow: var(--shadow-sm); }
+.view-tabs button.active { color: #fff; background: var(--accent); box-shadow: 0 3px 8px color-mix(in srgb, var(--accent) 28%, transparent); }
 .draft-rankings-page { max-width: 1440px; }
 .draft-rankings-mark { width: 58px; height: 58px; margin: 0; border-radius: 18px; font-size: 1.1rem; letter-spacing: -.06em; }
 .draft-rankings-summary { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 18px 0 12px; }
@@ -2230,12 +2230,18 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .draft-view-switcher { display: flex; gap: 4px; width: fit-content; margin: 14px 0 16px; padding: 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
 .draft-view-switcher button { border: 0; border-radius: 8px; padding: 8px 13px; color: var(--muted); background: transparent; font-size: .78rem; font-weight: 850; }
 .draft-view-switcher button.active { color: var(--ink); background: var(--accent-soft); }
-.historic-controls { display: grid; grid-template-columns: 170px 110px minmax(220px, .7fr) minmax(0, 1.35fr); gap: 12px; align-items: end; margin: -2px 0 18px; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: color-mix(in srgb, var(--panel) 88%, var(--accent-soft)); }
-.historic-controls label, .historic-controls__positions { display: grid; gap: 5px; min-width: 0; }
+.historic-controls { display: grid; grid-template-columns: minmax(260px, 1.15fr) 120px minmax(220px, .9fr) minmax(0, 1.35fr); gap: 16px; align-items: end; margin: 0 0 20px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--panel) 88%, var(--accent-soft)); box-shadow: var(--shadow-sm); }
+.historic-controls label, .historic-controls__positions, .historic-controls__view { display: grid; gap: 6px; min-width: 0; }
 .historic-controls label > span, .historic-controls__positions > span { color: var(--muted); font-size: .67rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
 .historic-controls select, .historic-controls input { width: 100%; min-height: 38px; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; color: var(--ink); background: var(--panel); font: inherit; font-size: .8rem; }
 .historic-controls__positions .position-pills { display: flex; gap: 5px; min-width: 0; }
 .historic-controls__positions .position-pills button { min-height: 38px; padding: 7px 10px; }
+.historic-controls__view { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+.historic-controls__view legend { padding: 0; color: var(--muted); font-size: .67rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.historic-view-toggle { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel-soft); }
+.historic-view-toggle button { min-height: 38px; border: 1px solid transparent; border-radius: var(--radius-sm); padding: 7px 10px; color: var(--muted); background: transparent; font: inherit; font-size: .78rem; font-weight: 850; white-space: nowrap; }
+.historic-view-toggle button:hover, .historic-view-toggle button:focus-visible { color: var(--accent); background: var(--accent-soft); }
+.historic-view-toggle button.active { border-color: var(--accent); color: #fff; background: var(--accent); box-shadow: var(--shadow-sm); }
 .historic-averages { display: grid; gap: 14px; }
 .historic-signal-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .historic-signal-cards article { display: grid; gap: 5px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-soft); }
@@ -2255,8 +2261,8 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .historic-averages__table th, .historic-averages__table td { padding: 11px 14px; }
 .historic-averages__table th:not(:first-child), .historic-averages__table td:not(:first-child) { text-align: right; }
 .historic-averages__table tbody tr:first-child td { border-top: 2px solid color-mix(in srgb, var(--accent) 35%, var(--line)); }
-@media (max-width: 980px) { .draft-rankings-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); } .draft-rankings-controls { grid-template-columns: 1fr; } .historic-controls { grid-template-columns: 150px 100px minmax(0, 1fr); } .historic-controls__positions { grid-column: 1 / -1; } .drafted-toggle { justify-self: start; } .historic-averages__intro { align-items: flex-start; flex-direction: column; } .historic-averages__intro .position-pills { justify-content: flex-start; } }
-@media (max-width: 560px) { .historic-controls { grid-template-columns: 1fr 1fr; } .historic-controls__search, .historic-controls__positions { grid-column: 1 / -1; } .historic-controls__positions .position-pills { flex-wrap: wrap; } }
+@media (max-width: 980px) { .draft-rankings-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); } .draft-rankings-controls { grid-template-columns: 1fr; } .historic-controls { grid-template-columns: 150px 100px minmax(0, 1fr); } .historic-controls__view { grid-column: 1 / -1; } .historic-controls__positions { grid-column: 1 / -1; } .drafted-toggle { justify-self: start; } .historic-averages__intro { align-items: flex-start; flex-direction: column; } .historic-averages__intro .position-pills { justify-content: flex-start; } }
+@media (max-width: 560px) { .historic-controls { grid-template-columns: 1fr 1fr; } .historic-controls__view, .historic-controls__search, .historic-controls__positions { grid-column: 1 / -1; } .historic-controls__view { width: 100%; } .historic-view-toggle button { padding-inline: 7px; } .historic-controls__positions .position-pills { flex-wrap: wrap; } }
 @media (max-width: 620px) { .draft-rankings-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } .draft-rankings-summary article:first-child { grid-column: 1 / -1; } .draft-rankings-meta { align-items: flex-start; flex-direction: column; } .draft-rankings-meta span { margin-left: 0; } .hero__links { justify-content: flex-start; } .view-tabs { width: 100%; } .view-tabs button { flex: 1; padding-inline: 6px; font-size: .69rem; } .draft-reference { align-items: flex-start; flex-direction: column; } }
 @media (max-width: 620px) { .historic-signal-cards { grid-template-columns: 1fr; } }
 
