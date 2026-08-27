@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Draft Distillery · Logo prominence options</title>
+  <style>
+    :root { --ink:#102b50; --muted:#637695; --blue:#2465b1; --line:#d5e1ef; --surface:#eef5fc; --panel:#fff; --amber:#b96920; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-width:320px; color:var(--ink); background:radial-gradient(circle at 0 0,#dbeafd 0,transparent 34rem),var(--surface); font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { width:min(1240px,calc(100% - 32px)); margin:auto; padding:36px 0 64px; }
+    .intro { display:flex; align-items:end; justify-content:space-between; gap:24px; margin-bottom:28px; }
+    .eyebrow { color:var(--blue); font-size:.72rem; font-weight:850; letter-spacing:.14em; text-transform:uppercase; }
+    h1 { margin:8px 0 0; font-size:clamp(2.2rem,6vw,4.8rem); line-height:.92; letter-spacing:-.07em; }
+    .intro p { max-width:650px; margin:12px 0 0; color:var(--muted); line-height:1.55; }
+    .back { color:var(--blue); font-size:.8rem; font-weight:800; text-decoration:none; white-space:nowrap; }
+    .options { display:grid; gap:20px; }
+    .option { overflow:hidden; border:1px solid var(--line); border-radius:24px; background:rgb(255 255 255 / .9); box-shadow:0 18px 48px rgb(33 69 111 / .11); }
+    .option__meta { display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:18px 22px 0; }
+    .option__meta h2 { margin:0; font-size:1.15rem; }
+    .option__meta p { margin:0; color:var(--muted); font-size:.78rem; }
+    .preview { margin:18px; border:1px solid var(--line); border-radius:17px; background:linear-gradient(135deg,#f7fbff,#eaf3fc); box-shadow:inset 0 1px #fff; }
+    .preview__context { color:var(--muted); font-size:.68rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .preview__title { margin:4px 0 0; color:var(--ink); font-size:clamp(1.8rem,4vw,3.2rem); font-weight:850; line-height:.95; letter-spacing:-.065em; }
+    .preview__detail { margin:8px 0 0; color:var(--muted); font-size:.85rem; font-weight:700; }
+    .preview--side { display:grid; grid-template-columns:auto 1fr auto; gap:20px; align-items:center; padding:20px 24px; }
+    .preview--side .mark { width:92px; height:92px; }
+    .preview--center { display:grid; justify-items:center; padding:22px; text-align:center; }
+    .preview--center .mark { width:116px; height:116px; margin-bottom:10px; }
+    .preview--center .preview__detail { margin-top:10px; }
+    .preview--rail { display:grid; grid-template-columns:156px 1fr auto; gap:24px; align-items:center; padding:22px 26px 22px 14px; }
+    .preview--rail .brand-rail { display:grid; justify-items:center; gap:4px; padding:10px 14px; border-right:1px solid var(--line); }
+    .preview--rail .mark { width:132px; height:132px; }
+    .brand-rail span { color:var(--blue); font-size:.6rem; font-weight:900; letter-spacing:.13em; text-transform:uppercase; }
+    .nav { display:flex; gap:7px; align-items:center; }
+    .nav span { padding:9px 12px; border:1px solid var(--line); border-radius:999px; color:var(--muted); background:#fff; font-size:.7rem; font-weight:800; white-space:nowrap; }
+    .nav span:last-child { color:#fff; border-color:var(--blue); background:var(--blue); }
+    .note { margin:0; padding:0 22px 20px; color:var(--muted); font-size:.8rem; line-height:1.5; }
+    @media (max-width:760px) { main { padding-top:24px; } .intro { display:block; } .back { display:inline-block; margin-top:18px; } .preview--side { grid-template-columns:auto 1fr; } .preview--side .nav, .preview--rail .nav { grid-column:1 / -1; } .preview--rail { grid-template-columns:108px 1fr; gap:14px; padding-right:14px; } .preview--rail .brand-rail { padding-inline:6px; } .preview--rail .mark { width:88px; height:88px; } .preview__title { font-size:2rem; } }
+    @media (max-width:480px) { .preview--side { gap:12px; padding:16px; } .preview--side .mark { width:70px; height:70px; } .preview--center .mark { width:96px; height:96px; } .nav { flex-wrap:wrap; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="intro">
+      <div><span class="eyebrow">Draft Distillery · Header study</span><h1>Make the mark impossible to miss.</h1><p>Three production-minded ways to give the uploaded badge more presence while keeping the draft data dense and immediately scannable. Open this page in Safari and compare the same header context at your normal window size.</p></div>
+      <a class="back" href="./">← Back to Draft Distillery</a>
+    </div>
+    <section class="options" aria-label="Logo prominence options">
+      <article class="option">
+        <div class="option__meta"><h2>Option 1 · Oversized side lockup</h2><p>Best balance for desktop</p></div>
+        <div class="preview preview--side"><img class="mark" src="/assets/rankingsdiff-mark.png" alt="Draft Distillery logo" /><div><div class="preview__context">Fantasy football draft room</div><div class="preview__title">Draft Distillery</div><div class="preview__detail">2025 · ESPN · Full PPR · Snake</div></div><nav class="nav" aria-label="Option 1 navigation"><span>Draft board</span><span>Historic results</span><span>Charts</span></nav></div>
+        <p class="note">The logo grows from 50px to 92px and becomes the visual anchor, while the product name and current draft context stay in one clean row.</p>
+      </article>
+      <article class="option">
+        <div class="option__meta"><h2>Option 2 · Centered bottle seal</h2><p>Best for brand-first impact</p></div>
+        <div class="preview preview--center"><img class="mark" src="/assets/rankingsdiff-mark.png" alt="Draft Distillery logo" /><div class="preview__context">Fantasy football draft room</div><div class="preview__title">Draft Distillery</div><div class="preview__detail">2025 · ESPN · Full PPR · Snake</div><nav class="nav" aria-label="Option 2 navigation"><span>Draft board</span><span>Historic results</span><span>Charts</span></nav></div>
+        <p class="note">The logo sits above the title at 116px, giving the application a strong distillery-seal identity. It costs a little more vertical space.</p>
+      </article>
+      <article class="option">
+        <div class="option__meta"><h2>Option 3 · Brand rail</h2><p>Best for a command-center feel</p></div>
+        <div class="preview preview--rail"><div class="brand-rail"><img class="mark" src="/assets/rankingsdiff-mark.png" alt="Draft Distillery logo" /><span>Draft Distillery</span></div><div><div class="preview__context">Auction results · Draft Distillery</div><div class="preview__title">2025 Draft</div><div class="preview__detail">170 players · 10 managers</div></div><nav class="nav" aria-label="Option 3 navigation"><span>Draft board</span><span>Historic results</span><span>Charts</span></nav></div>
+        <p class="note">A dedicated 132px brand rail gives the logo maximum prominence and separates it from the changing page title, matching the supplied historic-results reference.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
