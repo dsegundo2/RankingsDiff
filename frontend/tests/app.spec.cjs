@@ -89,7 +89,8 @@ test('rankings diff direct URL loads as a first-class view', async ({ page }) =>
 test('2025 historic auction results show ESPN value deltas and position dividers', async ({ page }) => {
   await page.goto('./draft-rankings/2025')
   await expect(page.getByRole('heading', { name: '2025 Draft' })).toBeVisible()
-  await expect(page.getByText('Ja\'Marr Chase · $63').first()).toBeVisible()
+  await expect(page.locator('.historic-records__grid article').first()).toContainText('$63.0')
+  await expect(page.getByText('Ja\'Marr Chase').first()).toBeVisible()
   await expect(page.locator('.draft-rankings-table tbody tr').filter({ hasText: 'Ja\'Marr Chase' }).first()).toContainText('$57')
   await expect(page.locator('.draft-rankings-table tbody tr').filter({ hasText: 'Ja\'Marr Chase' }).first()).toContainText('+$6')
   await expect(page.locator('.draft-rankings-table th').nth(6)).toContainText('Over / under')
@@ -113,14 +114,16 @@ test('historic kicker results use the kicker position color', async ({ page }) =
 test('2024 auction rankings loads from its own direct route', async ({ page }) => {
   await page.goto('./draft-rankings/2024')
   await expect(page.getByRole('heading', { name: '2024 Draft' })).toBeVisible()
-  await expect(page.getByText('Christian McCaffrey · $67').first()).toBeVisible()
+  await expect(page.locator('.historic-records__grid')).toBeVisible()
+  await expect(page.getByText('Christian McCaffrey').first()).toBeVisible()
   await expect(page.getByText('Mike', { exact: true }).first()).toBeVisible()
 })
 
 test('2023 auction rankings loads from its own direct route', async ({ page }) => {
   await page.goto('./draft-rankings/2023')
   await expect(page.getByRole('heading', { name: '2023 Draft' })).toBeVisible()
-  await expect(page.getByText('Justin Jefferson · $63').first()).toBeVisible()
+  await expect(page.locator('.historic-records__grid')).toBeVisible()
+  await expect(page.getByText('Justin Jefferson').first()).toBeVisible()
   await expect(page.getByText('Sammy', { exact: true }).first()).toBeVisible()
 })
 
@@ -137,7 +140,8 @@ test('historic player results can switch seasons', async ({ page }) => {
   await page.getByRole('combobox', { name: 'Draft season' }).selectOption('2023')
   await expect(page).toHaveURL(/\/draft-rankings\/2023$/)
   await expect(page.getByRole('heading', { name: '2023 Draft' })).toBeVisible()
-  await expect(page.getByText('Justin Jefferson · $63').first()).toBeVisible()
+  await expect(page.locator('.historic-records__grid')).toBeVisible()
+  await expect(page.getByText('Justin Jefferson').first()).toBeVisible()
   await expect(page.getByRole('combobox', { name: 'Draft season' })).toHaveValue('2023')
   await page.getByRole('combobox', { name: 'Draft season' }).selectOption('2022')
   await expect(page).toHaveURL(/\/draft-rankings\/2022$/)
@@ -148,25 +152,41 @@ test('historic player results can switch seasons', async ({ page }) => {
 test('historic results condenses season records with overall manager and position patterns', async ({ page }) => {
   await page.goto('./draft-rankings/2025')
   await expect(page.getByRole('heading', { name: 'Biggest purchases' }).first()).toBeVisible()
+  await page.getByRole('button', { name: 'League averages' }).click()
+  await expect(page.getByRole('heading', { name: 'Highest purchases ever' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'How the room is moving' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Manager spending' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Position market' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Highest paid player by position' })).toBeVisible()
-  await expect(page.locator('.historic-patterns__table').first()).toContainText('2022 avg')
+  await expect(page.locator('.historic-patterns__table').nth(1)).toContainText('2022 avg')
   await expect(page.locator('.historic-position-table').first()).toContainText('Avg paid / player')
   await expect(page.locator('.historic-patterns__table').filter({ hasText: 'Dane' }).first()).toContainText('Christian McCaffrey')
-  await expect(page.locator('.draft-rankings-table')).toBeVisible()
+  await expect(page.locator('.historic-averages__table')).toBeVisible()
 })
 
 test('historic results patterns do not overflow narrow screens', async ({ page }) => {
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('./draft-rankings/2025')
+    await page.getByRole('button', { name: 'League averages' }).click()
     await expect(page.getByRole('heading', { name: 'Manager spending' })).toBeVisible()
-    await expect(page.locator('.historic-patterns__table-wrap')).toHaveCount(3)
+    await expect(page.locator('.historic-patterns__table-wrap')).toHaveCount(4)
     await expect(page.locator('.historic-patterns__table-wrap').first()).toBeVisible()
     expect(await page.locator('.historic-patterns__table-wrap').evaluateAll((wrappers) => wrappers.every((wrapper) => wrapper.scrollWidth > wrapper.clientWidth))).toBe(true)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   }
+})
+
+test('league averages sort by clickable data headers and expose all-time records', async ({ page }) => {
+  await page.goto('./draft-rankings/2025')
+  await page.getByRole('button', { name: 'League averages' }).click({ force: true })
+  await expect(page.getByRole('heading', { name: 'Highest purchases ever' })).toBeVisible()
+  const averagePaid = page.getByRole('button', { name: /^Avg paid/ })
+  await expect(averagePaid).toBeVisible()
+  await averagePaid.click()
+  await expect(averagePaid).toContainText('↓')
+  await averagePaid.click()
+  await expect(averagePaid).toContainText('↑')
 })
 
 test('keyboard shortcut guide is discoverable and dismissible', async ({ page }) => {

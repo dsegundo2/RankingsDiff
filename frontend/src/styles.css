@@ -2256,6 +2256,9 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .historic-averages__table-wrap { overflow-x: auto; }
 .historic-averages__table th button { color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; }
 .historic-averages__table th button:hover, .historic-averages__table th button:focus-visible { color: var(--accent); }
+.historic-averages__table th.historic-sortable { cursor: pointer; transition: color .15s ease, background .15s ease; }
+.historic-averages__table th.historic-sortable:hover, .historic-averages__table th.historic-sortable:focus-visible, .historic-averages__table th.historic-sortable.is-sorted { color: var(--accent); background: var(--accent-soft); }
+.historic-averages__table th.historic-sortable:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 24%, transparent); outline-offset: -3px; }
 .historic-averages__table { min-width: 720px; }
 .historic-averages__table th, .historic-averages__table td { padding: 11px 14px; }
 .historic-averages__table th:not(:first-child), .historic-averages__table td:not(:first-child) { text-align: right; }
