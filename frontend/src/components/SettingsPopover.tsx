@@ -132,7 +132,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
           <div>
             <span className="eyebrow">Settings</span>
             <h2 id="settings-heading">Settings</h2>
-            <p>Choose a settings area from the menu to keep related controls together.</p>
+            <p>Control the board from one place.</p>
           </div>
           <button className="icon-button" type="button" onClick={onClose} aria-label="Close settings">×</button>
         </div>
@@ -142,7 +142,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
             <span className="settings-sidebar__label">Customize</span>
             {panes.map((pane) => <button key={pane.id} type="button" className={`settings-nav-item${activePane === pane.id ? ' active' : ''}`} onClick={() => setActivePane(pane.id)} aria-current={activePane === pane.id ? 'page' : undefined}>
               <span className="settings-nav-item__icon" aria-hidden="true">{pane.icon}</span>
-              <span><strong>{pane.label}</strong><small>{pane.description}</small></span>
+              <span><strong>{pane.label}</strong></span>
             </button>)}
           </nav>
 
@@ -194,14 +194,12 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
             </section> : null}
 
             {activePane === 'snapshots' ? <section className="settings-section settings-section--tools">
-              <div className="settings-section__copy"><span className="eyebrow">Snapshots</span><h3>Downloads and draft backup</h3><p>Export the current table or save, restore, and clear your draft state.</p></div>
               <div className="settings-tools-grid"><DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact /><DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} picks={picks} draftSlot={draftSlot} draftSize={draftSize} mine={mine} prices={prices} slots={slots} targetGoals={targetGoals} onRestore={onRestoreDraft} onClear={onClearDraft} /></div>
             </section> : null}
 
             {activePane === 'checks' ? <SourceChecksPanel checks={sourceChecks} /> : null}
 
             {activePane === 'roster' ? <section className="settings-section settings-section--tools">
-              <div className="settings-section__copy"><span className="eyebrow">Roster targets</span><h3>Expected spend by slot</h3><p>Set your opening auction targets. The roster panel adjusts open-slot targets as you enter prices.</p></div>
               <div className="roster-target-summary" aria-label="Roster target summary"><strong>${rosterTargetTotal(targetGoals)}</strong><span>expected spend · {targetSlots.length} total positions</span></div>
               <div className="roster-target-settings" aria-label="Roster target values">
                 {targetSlots.map((slot) => <label className="roster-target-setting" key={slot}><span>{rosterTargetLabel(slot)}</span><span className="roster-target-setting__input"><span>$</span><input aria-label={`Expected price for ${rosterTargetLabel(slot)}`} type="number" min="0" step="1" inputMode="numeric" value={targetGoals[slot] ?? 0} onChange={(event) => onTargetGoals({ ...targetGoals, [slot]: Math.max(0, Number(event.target.value) || 0) })} /></span>{!STARTER_ROSTER_SLOTS.includes(slot as typeof STARTER_ROSTER_SLOTS[number]) ? <button type="button" className="roster-target-setting__remove" aria-label={`Remove ${rosterTargetLabel(slot)}`} onClick={() => { const next = { ...targetGoals }; delete next[slot]; onTargetGoals(next) }}>×</button> : null}</label>)}
@@ -210,7 +208,6 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
             </section> : null}
 
             {activePane === 'display' ? <section className="settings-section settings-section--tools">
-              <div className="settings-section__copy"><span className="eyebrow">Display</span><h3>Keep the dashboard focused</h3><p>Choose which supporting panels remain visible while you work the draft board.</p></div>
               <div className="settings-preference-list">
                 <label className="settings-preference-card"><span><strong>Position view</strong><small>Group the board into QB, RB, WR, and TE lanes.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="By position" checked={viewMode === 'positions'} onChange={(event) => onViewMode(event.target.checked ? 'positions' : 'board')} /></span></label>
                 <label className="settings-preference-card"><span><strong>Drafted players</strong><small>Keep drafted players in the rankings list while you work.</small></span><span className="drafted-toggle"><input type="checkbox" aria-label="Show drafted" checked={showDrafted} onChange={(event) => onShowDrafted(event.target.checked)} /><kbd>D</kbd></span></label>
