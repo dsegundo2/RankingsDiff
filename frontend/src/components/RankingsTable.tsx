@@ -1,4 +1,4 @@
-import { Fragment, type CSSProperties } from 'react'
+import { Fragment, type CSSProperties, type DragEvent } from 'react'
 import type { RankingRow, RankingSource, SortDirection, SortKey, TeamAsset, YahooProjection } from '../types'
 import { adjustedRankTone, formatRank, formatSignedRank, formatSignedValue, formatValue, sourceLabel } from '../data/rankings'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
@@ -28,6 +28,7 @@ type Props = {
   showAuctionValues: boolean
   yahooProjectionMode: 'full' | 'half'
   yahooProjectionFor: (row: RankingRow) => YahooProjection | undefined
+  onBoardDrop?: (event: DragEvent<HTMLElement>) => void
 }
 
 const DRAFT_ROUNDS = 17
@@ -71,7 +72,7 @@ function SortButton({ label, sortKey, activeKey, direction, onSort, ariaLabel }:
   return <button className="sort-button" aria-label={ariaLabel ?? `Sort by ${label}`} title={ariaLabel ?? `Sort by ${label}`} onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span aria-hidden="true"> {direction === 'asc' ? '↑' : '↓'}</span> : null}</button>
 }
 
-export function RankingsTable({ rows, teams, source, sortKey, sortDirection, draftSlot, draftSize, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false, showYahooProjections, showRegressionDiff, showAuctionValues, yahooProjectionMode, yahooProjectionFor }: Props) {
+export function RankingsTable({ rows, teams, source, sortKey, sortDirection, draftSlot, draftSize, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false, showYahooProjections, showRegressionDiff, showAuctionValues, yahooProjectionMode, yahooProjectionFor, onBoardDrop }: Props) {
   const isEspn = source === 'espn'
   const showValueColumn = isEspn && showAuctionValues
   const dividerColumnCount = 6 + (showValueColumn ? 1 : 0) + (showYahooProjections ? 1 : 0) + (showRegressionDiff ? 1 : 0)
@@ -108,7 +109,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
   })
   return (
     <div className="table-wrap">
-      <table className={`rankings-table ${isEspn ? 'rankings-table--espn' : 'rankings-table--fpros'}${stickyHeaders ? ' rankings-table--sticky-headers' : ''}`}>
+      <table className={`rankings-table ${isEspn ? 'rankings-table--espn' : 'rankings-table--fpros'}${stickyHeaders ? ' rankings-table--sticky-headers' : ''}`} onDragOver={(event) => { if (!onBoardDrop) return; event.preventDefault(); event.dataTransfer.dropEffect = 'move' }} onDrop={onBoardDrop}>
         <colgroup>
           <col className="col-rank" />
           <col className="col-player" />

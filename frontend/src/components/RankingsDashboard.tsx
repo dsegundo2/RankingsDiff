@@ -266,7 +266,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     applyDraftState(new Set(targets), new Set(drafted), nextPrices, nextSlots, nextMine, draftPicks)
   }, [applyDraftState, autoLineupApply, drafted, draftMode, draftPicks, draftPrices, draftSlots, mine, rows, targetGoals, targets])
 
-  const removeRosterPlayerFromBoard = useCallback((event: ReactDragEvent<HTMLDivElement>) => {
+  const removeRosterPlayerFromBoard = useCallback((event: ReactDragEvent<HTMLElement>) => {
     event.preventDefault()
     setBoardDropActive(false)
     const id = event.dataTransfer.getData('text/plain') || draggedRosterId
@@ -823,9 +823,8 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
 
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
-          <div className={`draft-board-drop-zone${boardDropActive ? ' is-drop-target' : ''}`} aria-label="Player board. Drop a roster player here to remove them" onDragOver={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; setBoardDropActive(true) }} onDragLeave={() => setBoardDropActive(false)} onDrop={removeRosterPlayerFromBoard}>
-            <div className="draft-board-remove-target" data-player-board-drop-target="true" onDragOver={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = 'move' }} onDrop={removeRosterPlayerFromBoard}>Drop a roster player here to remove</div>
-            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} draftSize={draftSize} yahooProjectionMode={projectionMode} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} />
+          <div className={`draft-board-drop-zone${boardDropActive ? ' is-drop-target' : ''}`} aria-label="Player board" onDragOverCapture={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; setBoardDropActive(true) }} onDragLeave={() => setBoardDropActive(false)}>
+            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} draftSize={draftSize} yahooProjectionMode={projectionMode} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} onBoardDrop={removeRosterPlayerFromBoard} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
                 const id = rankingId(row)
