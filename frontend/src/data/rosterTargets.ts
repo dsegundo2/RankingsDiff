@@ -1,9 +1,9 @@
-export const STARTER_ROSTER_SLOTS = ['QB1', 'RB1', 'RB2', 'WR1', 'WR2', 'TE1', 'FLEX'] as const
+export const STARTER_ROSTER_SLOTS = ['QB1', 'RB1', 'RB2', 'WR1', 'WR2', 'TE1', 'FLEX', 'FLEX2'] as const
 
 export type RosterTargetGoals = Record<string, number>
 
 export const DEFAULT_ROSTER_TARGETS: RosterTargetGoals = {
-  QB1: 15, RB1: 50, RB2: 20, WR1: 35, WR2: 20, TE1: 15, FLEX: 10,
+  QB1: 15, RB1: 50, RB2: 20, WR1: 35, WR2: 20, TE1: 15, FLEX: 10, FLEX2: 10,
   BENCH1: 5, BENCH2: 5, BENCH3: 5, BENCH4: 5, BENCH5: 5, BENCH6: 5, BENCH7: 5,
 }
 

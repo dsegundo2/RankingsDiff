@@ -30,7 +30,7 @@ function autoRosterSlot(row: RankingRow, drafted: Set<string>, slots: Record<str
   const occupied = new Set(Object.entries(slots).filter(([id]) => drafted.has(id)).map(([, slot]) => slot))
   const position = row.position.toUpperCase()
   const rosterSlots = rosterTargetSlots(targetGoals)
-  const eligible = rosterSlots.filter((slot) => slot.startsWith(position) || (slot === 'FLEX' && ['RB', 'WR', 'TE'].includes(position)))
+  const eligible = rosterSlots.filter((slot) => slot.startsWith(position) || (slot.startsWith('FLEX') && ['RB', 'WR', 'TE'].includes(position)))
   const benches = rosterSlots.filter((slot) => slot.startsWith('BENCH'))
   return [...eligible, ...benches].find((slot) => !occupied.has(slot)) ?? benches[benches.length - 1] ?? rosterSlots[rosterSlots.length - 1]
 }
