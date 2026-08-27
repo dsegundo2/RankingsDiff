@@ -36,6 +36,27 @@
     .nav span { padding:9px 12px; border:1px solid var(--line); border-radius:999px; color:var(--muted); background:#fff; font-size:.7rem; font-weight:800; white-space:nowrap; }
     .nav span:last-child { color:#fff; border-color:var(--blue); background:var(--blue); }
     .note { margin:0; padding:0 22px 20px; color:var(--muted); font-size:.8rem; line-height:1.5; }
+    .page-preview { margin:0 18px 18px; overflow:hidden; border:1px solid var(--line); border-radius:17px; background:#fff; }
+    .page-preview__toolbar { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:11px 14px; border-bottom:1px solid var(--line); background:#f7fbff; }
+    .page-preview__toolbar strong { font-size:.72rem; }
+    .page-preview__toolbar span { color:var(--muted); font-size:.66rem; }
+    .page-preview__filters { display:flex; gap:6px; padding:10px 14px; border-bottom:1px solid var(--line); }
+    .filter { height:25px; padding:0 9px; border:1px solid var(--line); border-radius:7px; color:var(--muted); background:#fff; font-size:.62rem; font-weight:800; }
+    .filter--active { color:#fff; border-color:var(--blue); background:var(--blue); }
+    .table { width:100%; border-collapse:collapse; font-size:.68rem; }
+    .table th { padding:9px 12px; color:var(--muted); background:#edf5fc; font-size:.58rem; letter-spacing:.08em; text-align:left; text-transform:uppercase; }
+    .table th:not(:first-child), .table td:not(:first-child) { text-align:right; }
+    .table td { padding:10px 12px; border-top:1px solid #e6eef7; font-weight:700; }
+    .table td:first-child { color:var(--ink); }
+    .table td small { margin-left:5px; color:var(--muted); font-size:.58rem; font-weight:700; }
+    .table .up { color:#14825f; } .table .down { color:#b4233c; }
+    .page-preview--center .page-preview__toolbar { padding-top:14px; }
+    .page-preview--rail { display:grid; grid-template-columns:126px 1fr; }
+    .page-preview--rail .page-rail { grid-row:1 / span 3; display:grid; align-content:start; justify-items:center; gap:8px; padding:16px 10px; border-right:1px solid var(--line); background:#f5f9fe; }
+    .page-preview--rail .page-rail img { width:78px; height:78px; }
+    .page-preview--rail .page-rail strong { color:var(--blue); font-size:.6rem; letter-spacing:.08em; text-align:center; text-transform:uppercase; }
+    .page-preview--rail .page-preview__toolbar, .page-preview--rail .page-preview__filters, .page-preview--rail table { grid-column:2; }
+    @media (max-width:760px) { .page-preview--rail { grid-template-columns:88px 1fr; } .page-preview--rail .page-rail img { width:64px; height:64px; } .table th, .table td { padding-inline:8px; } }
     @media (max-width:760px) { main { padding-top:24px; } .intro { display:block; } .back { display:inline-block; margin-top:18px; } .preview--side { grid-template-columns:auto 1fr; } .preview--side .nav, .preview--rail .nav { grid-column:1 / -1; } .preview--rail { grid-template-columns:108px 1fr; gap:14px; padding-right:14px; } .preview--rail .brand-rail { padding-inline:6px; } .preview--rail .mark { width:88px; height:88px; } .preview__title { font-size:2rem; } }
     @media (max-width:480px) { .preview--side { gap:12px; padding:16px; } .preview--side .mark { width:70px; height:70px; } .preview--center .mark { width:96px; height:96px; } .nav { flex-wrap:wrap; } }
   </style>
@@ -50,16 +71,19 @@
       <article class="option">
         <div class="option__meta"><h2>Option 1 · Oversized side lockup</h2><p>Best balance for desktop</p></div>
         <div class="preview preview--side"><img class="mark" src="/assets/rankingsdiff-mark.png" alt="Draft Distillery logo" /><div><div class="preview__context">Fantasy football draft room</div><div class="preview__title">Draft Distillery</div><div class="preview__detail">2025 · ESPN · Full PPR · Snake</div></div><nav class="nav" aria-label="Option 1 navigation"><span>Draft board</span><span>Historic results</span><span>Charts</span></nav></div>
+        <div class="page-preview"><div class="page-preview__toolbar"><strong>Draft board</strong><span>248 players · 12 targets</span></div><div class="page-preview__filters"><span class="filter filter--active">All 248</span><span class="filter">RB 62</span><span class="filter">WR 78</span><span class="filter">Search players</span></div><table class="table"><thead><tr><th>Player</th><th>Base</th><th>Adjusted</th><th>Delta</th></tr></thead><tbody><tr><td>Ja'Marr Chase <small>CIN · WR</small></td><td>4</td><td>3</td><td class="up">+1</td></tr><tr><td>Bijan Robinson <small>ATL · RB</small></td><td>7</td><td>5</td><td class="up">+2</td></tr><tr><td>Jonathan Taylor <small>IND · RB</small></td><td>12</td><td>16</td><td class="down">−4</td></tr></tbody></table></div>
         <p class="note">The logo grows from 50px to 92px and becomes the visual anchor, while the product name and current draft context stay in one clean row.</p>
       </article>
       <article class="option">
         <div class="option__meta"><h2>Option 2 · Centered bottle seal</h2><p>Best for brand-first impact</p></div>
         <div class="preview preview--center"><img class="mark" src="/assets/rankingsdiff-mark.png" alt="Draft Distillery logo" /><div class="preview__context">Fantasy football draft room</div><div class="preview__title">Draft Distillery</div><div class="preview__detail">2025 · ESPN · Full PPR · Snake</div><nav class="nav" aria-label="Option 2 navigation"><span>Draft board</span><span>Historic results</span><span>Charts</span></nav></div>
+        <div class="page-preview page-preview--center"><div class="page-preview__toolbar"><strong>Draft board</strong><span>Same table, more brand breathing room</span></div><div class="page-preview__filters"><span class="filter filter--active">All 248</span><span class="filter">RB 62</span><span class="filter">WR 78</span><span class="filter">Search players</span></div><table class="table"><thead><tr><th>Player</th><th>Base</th><th>Adjusted</th><th>Delta</th></tr></thead><tbody><tr><td>Ja'Marr Chase <small>CIN · WR</small></td><td>4</td><td>3</td><td class="up">+1</td></tr><tr><td>Bijan Robinson <small>ATL · RB</small></td><td>7</td><td>5</td><td class="up">+2</td></tr><tr><td>Jonathan Taylor <small>IND · RB</small></td><td>12</td><td>16</td><td class="down">−4</td></tr></tbody></table></div>
         <p class="note">The logo sits above the title at 116px, giving the application a strong distillery-seal identity. It costs a little more vertical space.</p>
       </article>
       <article class="option">
         <div class="option__meta"><h2>Option 3 · Brand rail</h2><p>Best for a command-center feel</p></div>
         <div class="preview preview--rail"><div class="brand-rail"><img class="mark" src="/assets/rankingsdiff-mark.png" alt="Draft Distillery logo" /><span>Draft Distillery</span></div><div><div class="preview__context">Auction results · Draft Distillery</div><div class="preview__title">2025 Draft</div><div class="preview__detail">170 players · 10 managers</div></div><nav class="nav" aria-label="Option 3 navigation"><span>Draft board</span><span>Historic results</span><span>Charts</span></nav></div>
+        <div class="page-preview page-preview--rail"><div class="page-rail"><img src="/assets/rankingsdiff-mark.png" alt="Draft Distillery logo" /><strong>Draft Distillery</strong></div><div class="page-preview__toolbar"><strong>Historic results</strong><span>2025 · Auction results</span></div><div class="page-preview__filters"><span class="filter filter--active">Player results</span><span class="filter">League averages</span><span class="filter">Search players</span></div><table class="table"><thead><tr><th>Player</th><th>Paid</th><th>ESPN value</th><th>Over / under</th></tr></thead><tbody><tr><td>Ja'Marr Chase <small>CIN · WR</small></td><td>$62.0</td><td>$55.0</td><td class="down">+$7.0</td></tr><tr><td>Bijan Robinson <small>ATL · RB</small></td><td>$58.0</td><td>$60.0</td><td class="up">−$2.0</td></tr><tr><td>Jonathan Taylor <small>IND · RB</small></td><td>$41.0</td><td>$38.0</td><td class="down">+$3.0</td></tr></tbody></table></div>
         <p class="note">A dedicated 132px brand rail gives the logo maximum prominence and separates it from the changing page title, matching the supplied historic-results reference.</p>
       </article>
     </section>
