@@ -2074,8 +2074,21 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .app-theme--ranking-blue .hero--editorial .hero__mark { object-fit: contain; padding: 0; background: transparent; box-shadow: 0 8px 20px rgb(31 95 174 / 18%); }
 .rankings-diff-page__header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
 .rankings-diff-page__header .view-tabs { align-self: end; }
+/* Brand-forward lockup: the identity is the first thing on the page. Keep
+   navigation and draft context available, but give the supplied badge and
+   product/page title the majority of the header's visual weight. */
+.hero--editorial .hero__brand { gap: var(--space-6); align-items: center; }
+.hero--editorial .hero__mark { width: 112px; height: 112px; flex-basis: 112px; border-radius: var(--radius-xl); }
+.hero--editorial h1 { font-size: clamp(3.2rem, 6vw, 5.5rem); letter-spacing: -.075em; }
+.hero--editorial .eyebrow { font-size: .82rem; letter-spacing: .15em; }
+.hero--editorial .hero__brand-summary { font-size: 1.1rem; }
 @media (max-width: 760px) {
   .hero--editorial { grid-template-columns: 1fr; gap: var(--space-3); align-items: start; margin-bottom: var(--space-3); }
+  .hero--editorial .hero__brand { gap: var(--space-3); }
+  .hero--editorial .hero__mark { width: 88px; height: 88px; flex-basis: 88px; }
+  .hero--editorial h1 { font-size: clamp(2.8rem, 14vw, 4.2rem); }
+  .hero--editorial .eyebrow { font-size: .7rem; letter-spacing: .11em; }
+  .hero--editorial .hero__brand-summary { font-size: .92rem; }
   .hero--editorial .hero__context { justify-items: start; padding-left: 0; border-left: 0; }
   .hero--editorial .hero__context-bottom { align-items: stretch; flex-direction: column; }
   .hero--editorial .view-summary { justify-content: flex-start; flex-wrap: wrap; }
