@@ -129,7 +129,8 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     observer.observe(workbench)
     return () => observer.disconnect()
   }, [showDraftLog, stickyWorkbench, showMobileActions, view, selectedSeason, selectedSource])
-  const displayRows = useMemo(() => rows.map((row) => ({ ...row, ...(selectedSource === 'espn' && draftMode === 'snake' ? { diff: rankingDifference(row) } : {}), rankingDiff: rankingDifference(row) })), [draftMode, rows, selectedSource])
+  const isEspnSource = selectedSource === 'espn' || selectedSource === 'espn-auction'
+  const displayRows = useMemo(() => rows.map((row) => ({ ...row, ...(isEspnSource && draftMode === 'snake' ? { diff: rankingDifference(row) } : {}), rankingDiff: rankingDifference(row) })), [draftMode, isEspnSource, rows])
   const rowsWithYahooProjection = useMemo(() => displayRows.map((row) => ({ ...row, yahooProjection: yahooProjections[yahooProjectionId(row.player, row.team)]?.[projectionMode === 'half' ? 'week1HalfPpr' : 'week1Ppr'] })), [displayRows, projectionMode, yahooProjections])
   const filteredRows = useMemo(() => {
     const searchedRows = filterRankings(rowsWithYahooProjection, search, 'ALL', teams)
@@ -389,10 +390,10 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       if (typeof saved.showMobileActions === 'boolean') setShowMobileActions(saved.showMobileActions)
       if (typeof saved.showYahooProjections === 'boolean') setShowYahooProjections(saved.showYahooProjections)
       if (typeof saved.showRegressionDiff === 'boolean') setShowRegressionDiff(saved.showRegressionDiff)
-      setDraftMode(selectedSource === 'espn' && (saved.draftMode === 'snake' || saved.draftMode === 'auction') ? saved.draftMode : DEFAULT_DRAFT_MODE)
+      setDraftMode(isEspnSource && (saved.draftMode === 'snake' || saved.draftMode === 'auction') ? saved.draftMode : DEFAULT_DRAFT_MODE)
     } catch { /* Ignore stale or manually edited view preferences. */ }
     setHydratedViewKey(viewStorageKey)
-  }, [selectedSource, viewStorageKey])
+  }, [isEspnSource, selectedSource, viewStorageKey])
 
   useEffect(() => {
     if (hydratedViewKey !== viewStorageKey) return
@@ -593,7 +594,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   }
 
   function handleDraftModeFromSettings(nextMode: DraftMode) {
-    if (selectedSource === 'espn') setDraftMode(nextMode)
+    if (isEspnSource) setDraftMode(nextMode)
   }
 
   function togglePositionView(value: PositionKey) {
@@ -750,7 +751,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
             <strong>{row.player}</strong>
             <span className="target-queue__details">
               <small aria-label={`${sourceLabel(selectedSource)} and Adjusted rank`}>#{formatRank(row.sourceRank)} → #{formatRank(row.adjustedRank)}</small>
-              {selectedSource === 'espn' && draftMode === 'auction' ? <small aria-label="Source and Adjusted salary">{formatValue(row.sourceValue)} → {formatValue(row.adjustedValue)}</small> : <small aria-label="Base and Adjusted draft rank">Draft rank #{formatRank(row.sourceRank)} → #{formatRank(row.adjustedRank)}</small>}
+              {isEspnSource && draftMode === 'auction' ? <small aria-label="Source and Adjusted salary">{formatValue(row.sourceValue)} → {formatValue(row.adjustedValue)}</small> : <small aria-label="Base and Adjusted draft rank">Draft rank #{formatRank(row.sourceRank)} → #{formatRank(row.adjustedRank)}</small>}
             </span>
           </span>
           <span className="target-queue__diff">{selectedSource === 'espn' ? formatSignedValue(row.diff) : formatRank(row.diff)}</span>
@@ -832,7 +833,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         </div>
       ) : (
         <div className={`draft-board-layout position-view-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
-          <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={selectedSource === 'espn'} showAuctionValues={draftMode === 'auction'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
+          <PositionBoard rows={positionRows} positions={positionViews} teams={teams} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} isEspn={isEspnSource} showAuctionValues={draftMode === 'auction'} showDrafted={showDrafted} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} />
           <div className="draft-side-stack">{showRosterPanel ? <AuctionRosterPanel rows={rows} teams={teams} targetGoals={targetGoals} drafted={mine} targetRows={targetRows} targetQueueView={targetQueueView} showTargetQueue={showTargetQueue} mode={draftMode} source={selectedSource as 'espn' | 'fpros'} prices={draftPrices} slots={draftSlots} onPrice={updateDraftPrice} onMoveSlot={moveDraftSlot} onTarget={toggleTarget} onDragStateChange={setDraggedRosterId} /> : targetQueue}</div>
         </div>
       )}
@@ -890,7 +891,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         onDraftSize={updateDraftSize}
         onClose={() => setSettingsOpen(false)}
       />
-      {selectedRow && selectedSource === 'espn' && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} draftedCount={rows.filter((candidate) => candidate.position.toUpperCase() === selectedRow.position.toUpperCase() && drafted.has(rankingId(candidate))).length} dragOffset={inspectorOffset} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} favorited={targets.has(selectedId)} onFavorite={() => toggleTarget(selectedId)} onClose={() => setSelectedId('')} onDraft={() => { draftPlayer(selectedId); setSelectedId('') }} onAdd={() => { toggleMine(selectedId); setSelectedId('') }} onNavigate={navigateInspector} onDragOffsetChange={setInspectorOffset} /> : null}
+      {selectedRow && isEspnSource && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} draftedCount={rows.filter((candidate) => candidate.position.toUpperCase() === selectedRow.position.toUpperCase() && drafted.has(rankingId(candidate))).length} dragOffset={inspectorOffset} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} favorited={targets.has(selectedId)} onFavorite={() => toggleTarget(selectedId)} onClose={() => setSelectedId('')} onDraft={() => { draftPlayer(selectedId); setSelectedId('') }} onAdd={() => { toggleMine(selectedId); setSelectedId('') }} onNavigate={navigateInspector} onDragOffsetChange={setInspectorOffset} /> : null}
       {shortcutsOpen ? <div className="shortcut-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setShortcutsOpen(false) }}><section className="shortcut-dialog" role="dialog" aria-modal="true" aria-labelledby="shortcut-dialog-title"><div className="shortcut-dialog__header"><div><span className="eyebrow">Draft board</span><h2 id="shortcut-dialog-title">Keyboard shortcuts</h2></div><button type="button" className="icon-button" onClick={() => setShortcutsOpen(false)} aria-label="Close keyboard shortcuts">×</button></div><div className="shortcut-list"><div><kbd>⌘ K</kbd><span>Focus player search</span></div><div><kbd>/</kbd><span>Search players</span></div><div><kbd>↑ ↓</kbd><span>Move through players</span></div><div><kbd>Enter</kbd><span>Draft selected player</span></div><div><kbd>P</kbd><span>Toggle position view</span></div><div><kbd>← →</kbd><span>Change position filter or lane</span></div><div><kbd>S</kbd><span>Change sort</span></div><div><kbd>D</kbd><span>Show or hide drafted players</span></div><div><kbd>F</kbd><span>Favorite selected player</span></div><div><kbd>,</kbd><span>Open settings</span></div><div><kbd>⌘ Z</kbd><span>Undo · <kbd>⇧ ⌘ Z</kbd> redo</span></div><div><kbd>?</kbd><span>Show or hide this guide</span></div></div><p className="shortcut-dialog__hint">Shortcuts pause while you type in a field. Press <kbd>Esc</kbd> to close panels.</p></section></div> : null}
     </main>
     <div hidden={route !== 'analytics'}>

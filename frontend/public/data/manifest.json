@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T23:38:57.095263Z",
+  "generatedAt": "2026-08-28T00:47:51.852401Z",
   "seasons": [
     {
       "season": 2026,
@@ -63,6 +63,38 @@
             }
           ],
           "xlsx": "/data/2026/espn/merged_formatted.xlsx"
+        },
+        {
+          "id": "espn-auction",
+          "label": "ESPN Auction (Screenshot)",
+          "rowCount": 211,
+          "json": "/data/2026/espn-auction/rankings.json",
+          "csv": "/data/2026/espn-auction/espn_auction_rankings.csv",
+          "sourceLinks": [],
+          "adjustedProfiles": [
+            {
+              "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html",
+              "label": "Full PPR \u00b7 Winks",
+              "sourceUpdated": "2026/08/26",
+              "sourceUpdatedAt": "2026-08-26 20:02:14",
+              "rowCount": 379,
+              "id": "full-ppr",
+              "shortLabel": "Full PPR",
+              "sourceUrl": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-full-ppr-rankings-consensus-top-300-players-175205585.html",
+              "observedAt": "2026-08-27T23:38:47.261637Z"
+            },
+            {
+              "url": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html",
+              "label": "Half PPR \u00b7 Winks",
+              "sourceUpdated": "2026/08/26",
+              "sourceUpdatedAt": "2026-08-26 19:03:42",
+              "rowCount": 300,
+              "id": "half-ppr",
+              "shortLabel": "Half PPR",
+              "sourceUrl": "https://sports.yahoo.com/fantasy/article/2026-fantasy-football-rankings-hayden-winks-top-300-overall-players-for-half-ppr-143555896.html",
+              "observedAt": "2026-08-27T23:38:47.261637Z"
+            }
+          ]
         },
         {
           "id": "fpros",
@@ -151,7 +183,7 @@
             }
           ],
           "sourceUpdated": "2026/08/27",
-          "observedAt": "2026-08-27T23:38:48.612313Z"
+          "observedAt": "2026-08-27T23:46:08.137824Z"
         },
         {
           "id": "yahoo-half",

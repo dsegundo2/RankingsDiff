@@ -181,7 +181,7 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
                 <span>Base sheet</span>
                 <div>{currentSeason?.sources.map((item) => <button key={item.id} type="button" className={item.id === selectedSource ? 'is-active' : ''} onClick={() => onSource(item.id)} aria-pressed={item.id === selectedSource}>{sourceLabel(item.id)}</button>)}</div>
               </div>
-              {selectedSource === 'espn' ? <div className="settings-draft-mode" role="group" aria-label="Draft format">
+              {selectedSource === 'espn' || selectedSource === 'espn-auction' ? <div className="settings-draft-mode" role="group" aria-label="Draft format">
                 <span>Draft format</span>
                 <div>{(['snake', 'auction'] as DraftMode[]).map((mode) => <button key={mode} type="button" className={mode === draftMode ? 'is-active' : ''} onClick={() => onDraftMode(mode)} aria-pressed={mode === draftMode}>{mode === 'snake' ? 'Snake' : 'Auction'}</button>)}</div>
               </div> : null}

@@ -23,10 +23,10 @@ function diffDirectionClass(diff?: number): string {
   return diff > 0 ? 'diff-positive' : 'diff-negative'
 }
 
-export function RankingCard({ row, teams, source, sortKey = 'sourceRank', showAuctionValues = source === 'espn', targeted = false, drafted = false, mine = false, onTarget, onDrafted, onMine, selected = false, onSelect }: Props) {
+export function RankingCard({ row, teams, source, sortKey = 'sourceRank', showAuctionValues = source === 'espn' || source === 'espn-auction', targeted = false, drafted = false, mine = false, onTarget, onDrafted, onMine, selected = false, onSelect }: Props) {
   const team = normalizeTeamAbbreviation(row.team)
   const asset = getTeamAsset(teams, team)
-  const isValueDiff = source === 'espn' && showAuctionValues
+  const isValueDiff = (source === 'espn' || source === 'espn-auction') && showAuctionValues
   return (
     <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''} ${selected ? 'is-selected' : ''}`} style={diffSignalStyle(row.diff, isValueDiff)} onClick={onSelect} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect?.() } }} aria-label={`${row.player}, ${row.positionRank ?? row.position}, ${drafted ? 'drafted' : 'available'}`} role="button" tabIndex={0} aria-pressed={selected} data-ranking-id={rankingId(row)}>
       <div className="ranking-card__header"><span className="ranking-card__rank"><strong>{formatRank(sortKey === 'adjustedRank' ? row.adjustedRank : row.sourceRank)}</strong><small className={`adjusted-rank-value adjusted-rank-value--${adjustedRankTone(row)}`}>({formatRank(sortKey === 'adjustedRank' ? row.sourceRank : row.adjustedRank)})</small></span><div className="player-line">

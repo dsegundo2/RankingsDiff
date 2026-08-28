@@ -23,6 +23,7 @@ ESPN_GOOGLE_SHEET_URL = (
 SOURCE_LABELS = {
     "fpros": "Fantasy Pros",
     "espn": "ESPN",
+    "espn-auction": "ESPN Auction (Screenshot)",
     "yahoo-half": "Yahoo Half PPR",
     "yahoo-full": "Yahoo Full PPR",
 }
@@ -34,6 +35,7 @@ SOURCE_SCORING = {
 CSV_NAMES = {
     "fpros": "fpros_merged.csv",
     "espn": "merged.csv",
+    "espn-auction": "espn_auction_rankings.csv",
 }
 
 XLSX_NAMES = {
@@ -219,6 +221,61 @@ def normalize_espn(row: dict[str, str]) -> dict[str, Any]:
     }
 
 
+def normalize_espn_auction(rows: list[dict[str, str]], season: int) -> list[dict[str, Any]]:
+    """Normalize the manually verified ESPN auction screenshot export.
+
+    The screenshot order is the base rank. Adjusted ranks are optional joins
+    against the existing adjusted profiles; unmatched players intentionally
+    keep those fields empty.
+    """
+    full_path = ROOT / "data" / "raw" / str(season) / "adjusted_full_ppr.csv"
+    half_path = ROOT / "data" / "raw" / str(season) / "adjusted_half_ppr.csv"
+
+    def adjustment_maps(path: Path) -> tuple[dict[str, int], dict[str, list[int]]]:
+        by_team: dict[str, int] = {}
+        by_name: dict[str, list[int]] = {}
+        if not path.exists():
+            return by_team, by_name
+        for adjusted_row in read_csv(path):
+            rank = parse_number(adjusted_row.get("Rank"))
+            if rank is None:
+                continue
+            by_team[canonical_player_key(adjusted_row.get("Player"), adjusted_row.get("Team"))] = int(rank)
+            by_name.setdefault(canonical_player_key(adjusted_row.get("Player")), []).append(int(rank))
+        return by_team, by_name
+
+    full_by_team, full_by_name = adjustment_maps(full_path)
+    half_by_team, half_by_name = adjustment_maps(half_path)
+    rows_out = []
+    for index, row in enumerate(rows, start=1):
+        player = row.get("Player", "")
+        team = normalize_team(row.get("Team"))
+        team_key = canonical_player_key(player, team)
+        name_key = canonical_player_key(player)
+        full_candidates = full_by_name.get(name_key, [])
+        half_candidates = half_by_name.get(name_key, [])
+        adjusted_rank = full_by_team.get(team_key)
+        adjusted_half = half_by_team.get(team_key)
+        if adjusted_rank is None and len(set(full_candidates)) == 1:
+            adjusted_rank = full_candidates[0]
+        if adjusted_half is None and len(set(half_candidates)) == 1:
+            adjusted_half = half_candidates[0]
+        rows_out.append({
+            "player": player,
+            "team": team,
+            "position": row.get("Position", ""),
+            "positionRank": None,
+            "sourceRank": index,
+            "adjustedRank": adjusted_rank,
+            "adjustedRankHalfPpr": adjusted_half,
+            "sourceValue": parse_number(row.get("Auction Price")),
+            "diff": index - adjusted_rank if adjusted_rank is not None else None,
+            "diffTone": diff_tone(index - adjusted_rank if adjusted_rank is not None else None),
+            "positionTone": position_tone(row.get("Position")),
+        })
+    return rows_out
+
+
 def read_csv(path: Path) -> list[dict[str, str]]:
     """Read CSV rows using utf-8-sig for spreadsheet compatibility."""
     with path.open(newline="", encoding="utf-8-sig") as handle:
@@ -299,6 +356,8 @@ def normalize_rows(source: str, csv_path: Path, season: int) -> list[dict[str, A
     """Normalize rows for a supported source."""
     if source == "yahoo-half":
         return normalize_yahoo(read_csv(csv_path), season)
+    if source == "espn-auction":
+        return normalize_espn_auction(read_csv(csv_path), season)
     normalizer = normalize_espn if source == "espn" else normalize_fpros
     return [normalizer(row) for row in read_csv(csv_path)]
 

@@ -49,6 +49,21 @@ test('dashboard renders and exposes settings downloads', async ({ page }) => {
   expect(parseFloat(sourceLinkRadius)).toBeLessThanOrEqual(10)
 })
 
+test('screenshot auction rankings load as an ordered base sheet', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await page.getByRole('button', { name: /^Current sheet/ }).click()
+  await page.getByRole('combobox', { name: 'Sheet' }).selectOption('espn-auction')
+  await page.getByRole('button', { name: 'Close settings' }).click()
+
+  await expect(page.locator('tr[data-ranking-id]')).toHaveCount(211)
+  const rows = page.locator('tr[data-ranking-id]')
+  await expect(rows.filter({ hasText: 'Patrick Mahomes' })).toContainText('108')
+  await expect(rows.filter({ hasText: 'Patrick Mahomes' })).toContainText('KC')
+  await page.getByRole('textbox', { name: 'Search players' }).fill('Keyon Sadiq')
+  await expect(page.locator('tr[data-ranking-id]').first()).toContainText('(—)')
+})
+
 test('rankings diff opens as a separate route and returns without disturbing draft state', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()

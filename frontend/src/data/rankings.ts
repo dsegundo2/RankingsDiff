@@ -174,6 +174,7 @@ export function adjustedRankTone(row: RankingRow, draftSize = 12): AdjustedRankT
 export function sourceLabel(id: string): string {
   if (id === 'fpros') return 'Fantasy Pros'
   if (id === 'espn') return 'ESPN'
+  if (id === 'espn-auction') return 'ESPN Auction'
   if (id === 'yahoo-half') return 'Yahoo Half PPR'
   if (id === 'yahoo-full') return 'Yahoo Full PPR'
   return id.toUpperCase()

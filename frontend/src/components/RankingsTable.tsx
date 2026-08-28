@@ -73,7 +73,7 @@ function SortButton({ label, sortKey, activeKey, direction, onSort, ariaLabel }:
 }
 
 export function RankingsTable({ rows, teams, source, sortKey, sortDirection, draftSlot, draftSize, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false, showYahooProjections, showRegressionDiff, showAuctionValues, yahooProjectionMode, yahooProjectionFor, onBoardDrop }: Props) {
-  const isEspn = source === 'espn'
+  const isEspn = source === 'espn' || source === 'espn-auction'
   const showValueColumn = isEspn && showAuctionValues
   const dividerColumnCount = 6 + (showValueColumn ? 1 : 0) + (showYahooProjections ? 1 : 0) + (showRegressionDiff ? 1 : 0)
   const showDraftDivider = (sortKey === 'sourceRank' || sortKey === 'adjustedRank') && sortDirection === 'asc'
