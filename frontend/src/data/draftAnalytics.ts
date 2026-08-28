@@ -4,6 +4,15 @@ export const HISTORICAL_SEASONS = [2022, 2023, 2024, 2025] as const
 export const POSITIONS = ['QB', 'RB', 'WR', 'TE'] as const
 export type HistoricalYear = { season: number; paid: number; expected: number; over_under: number }
 
+/** Estimate a current auction price from both historical ranking signals. */
+export function historicalPriceEstimate(basePrice: number, positionDiff?: number | null, overallDiff?: number | null): number {
+  const signals = [positionDiff, overallDiff].filter((value): value is number => typeof value === 'number' && Number.isFinite(value))
+  if (!signals.length) return basePrice
+  const averageDiff = signals.reduce((sum, value) => sum + value, 0) / signals.length
+  // Round ties toward the higher dollar value: -2.5 becomes -2, 2.5 becomes 3.
+  return Math.round(basePrice + Math.ceil(averageDiff))
+}
+
 export function median(values: number[]): number {
   if (!values.length) return 0
   const sorted = [...values].sort((left, right) => left - right)
