@@ -21,7 +21,7 @@ function rankingDiffTone(diff: number | undefined): DiffTone {
 export function applyAdjustedProfile(rows: RankingRow[], profileId: string, source: string): RankingRow[] {
   return rows.map((row) => {
     const adjustedRank = profileId === 'half-ppr' ? row.adjustedRankHalfPpr ?? row.adjustedRank : row.adjustedRank
-    const diff = source === 'espn'
+    const diff = source === 'espn' || source === 'espn-auction'
       ? typeof row.sourceValue === 'number' && typeof row.adjustedValue === 'number'
         ? row.adjustedValue - row.sourceValue
         : undefined

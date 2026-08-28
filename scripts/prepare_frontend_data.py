@@ -246,6 +246,17 @@ def normalize_espn_auction(rows: list[dict[str, str]], season: int) -> list[dict
 
     full_by_team, full_by_name = adjustment_maps(full_path)
     half_by_team, half_by_name = adjustment_maps(half_path)
+    # The adjusted profiles provide ranks, while the screenshot provides the
+    # only auction prices. Reuse the screenshot's price ladder to expose the
+    # adjusted dollar value at an adjusted rank without importing any other
+    # salary source.
+    price_ladder = sorted(
+        (parse_number(row.get("Auction Price")), index)
+        for index, row in enumerate(rows)
+        if parse_number(row.get("Auction Price")) is not None
+    )
+    price_ladder.sort(key=lambda item: (-item[0], item[1]))
+    adjusted_values = {rank: price for rank, (price, _index) in enumerate(price_ladder, start=1)}
     rows_out = []
     for index, row in enumerate(rows, start=1):
         player = row.get("Player", "")
@@ -269,6 +280,8 @@ def normalize_espn_auction(rows: list[dict[str, str]], season: int) -> list[dict
             "adjustedRank": adjusted_rank,
             "adjustedRankHalfPpr": adjusted_half,
             "sourceValue": parse_number(row.get("Auction Price")),
+            "adjustedValue": adjusted_values.get(adjusted_rank) if adjusted_rank is not None else None,
+            "priceRank": next((rank for rank, (_price, source_index) in enumerate(price_ladder, start=1) if source_index == index - 1), None),
             "diff": index - adjusted_rank if adjusted_rank is not None else None,
             "diffTone": diff_tone(index - adjusted_rank if adjusted_rank is not None else None),
             "positionTone": position_tone(row.get("Position")),
