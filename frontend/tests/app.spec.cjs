@@ -69,6 +69,7 @@ test('screenshot auction rankings load as an ordered base sheet', async ({ page 
   await expect(page.locator('tr[data-ranking-id]').first()).toContainText('Adjusted $56')
   await page.getByRole('textbox', { name: 'Search players' }).fill('Keyon Sadiq')
   await expect(page.locator('tr[data-ranking-id]').first()).toContainText('(—)')
+  await expect(page.locator('tr[data-ranking-id]').first()).toContainText('Adjusted $0')
 })
 
 test('rankings diff opens as a separate route and returns without disturbing draft state', async ({ page }) => {

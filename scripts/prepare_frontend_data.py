@@ -280,7 +280,10 @@ def normalize_espn_auction(rows: list[dict[str, str]], season: int) -> list[dict
             "adjustedRank": adjusted_rank,
             "adjustedRankHalfPpr": adjusted_half,
             "sourceValue": parse_number(row.get("Auction Price")),
-            "adjustedValue": adjusted_values.get(adjusted_rank) if adjusted_rank is not None else None,
+            # A player absent from the adjusted profile has no adjusted rank,
+            # but its adjusted auction value is explicitly zero rather than a
+            # visual placeholder or a rank-delta fallback.
+            "adjustedValue": adjusted_values.get(adjusted_rank, 0) if adjusted_rank is not None else 0,
             "priceRank": next((rank for rank, (_price, source_index) in enumerate(price_ladder, start=1) if source_index == index - 1), None),
             "diff": index - adjusted_rank if adjusted_rank is not None else None,
             "diffTone": diff_tone(index - adjusted_rank if adjusted_rank is not None else None),
