@@ -23,6 +23,7 @@ type Props = {
   onMine: (id: string) => void
   selectedId?: string
   onSelect?: (id: string) => void
+  onRowSelect?: (id: string) => void
   stickyHeaders?: boolean
   showYahooProjections: boolean
   showRegressionDiff: boolean
@@ -64,7 +65,7 @@ function SortButton({ label, sortKey, activeKey, direction, onSort, ariaLabel }:
   return <button className="sort-button" aria-label={ariaLabel ?? `Sort by ${label}`} title={ariaLabel ?? `Sort by ${label}`} onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span aria-hidden="true"> {direction === 'asc' ? '↑' : '↓'}</span> : null}</button>
 }
 
-export function RankingsTable({ rows, teams, source, sortKey, sortDirection, draftSlot, draftSize, includeKeeperRound, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false, showYahooProjections, showRegressionDiff, showAuctionValues, yahooProjectionMode, yahooProjectionFor, onBoardDrop }: Props) {
+export function RankingsTable({ rows, teams, source, sortKey, sortDirection, draftSlot, draftSize, includeKeeperRound, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, onRowSelect, stickyHeaders = false, showYahooProjections, showRegressionDiff, showAuctionValues, yahooProjectionMode, yahooProjectionFor, onBoardDrop }: Props) {
   const isEspn = source === 'espn' || source === 'espn-auction'
   const showValueColumn = isEspn && showAuctionValues
   const dividerColumnCount = 6 + (showValueColumn ? 1 : 0) + (showYahooProjections ? 1 : 0) + (showRegressionDiff ? 1 : 0)
@@ -147,6 +148,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                 style={diffSignalStyle(row.diff, showValueColumn)}
                 aria-selected={selectedId === id}
                 data-ranking-id={id}
+                onClick={() => onRowSelect?.(id)}
               >
                 <td className="num rank-cell"><span className="rank-parenthetical rank-pair"><strong>{formatRank(sortKey === 'adjustedRank' ? row.adjustedRank : row.sourceRank)}</strong><small className={`adjusted-rank-value adjusted-rank-value--${adjustedRankTone(row)}`}>({formatRank(sortKey === 'adjustedRank' ? row.sourceRank : row.adjustedRank)})</small>{sortKey !== 'adjustedRank' ? <strong className="sr-only">{formatRank(row.adjustedRank)}</strong> : null}<span className="sr-only">Base rank {formatRank(row.sourceRank)}. Adjusted rank {formatRank(row.adjustedRank)}.</span></span></td>
                 <td className="player-cell">

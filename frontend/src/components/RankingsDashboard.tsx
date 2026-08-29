@@ -72,6 +72,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const [view, setView] = useState<ViewMode>('board')
   const [selectedId, setSelectedId] = useState<string>('')
+  const [inspectorId, setInspectorId] = useState<string>('')
   const [inspectorOffset, setInspectorOffset] = useState({ x: 0, y: 0 })
   const [boardDropActive, setBoardDropActive] = useState(false)
   const [draggedRosterId, setDraggedRosterId] = useState<string | null>(null)
@@ -191,7 +192,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       .flatMap((pos) => positionRows.filter((row) => row.position.toUpperCase() === pos && (searchActive || showDrafted || !drafted.has(rankingId(row)))))
   }, [positionRows, positionViews, search, showDrafted, drafted])
   const navigationRows = view === 'board' ? visibleRows : visiblePositionRows
-  const selectedRow = rows.find((row) => rankingId(row) === selectedId)
+  const selectedRow = rows.find((row) => rankingId(row) === inspectorId)
   function yahooProjectionFor(row: RankingRow) {
     return findYahooProjection(yahooProjections, row.player, row.team)
   }
@@ -319,8 +320,10 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     const ids = navigationRows.map(rankingId)
     const currentIndex = ids.indexOf(selectedId)
     if (!ids.length || currentIndex === -1) return
-    setSelectedId(ids[(currentIndex + direction + ids.length) % ids.length])
-  }, [navigationRows, selectedId])
+    const nextId = ids[(currentIndex + direction + ids.length) % ids.length]
+    setSelectedId(nextId)
+    if (inspectorId) setInspectorId(nextId)
+  }, [inspectorId, navigationRows, selectedId])
 
   const moveDraftHistory = useCallback((direction: -1 | 1) => {
     const nextIndex = historyIndexRef.current + direction
@@ -849,11 +852,11 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <div className={`draft-board-drop-zone${boardDropActive ? ' is-drop-target' : ''}`} aria-label="Player board" onDragOverCapture={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; setBoardDropActive(true) }} onDragLeave={() => setBoardDropActive(false)}>
-            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} draftSize={draftSize} includeKeeperRound={includeKeeperRound} yahooProjectionMode={projectionMode} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction' || selectedSource === 'espn-auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} onBoardDrop={removeRosterPlayerFromBoard} />
+            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} draftSize={draftSize} includeKeeperRound={includeKeeperRound} yahooProjectionMode={projectionMode} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction' || selectedSource === 'espn-auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={(id) => { setSelectedId(id); setInspectorId(id) }} onRowSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} onBoardDrop={removeRosterPlayerFromBoard} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
                 const id = rankingId(row)
-                return <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} sortKey={sortKey === 'adjustedRank' ? 'adjustedRank' : 'sourceRank'} showAuctionValues={draftMode === 'auction' || selectedSource === 'espn-auction'} targeted={targets.has(id)} drafted={drafted.has(id)} mine={mine.has(id)} selected={selectedId === id} onSelect={() => setSelectedId(id)} onTarget={() => toggleTarget(id)} onDrafted={() => draftPlayer(id)} onMine={() => toggleMine(id)} />
+                return <RankingCard key={`${row.player}-${row.team}-${row.sourceRank}-card`} row={row} teams={teams} source={selectedSource} sortKey={sortKey === 'adjustedRank' ? 'adjustedRank' : 'sourceRank'} showAuctionValues={draftMode === 'auction' || selectedSource === 'espn-auction'} targeted={targets.has(id)} drafted={drafted.has(id)} mine={mine.has(id)} selected={selectedId === id} onSelect={() => { setSelectedId(id); setInspectorId(id) }} onRowSelect={() => setSelectedId(id)} onTarget={() => toggleTarget(id)} onDrafted={() => draftPlayer(id)} onMine={() => toggleMine(id)} />
               })}
             </section>
           </div>
@@ -922,8 +925,8 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         onIncludeKeeperRound={setIncludeKeeperRound}
         onClose={() => setSettingsOpen(false)}
       />
-      {selectedRow && isEspnSource && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} draftedCount={rows.filter((candidate) => candidate.position.toUpperCase() === selectedRow.position.toUpperCase() && drafted.has(rankingId(candidate))).length} dragOffset={inspectorOffset} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} favorited={targets.has(selectedId)} onFavorite={() => toggleTarget(selectedId)} onClose={() => setSelectedId('')} onDraft={() => { draftPlayer(selectedId); setSelectedId('') }} onAdd={() => { toggleMine(selectedId); setSelectedId('') }} onNavigate={navigateInspector} onDragOffsetChange={setInspectorOffset} /> : null}
-      {selectedRow && draftMode === 'snake' ? <SnakePlayerInspector row={selectedRow} allRows={rows} teams={teams} projection={yahooProjectionFor(selectedRow)} dragOffset={inspectorOffset} favorited={targets.has(selectedId)} onFavorite={() => toggleTarget(selectedId)} onClose={() => setSelectedId('')} onDraft={() => { draftPlayer(selectedId); setSelectedId('') }} onAdd={() => { toggleMine(selectedId); setSelectedId('') }} onNavigate={navigateInspector} onDragOffsetChange={setInspectorOffset} /> : null}
+      {selectedRow && isEspnSource && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} draftedCount={rows.filter((candidate) => candidate.position.toUpperCase() === selectedRow.position.toUpperCase() && drafted.has(rankingId(candidate))).length} dragOffset={inspectorOffset} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} favorited={targets.has(inspectorId)} onFavorite={() => toggleTarget(inspectorId)} onClose={() => setInspectorId('')} onDraft={() => { draftPlayer(inspectorId); setInspectorId('') }} onAdd={() => { toggleMine(inspectorId); setInspectorId('') }} onNavigate={navigateInspector} onDragOffsetChange={setInspectorOffset} /> : null}
+      {selectedRow && draftMode === 'snake' ? <SnakePlayerInspector row={selectedRow} allRows={rows} teams={teams} projection={yahooProjectionFor(selectedRow)} dragOffset={inspectorOffset} favorited={targets.has(inspectorId)} onFavorite={() => toggleTarget(inspectorId)} onClose={() => setInspectorId('')} onDraft={() => { draftPlayer(inspectorId); setInspectorId('') }} onAdd={() => { toggleMine(inspectorId); setInspectorId('') }} onNavigate={navigateInspector} onDragOffsetChange={setInspectorOffset} /> : null}
       {shortcutsOpen ? <div className="shortcut-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setShortcutsOpen(false) }}><section className="shortcut-dialog" role="dialog" aria-modal="true" aria-labelledby="shortcut-dialog-title"><div className="shortcut-dialog__header"><div><span className="eyebrow">Draft board</span><h2 id="shortcut-dialog-title">Keyboard shortcuts</h2></div><button type="button" className="icon-button" onClick={() => setShortcutsOpen(false)} aria-label="Close keyboard shortcuts">×</button></div><div className="shortcut-list"><div><kbd>⌘ K</kbd><span>Focus player search</span></div><div><kbd>/</kbd><span>Search players</span></div><div><kbd>↑ ↓</kbd><span>Move through players</span></div><div><kbd>Enter</kbd><span>Draft selected player</span></div><div><kbd>P</kbd><span>Toggle position view</span></div><div><kbd>← →</kbd><span>Change position filter or lane</span></div><div><kbd>S</kbd><span>Change sort</span></div><div><kbd>D</kbd><span>Show or hide drafted players</span></div><div><kbd>F</kbd><span>Favorite selected player</span></div><div><kbd>,</kbd><span>Open settings</span></div><div><kbd>⌘ Z</kbd><span>Undo · <kbd>⇧ ⌘ Z</kbd> redo</span></div><div><kbd>?</kbd><span>Show or hide this guide</span></div></div><p className="shortcut-dialog__hint">Shortcuts pause while you type in a field. Press <kbd>Esc</kbd> to close panels.</p></section></div> : null}
     </main>
     <div hidden={route !== 'analytics'}>

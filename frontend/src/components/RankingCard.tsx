@@ -5,7 +5,7 @@ import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
 import { rankingId } from '../data/draftState'
 
-type Props = { row: RankingRow; teams: Record<string, TeamAsset>; source: RankingSource; sortKey?: 'sourceRank' | 'adjustedRank'; showAuctionValues?: boolean; targeted?: boolean; drafted?: boolean; mine?: boolean; onTarget?: () => void; onDrafted?: () => void; onMine?: () => void; selected?: boolean; onSelect?: () => void }
+type Props = { row: RankingRow; teams: Record<string, TeamAsset>; source: RankingSource; sortKey?: 'sourceRank' | 'adjustedRank'; showAuctionValues?: boolean; targeted?: boolean; drafted?: boolean; mine?: boolean; onTarget?: () => void; onDrafted?: () => void; onMine?: () => void; selected?: boolean; onSelect?: () => void; onRowSelect?: () => void }
 
 function diffSignalStyle(diff: number | undefined, isEspn: boolean): CSSProperties {
   const neutralRange = isEspn ? 1 : 3
@@ -23,12 +23,12 @@ function diffDirectionClass(diff?: number): string {
   return diff > 0 ? 'diff-positive' : 'diff-negative'
 }
 
-export function RankingCard({ row, teams, source, sortKey = 'sourceRank', showAuctionValues = source === 'espn' || source === 'espn-auction', targeted = false, drafted = false, mine = false, onTarget, onDrafted, onMine, selected = false, onSelect }: Props) {
+export function RankingCard({ row, teams, source, sortKey = 'sourceRank', showAuctionValues = source === 'espn' || source === 'espn-auction', targeted = false, drafted = false, mine = false, onTarget, onDrafted, onMine, selected = false, onSelect, onRowSelect }: Props) {
   const team = normalizeTeamAbbreviation(row.team)
   const asset = getTeamAsset(teams, team)
   const isValueDiff = (source === 'espn' || source === 'espn-auction') && showAuctionValues
   return (
-    <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''} ${selected ? 'is-selected' : ''}`} style={diffSignalStyle(row.diff, isValueDiff)} aria-label={`${row.player}, ${row.positionRank ?? row.position}, ${drafted ? 'drafted' : 'available'}`} data-ranking-id={rankingId(row)}>
+    <article className={`ranking-card ${diffDirectionClass(row.diff)} pos-${row.positionTone ?? 'other'} ${drafted ? 'is-drafted' : ''} ${selected ? 'is-selected' : ''}`} style={diffSignalStyle(row.diff, isValueDiff)} onClick={onRowSelect} aria-label={`${row.player}, ${row.positionRank ?? row.position}, ${drafted ? 'drafted' : 'available'}`} data-ranking-id={rankingId(row)}>
       <div className="ranking-card__header"><span className="ranking-card__rank"><strong>{formatRank(sortKey === 'adjustedRank' ? row.adjustedRank : row.sourceRank)}</strong><small className={`adjusted-rank-value adjusted-rank-value--${adjustedRankTone(row)}`}>({formatRank(sortKey === 'adjustedRank' ? row.sourceRank : row.adjustedRank)})</small></span><div className="player-line">
         <TeamBadge team={team} asset={asset} />
         <div>
