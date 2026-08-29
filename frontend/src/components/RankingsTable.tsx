@@ -1,5 +1,5 @@
 import { Fragment, type CSSProperties, type DragEvent } from 'react'
-import type { RankingRow, RankingSource, SortDirection, SortKey, TeamAsset, YahooProjection, YahooProjectionColumn } from '../types'
+import type { RankingRow, RankingSource, SortDirection, SortKey, TeamAsset, YahooProjection } from '../types'
 import { adjustedRankTone, formatRank, formatSignedRank, formatSignedValue, formatValue, sourceLabel } from '../data/rankings'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
@@ -28,7 +28,6 @@ type Props = {
   showRegressionDiff: boolean
   showAuctionValues: boolean
   yahooProjectionMode: 'full' | 'half'
-  yahooProjectionColumn: YahooProjectionColumn
   yahooProjectionFor: (row: RankingRow) => YahooProjection | undefined
   onBoardDrop?: (event: DragEvent<HTMLElement>) => void
 }
@@ -65,10 +64,10 @@ function SortButton({ label, sortKey, activeKey, direction, onSort, ariaLabel }:
   return <button className="sort-button" aria-label={ariaLabel ?? `Sort by ${label}`} title={ariaLabel ?? `Sort by ${label}`} onClick={() => onSort(sortKey)}>{label}{activeKey === sortKey ? <span aria-hidden="true"> {direction === 'asc' ? '↑' : '↓'}</span> : null}</button>
 }
 
-export function RankingsTable({ rows, teams, source, sortKey, sortDirection, draftSlot, draftSize, includeKeeperRound, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false, showYahooProjections, showRegressionDiff, showAuctionValues, yahooProjectionMode, yahooProjectionColumn, yahooProjectionFor, onBoardDrop }: Props) {
+export function RankingsTable({ rows, teams, source, sortKey, sortDirection, draftSlot, draftSize, includeKeeperRound, targets, drafted, mine, onSort, onTarget, onDrafted, onMine, selectedId, onSelect, stickyHeaders = false, showYahooProjections, showRegressionDiff, showAuctionValues, yahooProjectionMode, yahooProjectionFor, onBoardDrop }: Props) {
   const isEspn = source === 'espn' || source === 'espn-auction'
   const showValueColumn = isEspn && showAuctionValues
-  const dividerColumnCount = 6 + (showValueColumn ? 1 : 0) + (showYahooProjections ? yahooProjectionColumn === 'both' ? 2 : 1 : 0) + (showRegressionDiff ? 1 : 0)
+  const dividerColumnCount = 6 + (showValueColumn ? 1 : 0) + (showYahooProjections ? 1 : 0) + (showRegressionDiff ? 1 : 0)
   const showDraftDivider = (sortKey === 'sourceRank' || sortKey === 'adjustedRank') && sortDirection === 'asc'
   const showAuctionRoundDivider = showValueColumn && showDraftDivider
   const showPersonalPickMarkers = showDraftDivider && !showAuctionRoundDivider
@@ -109,7 +108,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
           <col className="col-player" />
           <col className="col-position" />
           {showValueColumn ? <col className="col-money" /> : null}
-          {showYahooProjections ? <><col className="col-yahoo-projection" />{yahooProjectionColumn === 'both' ? <col className="col-yahoo-projection" /> : null}</> : null}
+          {showYahooProjections ? <col className="col-yahoo-projection" /> : null}
           {showRegressionDiff ? <col className="col-regression-diff" /> : null}
           <col className="col-diff" />
           <col className="col-action" />
@@ -121,7 +120,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             <th className="player-heading"><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             {showValueColumn ? <th className="num-heading price-heading"><span>Value</span></th> : null}
-            {showYahooProjections ? <>{yahooProjectionColumn === 'both' ? <><th className="num-heading yahoo-projection-heading"><SortButton label="Season proj" sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th><th className="num-heading yahoo-projection-heading"><span>Week 1 proj</span></th></> : <th className="num-heading yahoo-projection-heading"><SortButton label={yahooProjectionColumn === 'week1' ? 'Week 1 proj' : 'Season proj'} sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>}</> : null}
+          {showYahooProjections ? <th className="num-heading yahoo-projection-heading"><SortButton label="Yahoo proj" sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
             {showRegressionDiff ? <th className="num-heading regression-diff-heading"><SortButton label="Trend" ariaLabel="Sort by trend" sortKey="regressionDiff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
             <th className="num-heading diff-heading"><SortButton label="Delta" ariaLabel={showValueColumn ? 'Sort by value delta' : 'Sort by ranking delta'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="action-heading" title="Favorite before drafting; add to my roster after drafting"><span className="action-heading__label">Fav</span><span className="sr-only">Favorite or my roster</span></th>
@@ -138,10 +137,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             const isMine = mine.has(id)
             const projection = yahooProjectionFor(row)
             const week1Projection = yahooProjectionMode === 'half' ? projection?.week1HalfPpr ?? projection?.week1Ppr ?? 0 : projection?.week1Ppr ?? 0
-            const weeklyAverage = yahooProjectionMode === 'half' ? projection?.weeklyAvgHalfPpr : projection?.weeklyAvgPpr
             const seasonProjection = yahooProjectionMode === 'half' ? projection?.seasonHalfPpr ?? projection?.seasonPpr ?? 0 : projection?.seasonPpr ?? 0
-            const weeklyAverageFallback = seasonProjection
-            const selectedProjection = yahooProjectionColumn === 'week1' ? week1Projection : seasonProjection > 0 ? seasonProjection : week1Projection
             return (
               <Fragment key={`${row.player}-${row.team}-${row.sourceRank}`}>
               {showAuctionRoundDivider && index > 0 && index % draftSize === 0 ? <AuctionRoundDividerRow round={Math.floor(index / draftSize) + 1} columnCount={dividerColumnCount} /> : showPersonalPickMarkers && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} atTop={index === 0} /> : null}
@@ -161,7 +157,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                 </td>
                 <td className="position-cell"><span className={`pos-chip pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span></td>
                 {showValueColumn ? <td className="num price-cell"><span className="stacked-price"><strong>{formatValue(row.sourceValue)}</strong><small>Adjusted {formatValue(row.adjustedValue)}</small></span></td> : null}
-                {showYahooProjections ? <>{yahooProjectionColumn === 'both' ? <><td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{typeof seasonProjection === 'number' ? seasonProjection.toFixed(2) : '—'}</strong><small>Season proj</small></span></td><td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{typeof week1Projection === 'number' ? week1Projection.toFixed(2) : '—'}</strong><small>Week 1 proj</small></span></td></> : <td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{typeof selectedProjection === 'number' ? selectedProjection.toFixed(2) : '—'}</strong><small>{yahooProjectionColumn === 'week1' ? 'Week 1 proj' : typeof weeklyAverage === 'number' ? `${weeklyAverage.toFixed(1)} avg` : typeof weeklyAverageFallback === 'number' ? `${(weeklyAverageFallback / 17).toFixed(1)} avg` : 'Season proj'}</small></span></td>}</> : null}
+                {showYahooProjections ? <td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{seasonProjection > 0 ? seasonProjection.toFixed(2) : '—'}</strong><small>{seasonProjection > 0 ? `Season · (${week1Projection > 0 ? `${week1Projection.toFixed(2)} wk 1` : 'No week 1 data'})` : 'No data'}</small></span></td> : null}
                 {showRegressionDiff ? <td className={`num emphasis regression-diff-cell ${typeof row.regressionDiff === 'number' && row.regressionDiff > 0 ? 'diff-positive' : typeof row.regressionDiff === 'number' && row.regressionDiff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{formatSignedRank(row.regressionDiff)}</span></td> : null}
                 <td className={`num emphasis diff-cell ${typeof row.diff === 'number' && row.diff > 0 ? 'diff-positive' : typeof row.diff === 'number' && row.diff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{showValueColumn ? formatSignedValue(row.diff) : formatRank(row.diff)}</span></td>
                 <td className="row-action">{isDrafted ? <button className={`mine-action ${isMine ? 'active' : ''}`} type="button" aria-label={`${isMine ? 'Remove' : 'Add'} ${row.player} ${isMine ? 'from' : 'to'} my roster`} aria-pressed={isMine} onClick={(event) => { event.stopPropagation(); onMine(id) }}>{isMine ? '✓' : '+'}</button> : <button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button>}</td>

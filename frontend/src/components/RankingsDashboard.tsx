@@ -849,7 +849,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <div className={`draft-board-drop-zone${boardDropActive ? ' is-drop-target' : ''}`} aria-label="Player board" onDragOverCapture={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; setBoardDropActive(true) }} onDragLeave={() => setBoardDropActive(false)}>
-            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} draftSize={draftSize} includeKeeperRound={includeKeeperRound} yahooProjectionMode={projectionMode} yahooProjectionColumn={yahooProjectionColumn} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction' || selectedSource === 'espn-auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} onBoardDrop={removeRosterPlayerFromBoard} />
+            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} draftSize={draftSize} includeKeeperRound={includeKeeperRound} yahooProjectionMode={projectionMode} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction' || selectedSource === 'espn-auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} onBoardDrop={removeRosterPlayerFromBoard} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
                 const id = rankingId(row)
@@ -887,7 +887,6 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         autoLineupApply={autoLineupApply}
         stickyWorkbench={stickyWorkbench}
         showYahooProjections={showYahooProjections}
-        yahooProjectionColumn={yahooProjectionColumn}
         showRegressionDiff={showRegressionDiff}
         viewMode={view}
         targets={targets}
@@ -910,7 +909,6 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         onAutoLineupApply={handleAutoLineupApply}
         onShowStickyWorkbench={setStickyWorkbench}
         onShowYahooProjections={setShowYahooProjections}
-        onYahooProjectionColumn={setYahooProjectionColumn}
         onShowRegressionDiff={setShowRegressionDiff}
         onViewMode={(value) => setView(value)}
         onSeason={handleSeasonFromSettings}
