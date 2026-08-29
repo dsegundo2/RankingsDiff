@@ -228,7 +228,8 @@
           "sourceUpdated": "2026/08/06",
           "observedAt": "2026-08-08T14:18:18.453989Z"
         }
-      ]
+      ],
+      "yahooProjections": "/data/2026/yahoo-projections.json"
     },
     {
       "season": 2025,
