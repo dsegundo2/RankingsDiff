@@ -49,6 +49,20 @@ test('dashboard renders and exposes settings downloads', async ({ page }) => {
   expect(parseFloat(sourceLinkRadius)).toBeLessThanOrEqual(10)
 })
 
+test('Yahoo projection column can switch to Week 1 and snake details show draft values', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: /Settings/ }).click()
+  await expect(page.getByLabel('Yahoo projection column')).toHaveValue('season')
+  await page.getByLabel('Yahoo projection column').selectOption('week1')
+  await page.getByLabel('Show Yahoo projections').check()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('.yahoo-projection-heading')).toBeVisible()
+  await page.locator('tbody tr[data-ranking-id]').first().locator('.player-cell').click()
+  await expect(page.getByRole('dialog', { name: /Jahmyr Gibbs/ })).toContainText('RB number')
+  await expect(page.getByRole('dialog', { name: /Jahmyr Gibbs/ })).toContainText('Season proj')
+  await expect(page.getByRole('dialog', { name: /Jahmyr Gibbs/ })).toContainText('Week 1 proj')
+})
+
 test('screenshot auction rankings load as an ordered base sheet', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: /Settings/ }).click()

@@ -6,6 +6,7 @@ export type RankingRow = {
   player: string
   team: string
   position: string
+  headshotUrl?: string
   positionRank?: string
   sourceRank?: number
   adjustedRank?: number
@@ -66,6 +67,8 @@ export type YahooProjection = {
   weeklyAvgPpr?: number
   weeklyAvgHalfPpr?: number
 }
+
+export type YahooProjectionColumn = 'season' | 'week1'
 
 export type YahooProjectionMap = Record<string, YahooProjection>
 

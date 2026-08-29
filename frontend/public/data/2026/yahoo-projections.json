@@ -3,1135 +3,1324 @@
     "player": "Jahmyr Gibbs",
     "team": "DET",
     "seasonPpr": 328.82,
-    "weeklyAvgPpr": 19.342352941176472
+    "weeklyAvgPpr": 19.342352941176472,
+    "week1Ppr": 20.36
   },
   {
     "player": "Bijan Robinson",
     "team": "ATL",
     "seasonPpr": 331.78,
-    "weeklyAvgPpr": 19.516470588235293
+    "weeklyAvgPpr": 19.516470588235293,
+    "week1Ppr": 20.53
   },
   {
     "player": "Ja'Marr Chase",
     "team": "CIN",
     "seasonPpr": 326.01,
-    "weeklyAvgPpr": 19.17705882352941
+    "weeklyAvgPpr": 19.17705882352941,
+    "week1Ppr": 19.99
   },
   {
     "player": "Puka Nacua",
     "team": "LAR",
     "seasonPpr": 311.25,
-    "weeklyAvgPpr": 18.308823529411764
+    "weeklyAvgPpr": 18.308823529411764,
+    "week1Ppr": 19.38
   },
   {
     "player": "Jonathan Taylor",
     "team": "IND",
     "seasonPpr": 277.34,
-    "weeklyAvgPpr": 16.314117647058822
+    "weeklyAvgPpr": 16.314117647058822,
+    "week1Ppr": 17.33
   },
   {
     "player": "Christian McCaffrey",
     "team": "SF",
     "seasonPpr": 301.67,
-    "weeklyAvgPpr": 17.74529411764706
+    "weeklyAvgPpr": 17.74529411764706,
+    "week1Ppr": 18.53
   },
   {
     "player": "Amon-Ra St. Brown",
     "team": "DET",
     "seasonPpr": 302.95,
-    "weeklyAvgPpr": 17.820588235294117
+    "weeklyAvgPpr": 17.820588235294117,
+    "week1Ppr": 19.08
   },
   {
     "player": "Jaxon Smith-Njigba",
     "team": "SEA",
     "seasonPpr": 306.43,
-    "weeklyAvgPpr": 18.02529411764706
+    "weeklyAvgPpr": 18.02529411764706,
+    "week1Ppr": 18.78
   },
   {
     "player": "James Cook III",
     "team": "BUF",
     "seasonPpr": 251.94,
-    "weeklyAvgPpr": 14.82
+    "weeklyAvgPpr": 14.82,
+    "week1Ppr": 14.37
   },
   {
     "player": "Saquon Barkley",
     "team": "PHI",
     "seasonPpr": 242.52,
-    "weeklyAvgPpr": 14.265882352941176
+    "weeklyAvgPpr": 14.265882352941176,
+    "week1Ppr": 15.17
   },
   {
     "player": "CeeDee Lamb",
     "team": "DAL",
     "seasonPpr": 271.87,
-    "weeklyAvgPpr": 15.99235294117647
+    "weeklyAvgPpr": 15.99235294117647,
+    "week1Ppr": 16.13
   },
   {
     "player": "Kenneth Walker III",
     "team": "KC",
     "seasonPpr": 238.4,
-    "weeklyAvgPpr": 14.023529411764706
+    "weeklyAvgPpr": 14.023529411764706,
+    "week1Ppr": 13.69
   },
   {
     "player": "Justin Jefferson",
     "team": "MIN",
     "seasonPpr": 269.14,
-    "weeklyAvgPpr": 15.831764705882351
+    "weeklyAvgPpr": 15.831764705882351,
+    "week1Ppr": 16.8
   },
   {
     "player": "Chase Brown",
     "team": "CIN",
     "seasonPpr": 257.6,
-    "weeklyAvgPpr": 15.15294117647059
+    "weeklyAvgPpr": 15.15294117647059,
+    "week1Ppr": 15.93
   },
   {
     "player": "De'Von Achane",
     "team": "MIA",
     "seasonPpr": 273.77,
-    "weeklyAvgPpr": 16.10411764705882
+    "weeklyAvgPpr": 16.10411764705882,
+    "week1Ppr": 16.92
   },
   {
     "player": "Omarion Hampton",
     "team": "LAC",
     "seasonPpr": 228.82,
-    "weeklyAvgPpr": 13.459999999999999
+    "weeklyAvgPpr": 13.459999999999999,
+    "week1Ppr": 15.01
   },
   {
     "player": "Derrick Henry",
     "team": "BAL",
     "seasonPpr": 238.42,
-    "weeklyAvgPpr": 14.02470588235294
+    "weeklyAvgPpr": 14.02470588235294,
+    "week1Ppr": 14.12
   },
   {
     "player": "Nico Collins",
     "team": "HOU",
     "seasonPpr": 255.17,
-    "weeklyAvgPpr": 15.01
+    "weeklyAvgPpr": 15.01,
+    "week1Ppr": 15.02
   },
   {
     "player": "Brock Bowers",
     "team": "LV",
     "seasonPpr": 222.97,
-    "weeklyAvgPpr": 13.115882352941176
+    "weeklyAvgPpr": 13.115882352941176,
+    "week1Ppr": 14.17
   },
   {
     "player": "Drake London",
     "team": "ATL",
     "seasonPpr": 268.11,
-    "weeklyAvgPpr": 15.771176470588236
+    "weeklyAvgPpr": 15.771176470588236,
+    "week1Ppr": 16.19
   },
   {
     "player": "Ashton Jeanty",
     "team": "LV",
     "seasonPpr": 223.74,
-    "weeklyAvgPpr": 13.161176470588236
+    "weeklyAvgPpr": 13.161176470588236,
+    "week1Ppr": 13.7
   },
   {
     "player": "A.J. Brown",
     "team": "NE",
     "seasonPpr": 234.9,
-    "weeklyAvgPpr": 13.81764705882353
+    "weeklyAvgPpr": 13.81764705882353,
+    "week1Ppr": 13.82
   },
   {
     "player": "George Pickens",
     "team": "DAL",
     "seasonPpr": 250.92,
-    "weeklyAvgPpr": 14.76
+    "weeklyAvgPpr": 14.76,
+    "week1Ppr": 14.74
   },
   {
     "player": "Malik Nabers",
     "team": "NYG",
     "seasonPpr": 223.17,
-    "weeklyAvgPpr": 13.127647058823529
+    "weeklyAvgPpr": 13.127647058823529,
+    "week1Ppr": 13.99
   },
   {
     "player": "Chris Olave",
     "team": "NO",
     "seasonPpr": 237.35,
-    "weeklyAvgPpr": 13.961764705882352
+    "weeklyAvgPpr": 13.961764705882352,
+    "week1Ppr": 14.6
   },
   {
     "player": "DeVonta Smith",
     "team": "PHI",
     "seasonPpr": 231.7,
-    "weeklyAvgPpr": 13.629411764705882
+    "weeklyAvgPpr": 13.629411764705882,
+    "week1Ppr": 14.67
   },
   {
     "player": "Kyren Williams",
     "team": "LAR",
     "seasonPpr": 212.19,
-    "weeklyAvgPpr": 12.481764705882354
+    "weeklyAvgPpr": 12.481764705882354,
+    "week1Ppr": 13.27
   },
   {
     "player": "Tee Higgins",
     "team": "CIN",
     "seasonPpr": 217.77,
-    "weeklyAvgPpr": 12.81
+    "weeklyAvgPpr": 12.81,
+    "week1Ppr": 13.94
   },
   {
     "player": "Trey McBride",
     "team": "ARI",
     "seasonPpr": 236.72,
-    "weeklyAvgPpr": 13.92470588235294
+    "weeklyAvgPpr": 13.92470588235294,
+    "week1Ppr": 13.62
   },
   {
     "player": "Breece Hall",
     "team": "NYJ",
     "seasonPpr": 221.49,
-    "weeklyAvgPpr": 13.028823529411765
+    "weeklyAvgPpr": 13.028823529411765,
+    "week1Ppr": 13.61
   },
   {
     "player": "Josh Allen",
     "team": "BUF",
     "seasonPpr": 357.51,
-    "weeklyAvgPpr": 21.03
+    "weeklyAvgPpr": 21.03,
+    "week1Ppr": 19.54
   },
   {
     "player": "Jeremiyah Love",
     "team": "ARI",
     "seasonPpr": 229.48,
-    "weeklyAvgPpr": 13.498823529411764
+    "weeklyAvgPpr": 13.498823529411764,
+    "week1Ppr": 12.87
   },
   {
     "player": "Zay Flowers",
     "team": "BAL",
     "seasonPpr": 248.04,
-    "weeklyAvgPpr": 14.590588235294117
+    "weeklyAvgPpr": 14.590588235294117,
+    "week1Ppr": 15.89
   },
   {
     "player": "Jaylen Waddle",
     "team": "DEN",
     "seasonPpr": 216.27,
-    "weeklyAvgPpr": 12.721764705882354
+    "weeklyAvgPpr": 12.721764705882354,
+    "week1Ppr": 13.24
   },
   {
     "player": "Javonte Williams",
     "team": "DAL",
     "seasonPpr": 214.13,
-    "weeklyAvgPpr": 12.595882352941176
+    "weeklyAvgPpr": 12.595882352941176,
+    "week1Ppr": 13.96
   },
   {
     "player": "Rashee Rice",
     "team": "KC",
     "seasonPpr": 240.95,
-    "weeklyAvgPpr": 14.173529411764704
+    "weeklyAvgPpr": 14.173529411764704,
+    "week1Ppr": 13.59
   },
   {
     "player": "Colston Loveland",
     "team": "CHI",
     "seasonPpr": 193.14,
-    "weeklyAvgPpr": 11.361176470588234
+    "weeklyAvgPpr": 11.361176470588234,
+    "week1Ppr": 11.95
   },
   {
     "player": "Tetairoa McMillan",
     "team": "CAR",
     "seasonPpr": 222.77,
-    "weeklyAvgPpr": 13.104117647058825
+    "weeklyAvgPpr": 13.104117647058825,
+    "week1Ppr": 13.97
   },
   {
     "player": "Ladd McConkey",
     "team": "LAC",
     "seasonPpr": 202.48,
-    "weeklyAvgPpr": 11.910588235294117
+    "weeklyAvgPpr": 11.910588235294117,
+    "week1Ppr": 12.59
   },
   {
     "player": "Garrett Wilson",
     "team": "NYJ",
     "seasonPpr": 203.12,
-    "weeklyAvgPpr": 11.948235294117648
+    "weeklyAvgPpr": 11.948235294117648,
+    "week1Ppr": 12.47
   },
   {
     "player": "Travis Etienne Jr.",
     "team": "NO",
     "seasonPpr": 209.55,
-    "weeklyAvgPpr": 12.326470588235296
+    "weeklyAvgPpr": 12.326470588235296,
+    "week1Ppr": 12.45
   },
   {
     "player": "D'Andre Swift",
     "team": "CHI",
     "seasonPpr": 196.51,
-    "weeklyAvgPpr": 11.559411764705882
+    "weeklyAvgPpr": 11.559411764705882,
+    "week1Ppr": 11.75
   },
   {
     "player": "Emeka Egbuka",
     "team": "TB",
     "seasonPpr": 199.79,
-    "weeklyAvgPpr": 11.75235294117647
+    "weeklyAvgPpr": 11.75235294117647,
+    "week1Ppr": 11.37
   },
   {
     "player": "Josh Jacobs",
     "team": "GB",
     "seasonPpr": 205.91,
-    "weeklyAvgPpr": 12.11235294117647
+    "weeklyAvgPpr": 12.11235294117647,
+    "week1Ppr": 11.73
   },
   {
     "player": "Luther Burden III",
     "team": "CHI",
     "seasonPpr": 204.99,
-    "weeklyAvgPpr": 12.058235294117647
+    "weeklyAvgPpr": 12.058235294117647,
+    "week1Ppr": 12.34
   },
   {
     "player": "Terry McLaurin",
     "team": "WAS",
     "seasonPpr": 208.96,
-    "weeklyAvgPpr": 12.291764705882354
+    "weeklyAvgPpr": 12.291764705882354,
+    "week1Ppr": 11.67
   },
   {
     "player": "Tyler Warren",
     "team": "IND",
     "seasonPpr": 202.84,
-    "weeklyAvgPpr": 11.931764705882353
+    "weeklyAvgPpr": 11.931764705882353,
+    "week1Ppr": 12.78
   },
   {
     "player": "DJ Moore",
     "team": "BUF",
     "seasonPpr": 186.36,
-    "weeklyAvgPpr": 10.962352941176471
+    "weeklyAvgPpr": 10.962352941176471,
+    "week1Ppr": 11.03
   },
   {
     "player": "Cam Skattebo",
     "team": "NYG",
     "seasonPpr": 206.25,
-    "weeklyAvgPpr": 12.132352941176471
+    "weeklyAvgPpr": 12.132352941176471,
+    "week1Ppr": 13.56
   },
   {
     "player": "Lamar Jackson",
     "team": "BAL",
     "seasonPpr": 319,
-    "weeklyAvgPpr": 18.764705882352942
+    "weeklyAvgPpr": 18.764705882352942,
+    "week1Ppr": 19.99
   },
   {
     "player": "Rome Odunze",
     "team": "CHI",
     "seasonPpr": 189.71,
-    "weeklyAvgPpr": 11.159411764705883
+    "weeklyAvgPpr": 11.159411764705883,
+    "week1Ppr": 10.79
   },
   {
     "player": "Jameson Williams",
     "team": "DET",
     "seasonPpr": 185.27,
-    "weeklyAvgPpr": 10.898235294117647
+    "weeklyAvgPpr": 10.898235294117647,
+    "week1Ppr": 11.56
   },
   {
     "player": "Bucky Irving",
     "team": "TB",
     "seasonPpr": 194.06,
-    "weeklyAvgPpr": 11.41529411764706
+    "weeklyAvgPpr": 11.41529411764706,
+    "week1Ppr": 12
   },
   {
     "player": "Christian Watson",
     "team": "GB",
     "seasonPpr": 190.53,
-    "weeklyAvgPpr": 11.207647058823529
+    "weeklyAvgPpr": 11.207647058823529,
+    "week1Ppr": 11.66
   },
   {
     "player": "Bhayshul Tuten",
     "team": "JAX",
     "seasonPpr": 176.73,
-    "weeklyAvgPpr": 10.395882352941175
+    "weeklyAvgPpr": 10.395882352941175,
+    "week1Ppr": 10.5
   },
   {
     "player": "Parker Washington",
     "team": "JAX",
     "seasonPpr": 198.32,
-    "weeklyAvgPpr": 11.665882352941177
+    "weeklyAvgPpr": 11.665882352941177,
+    "week1Ppr": 10.97
   },
   {
     "player": "Davante Adams",
     "team": "LAR",
     "seasonPpr": 192.33,
-    "weeklyAvgPpr": 11.313529411764707
+    "weeklyAvgPpr": 11.313529411764707,
+    "week1Ppr": 11.88
   },
   {
     "player": "Quinshon Judkins",
     "team": "CLE",
     "seasonPpr": 193.39,
-    "weeklyAvgPpr": 11.375882352941176
+    "weeklyAvgPpr": 11.375882352941176,
+    "week1Ppr": 10.94
   },
   {
     "player": "David Montgomery",
     "team": "HOU",
     "seasonPpr": 192.07,
-    "weeklyAvgPpr": 11.298235294117646
+    "weeklyAvgPpr": 11.298235294117646,
+    "week1Ppr": 11.73
   },
   {
     "player": "Jadarian Price",
     "team": "SEA",
     "seasonPpr": 185.12,
-    "weeklyAvgPpr": 10.889411764705883
+    "weeklyAvgPpr": 10.889411764705883,
+    "week1Ppr": 10.15
   },
   {
     "player": "Mike Evans",
     "team": "SF",
     "seasonPpr": 197.23,
-    "weeklyAvgPpr": 11.601764705882353
+    "weeklyAvgPpr": 11.601764705882353,
+    "week1Ppr": 11.44
   },
   {
     "player": "Drake Maye",
     "team": "NE",
     "seasonPpr": 325.65,
-    "weeklyAvgPpr": 19.155882352941177
+    "weeklyAvgPpr": 19.155882352941177,
+    "week1Ppr": 17.72
   },
   {
     "player": "Jayden Daniels",
     "team": "WAS",
     "seasonPpr": 319.08,
-    "weeklyAvgPpr": 18.769411764705882
+    "weeklyAvgPpr": 18.769411764705882,
+    "week1Ppr": 18.15
   },
   {
     "player": "Joe Burrow",
     "team": "CIN",
     "seasonPpr": 314.63,
-    "weeklyAvgPpr": 18.50764705882353
+    "weeklyAvgPpr": 18.50764705882353,
+    "week1Ppr": 20.31
   },
   {
     "player": "TreVeyon Henderson",
     "team": "NE",
     "seasonPpr": 176.12,
-    "weeklyAvgPpr": 10.36
+    "weeklyAvgPpr": 10.36,
+    "week1Ppr": 9.61
   },
   {
     "player": "Jalen Hurts",
     "team": "PHI",
     "seasonPpr": 322.52,
-    "weeklyAvgPpr": 18.97176470588235
+    "weeklyAvgPpr": 18.97176470588235,
+    "week1Ppr": 21.12
   },
   {
     "player": "Tucker Kraft",
     "team": "GB",
     "seasonPpr": 174.9,
-    "weeklyAvgPpr": 10.288235294117648
+    "weeklyAvgPpr": 10.288235294117648,
+    "week1Ppr": 10.29
   },
   {
     "player": "Rhamondre Stevenson",
     "team": "NE",
     "seasonPpr": 174.26,
-    "weeklyAvgPpr": 10.250588235294117
+    "weeklyAvgPpr": 10.250588235294117,
+    "week1Ppr": 9.96
   },
   {
     "player": "Marvin Harrison Jr.",
     "team": "ARI",
     "seasonPpr": 174.82,
-    "weeklyAvgPpr": 10.283529411764706
+    "weeklyAvgPpr": 10.283529411764706,
+    "week1Ppr": 9.37
   },
   {
     "player": "Jaylen Warren",
     "team": "PIT",
     "seasonPpr": 183.13,
-    "weeklyAvgPpr": 10.77235294117647
+    "weeklyAvgPpr": 10.77235294117647,
+    "week1Ppr": 12.29
   },
   {
     "player": "Sam LaPorta",
     "team": "DET",
     "seasonPpr": 174.15,
-    "weeklyAvgPpr": 10.244117647058824
+    "weeklyAvgPpr": 10.244117647058824,
+    "week1Ppr": 10.51
   },
   {
     "player": "Caleb Williams",
     "team": "CHI",
     "seasonPpr": 300,
-    "weeklyAvgPpr": 17.647058823529413
+    "weeklyAvgPpr": 17.647058823529413,
+    "week1Ppr": 18.55
   },
   {
     "player": "Brian Thomas Jr.",
     "team": "JAX",
     "seasonPpr": 164.38,
-    "weeklyAvgPpr": 9.669411764705883
+    "weeklyAvgPpr": 9.669411764705883,
+    "week1Ppr": 8.87
   },
   {
     "player": "Carnell Tate",
     "team": "TEN",
     "seasonPpr": 172,
-    "weeklyAvgPpr": 10.117647058823529
+    "weeklyAvgPpr": 10.117647058823529,
+    "week1Ppr": 10.89
   },
   {
     "player": "Justin Herbert",
     "team": "LAC",
     "seasonPpr": 290.51,
-    "weeklyAvgPpr": 17.088823529411766
+    "weeklyAvgPpr": 17.088823529411766,
+    "week1Ppr": 19.49
   },
   {
     "player": "Jonathon Brooks",
     "team": "CAR",
     "seasonPpr": 164.19,
-    "weeklyAvgPpr": 9.658235294117647
+    "weeklyAvgPpr": 9.658235294117647,
+    "week1Ppr": 10.04
   },
   {
     "player": "DK Metcalf",
     "team": "PIT",
     "seasonPpr": 178.19,
-    "weeklyAvgPpr": 10.481764705882354
+    "weeklyAvgPpr": 10.481764705882354,
+    "week1Ppr": 11.04
   },
   {
     "player": "Harold Fannin Jr.",
     "team": "CLE",
     "seasonPpr": 177.17,
-    "weeklyAvgPpr": 10.421764705882353
+    "weeklyAvgPpr": 10.421764705882353,
+    "week1Ppr": 10.48
   },
   {
     "player": "Trevor Lawrence",
     "team": "JAX",
     "seasonPpr": 299.33,
-    "weeklyAvgPpr": 17.607647058823527
+    "weeklyAvgPpr": 17.607647058823527,
+    "week1Ppr": 16.66
   },
   {
     "player": "Dak Prescott",
     "team": "DAL",
     "seasonPpr": 308.94,
-    "weeklyAvgPpr": 18.172941176470587
+    "weeklyAvgPpr": 18.172941176470587,
+    "week1Ppr": 18.91
   },
   {
     "player": "Kyle Pitts Sr.",
     "team": "ATL",
     "seasonPpr": 176.12,
-    "weeklyAvgPpr": 10.36
+    "weeklyAvgPpr": 10.36,
+    "week1Ppr": 10.78
   },
   {
     "player": "Tony Pollard",
     "team": "TEN",
     "seasonPpr": 158.07,
-    "weeklyAvgPpr": 9.298235294117646
+    "weeklyAvgPpr": 9.298235294117646,
+    "week1Ppr": 9.83
   },
   {
     "player": "Rico Dowdle",
     "team": "PIT",
     "seasonPpr": 174.2,
-    "weeklyAvgPpr": 10.24705882352941
+    "weeklyAvgPpr": 10.24705882352941,
+    "week1Ppr": 11.73
   },
   {
     "player": "J.K. Dobbins",
     "team": "DEN",
     "seasonPpr": 144.12,
-    "weeklyAvgPpr": 8.47764705882353
+    "weeklyAvgPpr": 8.47764705882353,
+    "week1Ppr": 7.63
   },
   {
     "player": "Chris Godwin Jr.",
     "team": "TB",
     "seasonPpr": 166.27,
-    "weeklyAvgPpr": 9.780588235294118
+    "weeklyAvgPpr": 9.780588235294118,
+    "week1Ppr": 10.1
   },
   {
     "player": "Michael Wilson",
     "team": "ARI",
     "seasonPpr": 161.3,
-    "weeklyAvgPpr": 9.488235294117647
+    "weeklyAvgPpr": 9.488235294117647,
+    "week1Ppr": 9.3
   },
   {
     "player": "Josh Downs",
     "team": "IND",
     "seasonPpr": 181.56,
-    "weeklyAvgPpr": 10.68
+    "weeklyAvgPpr": 10.68,
+    "week1Ppr": 12.02
   },
   {
     "player": "George Kittle",
     "team": "SF",
     "seasonPpr": 160.9,
-    "weeklyAvgPpr": 9.464705882352941
+    "weeklyAvgPpr": 9.464705882352941,
+    "week1Ppr": 9.37
   },
   {
     "player": "Jacory Croskey-Merritt",
     "team": "WAS",
     "seasonPpr": 135.54,
-    "weeklyAvgPpr": 7.972941176470588
+    "weeklyAvgPpr": 7.972941176470588,
+    "week1Ppr": 7.97
   },
   {
     "player": "Stefon Diggs",
     "team": "WAS",
     "seasonPpr": 160.98,
-    "weeklyAvgPpr": 9.469411764705882
+    "weeklyAvgPpr": 9.469411764705882,
+    "week1Ppr": 9.55
   },
   {
     "player": "Blake Corum",
     "team": "LAR",
     "seasonPpr": 143.06,
-    "weeklyAvgPpr": 8.41529411764706
+    "weeklyAvgPpr": 8.41529411764706,
+    "week1Ppr": 8.67
   },
   {
     "player": "De'Zhaun Stribling",
     "team": "SF",
     "seasonPpr": 114.37,
-    "weeklyAvgPpr": 6.727647058823529
+    "weeklyAvgPpr": 6.727647058823529,
+    "week1Ppr": 6.46
   },
   {
     "player": "Chuba Hubbard",
     "team": "CAR",
     "seasonPpr": 158.46,
-    "weeklyAvgPpr": 9.321176470588236
+    "weeklyAvgPpr": 9.321176470588236,
+    "week1Ppr": 10.27
   },
   {
     "player": "Quentin Johnston",
     "team": "LAC",
     "seasonPpr": 151.49,
-    "weeklyAvgPpr": 8.911176470588236
+    "weeklyAvgPpr": 8.911176470588236,
+    "week1Ppr": 10.06
   },
   {
     "player": "Jordan Addison",
     "team": "MIN",
     "seasonPpr": 157.14,
-    "weeklyAvgPpr": 9.243529411764705
+    "weeklyAvgPpr": 9.243529411764705,
+    "week1Ppr": 9.75
   },
   {
     "player": "Jayden Reed",
     "team": "GB",
     "seasonPpr": 174.59,
-    "weeklyAvgPpr": 10.27
+    "weeklyAvgPpr": 10.27,
+    "week1Ppr": 10.71
   },
   {
     "player": "Brock Purdy",
     "team": "SF",
     "seasonPpr": 284.66,
-    "weeklyAvgPpr": 16.744705882352942
+    "weeklyAvgPpr": 16.744705882352942,
+    "week1Ppr": 16.96
   },
   {
     "player": "Alec Pierce",
     "team": "IND",
     "seasonPpr": 181.74,
-    "weeklyAvgPpr": 10.690588235294118
+    "weeklyAvgPpr": 10.690588235294118,
+    "week1Ppr": 10.81
   },
   {
     "player": "Courtland Sutton",
     "team": "DEN",
     "seasonPpr": 164.82,
-    "weeklyAvgPpr": 9.695294117647059
+    "weeklyAvgPpr": 9.695294117647059,
+    "week1Ppr": 9.79
   },
   {
     "player": "KC Concepcion",
     "team": "CLE",
     "seasonPpr": 149.54,
-    "weeklyAvgPpr": 8.796470588235294
+    "weeklyAvgPpr": 8.796470588235294,
+    "week1Ppr": 8.55
   },
   {
     "player": "Bo Nix",
     "team": "DEN",
     "seasonPpr": 289.6,
-    "weeklyAvgPpr": 17.03529411764706
+    "weeklyAvgPpr": 17.03529411764706,
+    "week1Ppr": 17.02
   },
   {
     "player": "Jaxson Dart",
     "team": "NYG",
     "seasonPpr": 297.71,
-    "weeklyAvgPpr": 17.51235294117647
+    "weeklyAvgPpr": 17.51235294117647,
+    "week1Ppr": 20.35
   },
   {
     "player": "Jordan Mason",
     "team": "MIN",
     "seasonPpr": 146.8,
-    "weeklyAvgPpr": 8.63529411764706
+    "weeklyAvgPpr": 8.63529411764706,
+    "week1Ppr": 8.44
   },
   {
     "player": "Matthew Golden",
     "team": "GB",
     "seasonPpr": 154.75,
-    "weeklyAvgPpr": 9.102941176470589
+    "weeklyAvgPpr": 9.102941176470589,
+    "week1Ppr": 9.04
   },
   {
     "player": "Michael Pittman Jr.",
     "team": "PIT",
     "seasonPpr": 173.18,
-    "weeklyAvgPpr": 10.187058823529412
+    "weeklyAvgPpr": 10.187058823529412,
+    "week1Ppr": 10.56
   },
   {
     "player": "Makai Lemon",
     "team": "PHI",
     "seasonPpr": 144.98,
-    "weeklyAvgPpr": 8.528235294117646
+    "weeklyAvgPpr": 8.528235294117646,
+    "week1Ppr": 7.64
   },
   {
     "player": "Dalton Kincaid",
     "team": "BUF",
     "seasonPpr": 145.64,
-    "weeklyAvgPpr": 8.567058823529411
+    "weeklyAvgPpr": 8.567058823529411,
+    "week1Ppr": 8.1
   },
   {
     "player": "Kyle Monangai",
     "team": "CHI",
     "seasonPpr": 155.99,
-    "weeklyAvgPpr": 9.175882352941176
+    "weeklyAvgPpr": 9.175882352941176,
+    "week1Ppr": 8.94
   },
   {
     "player": "RJ Harvey",
     "team": "DEN",
     "seasonPpr": 157.58,
-    "weeklyAvgPpr": 9.269411764705882
+    "weeklyAvgPpr": 9.269411764705882,
+    "week1Ppr": 9.57
   },
   {
     "player": "Wan'Dale Robinson",
     "team": "TEN",
     "seasonPpr": 167.8,
-    "weeklyAvgPpr": 9.870588235294118
+    "weeklyAvgPpr": 9.870588235294118,
+    "week1Ppr": 10.07
   },
   {
     "player": "Chris Rodriguez Jr.",
     "team": "JAX",
     "seasonPpr": 116.28,
-    "weeklyAvgPpr": 6.84
+    "weeklyAvgPpr": 6.84,
+    "week1Ppr": 6.9
   },
   {
     "player": "Matthew Stafford",
     "team": "LAR",
     "seasonPpr": 280.27,
-    "weeklyAvgPpr": 16.486470588235292
+    "weeklyAvgPpr": 16.486470588235292,
+    "week1Ppr": 17.72
   },
   {
     "player": "Jalen Coker",
     "team": "CAR",
     "seasonPpr": 153.03,
-    "weeklyAvgPpr": 9.001764705882353
+    "weeklyAvgPpr": 9.001764705882353,
+    "week1Ppr": 10.19
   },
   {
     "player": "Kyler Murray",
     "team": "MIN",
     "seasonPpr": 280.23,
-    "weeklyAvgPpr": 16.484117647058824
+    "weeklyAvgPpr": 16.484117647058824,
+    "week1Ppr": 17.08
   },
   {
     "player": "Kenny Gainwell",
     "team": "TB",
     "seasonPpr": 160.14,
-    "weeklyAvgPpr": 9.42
+    "weeklyAvgPpr": 9.42,
+    "week1Ppr": 9.88
   },
   {
     "player": "Rachaad White",
     "team": "WAS",
     "seasonPpr": 144.77,
-    "weeklyAvgPpr": 8.515882352941176
+    "weeklyAvgPpr": 8.515882352941176,
+    "week1Ppr": 8.83
   },
   {
     "player": "Dallas Goedert",
     "team": "PHI",
     "seasonPpr": 148.56,
-    "weeklyAvgPpr": 8.738823529411764
+    "weeklyAvgPpr": 8.738823529411764,
+    "week1Ppr": 9.68
   },
   {
     "player": "Jared Goff",
     "team": "DET",
     "seasonPpr": 292.28,
-    "weeklyAvgPpr": 17.192941176470587
+    "weeklyAvgPpr": 17.192941176470587,
+    "week1Ppr": 17.83
   },
   {
     "player": "Patrick Mahomes",
     "team": "KC",
     "seasonPpr": 281.96,
-    "weeklyAvgPpr": 16.585882352941177
+    "weeklyAvgPpr": 16.585882352941177,
+    "week1Ppr": 16.4
   },
   {
     "player": "Travis Kelce",
     "team": "KC",
     "seasonPpr": 162.69,
-    "weeklyAvgPpr": 9.57
+    "weeklyAvgPpr": 9.57,
+    "week1Ppr": 9.41
   },
   {
     "player": "Isaiah Likely",
     "team": "NYG",
     "seasonPpr": 143.34,
-    "weeklyAvgPpr": 8.431764705882353
+    "weeklyAvgPpr": 8.431764705882353,
+    "week1Ppr": 9.08
   },
   {
     "player": "Romeo Doubs",
     "team": "NE",
     "seasonPpr": 147.3,
-    "weeklyAvgPpr": 8.664705882352942
+    "weeklyAvgPpr": 8.664705882352942,
+    "week1Ppr": 8.53
   },
   {
     "player": "Aaron Jones Sr.",
     "team": "MIN",
     "seasonPpr": 150.83,
-    "weeklyAvgPpr": 8.872352941176471
+    "weeklyAvgPpr": 8.872352941176471,
+    "week1Ppr": 8.86
   },
   {
     "player": "Jordan Love",
     "team": "GB",
     "seasonPpr": 285.16,
-    "weeklyAvgPpr": 16.774117647058826
+    "weeklyAvgPpr": 16.774117647058826,
+    "week1Ppr": 16.77
   },
   {
     "player": "Jakobi Meyers",
     "team": "JAX",
     "seasonPpr": 161.82,
-    "weeklyAvgPpr": 9.518823529411764
+    "weeklyAvgPpr": 9.518823529411764,
+    "week1Ppr": 9.22
   },
   {
     "player": "Jordyn Tyson",
     "team": "NO",
     "seasonPpr": 116.97,
-    "weeklyAvgPpr": 6.880588235294118
+    "weeklyAvgPpr": 6.880588235294118,
+    "week1Ppr": 4.54
   },
   {
     "player": "Keaton Mitchell",
     "team": "LAC",
     "seasonPpr": 101.17,
-    "weeklyAvgPpr": 5.951176470588235
+    "weeklyAvgPpr": 5.951176470588235,
+    "week1Ppr": 6.95
   },
   {
     "player": "Mike Washington Jr.",
     "team": "LV",
     "seasonPpr": 88.84,
-    "weeklyAvgPpr": 5.225882352941177
+    "weeklyAvgPpr": 5.225882352941177,
+    "week1Ppr": 5.69
   },
   {
     "player": "MarShawn Lloyd",
     "team": "GB",
     "seasonPpr": 82.56,
-    "weeklyAvgPpr": 4.856470588235294
+    "weeklyAvgPpr": 4.856470588235294,
+    "week1Ppr": 5.09
   },
   {
     "player": "Xavier Worthy",
     "team": "KC",
     "seasonPpr": 142.64,
-    "weeklyAvgPpr": 8.390588235294118
+    "weeklyAvgPpr": 8.390588235294118,
+    "week1Ppr": 8.01
   },
   {
     "player": "Woody Marks",
     "team": "HOU",
     "seasonPpr": 116.04,
-    "weeklyAvgPpr": 6.825882352941177
+    "weeklyAvgPpr": 6.825882352941177,
+    "week1Ppr": 7.31
   },
   {
     "player": "Malik Willis",
     "team": "MIA",
     "seasonPpr": 275.12,
-    "weeklyAvgPpr": 16.183529411764706
+    "weeklyAvgPpr": 16.183529411764706,
+    "week1Ppr": 16.75
   },
   {
     "player": "Rashid Shaheed",
     "team": "SEA",
     "seasonPpr": 132.54,
-    "weeklyAvgPpr": 7.796470588235294
+    "weeklyAvgPpr": 7.796470588235294,
+    "week1Ppr": 8.08
   },
   {
     "player": "Mark Andrews",
     "team": "BAL",
     "seasonPpr": 156.85,
-    "weeklyAvgPpr": 9.226470588235294
+    "weeklyAvgPpr": 9.226470588235294,
+    "week1Ppr": 10.11
   },
   {
     "player": "Baker Mayfield",
     "team": "TB",
     "seasonPpr": 269.98,
-    "weeklyAvgPpr": 15.881176470588237
+    "weeklyAvgPpr": 15.881176470588237,
+    "week1Ppr": 16.84
   },
   {
     "player": "Tyler Shough",
     "team": "NO",
     "seasonPpr": 284.15,
-    "weeklyAvgPpr": 16.71470588235294
+    "weeklyAvgPpr": 16.71470588235294,
+    "week1Ppr": 17.31
   },
   {
     "player": "Tyler Allgeier",
     "team": "ARI",
     "seasonPpr": 95.38,
-    "weeklyAvgPpr": 5.610588235294117
+    "weeklyAvgPpr": 5.610588235294117,
+    "week1Ppr": 5.72
   },
   {
     "player": "Tank Bigsby",
     "team": "PHI",
     "seasonPpr": 72.64,
-    "weeklyAvgPpr": 4.272941176470589
+    "weeklyAvgPpr": 4.272941176470589,
+    "week1Ppr": 4.49
   },
   {
     "player": "Khalil Shakir",
     "team": "BUF",
     "seasonPpr": 155.34,
-    "weeklyAvgPpr": 9.13764705882353
+    "weeklyAvgPpr": 9.13764705882353,
+    "week1Ppr": 9.34
   },
   {
     "player": "Tyjae Spears",
     "team": "TEN",
     "seasonPpr": 131.91,
-    "weeklyAvgPpr": 7.759411764705882
+    "weeklyAvgPpr": 7.759411764705882,
+    "week1Ppr": 8.13
   },
   {
     "player": "Juwan Johnson",
     "team": "NO",
     "seasonPpr": 138.91,
-    "weeklyAvgPpr": 8.171176470588236
+    "weeklyAvgPpr": 8.171176470588236,
+    "week1Ppr": 8.75
   },
   {
     "player": "Jonah Coleman",
     "team": "DEN",
     "seasonPpr": 74.89,
-    "weeklyAvgPpr": 4.405294117647059
+    "weeklyAvgPpr": 4.405294117647059,
+    "week1Ppr": 4.11
   },
   {
     "player": "Denzel Boston",
     "team": "CLE",
     "seasonPpr": 131.63,
-    "weeklyAvgPpr": 7.7429411764705875
+    "weeklyAvgPpr": 7.7429411764705875,
+    "week1Ppr": 7.07
   },
   {
     "player": "Jake Ferguson",
     "team": "DAL",
     "seasonPpr": 151.54,
-    "weeklyAvgPpr": 8.914117647058823
+    "weeklyAvgPpr": 8.914117647058823,
+    "week1Ppr": 8.77
   },
   {
     "player": "Zach Charbonnet",
     "team": "SEA",
     "seasonPpr": 99.07,
-    "weeklyAvgPpr": 5.827647058823529
+    "weeklyAvgPpr": 5.827647058823529,
+    "week1Ppr": 5.38
   },
   {
     "player": "Keenan Allen",
     "team": "IND",
     "seasonPpr": 101.09,
-    "weeklyAvgPpr": 5.946470588235294
+    "weeklyAvgPpr": 5.946470588235294,
+    "week1Ppr": 6.92
   },
   {
     "player": "Adonai Mitchell",
     "team": "NYJ",
     "seasonPpr": 102.66,
-    "weeklyAvgPpr": 6.038823529411765
+    "weeklyAvgPpr": 6.038823529411765,
+    "week1Ppr": 6.53
   },
   {
     "player": "Tre Tucker",
     "team": "LV",
     "seasonPpr": 117.89,
-    "weeklyAvgPpr": 6.934705882352941
+    "weeklyAvgPpr": 6.934705882352941,
+    "week1Ppr": 8.15
   },
   {
     "player": "Dalton Schultz",
     "team": "HOU",
     "seasonPpr": 138.8,
-    "weeklyAvgPpr": 8.164705882352942
+    "weeklyAvgPpr": 8.164705882352942,
+    "week1Ppr": 8.06
   },
   {
     "player": "Deebo Samuel Sr.",
     "team": "SF",
     "seasonPpr": 125.99,
-    "weeklyAvgPpr": 7.411176470588235
+    "weeklyAvgPpr": 7.411176470588235,
+    "week1Ppr": 7.72
   },
   {
     "player": "Sam Darnold",
     "team": "SEA",
     "seasonPpr": 256.18,
-    "weeklyAvgPpr": 15.069411764705883
+    "weeklyAvgPpr": 15.069411764705883,
+    "week1Ppr": 15.71
   },
   {
     "player": "Jalen McMillan",
     "team": "TB",
     "seasonPpr": 111.34,
-    "weeklyAvgPpr": 6.549411764705883
+    "weeklyAvgPpr": 6.549411764705883,
+    "week1Ppr": 6.61
   },
   {
     "player": "Ray Davis",
     "team": "BUF",
     "seasonPpr": 68.37,
-    "weeklyAvgPpr": 4.021764705882354
+    "weeklyAvgPpr": 4.021764705882354,
+    "week1Ppr": 3.79
   },
   {
     "player": "Dontayvion Wicks",
     "team": "PHI",
     "seasonPpr": 90.65,
-    "weeklyAvgPpr": 5.332352941176471
+    "weeklyAvgPpr": 5.332352941176471,
+    "week1Ppr": 6.83
   },
   {
     "player": "Chig Okonkwo",
     "team": "WAS",
     "seasonPpr": 124.54,
-    "weeklyAvgPpr": 7.325882352941177
+    "weeklyAvgPpr": 7.325882352941177,
+    "week1Ppr": 7.05
   },
   {
     "player": "Terrance Ferguson",
     "team": "LAR",
     "seasonPpr": 99.52,
-    "weeklyAvgPpr": 5.854117647058823
+    "weeklyAvgPpr": 5.854117647058823,
+    "week1Ppr": 5.21
   },
   {
     "player": "Pat Bryant",
     "team": "DEN",
     "seasonPpr": 97.99,
-    "weeklyAvgPpr": 5.764117647058823
+    "weeklyAvgPpr": 5.764117647058823,
+    "week1Ppr": 6.26
   },
   {
     "player": "Braelon Allen",
     "team": "NYJ",
     "seasonPpr": 74.86,
-    "weeklyAvgPpr": 4.403529411764706
+    "weeklyAvgPpr": 4.403529411764706,
+    "week1Ppr": 4.53
   },
   {
     "player": "Kaelon Black",
     "team": "SF",
     "seasonPpr": 51.16,
-    "weeklyAvgPpr": 3.0094117647058822
+    "weeklyAvgPpr": 3.0094117647058822,
+    "week1Ppr": 2.73
   },
   {
     "player": "Brian Robinson",
     "team": "ATL",
     "seasonPpr": 83.36,
-    "weeklyAvgPpr": 4.903529411764706
+    "weeklyAvgPpr": 4.903529411764706,
+    "week1Ppr": 5.18
   },
   {
     "player": "C.J. Stroud",
     "team": "HOU",
     "seasonPpr": 271.2,
-    "weeklyAvgPpr": 15.952941176470588
+    "weeklyAvgPpr": 15.952941176470588,
+    "week1Ppr": 16.22
   },
   {
     "player": "Ryan Flournoy",
     "team": "DAL",
     "seasonPpr": 108.94,
-    "weeklyAvgPpr": 6.408235294117647
+    "weeklyAvgPpr": 6.408235294117647,
+    "week1Ppr": 6.37
   },
   {
     "player": "Daniel Jones",
     "team": "IND",
     "seasonPpr": 246.84,
-    "weeklyAvgPpr": 14.52
+    "weeklyAvgPpr": 14.52,
+    "week1Ppr": 17.04
   },
   {
     "player": "Hunter Henry",
     "team": "NE",
     "seasonPpr": 147.25,
-    "weeklyAvgPpr": 8.661764705882353
+    "weeklyAvgPpr": 8.661764705882353,
+    "week1Ppr": 8.41
   },
   {
     "player": "Brenton Strange",
     "team": "JAX",
     "seasonPpr": 139.66,
-    "weeklyAvgPpr": 8.215294117647058
+    "weeklyAvgPpr": 8.215294117647058,
+    "week1Ppr": 7.43
   },
   {
     "player": "Emmett Johnson",
     "team": "KC",
     "seasonPpr": 70.81,
-    "weeklyAvgPpr": 4.165294117647059
+    "weeklyAvgPpr": 4.165294117647059,
+    "week1Ppr": 3.76
   },
   {
     "player": "Caleb Douglas",
     "team": "MIA",
     "seasonPpr": 102.57,
-    "weeklyAvgPpr": 6.033529411764706
+    "weeklyAvgPpr": 6.033529411764706,
+    "week1Ppr": 6.16
   },
   {
     "player": "Ja'Kobi Lane",
     "team": "BAL",
     "seasonPpr": 96.7,
-    "weeklyAvgPpr": 5.688235294117647
+    "weeklyAvgPpr": 5.688235294117647,
+    "week1Ppr": 5.06
   },
   {
     "player": "Kayshon Boutte",
     "team": "HOU",
     "seasonPpr": 103.93,
-    "weeklyAvgPpr": 6.1135294117647065
+    "weeklyAvgPpr": 6.1135294117647065,
+    "week1Ppr": 6.38
   },
   {
     "player": "Travis Hunter",
     "team": "JAX",
     "seasonPpr": 90.84,
-    "weeklyAvgPpr": 5.343529411764706
+    "weeklyAvgPpr": 5.343529411764706,
+    "week1Ppr": 4.36
   },
   {
     "player": "Cyrus Allen",
     "team": "KC",
     "seasonPpr": 81.94,
-    "weeklyAvgPpr": 4.82
+    "weeklyAvgPpr": 4.82,
+    "week1Ppr": 3.21
   },
   {
     "player": "Jalen Nailor",
     "team": "LV",
     "seasonPpr": 114.12,
-    "weeklyAvgPpr": 6.712941176470588
+    "weeklyAvgPpr": 6.712941176470588,
+    "week1Ppr": 7.42
   },
   {
     "player": "Isiah Pacheco",
     "team": "DET",
     "seasonPpr": 80.73,
-    "weeklyAvgPpr": 4.748823529411765
+    "weeklyAvgPpr": 4.748823529411765,
+    "week1Ppr": 5.02
   },
   {
     "player": "Cam Ward",
     "team": "TEN",
     "seasonPpr": 245.69,
-    "weeklyAvgPpr": 14.452352941176471
+    "weeklyAvgPpr": 14.452352941176471,
+    "week1Ppr": 16.12
   },
   {
     "player": "AJ Barner",
     "team": "SEA",
     "seasonPpr": 123.29,
-    "weeklyAvgPpr": 7.252352941176471
+    "weeklyAvgPpr": 7.252352941176471,
+    "week1Ppr": 7.48
   },
   {
     "player": "Dylan Sampson",
     "team": "CLE",
     "seasonPpr": 93.42,
-    "weeklyAvgPpr": 5.495294117647059
+    "weeklyAvgPpr": 5.495294117647059,
+    "week1Ppr": 5.74
   },
   {
     "player": "Bryce Young",
     "team": "CAR",
     "seasonPpr": 242.27,
-    "weeklyAvgPpr": 14.251176470588236
+    "weeklyAvgPpr": 14.251176470588236,
+    "week1Ppr": 15.75
   },
   {
     "player": "Alvin Kamara",
     "team": "NO",
     "seasonPpr": 80.16,
-    "weeklyAvgPpr": 4.715294117647058
+    "weeklyAvgPpr": 4.715294117647058,
+    "week1Ppr": 4.43
   },
   {
     "player": "Tre' Harris",
     "team": "LAC",
     "seasonPpr": 107.98,
-    "weeklyAvgPpr": 6.351764705882353
+    "weeklyAvgPpr": 6.351764705882353,
+    "week1Ppr": 6.57
   },
   {
     "player": "Devaughn Vele",
     "team": "NO",
     "seasonPpr": 99.69,
-    "weeklyAvgPpr": 5.864117647058824
+    "weeklyAvgPpr": 5.864117647058824,
+    "week1Ppr": 6.49
   },
   {
     "player": "Jaylin Noel",
     "team": "HOU",
     "seasonPpr": 95.63,
-    "weeklyAvgPpr": 5.625294117647059
+    "weeklyAvgPpr": 5.625294117647059,
+    "week1Ppr": 5.1
   },
   {
     "player": "Greg Dulcich",
     "team": "MIA",
     "seasonPpr": 125.74,
-    "weeklyAvgPpr": 7.396470588235294
+    "weeklyAvgPpr": 7.396470588235294,
+    "week1Ppr": 7.56
   },
   {
     "player": "Jerry Jeudy",
     "team": "CLE",
     "seasonPpr": 114,
-    "weeklyAvgPpr": 6.705882352941177
+    "weeklyAvgPpr": 6.705882352941177,
+    "week1Ppr": 6.31
   },
   {
     "player": "Malik Washington",
     "team": "MIA",
     "seasonPpr": 116.71,
-    "weeklyAvgPpr": 6.865294117647059
+    "weeklyAvgPpr": 6.865294117647059,
+    "week1Ppr": 7.29
   },
   {
     "player": "Kenyon Sadiq",
     "team": "NYJ",
     "seasonPpr": 107.39,
-    "weeklyAvgPpr": 6.317058823529412
+    "weeklyAvgPpr": 6.317058823529412,
+    "week1Ppr": 5.87
   },
   {
     "player": "Demond Claiborne",
     "team": "MIN",
     "seasonPpr": 37.04,
-    "weeklyAvgPpr": 2.1788235294117646
+    "weeklyAvgPpr": 2.1788235294117646,
+    "week1Ppr": 2.41
   },
   {
     "player": "Najee Harris",
     "team": "NYG",
     "seasonPpr": 46.59,
-    "weeklyAvgPpr": 2.7405882352941178
+    "weeklyAvgPpr": 2.7405882352941178,
+    "week1Ppr": 2.96
   },
   {
     "player": "Omar Cooper Jr.",
     "team": "NYJ",
     "seasonPpr": 88.8,
-    "weeklyAvgPpr": 5.223529411764706
+    "weeklyAvgPpr": 5.223529411764706,
+    "week1Ppr": 4.2
   },
   {
     "player": "Nicholas Singleton",
     "team": "TEN",
     "seasonPpr": 54.04,
-    "weeklyAvgPpr": 3.1788235294117646
+    "weeklyAvgPpr": 3.1788235294117646,
+    "week1Ppr": 2.88
   },
   {
     "player": "Kaytron Allen",
@@ -1143,73 +1332,85 @@
     "player": "George Holani",
     "team": "SEA",
     "seasonPpr": 39.43,
-    "weeklyAvgPpr": 2.3194117647058823
+    "weeklyAvgPpr": 2.3194117647058823,
+    "week1Ppr": 2.7
   },
   {
     "player": "T.J. Hockenson",
     "team": "MIN",
     "seasonPpr": 132.09,
-    "weeklyAvgPpr": 7.7700000000000005
+    "weeklyAvgPpr": 7.7700000000000005,
+    "week1Ppr": 7.61
   },
   {
     "player": "Jacoby Brissett",
     "team": "ARI",
     "seasonPpr": 200.05,
-    "weeklyAvgPpr": 11.76764705882353
+    "weeklyAvgPpr": 11.76764705882353,
+    "week1Ppr": 13.88
   },
   {
     "player": "Chris Bell",
     "team": "MIA",
     "seasonPpr": 73.49,
-    "weeklyAvgPpr": 4.322941176470588
+    "weeklyAvgPpr": 4.322941176470588,
+    "week1Ppr": 3.17
   },
   {
     "player": "Jauan Jennings",
     "team": "MIN",
     "seasonPpr": 109.78,
-    "weeklyAvgPpr": 6.45764705882353
+    "weeklyAvgPpr": 6.45764705882353,
+    "week1Ppr": 7.2
   },
   {
     "player": "Zachariah Branch",
     "team": "ATL",
     "seasonPpr": 82.13,
-    "weeklyAvgPpr": 4.831176470588235
+    "weeklyAvgPpr": 4.831176470588235,
+    "week1Ppr": 4.25
   },
   {
     "player": "Oronde Gadsden",
     "team": "LAC",
     "seasonPpr": 89.22,
-    "weeklyAvgPpr": 5.248235294117647
+    "weeklyAvgPpr": 5.248235294117647,
+    "week1Ppr": 4.37
   },
   {
     "player": "Gunnar Helm",
     "team": "TEN",
     "seasonPpr": 108.27,
-    "weeklyAvgPpr": 6.368823529411764
+    "weeklyAvgPpr": 6.368823529411764,
+    "week1Ppr": 6.44
   },
   {
     "player": "Tyrone Tracy Jr.",
     "team": "NYG",
     "seasonPpr": 80.67,
-    "weeklyAvgPpr": 4.745294117647059
+    "weeklyAvgPpr": 4.745294117647059,
+    "week1Ppr": 4.68
   },
   {
     "player": "Rashod Bateman",
     "team": "BAL",
     "seasonPpr": 95.3,
-    "weeklyAvgPpr": 5.605882352941176
+    "weeklyAvgPpr": 5.605882352941176,
+    "week1Ppr": 6.36
   },
   {
     "player": "Jaydon Blue",
     "team": "DAL",
     "seasonPpr": 60.52,
-    "weeklyAvgPpr": 3.56
+    "weeklyAvgPpr": 3.56,
+    "week1Ppr": 3.32
   },
   {
     "player": "James Conner",
     "team": "ARI",
     "seasonPpr": 48.05,
-    "weeklyAvgPpr": 2.826470588235294
+    "weeklyAvgPpr": 2.826470588235294,
+    "week1Ppr": 2.61
   },
   {
     "player": "Adam Randall",
@@ -1221,49 +1422,57 @@
     "player": "Tyquan Thornton",
     "team": "KC",
     "seasonPpr": 67.21,
-    "weeklyAvgPpr": 3.9535294117647055
+    "weeklyAvgPpr": 3.9535294117647055,
+    "week1Ppr": 4.12
   },
   {
     "player": "Antonio Williams",
     "team": "WAS",
     "seasonPpr": 63.4,
-    "weeklyAvgPpr": 3.7294117647058824
+    "weeklyAvgPpr": 3.7294117647058824,
+    "week1Ppr": 3.05
   },
   {
     "player": "Jahan Dotson",
     "team": "ATL",
     "seasonPpr": 80.4,
-    "weeklyAvgPpr": 4.729411764705882
+    "weeklyAvgPpr": 4.729411764705882,
+    "week1Ppr": 4.95
   },
   {
     "player": "Malachi Fields",
     "team": "NYG",
     "seasonPpr": 85.14,
-    "weeklyAvgPpr": 5.008235294117647
+    "weeklyAvgPpr": 5.008235294117647,
+    "week1Ppr": 5.53
   },
   {
     "player": "Jack Bech",
     "team": "LV",
     "seasonPpr": 72.34,
-    "weeklyAvgPpr": 4.255294117647059
+    "weeklyAvgPpr": 4.255294117647059,
+    "week1Ppr": 4.53
   },
   {
     "player": "Cooper Kupp",
     "team": "SEA",
     "seasonPpr": 85.41,
-    "weeklyAvgPpr": 5.024117647058823
+    "weeklyAvgPpr": 5.024117647058823,
+    "week1Ppr": 5.93
   },
   {
     "player": "Sean Tucker",
     "team": "TB",
     "seasonPpr": 52.55,
-    "weeklyAvgPpr": 3.091176470588235
+    "weeklyAvgPpr": 3.091176470588235,
+    "week1Ppr": 3.41
   },
   {
     "player": "Ted Hurst III",
     "team": "TB",
     "seasonPpr": 75.31,
-    "weeklyAvgPpr": 4.43
+    "weeklyAvgPpr": 4.43,
+    "week1Ppr": 3.59
   },
   {
     "player": "Malik Davis",
@@ -1275,49 +1484,57 @@
     "player": "Fernando Mendoza",
     "team": "LV",
     "seasonPpr": 189.24,
-    "weeklyAvgPpr": 11.131764705882354
+    "weeklyAvgPpr": 11.131764705882354,
+    "week1Ppr": 8.59
   },
   {
     "player": "Darnell Mooney",
     "team": "NYG",
     "seasonPpr": 76.78,
-    "weeklyAvgPpr": 4.516470588235294
+    "weeklyAvgPpr": 4.516470588235294,
+    "week1Ppr": 5.22
   },
   {
     "player": "Isaac TeSlaa",
     "team": "DET",
     "seasonPpr": 79.17,
-    "weeklyAvgPpr": 4.657058823529412
+    "weeklyAvgPpr": 4.657058823529412,
+    "week1Ppr": 4.25
   },
   {
     "player": "Colby Parkinson",
     "team": "LAR",
     "seasonPpr": 77.26,
-    "weeklyAvgPpr": 4.544705882352941
+    "weeklyAvgPpr": 4.544705882352941,
+    "week1Ppr": 4.91
   },
   {
     "player": "Darren Waller",
     "team": "CAR",
     "seasonPpr": 102.78,
-    "weeklyAvgPpr": 6.0458823529411765
+    "weeklyAvgPpr": 6.0458823529411765,
+    "week1Ppr": 6.49
   },
   {
     "player": "Kimani Vidal",
     "team": "LAC",
     "seasonPpr": 60.97,
-    "weeklyAvgPpr": 3.586470588235294
+    "weeklyAvgPpr": 3.586470588235294,
+    "week1Ppr": 3.17
   },
   {
     "player": "Geno Smith",
     "team": "NYJ",
     "seasonPpr": 198.41,
-    "weeklyAvgPpr": 11.671176470588236
+    "weeklyAvgPpr": 11.671176470588236,
+    "week1Ppr": 13.03
   },
   {
     "player": "Aaron Rodgers",
     "team": "PIT",
     "seasonPpr": 213.25,
-    "weeklyAvgPpr": 12.544117647058824
+    "weeklyAvgPpr": 12.544117647058824,
+    "week1Ppr": 15.5
   },
   {
     "player": "Seth McGowan",
@@ -1329,13 +1546,15 @@
     "player": "Jaylen Wright",
     "team": "MIA",
     "seasonPpr": 52.3,
-    "weeklyAvgPpr": 3.076470588235294
+    "weeklyAvgPpr": 3.076470588235294,
+    "week1Ppr": 3.15
   },
   {
     "player": "Samaje Perine",
     "team": "CIN",
     "seasonPpr": 76.99,
-    "weeklyAvgPpr": 4.528823529411764
+    "weeklyAvgPpr": 4.528823529411764,
+    "week1Ppr": 4.35
   },
   {
     "player": "Michael Penix Jr.",
@@ -1347,49 +1566,57 @@
     "player": "Tank Dell",
     "team": "HOU",
     "seasonPpr": 71.02,
-    "weeklyAvgPpr": 4.1776470588235295
+    "weeklyAvgPpr": 4.1776470588235295,
+    "week1Ppr": 2.97
   },
   {
     "player": "Calvin Ridley",
     "team": "TEN",
     "seasonPpr": 86.61,
-    "weeklyAvgPpr": 5.094705882352941
+    "weeklyAvgPpr": 5.094705882352941,
+    "week1Ppr": 5.95
   },
   {
     "player": "Justice Hill",
     "team": "BAL",
     "seasonPpr": 71.27,
-    "weeklyAvgPpr": 4.192352941176471
+    "weeklyAvgPpr": 4.192352941176471,
+    "week1Ppr": 4.54
   },
   {
     "player": "Isaiah Davis",
     "team": "NYJ",
     "seasonPpr": 52.76,
-    "weeklyAvgPpr": 3.103529411764706
+    "weeklyAvgPpr": 3.103529411764706,
+    "week1Ppr": 3.65
   },
   {
     "player": "Charlie Kolar",
     "team": "LAC",
     "seasonPpr": 60.01,
-    "weeklyAvgPpr": 3.53
+    "weeklyAvgPpr": 3.53,
+    "week1Ppr": 4.44
   },
   {
     "player": "Germie Bernard",
     "team": "PIT",
     "seasonPpr": 83.34,
-    "weeklyAvgPpr": 4.902352941176471
+    "weeklyAvgPpr": 4.902352941176471,
+    "week1Ppr": 4.81
   },
   {
     "player": "Cade Otton",
     "team": "TB",
     "seasonPpr": 108.56,
-    "weeklyAvgPpr": 6.385882352941176
+    "weeklyAvgPpr": 6.385882352941176,
+    "week1Ppr": 6.58
   },
   {
     "player": "Xavier Legette",
     "team": "CAR",
     "seasonPpr": 74.91,
-    "weeklyAvgPpr": 4.406470588235294
+    "weeklyAvgPpr": 4.406470588235294,
+    "week1Ppr": 4.28
   },
   {
     "player": "Tahj Brooks",
@@ -1401,19 +1628,22 @@
     "player": "Keon Coleman",
     "team": "BUF",
     "seasonPpr": 73.33,
-    "weeklyAvgPpr": 4.313529411764706
+    "weeklyAvgPpr": 4.313529411764706,
+    "week1Ppr": 3.92
   },
   {
     "player": "Eli Raridon",
     "team": "NE",
     "seasonPpr": 42.71,
-    "weeklyAvgPpr": 2.5123529411764705
+    "weeklyAvgPpr": 2.5123529411764705,
+    "week1Ppr": 2.47
   },
   {
     "player": "Darius Slayton",
     "team": "NYG",
     "seasonPpr": 67.73,
-    "weeklyAvgPpr": 3.9841176470588238
+    "weeklyAvgPpr": 3.9841176470588238,
+    "week1Ppr": 4.04
   },
   {
     "player": "Emanuel Wilson",
@@ -1425,19 +1655,22 @@
     "player": "Treylon Burks",
     "team": "WAS",
     "seasonPpr": 45.38,
-    "weeklyAvgPpr": 2.6694117647058824
+    "weeklyAvgPpr": 2.6694117647058824,
+    "week1Ppr": 2.4
   },
   {
     "player": "Ollie Gordon II",
     "team": "MIA",
     "seasonPpr": 35.97,
-    "weeklyAvgPpr": 2.1158823529411763
+    "weeklyAvgPpr": 2.1158823529411763,
+    "week1Ppr": 2.55
   },
   {
     "player": "Jordan James",
     "team": "SF",
     "seasonPpr": 55.41,
-    "weeklyAvgPpr": 3.2594117647058822
+    "weeklyAvgPpr": 3.2594117647058822,
+    "week1Ppr": 2.57
   },
   {
     "player": "Kendre Miller",
@@ -1455,43 +1688,50 @@
     "player": "Pat Freiermuth",
     "team": "PIT",
     "seasonPpr": 120.68,
-    "weeklyAvgPpr": 7.098823529411765
+    "weeklyAvgPpr": 7.098823529411765,
+    "week1Ppr": 7.08
   },
   {
     "player": "Evan Engram",
     "team": "DEN",
     "seasonPpr": 76.4,
-    "weeklyAvgPpr": 4.4941176470588236
+    "weeklyAvgPpr": 4.4941176470588236,
+    "week1Ppr": 4.39
   },
   {
     "player": "Bryce Lance",
     "team": "NO",
     "seasonPpr": 45.26,
-    "weeklyAvgPpr": 2.6623529411764704
+    "weeklyAvgPpr": 2.6623529411764704,
+    "week1Ppr": 2.48
   },
   {
     "player": "Xavier Hutchinson",
     "team": "HOU",
     "seasonPpr": 40.73,
-    "weeklyAvgPpr": 2.395882352941176
+    "weeklyAvgPpr": 2.395882352941176,
+    "week1Ppr": 3.03
   },
   {
     "player": "Josh Palmer",
     "team": "BUF",
     "seasonPpr": 45.22,
-    "weeklyAvgPpr": 2.66
+    "weeklyAvgPpr": 2.66,
+    "week1Ppr": 2.54
   },
   {
     "player": "DeMario Douglas",
     "team": "NE",
     "seasonPpr": 74.68,
-    "weeklyAvgPpr": 4.392941176470589
+    "weeklyAvgPpr": 4.392941176470589,
+    "week1Ppr": 4.33
   },
   {
     "player": "Tua Tagovailoa",
     "team": "ATL",
     "seasonPpr": 116.35,
-    "weeklyAvgPpr": 6.844117647058823
+    "weeklyAvgPpr": 6.844117647058823,
+    "week1Ppr": 13.23
   },
   {
     "player": "Malik Benson",
@@ -1503,49 +1743,57 @@
     "player": "Troy Franklin",
     "team": "DEN",
     "seasonPpr": 63.17,
-    "weeklyAvgPpr": 3.7158823529411764
+    "weeklyAvgPpr": 3.7158823529411764,
+    "week1Ppr": 3.3
   },
   {
     "player": "Tory Horton",
     "team": "SEA",
     "seasonPpr": 66.92,
-    "weeklyAvgPpr": 3.936470588235294
+    "weeklyAvgPpr": 3.936470588235294,
+    "week1Ppr": 3.27
   },
   {
     "player": "Jake Tonges",
     "team": "SF",
     "seasonPpr": 59.75,
-    "weeklyAvgPpr": 3.514705882352941
+    "weeklyAvgPpr": 3.514705882352941,
+    "week1Ppr": 2.79
   },
   {
     "player": "Michael Mayer",
     "team": "LV",
     "seasonPpr": 74.27,
-    "weeklyAvgPpr": 4.368823529411764
+    "weeklyAvgPpr": 4.368823529411764,
+    "week1Ppr": 4.35
   },
   {
     "player": "Elijah Sarratt",
     "team": "BAL",
     "seasonPpr": 55.27,
-    "weeklyAvgPpr": 3.2511764705882356
+    "weeklyAvgPpr": 3.2511764705882356,
+    "week1Ppr": 2.48
   },
   {
     "player": "Shedeur Sanders",
     "team": "CLE",
     "seasonPpr": 112.27,
-    "weeklyAvgPpr": 6.604117647058823
+    "weeklyAvgPpr": 6.604117647058823,
+    "week1Ppr": 2.37
   },
   {
     "player": "Deshaun Watson",
     "team": "CLE",
     "seasonPpr": 112.11,
-    "weeklyAvgPpr": 6.594705882352941
+    "weeklyAvgPpr": 6.594705882352941,
+    "week1Ppr": 10.94
   },
   {
     "player": "David Njoku",
     "team": "LAC",
     "seasonPpr": 69.89,
-    "weeklyAvgPpr": 4.111176470588235
+    "weeklyAvgPpr": 4.111176470588235,
+    "week1Ppr": 4.66
   },
   {
     "player": "DJ Giddens",
@@ -1557,19 +1805,22 @@
     "player": "Marlin Klein",
     "team": "HOU",
     "seasonPpr": 35.04,
-    "weeklyAvgPpr": 2.061176470588235
+    "weeklyAvgPpr": 2.061176470588235,
+    "week1Ppr": 2.29
   },
   {
     "player": "Kirk Cousins",
     "team": "LV",
     "seasonPpr": 57.36,
-    "weeklyAvgPpr": 3.3741176470588234
+    "weeklyAvgPpr": 3.3741176470588234,
+    "week1Ppr": 7.32
   },
   {
     "player": "Ashton Dulin",
     "team": "IND",
     "seasonPpr": 29.51,
-    "weeklyAvgPpr": 1.7358823529411767
+    "weeklyAvgPpr": 1.7358823529411767,
+    "week1Ppr": 2.32
   },
   {
     "player": "Skyler Bell",
@@ -1581,43 +1832,50 @@
     "player": "Darnell Washington",
     "team": "PIT",
     "seasonPpr": 74.85,
-    "weeklyAvgPpr": 4.402941176470588
+    "weeklyAvgPpr": 4.402941176470588,
+    "week1Ppr": 4.3
   },
   {
     "player": "Mason Taylor",
     "team": "NYJ",
     "seasonPpr": 75.42,
-    "weeklyAvgPpr": 4.436470588235294
+    "weeklyAvgPpr": 4.436470588235294,
+    "week1Ppr": 4.52
   },
   {
     "player": "Eli Stowers",
     "team": "PHI",
     "seasonPpr": 60.23,
-    "weeklyAvgPpr": 3.5429411764705883
+    "weeklyAvgPpr": 3.5429411764705883,
+    "week1Ppr": 3.03
   },
   {
     "player": "Elijah Arroyo",
     "team": "SEA",
     "seasonPpr": 65.94,
-    "weeklyAvgPpr": 3.878823529411765
+    "weeklyAvgPpr": 3.878823529411765,
+    "week1Ppr": 3.71
   },
   {
     "player": "Mike Gesicki",
     "team": "CIN",
     "seasonPpr": 88.73,
-    "weeklyAvgPpr": 5.219411764705883
+    "weeklyAvgPpr": 5.219411764705883,
+    "week1Ppr": 5.42
   },
   {
     "player": "Erick All Jr.",
     "team": "CIN",
     "seasonPpr": 65.93,
-    "weeklyAvgPpr": 3.8782352941176477
+    "weeklyAvgPpr": 3.8782352941176477,
+    "week1Ppr": 3.64
   },
   {
     "player": "Brenen Thompson",
     "team": "LAC",
     "seasonPpr": 44.86,
-    "weeklyAvgPpr": 2.6388235294117646
+    "weeklyAvgPpr": 2.6388235294117646,
+    "week1Ppr": 2.5
   },
   {
     "player": "Carson Beck",
@@ -1629,7 +1887,8 @@
     "player": "Andrei Iosivas",
     "team": "CIN",
     "seasonPpr": 79.51,
-    "weeklyAvgPpr": 4.677058823529412
+    "weeklyAvgPpr": 4.677058823529412,
+    "week1Ppr": 4.82
   },
   {
     "player": "Devin Neal",
@@ -1641,13 +1900,15 @@
     "player": "Elic Ayomanor",
     "team": "TEN",
     "seasonPpr": 54.9,
-    "weeklyAvgPpr": 3.2294117647058824
+    "weeklyAvgPpr": 3.2294117647058824,
+    "week1Ppr": 3.25
   },
   {
     "player": "Oscar Delp",
     "team": "NO",
     "seasonPpr": 43.8,
-    "weeklyAvgPpr": 2.576470588235294
+    "weeklyAvgPpr": 2.576470588235294,
+    "week1Ppr": 2.53
   },
   {
     "player": "Luke McCaffrey",
@@ -1659,7 +1920,8 @@
     "player": "Chimere Dike",
     "team": "TEN",
     "seasonPpr": 68.82,
-    "weeklyAvgPpr": 4.048235294117647
+    "weeklyAvgPpr": 4.048235294117647,
+    "week1Ppr": 3.51
   },
   {
     "player": "Emari Demercado",
@@ -1683,7 +1945,8 @@
     "player": "Ty Johnson",
     "team": "BUF",
     "seasonPpr": 56.75,
-    "weeklyAvgPpr": 3.338235294117647
+    "weeklyAvgPpr": 3.338235294117647,
+    "week1Ppr": 3.4
   },
   {
     "player": "Roschon Johnson",
@@ -1707,7 +1970,8 @@
     "player": "Theo Johnson",
     "team": "NYG",
     "seasonPpr": 70.57,
-    "weeklyAvgPpr": 4.151176470588235
+    "weeklyAvgPpr": 4.151176470588235,
+    "week1Ppr": 4.09
   },
   {
     "player": "Raheim Sanders",
@@ -1719,7 +1983,8 @@
     "player": "LeQuint Allen Jr.",
     "team": "JAX",
     "seasonPpr": 46.8,
-    "weeklyAvgPpr": 2.7529411764705882
+    "weeklyAvgPpr": 2.7529411764705882,
+    "week1Ppr": 2.44
   },
   {
     "player": "Devin Singletary",
@@ -1743,19 +2008,22 @@
     "player": "Marvin Mims Jr.",
     "team": "DEN",
     "seasonPpr": 64.77,
-    "weeklyAvgPpr": 3.8099999999999996
+    "weeklyAvgPpr": 3.8099999999999996,
+    "week1Ppr": 3.9
   },
   {
     "player": "Isaiah Bond",
     "team": "CLE",
     "seasonPpr": 58.01,
-    "weeklyAvgPpr": 3.4123529411764704
+    "weeklyAvgPpr": 3.4123529411764704,
+    "week1Ppr": 2.77
   },
   {
     "player": "Colbie Young",
     "team": "CIN",
     "seasonPpr": 41.22,
-    "weeklyAvgPpr": 2.4247058823529413
+    "weeklyAvgPpr": 2.4247058823529413,
+    "week1Ppr": 2.76
   },
   {
     "player": "Brandon Aiyuk",
@@ -1767,7 +2035,8 @@
     "player": "Kendrick Bourne",
     "team": "ARI",
     "seasonPpr": 70.19,
-    "weeklyAvgPpr": 4.128823529411765
+    "weeklyAvgPpr": 4.128823529411765,
+    "week1Ppr": 3.95
   },
   {
     "player": "CJ Daniels",
@@ -1785,7 +2054,8 @@
     "player": "Savion Williams",
     "team": "GB",
     "seasonPpr": 46.8,
-    "weeklyAvgPpr": 2.7529411764705882
+    "weeklyAvgPpr": 2.7529411764705882,
+    "week1Ppr": 3.09
   },
   {
     "player": "Zavion Thomas",

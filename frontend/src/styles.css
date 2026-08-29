@@ -2215,6 +2215,8 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .auction-inspector__header:active { cursor: grabbing; }
 .auction-inspector__player { display: flex; gap: 10px; align-items: center; min-width: 0; }
 .auction-inspector__player h2 { margin: 3px 0 0; font-size: 1.35rem; letter-spacing: -.04em; }
+.snake-inspector__headshot { width: 48px; height: 48px; flex: 0 0 48px; border: 1px solid var(--line); border-radius: 50%; object-fit: cover; background: var(--panel-soft); }
+.snake-inspector__team { margin: 3px 0 0; color: var(--muted); font-size: .75rem; font-weight: 700; }
 .auction-inspector__brand-mark { width: 42px; height: 42px; object-fit: contain; }
 .auction-inspector__pills { display: flex; gap: 6px; padding: 0 20px 12px; }
 .auction-inspector__pills span { padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius-pill); color: var(--muted); font-size: .7rem; font-weight: 850; }
@@ -2250,6 +2252,8 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .auction-inspector__history tfoot th, .auction-inspector__history tfoot td { padding-top: 8px; border-top: 2px solid var(--line); color: var(--ink); font-weight: 850; }
 .auction-inspector__actions { display: flex; gap: 8px; padding: 14px 20px 18px; background: var(--panel-soft); }
 .auction-inspector__actions button { flex: 1; }
+.settings-preference-card__controls { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.settings-preference-card__controls select { min-height: 36px; padding: 0 28px 0 10px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--panel); font: inherit; font-size: .75rem; font-weight: 800; }
 @media (max-width: 760px) { .auction-inspector { top: 72px; left: 12px; width: calc(100vw - 24px); max-height: calc(100vh - 84px); } }
 @media (max-width: 480px) { .auction-inspector__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .draft-rankings-table td:nth-child(2) { min-width: 240px; }
