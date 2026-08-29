@@ -25,7 +25,7 @@ type PositionKey = Exclude<PositionFilter, 'ALL'>
 type DraftSnapshot = { targets: string[]; drafted: string[]; picks: Record<string, number>; mine: string[]; prices: Record<string, number>; slots: Record<string, string> }
 const allPositionKeys = new Set<PositionKey>(['RB', 'WR', 'QB', 'TE', 'K'])
 const flexPositionKeys = new Set<PositionKey>(['RB', 'WR', 'TE'])
-const DEFAULT_SHOW_YAHOO_PROJECTIONS = false
+const DEFAULT_SHOW_YAHOO_PROJECTIONS = true
 const DEFAULT_SHOW_REGRESSION_DIFF = false
 const DEFAULT_DRAFT_MODE: DraftMode = 'snake'
 
