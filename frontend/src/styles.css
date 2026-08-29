@@ -301,7 +301,8 @@ tbody tr:hover { filter: saturate(1.08) brightness(.995); }
 tbody tr:last-child td { border-bottom: 0; }
 tbody tr.is-drafted { background: color-mix(in srgb, var(--panel-soft) 68%, var(--panel)); }
 tbody tr.is-drafted td:not(.draft-cell) { color: color-mix(in srgb, var(--ink) 62%, var(--muted)); }
-tbody tr.is-drafted .player-cell strong { color: var(--muted); opacity: .56; }
+tbody tr.is-drafted .player-cell .player-name-trigger { color: var(--muted); opacity: .68; }
+tbody tr.is-drafted .yahoo-projection-cell, tbody tr.is-drafted .diff-cell { opacity: .72; }
 tbody tr.is-drafted .rank-pair strong { color: var(--muted); opacity: .72; }
 tbody tr.is-drafted .adjusted-rank-value { color: var(--muted) !important; opacity: .72; }
 tbody tr.is-drafted .team-badge, tbody tr.is-drafted .pos-chip { filter: grayscale(.35); opacity: .72; }
