@@ -144,11 +144,11 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             const isDrafted = drafted.has(id)
             const isMine = mine.has(id)
             const projection = yahooProjectionFor(row)
-            const week1Projection = yahooProjectionMode === 'half' ? projection?.week1HalfPpr : projection?.week1Ppr
+            const week1Projection = yahooProjectionMode === 'half' ? projection?.week1HalfPpr ?? projection?.week1Ppr ?? 0 : projection?.week1Ppr ?? 0
             const weeklyAverage = yahooProjectionMode === 'half' ? projection?.weeklyAvgHalfPpr : projection?.weeklyAvgPpr
-            const seasonProjection = yahooProjectionMode === 'half' ? projection?.seasonHalfPpr ?? projection?.seasonPpr : projection?.seasonPpr
+            const seasonProjection = yahooProjectionMode === 'half' ? projection?.seasonHalfPpr ?? projection?.seasonPpr ?? 0 : projection?.seasonPpr ?? 0
             const weeklyAverageFallback = seasonProjection
-            const selectedProjection = yahooProjectionColumn === 'week1' ? week1Projection : seasonProjection ?? week1Projection
+            const selectedProjection = yahooProjectionColumn === 'week1' ? week1Projection : seasonProjection > 0 ? seasonProjection : week1Projection
             return (
               <Fragment key={`${row.player}-${row.team}-${row.sourceRank}`}>
               {showAuctionRoundDivider && index > 0 && index % draftSize === 0 ? <AuctionRoundDividerRow round={Math.floor(index / draftSize) + 1} columnCount={dividerColumnCount} /> : showPersonalPickMarkers && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} atTop={index === 0} /> : null}

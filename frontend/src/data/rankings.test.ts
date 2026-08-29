@@ -59,6 +59,15 @@ describe('ranking helpers', () => {
     expect(sortRankings(rows, 'player', 'asc')[0].player).toBe('Ja\'Marr Chase')
   })
 
+  it('keeps missing projection values at the bottom in either direction', () => {
+    const projectionRows: RankingRow[] = [
+      { player: 'Missing', team: 'FA', position: 'RB', sourceRank: 1, yahooProjection: 0 },
+      { player: 'Projected', team: 'ATL', position: 'RB', sourceRank: 2, yahooProjection: 100 }
+    ]
+    expect(sortRankings(projectionRows, 'yahooProjection', 'asc').map((row) => row.player)).toEqual(['Projected', 'Missing'])
+    expect(sortRankings(projectionRows, 'yahooProjection', 'desc').map((row) => row.player)).toEqual(['Projected', 'Missing'])
+  })
+
   it('normalizes team aliases', () => {
     expect(normalizeTeamAbbreviation('JAC')).toBe('JAX')
     expect(normalizeTeamAbbreviation('LA')).toBe('LAR')

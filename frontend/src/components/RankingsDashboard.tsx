@@ -135,8 +135,8 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   const displayRows = useMemo(() => rows.map((row) => ({ ...row, ...(selectedSource === 'espn' && draftMode === 'snake' ? { diff: rankingDifference(row) } : {}), rankingDiff: rankingDifference(row) })), [draftMode, rows, selectedSource])
   const rowsWithYahooProjection = useMemo(() => displayRows.map((row) => {
     const projection = findYahooProjection(yahooProjections, row.player, row.team)
-    const seasonProjection = projection?.seasonPpr
-    const week1Projection = projectionMode === 'half' ? projection?.week1HalfPpr ?? projection?.week1Ppr : projection?.week1Ppr
+    const seasonProjection = projectionMode === 'half' ? projection?.seasonHalfPpr ?? projection?.seasonPpr ?? 0 : projection?.seasonPpr ?? 0
+    const week1Projection = projectionMode === 'half' ? projection?.week1HalfPpr ?? projection?.week1Ppr ?? 0 : projection?.week1Ppr ?? 0
     return { ...row, yahooProjection: yahooProjectionColumn === 'week1' ? week1Projection : seasonProjection }
   }), [displayRows, projectionMode, yahooProjectionColumn, yahooProjections])
   const filteredRows = useMemo(() => {

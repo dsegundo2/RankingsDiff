@@ -18,8 +18,8 @@ export function SnakePlayerInspector({ row, allRows, teams, projection, favorite
     .filter((candidate) => candidate.position.toUpperCase() === position)
     .sort((left, right) => (left.sourceRank ?? Number.MAX_SAFE_INTEGER) - (right.sourceRank ?? Number.MAX_SAFE_INTEGER))
     .findIndex((candidate) => candidate.player === row.player && normalizeTeamAbbreviation(candidate.team) === team) + 1
-  const seasonProjection = projection?.seasonPpr
-  const week1Projection = projection?.week1Ppr
+  const seasonProjection = projection?.seasonPpr ?? 0
+  const week1Projection = projection?.week1Ppr ?? 0
 
   function handleActionKeys(event: KeyboardEvent<HTMLElement>) {
     if (event.key === 'Enter') { event.preventDefault(); event.stopPropagation(); if (focusedAction === 'draft') onDraft(); else onAdd(); return }

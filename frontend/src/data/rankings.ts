@@ -112,13 +112,21 @@ export function filterRankings(rows: RankingRow[], search: string, position: Pos
 }
 
 function comparable(value: RankingRow[SortKey], key: SortKey): string | number {
-  if (value === undefined || value === null) return key === 'player' || key === 'position' ? '' : Number.POSITIVE_INFINITY
+  if (value === undefined || value === null) return key === 'player' || key === 'position' ? '' : 0
   return typeof value === 'string' ? value.toLowerCase() : value
+}
+
+function isMissing(value: RankingRow[SortKey], key: SortKey): boolean {
+  if (value === undefined || value === null) return true
+  return key !== 'player' && key !== 'position' && (typeof value !== 'number' || !Number.isFinite(value) || (key === 'yahooProjection' && value === 0))
 }
 
 export function sortRankings(rows: RankingRow[], key: SortKey, direction: SortDirection): RankingRow[] {
   const multiplier = direction === 'asc' ? 1 : -1
   return [...rows].sort((a, b) => {
+    const leftMissing = isMissing(a[key], key)
+    const rightMissing = isMissing(b[key], key)
+    if (leftMissing !== rightMissing) return leftMissing ? 1 : -1
     const left = comparable(a[key], key)
     const right = comparable(b[key], key)
     if (left < right) return -1 * multiplier
