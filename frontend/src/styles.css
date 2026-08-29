@@ -151,7 +151,7 @@ body:has(.app-theme--ranking-blue) { background: #efe9df; }
   content: "";
   background:
     linear-gradient(135deg, rgb(239 233 223 / 88%), rgb(239 233 223 / 70%)),
-    url('/assets/bourbon-walnut-background.png') center / cover;
+    url('/assets/background-exploration/overlook.jpg') center / cover;
   opacity: .72;
   pointer-events: none;
 }
