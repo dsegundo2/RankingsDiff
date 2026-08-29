@@ -504,6 +504,14 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .settings-tools-grid .draft-state-controls { min-width: 0; padding: 13px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.82); align-items: center; justify-content: space-between; }
 .settings-tools-grid .draft-state-controls__buttons { flex-wrap: wrap; }
 .settings-tools-grid .draft-state-message { max-width: 220px; }
+.draft-saves { margin-top: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+.draft-saves h3 { margin: 4px 0 0; font-size: 1rem; }
+.draft-saves p { margin: 10px 0 0; color: var(--muted); font-size: .78rem; }
+.draft-saves ul { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+.draft-saves li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel-soft); }
+.draft-saves li strong { font-size: .8rem; }
+.draft-saves li time { color: var(--muted); font-size: .72rem; }
+.draft-saves li small { grid-column: 1 / -1; overflow: hidden; color: var(--muted); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
 .settings-split-view { display: grid; grid-template-columns: 218px minmax(0, 1fr); gap: var(--space-6); align-items: start; }
 .settings-sidebar { display: grid; gap: var(--space-1); align-content: start; padding-right: var(--space-4); border-right: 1px solid var(--line); }
 .settings-sidebar__label { margin: 0 0 var(--space-2); padding-inline: var(--space-3); color: var(--muted); font-size: .68rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }

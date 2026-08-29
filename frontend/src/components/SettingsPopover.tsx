@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { AdjustedProfile, DataManifest, SourceCheckPayload, SourceLink, SourceManifest, YahooProjectionColumn } from '../types'
 import { DownloadPanel } from './DownloadPanel'
-import { DraftStateControls } from './DraftStateControls'
+import { DraftStateControls, type DraftSaveRecord } from './DraftStateControls'
 import { SourceChecksPanel } from './SourceChecksPanel'
 import { nextRosterSlot, rosterTargetLabel, rosterTargetSlots, rosterTargetTotal, STARTER_ROSTER_SLOTS, type RosterTargetGoals } from '../data/rosterTargets'
 import { sourceLabel } from '../data/rankings'
@@ -70,6 +70,7 @@ type Props = {
   onSeason: (value: number) => void
   onSource: (value: string) => void
   draftMode: DraftMode
+  autosaves: DraftSaveRecord[]
   onDraftMode: (value: DraftMode) => void
   onTargetGoals: (value: RosterTargetGoals) => void
   onDraftSlot: (value: number) => void
@@ -109,7 +110,7 @@ function sourceFreshness(source?: SourceManifest): string | null {
   return [updated, observed].filter(Boolean).join(' · ')
 }
 
-export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, matchHealth, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, autoLineupApply, stickyWorkbench, showYahooProjections, yahooProjectionColumn, showRegressionDiff, targetQueueView, viewMode, targets, drafted, picks, draftSlot, draftSize, includeKeeperRound, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onAutoLineupApply, onShowStickyWorkbench, onShowYahooProjections, onYahooProjectionColumn, onShowRegressionDiff, onTargetQueueView, onViewMode, onSeason, onSource, draftMode, onDraftMode, onTargetGoals, onDraftSlot, onDraftSize, onIncludeKeeperRound, onClose }: Props) {
+export function SettingsPopover({ open, manifest, selectedSeason, selectedSource, currentSource, adjustedProfiles, selectedAdjustedProfile, onAdjustedProfile, sourceChecks, generatedAt, matchHealth, visibleCount, targetCount, showTargetQueue, showDrafted, showDraftLog, showRosterPanel, autoLineupApply, stickyWorkbench, showYahooProjections, yahooProjectionColumn, showRegressionDiff, targetQueueView, viewMode, targets, drafted, picks, draftSlot, draftSize, includeKeeperRound, mine, prices, slots, targetGoals, onRestoreDraft, onClearDraft, onShowTargetQueue, onShowDrafted, onShowDraftLog, onShowRosterPanel, onAutoLineupApply, onShowStickyWorkbench, onShowYahooProjections, onYahooProjectionColumn, onShowRegressionDiff, onTargetQueueView, onViewMode, onSeason, onSource, draftMode, autosaves, onDraftMode, onTargetGoals, onDraftSlot, onDraftSize, onIncludeKeeperRound, onClose }: Props) {
   const [activePane, setActivePane] = useState<SettingsPane>('display')
   const [draftSlotInput, setDraftSlotInput] = useState(String(draftSlot))
   const [draftSizeInput, setDraftSizeInput] = useState(String(draftSize))
@@ -198,7 +199,8 @@ export function SettingsPopover({ open, manifest, selectedSeason, selectedSource
             </section> : null}
 
             {activePane === 'snapshots' ? <section className="settings-section settings-section--tools">
-              <div className="settings-tools-grid"><DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact /><DraftStateControls season={selectedSeason} source={selectedSource} targets={targets} drafted={drafted} picks={picks} draftSlot={draftSlot} draftSize={draftSize} includeKeeperRound={includeKeeperRound} mine={mine} prices={prices} slots={slots} targetGoals={targetGoals} onRestore={onRestoreDraft} onClear={onClearDraft} /></div>
+              <div className="settings-tools-grid"><DownloadPanel source={currentSource} generatedAt={generatedAt} count={visibleCount} compact /><DraftStateControls season={selectedSeason} source={selectedSource} draftMode={draftMode} targets={targets} drafted={drafted} picks={picks} draftSlot={draftSlot} draftSize={draftSize} includeKeeperRound={includeKeeperRound} mine={mine} prices={prices} slots={slots} targetGoals={targetGoals} onRestore={onRestoreDraft} onClear={onClearDraft} /></div>
+              <section className="draft-saves" aria-label="Automatic draft saves"><div><span className="eyebrow">Automatic saves</span><h3>Recent checkpoints</h3></div>{autosaves.length ? <ul>{autosaves.map((save) => <li key={`${save.filename}-${save.savedAt}`}><strong>{save.pickCount} picks · {save.draftMode === 'snake' ? 'Snake' : 'Auction'}</strong><time dateTime={save.savedAt}>{new Date(save.savedAt).toLocaleString()}</time><small>{save.filename}</small></li>)}</ul> : <p>No automatic saves yet. A checkpoint downloads after every 12 picks.</p>}</section>
             </section> : null}
 
             {activePane === 'checks' ? <SourceChecksPanel checks={sourceChecks} /> : null}

@@ -5,6 +5,7 @@ import { createDraftFile, createDraftShareUrl, parseDraftFile } from '../data/dr
 type Props = {
   season: number
   source: string
+  draftMode: 'snake' | 'auction'
   targets: Set<string>
   drafted: Set<string>
   picks: Record<string, number>
@@ -18,26 +19,39 @@ type Props = {
   onRestore: (state: { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; draftSize: number; includeKeeperRound: boolean; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) => void
   onClear: () => void
 }
+export type DraftSaveRecord = { filename: string; savedAt: string; pickCount: number; draftMode: 'snake' | 'auction' }
 
 function safeName(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 }
 
-export function DraftStateControls({ season, source, targets, drafted, picks, draftSlot, draftSize, includeKeeperRound, mine, prices, slots, targetGoals, onRestore, onClear }: Props) {
+export function downloadDraftFile(season: number, source: string, draftMode: 'snake' | 'auction', state: Parameters<typeof createDraftFile>[2], automatic = false): DraftSaveRecord {
+  const savedAt = new Date().toISOString()
+  const timestamp = savedAt.replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
+  const pickCount = state.drafted.length
+  const payload = createDraftFile(season, source, state)
+  const url = URL.createObjectURL(new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: 'application/json' }))
+  const anchor = document.createElement('a')
+  anchor.href = url
+  const filename = automatic
+    ? `rankingsdiff-${season}-${safeName(source)}-${draftMode}-autosave-${timestamp}-${pickCount}-picks.json`
+    : `rankingsdiff-${season}-${safeName(source)}-draft.json`
+  anchor.download = filename
+  anchor.click()
+  window.setTimeout(() => URL.revokeObjectURL(url), 0)
+  return { filename, savedAt, pickCount, draftMode }
+}
+
+export function DraftStateControls({ season, source, draftMode, targets, drafted, picks, draftSlot, draftSize, includeKeeperRound, mine, prices, slots, targetGoals, onRestore, onClear }: Props) {
   const [clearOpen, setClearOpen] = useState(false)
   const [message, setMessage] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  function downloadDraft(): void {
-    const payload = createDraftFile(season, source, { targets: [...targets], drafted: [...drafted], picks, draftSlot, draftSize, includeKeeperRound, mine: [...mine], prices, slots, targetGoals })
-    const url = URL.createObjectURL(new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: 'application/json' }))
-    const anchor = document.createElement('a')
-    anchor.href = url
-    anchor.download = `rankingsdiff-${season}-${safeName(source)}-draft.json`
-    anchor.click()
-    window.setTimeout(() => URL.revokeObjectURL(url), 0)
-    setMessage('Draft file saved to Downloads.')
+  function downloadDraft(automatic = false): void {
+    downloadDraftFile(season, source, draftMode, { targets: [...targets], drafted: [...drafted], picks, draftSlot, draftSize, includeKeeperRound, mine: [...mine], prices, slots, targetGoals }, automatic)
+    setMessage(automatic ? `Autosaved ${drafted.size} picks to Downloads.` : 'Draft file saved to Downloads.')
   }
+
 
   function clearDraft(saveFirst: boolean): void {
     if (saveFirst) downloadDraft()
@@ -78,7 +92,7 @@ export function DraftStateControls({ season, source, targets, drafted, picks, dr
   return (
     <div className="draft-state-controls">
       <div className="draft-state-controls__buttons">
-        <button type="button" className="secondary-action" onClick={downloadDraft}>Save draft</button>
+        <button type="button" className="secondary-action" onClick={() => downloadDraft()}>Save draft</button>
         <button type="button" className="secondary-action" onClick={shareDraft}>Share link</button>
         <button type="button" className="secondary-action" onClick={() => inputRef.current?.click()}>Restore draft</button>
         <button type="button" className="clear-draft-action" onClick={() => setClearOpen(true)}>Clear draft</button>

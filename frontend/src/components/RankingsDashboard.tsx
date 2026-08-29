@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent as Re
 import type { AdjustedProfile, DataManifest, DraftRankingRow, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset, YahooProjectionColumn, YahooProjectionMap } from '../types'
 import { calculateRegression, filterRankings, formatRank, formatSignedValue, formatValue, rankingDifference, regressionDifference, sortRankings, sourceLabel, yahooProjectionFor as findYahooProjection } from '../data/rankings'
 import { DEFAULT_DRAFT_SIZE, DEFAULT_DRAFT_SLOT, MAX_DRAFT_SIZE, MIN_DRAFT_SIZE, rankingId, readAuctionDraftState, readDraftShare, readDraftState, snakeOverallPick, writeAuctionDraftState, writeDraftState } from '../data/draftState'
+import { downloadDraftFile, type DraftSaveRecord } from './DraftStateControls'
 import { DEFAULT_ROSTER_TARGETS, rosterTargetSlots, type RosterTargetGoals } from '../data/rosterTargets'
 import { Filters } from './Filters'
 import { RankingCard } from './RankingCard'
@@ -98,6 +99,8 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   const [yahooProjectionColumn, setYahooProjectionColumn] = useState<YahooProjectionColumn>('season')
   const [showRegressionDiff, setShowRegressionDiff] = useState(DEFAULT_SHOW_REGRESSION_DIFF)
   const [draftMode, setDraftMode] = useState<DraftMode>(DEFAULT_DRAFT_MODE)
+  const [autosavePickCount, setAutosavePickCount] = useState(0)
+  const [autosaves, setAutosaves] = useState<DraftSaveRecord[]>([])
   const [hydratedStorageKey, setHydratedStorageKey] = useState('')
   const [hydratedViewKey, setHydratedViewKey] = useState('')
   const [hydratedTargetKey, setHydratedTargetKey] = useState('')
@@ -232,6 +235,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       delete nextSlots[id]
       delete nextPicks[id]
     } else {
+      setAutosavePickCount((current) => current + 1)
       nextPicks[id] = Math.max(0, ...Object.values(nextPicks)) + 1
       const isMyPick = draftMode === 'snake' && [...(includeKeeperRound ? [snakeOverallPick(0, draftSlot, draftSize, true)] : []), ...Array.from({ length: 17 }, (_, index) => snakeOverallPick(index + 1, draftSlot, draftSize, includeKeeperRound))].includes(nextPicks[id])
       if (isMyPick) {
@@ -246,6 +250,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
 
   const toggleMine = useCallback((id: string) => {
     if (!drafted.has(id)) {
+      setAutosavePickCount((current) => current + 1)
       const nextDrafted = new Set(drafted).add(id)
       const nextMine = new Set(mine).add(id)
       const nextSlots = { ...draftSlots }
@@ -351,6 +356,10 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     historyRef.current = [{ targets: [...initialState.targets], drafted: [...initialState.drafted], picks: initialPicks, mine: [...initialMine], prices: initialPrices, slots: auctionState.slots }]
     historyIndexRef.current = 0
     setHydratedStorageKey(storageKey)
+    try {
+      const saved = JSON.parse(localStorage.getItem(`rankingsdiff:autosaves:v1:${selectedSeason}:${selectedSource}`) ?? '[]')
+      setAutosaves(Array.isArray(saved) ? saved.slice(0, 12) as DraftSaveRecord[] : [])
+    } catch { setAutosaves([]) }
   }, [auctionStorageKey, draftMode, selectedSeason, selectedSource, storageKey])
 
   useEffect(() => {
@@ -396,6 +405,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       if (saved.yahooProjectionColumn === 'season' || saved.yahooProjectionColumn === 'week1' || saved.yahooProjectionColumn === 'both') setYahooProjectionColumn(saved.yahooProjectionColumn)
       if (typeof saved.showRegressionDiff === 'boolean') setShowRegressionDiff(saved.showRegressionDiff)
       setDraftMode(isEspnSource && (saved.draftMode === 'snake' || saved.draftMode === 'auction') ? saved.draftMode : DEFAULT_DRAFT_MODE)
+      setAutosavePickCount(0)
     } catch { /* Ignore stale or manually edited view preferences. */ }
     setHydratedViewKey(viewStorageKey)
   }, [isEspnSource, selectedSource, viewStorageKey])
@@ -414,6 +424,18 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     if (hydratedStorageKey !== storageKey) return
     writeAuctionDraftState(auctionStorageKey, { mine: [...mine], prices: draftPrices, slots: draftSlots })
   }, [auctionStorageKey, draftPrices, draftSlots, hydratedStorageKey, mine, storageKey])
+
+  useEffect(() => {
+    if (autosavePickCount === 0 || autosavePickCount % 12 !== 0) return
+    const save = downloadDraftFile(selectedSeason, selectedSource, draftMode, { targets: [...targets], drafted: [...drafted], picks: draftPicks, draftSlot, draftSize, includeKeeperRound, mine: [...mine], prices: draftPrices, slots: draftSlots, targetGoals }, true)
+    setAutosaves((current) => {
+      const next = [save, ...current].slice(0, 12)
+      localStorage.setItem(`rankingsdiff:autosaves:v1:${selectedSeason}:${selectedSource}`, JSON.stringify(next))
+      return next
+    })
+  // The pick counter is the user-action trigger; the snapshot is read from this render.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autosavePickCount])
 
   useEffect(() => {
     if (!selectedId) return
@@ -894,6 +916,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         onSeason={handleSeasonFromSettings}
         onSource={handleSourceFromSettings}
         draftMode={draftMode}
+        autosaves={autosaves}
         onDraftMode={handleDraftModeFromSettings}
         onTargetGoals={updateTargetGoals}
         onDraftSlot={setDraftSlot}
