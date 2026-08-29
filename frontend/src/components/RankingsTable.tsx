@@ -116,7 +116,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
           <col className="col-player" />
           <col className="col-position" />
           {showValueColumn ? <col className="col-money" /> : null}
-          {showYahooProjections ? <col className="col-yahoo-projection" /> : null}
+          {showYahooProjections ? <><col className="col-yahoo-projection" />{yahooProjectionColumn === 'both' ? <col className="col-yahoo-projection" /> : null}</> : null}
           {showRegressionDiff ? <col className="col-regression-diff" /> : null}
           <col className="col-diff" />
           <col className="col-action" />
@@ -128,7 +128,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             <th className="player-heading"><SortButton label="Player" sortKey="player" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="position-heading"><SortButton label="Pos" sortKey="position" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             {showValueColumn ? <th className="num-heading price-heading"><span>Value</span></th> : null}
-            {showYahooProjections ? <th className="num-heading yahoo-projection-heading"><SortButton label="Yahoo proj" sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
+            {showYahooProjections ? <>{yahooProjectionColumn === 'both' ? <><th className="num-heading yahoo-projection-heading"><SortButton label="Season proj" sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th><th className="num-heading yahoo-projection-heading"><span>Week 1 proj</span></th></> : <th className="num-heading yahoo-projection-heading"><SortButton label={yahooProjectionColumn === 'week1' ? 'Week 1 proj' : 'Season proj'} sortKey="yahooProjection" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>}</> : null}
             {showRegressionDiff ? <th className="num-heading regression-diff-heading"><SortButton label="Trend" ariaLabel="Sort by trend" sortKey="regressionDiff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th> : null}
             <th className="num-heading diff-heading"><SortButton label="Delta" ariaLabel={showValueColumn ? 'Sort by value delta' : 'Sort by ranking delta'} sortKey="diff" activeKey={sortKey} direction={sortDirection} onSort={onSort} /></th>
             <th className="action-heading" title="Favorite before drafting; add to my roster after drafting"><span className="action-heading__label">Fav</span><span className="sr-only">Favorite or my roster</span></th>
@@ -148,7 +148,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
             const weeklyAverage = yahooProjectionMode === 'half' ? projection?.weeklyAvgHalfPpr : projection?.weeklyAvgPpr
             const seasonProjection = yahooProjectionMode === 'half' ? projection?.seasonHalfPpr ?? projection?.seasonPpr : projection?.seasonPpr
             const weeklyAverageFallback = seasonProjection
-            const selectedProjection = yahooProjectionColumn === 'week1' ? week1Projection : seasonProjection
+            const selectedProjection = yahooProjectionColumn === 'week1' ? week1Projection : seasonProjection ?? week1Projection
             return (
               <Fragment key={`${row.player}-${row.team}-${row.sourceRank}`}>
               {showAuctionRoundDivider && index > 0 && index % draftSize === 0 ? <AuctionRoundDividerRow round={Math.floor(index / draftSize) + 1} columnCount={dividerColumnCount} /> : showPersonalPickMarkers && markerGroups.has(index) ? <DraftDividerRow markers={markerGroups.get(index) ?? []} columnCount={dividerColumnCount} atTop={index === 0} /> : null}
@@ -169,7 +169,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                 </td>
                 <td className="position-cell"><span className={`pos-chip pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span></td>
                 {showValueColumn ? <td className="num price-cell"><span className="stacked-price"><strong>{formatValue(row.sourceValue)}</strong><small>Adjusted {formatValue(row.adjustedValue)}</small></span></td> : null}
-                {showYahooProjections ? <td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{typeof selectedProjection === 'number' ? selectedProjection.toFixed(2) : '—'}</strong><small>{yahooProjectionColumn === 'week1' ? 'Week 1 proj' : typeof weeklyAverage === 'number' ? `${weeklyAverage.toFixed(1)} avg` : typeof weeklyAverageFallback === 'number' ? `${(weeklyAverageFallback / 17).toFixed(1)} avg` : 'Season proj'}</small></span></td> : null}
+                {showYahooProjections ? <>{yahooProjectionColumn === 'both' ? <><td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{typeof seasonProjection === 'number' ? seasonProjection.toFixed(2) : '—'}</strong><small>Season proj</small></span></td><td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{typeof week1Projection === 'number' ? week1Projection.toFixed(2) : '—'}</strong><small>Week 1 proj</small></span></td></> : <td className="num yahoo-projection-cell"><span className="stacked-price"><strong>{typeof selectedProjection === 'number' ? selectedProjection.toFixed(2) : '—'}</strong><small>{yahooProjectionColumn === 'week1' ? 'Week 1 proj' : typeof weeklyAverage === 'number' ? `${weeklyAverage.toFixed(1)} avg` : typeof weeklyAverageFallback === 'number' ? `${(weeklyAverageFallback / 17).toFixed(1)} avg` : 'Season proj'}</small></span></td>}</> : null}
                 {showRegressionDiff ? <td className={`num emphasis regression-diff-cell ${typeof row.regressionDiff === 'number' && row.regressionDiff > 0 ? 'diff-positive' : typeof row.regressionDiff === 'number' && row.regressionDiff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{formatSignedRank(row.regressionDiff)}</span></td> : null}
                 <td className={`num emphasis diff-cell ${typeof row.diff === 'number' && row.diff > 0 ? 'diff-positive' : typeof row.diff === 'number' && row.diff < 0 ? 'diff-negative' : 'diff-neutral'}`}><span className="diff-value">{showValueColumn ? formatSignedValue(row.diff) : formatRank(row.diff)}</span></td>
                 <td className="row-action">{isDrafted ? <button className={`mine-action ${isMine ? 'active' : ''}`} type="button" aria-label={`${isMine ? 'Remove' : 'Add'} ${row.player} ${isMine ? 'from' : 'to'} my roster`} aria-pressed={isMine} onClick={(event) => { event.stopPropagation(); onMine(id) }}>{isMine ? '✓' : '+'}</button> : <button className={`icon-action target-action ${isTarget ? 'active' : ''}`} type="button" aria-label={`${isTarget ? 'Remove target' : 'Target'} ${row.player}`} aria-pressed={isTarget} onClick={(event) => { event.stopPropagation(); onTarget(id) }}>★</button>}</td>

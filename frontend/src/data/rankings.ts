@@ -1,5 +1,5 @@
-import type { DiffTone, PositionFilter, RankingRow, SortDirection, SortKey, TeamAsset } from '../types'
-import { getTeamAsset } from './teams'
+import type { DiffTone, PositionFilter, RankingRow, SortDirection, SortKey, TeamAsset, YahooProjection } from '../types'
+import { getTeamAsset, normalizeTeamAbbreviation } from './teams'
 
 export type RegressionLine = { slope: number; intercept: number }
 
@@ -83,11 +83,19 @@ export function trendScore(row: RankingRow, line: RegressionLine, referenceRows:
   return residual / scale
 }
 
+export function yahooProjectionNameId(player: string): string {
+  return player.trim().toLowerCase().replace(/[’']/g, '').replace(/\b(jr|sr|ii|iii|iv|v)\.?$/i, '').replace(/[^a-z0-9]/g, '')
+}
+
 export function yahooProjectionId(player: string, team: string): string {
   // Rankings exports may include the bye week (for example, "ATL (11)").
   // Yahoo's player feed only uses the abbreviation, so keep both sides on the
   // same stable player/team key.
-  return `${player.trim().toLowerCase()}|${team.trim().toLowerCase().split(/\s|\(/)[0]}`
+  return `${yahooProjectionNameId(player)}|${normalizeTeamAbbreviation(team).toLowerCase()}`
+}
+
+export function yahooProjectionFor(map: Record<string, YahooProjection>, player: string, team: string): YahooProjection | undefined {
+  return map[yahooProjectionId(player, team)] ?? map[`name:${yahooProjectionNameId(player)}`]
 }
 
 export function filterRankings(rows: RankingRow[], search: string, position: PositionFilter, teams?: Record<string, TeamAsset>): RankingRow[] {

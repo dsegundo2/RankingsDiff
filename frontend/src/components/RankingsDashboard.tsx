@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent as ReactDragEvent } from 'react'
 import type { AdjustedProfile, DataManifest, DraftRankingRow, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset, YahooProjectionColumn, YahooProjectionMap } from '../types'
-import { calculateRegression, filterRankings, formatRank, formatSignedValue, formatValue, rankingDifference, regressionDifference, sortRankings, sourceLabel, yahooProjectionId } from '../data/rankings'
+import { calculateRegression, filterRankings, formatRank, formatSignedValue, formatValue, rankingDifference, regressionDifference, sortRankings, sourceLabel, yahooProjectionFor as findYahooProjection } from '../data/rankings'
 import { DEFAULT_DRAFT_SIZE, DEFAULT_DRAFT_SLOT, MAX_DRAFT_SIZE, MIN_DRAFT_SIZE, rankingId, readAuctionDraftState, readDraftShare, readDraftState, writeAuctionDraftState, writeDraftState } from '../data/draftState'
 import { DEFAULT_ROSTER_TARGETS, rosterTargetSlots, type RosterTargetGoals } from '../data/rosterTargets'
 import { Filters } from './Filters'
@@ -133,7 +133,12 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   }, [showDraftLog, stickyWorkbench, showMobileActions, view, selectedSeason, selectedSource])
   const isEspnSource = selectedSource === 'espn' || selectedSource === 'espn-auction'
   const displayRows = useMemo(() => rows.map((row) => ({ ...row, ...(selectedSource === 'espn' && draftMode === 'snake' ? { diff: rankingDifference(row) } : {}), rankingDiff: rankingDifference(row) })), [draftMode, rows, selectedSource])
-  const rowsWithYahooProjection = useMemo(() => displayRows.map((row) => ({ ...row, yahooProjection: yahooProjections[yahooProjectionId(row.player, row.team)]?.[projectionMode === 'half' ? 'week1HalfPpr' : 'week1Ppr'] })), [displayRows, projectionMode, yahooProjections])
+  const rowsWithYahooProjection = useMemo(() => displayRows.map((row) => {
+    const projection = findYahooProjection(yahooProjections, row.player, row.team)
+    const seasonProjection = projection?.seasonPpr
+    const week1Projection = projectionMode === 'half' ? projection?.week1HalfPpr ?? projection?.week1Ppr : projection?.week1Ppr
+    return { ...row, yahooProjection: yahooProjectionColumn === 'week1' ? week1Projection : seasonProjection }
+  }), [displayRows, projectionMode, yahooProjectionColumn, yahooProjections])
   const filteredRows = useMemo(() => {
     const searchedRows = filterRankings(rowsWithYahooProjection, search, 'ALL', teams)
     if (search.trim().length > 0) return searchedRows
@@ -189,7 +194,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   const navigationRows = view === 'board' ? visibleRows : visiblePositionRows
   const selectedRow = rows.find((row) => rankingId(row) === selectedId)
   function yahooProjectionFor(row: RankingRow) {
-    return yahooProjections[yahooProjectionId(row.player, row.team)]
+    return findYahooProjection(yahooProjections, row.player, row.team)
   }
 
   function focusSearchForNextPlayer() {
@@ -391,7 +396,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       if (typeof saved.stickyWorkbench === 'boolean') setStickyWorkbench(saved.stickyWorkbench)
       if (typeof saved.showMobileActions === 'boolean') setShowMobileActions(saved.showMobileActions)
       if (typeof saved.showYahooProjections === 'boolean') setShowYahooProjections(saved.showYahooProjections)
-      if (saved.yahooProjectionColumn === 'season' || saved.yahooProjectionColumn === 'week1') setYahooProjectionColumn(saved.yahooProjectionColumn)
+      if (saved.yahooProjectionColumn === 'season' || saved.yahooProjectionColumn === 'week1' || saved.yahooProjectionColumn === 'both') setYahooProjectionColumn(saved.yahooProjectionColumn)
       if (typeof saved.showRegressionDiff === 'boolean') setShowRegressionDiff(saved.showRegressionDiff)
       setDraftMode(isEspnSource && (saved.draftMode === 'snake' || saved.draftMode === 'auction') ? saved.draftMode : DEFAULT_DRAFT_MODE)
     } catch { /* Ignore stale or manually edited view preferences. */ }

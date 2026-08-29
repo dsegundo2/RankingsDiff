@@ -68,7 +68,7 @@ export type YahooProjection = {
   weeklyAvgHalfPpr?: number
 }
 
-export type YahooProjectionColumn = 'season' | 'week1'
+export type YahooProjectionColumn = 'season' | 'week1' | 'both'
 
 export type YahooProjectionMap = Record<string, YahooProjection>
 

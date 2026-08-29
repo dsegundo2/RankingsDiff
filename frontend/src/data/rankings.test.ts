@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { RankingRow } from '../types'
-import { adjustedRankTone, applyAdjustedProfile, filterRankings, rankingDifference, sortRankings } from './rankings'
+import { adjustedRankTone, applyAdjustedProfile, filterRankings, rankingDifference, sortRankings, yahooProjectionFor } from './rankings'
 import { getTeamAsset, hasTeamLogo, normalizeTeamAbbreviation } from './teams'
 
 const rows: RankingRow[] = [
@@ -63,6 +63,11 @@ describe('ranking helpers', () => {
     expect(normalizeTeamAbbreviation('JAC')).toBe('JAX')
     expect(normalizeTeamAbbreviation('LA')).toBe('LAR')
     expect(normalizeTeamAbbreviation('WAS')).toBe('WSH')
+  })
+
+  it('matches Yahoo projections across suffixes and team aliases', () => {
+    expect(yahooProjectionFor({ 'jamescook|buf': { player: 'James Cook III', team: 'BUF', seasonPpr: 240 } }, 'James Cook', 'BUF')?.seasonPpr).toBe(240)
+    expect(yahooProjectionFor({ 'name:terrymclaurin': { player: 'Terry McLaurin', team: 'WAS', seasonPpr: 209 } }, 'Terry McLaurin', 'WSH')?.seasonPpr).toBe(209)
   })
 
   it('detects missing-logo fallback state', () => {

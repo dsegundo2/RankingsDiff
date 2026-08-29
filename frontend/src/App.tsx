@@ -3,7 +3,7 @@ import type { AdjustedProfile, DataManifest, DraftRankingRow, RankingRow, Source
 import { RankingsDashboard } from './components/RankingsDashboard'
 import { withBasePath } from './data/paths'
 import { readDraftShare } from './data/draftState'
-import { applyAdjustedProfile } from './data/rankings'
+import { applyAdjustedProfile, yahooProjectionId, yahooProjectionNameId } from './data/rankings'
 import { ThemeMockups } from './components/ThemeMockups'
 import { ColumnMockups } from './components/ColumnMockups'
 import { DraftCutoffMockups } from './components/DraftCutoffMockups'
@@ -30,14 +30,15 @@ function normalizeYahooProjections(payload: unknown): YahooProjectionMap {
       : payload && typeof payload === 'object'
         ? Object.entries(payload as Record<string, unknown>).map(([id, value]) => ({ id, ...(value as object) }))
         : []
-  return items.reduce<YahooProjectionMap>((result, item) => {
+  const nameMatches = new Map<string, YahooProjection[]>()
+  const projections = items.reduce<YahooProjectionMap>((result, item) => {
     if (!item || typeof item !== 'object') return result
     const value = item as YahooProjection & { id?: string; name?: string; fullName?: string; position?: string; teamAbbr?: string }
     const keyParts = value.id?.split('|')
     const player = value.player ?? value.name ?? value.fullName ?? keyParts?.[0]
     const team = value.team ?? value.teamAbbr ?? keyParts?.[1]
     if (!player || !team) return result
-    const id = `${player.trim().toLowerCase()}|${team.trim().toLowerCase().split(/\s|\(/)[0]}`
+    const id = yahooProjectionId(player, team)
     result[id] = {
       player,
       team,
@@ -48,8 +49,13 @@ function normalizeYahooProjections(payload: unknown): YahooProjectionMap {
       weeklyAvgPpr: value.weeklyAvgPpr,
       weeklyAvgHalfPpr: value.weeklyAvgHalfPpr
     }
+    const projection = result[id]
+    const nameKey = yahooProjectionNameId(player)
+    nameMatches.set(nameKey, [...(nameMatches.get(nameKey) ?? []), projection])
     return result
   }, {})
+  nameMatches.forEach((matches, nameKey) => { if (matches.length === 1) projections[`name:${nameKey}`] = matches[0] })
+  return projections
 }
 
 function LoadingState({ detail = 'Preparing your rankings board…' }: { detail?: string }) {
