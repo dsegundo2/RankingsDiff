@@ -4,7 +4,7 @@ export const DEFAULT_DRAFT_SIZE = 12
 export const DEFAULT_DRAFT_SLOT = 2
 export const MIN_DRAFT_SIZE = 2
 export const MAX_DRAFT_SIZE = 20
-export type DraftState = { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; draftSize: number }
+export type DraftState = { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; draftSize: number; includeKeeperRound: boolean }
 export type AuctionDraftState = { mine: string[]; prices: Record<string, number>; slots: Record<string, string> }
 export type DraftSnapshotState = DraftState & AuctionDraftState & { targetGoals: Record<string, number> }
 export type SharedDraft = DraftState & { season: number; source: string }
@@ -16,6 +16,22 @@ export type DraftFile = {
   players: DraftState
   roster: AuctionDraftState
   targetGoals: Record<string, number>
+}
+
+export function snakeOverallPick(round: number, slot: number, draftSize: number, includeKeeperRound: boolean): number {
+  if (includeKeeperRound && round === 0) return slot
+  const pickInRound = round % 2 === 1 ? slot : draftSize - slot + 1
+  const offset = includeKeeperRound ? draftSize : 0
+  return offset + ((round - 1) * draftSize) + pickInRound
+}
+
+export function snakePickDetails(overallPick: number, draftSize: number, includeKeeperRound: boolean): { round: number; pickInRound: number } {
+  if (includeKeeperRound && overallPick <= draftSize) return { round: 0, pickInRound: overallPick }
+  const offset = includeKeeperRound ? draftSize : 0
+  const pickIndex = overallPick - offset - 1
+  const round = Math.floor(pickIndex / draftSize) + 1
+  const pickInRound = round % 2 === 1 ? (pickIndex % draftSize) + 1 : draftSize - (pickIndex % draftSize)
+  return { round, pickInRound }
 }
 
 export function rankingId(row: RankingRow): string {
@@ -30,9 +46,9 @@ function validDraftSlot(value: unknown, draftSize: number): value is number {
   return typeof value === 'number' && Number.isInteger(value) && value >= 1 && value <= draftSize
 }
 
-function draftSettings(value: Partial<DraftState>): Pick<DraftState, 'draftSlot' | 'draftSize'> {
+function draftSettings(value: Partial<DraftState>): Pick<DraftState, 'draftSlot' | 'draftSize' | 'includeKeeperRound'> {
   const draftSize = validDraftSize(value.draftSize) ? value.draftSize : DEFAULT_DRAFT_SIZE
-  return { draftSize, draftSlot: validDraftSlot(value.draftSlot, draftSize) ? value.draftSlot : Math.min(DEFAULT_DRAFT_SLOT, draftSize) }
+  return { draftSize, draftSlot: validDraftSlot(value.draftSlot, draftSize) ? value.draftSlot : Math.min(DEFAULT_DRAFT_SLOT, draftSize), includeKeeperRound: value.includeKeeperRound !== false }
 }
 
 export function readDraftState(key: string): DraftState {

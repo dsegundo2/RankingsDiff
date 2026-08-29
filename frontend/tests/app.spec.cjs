@@ -343,6 +343,18 @@ test('draft spot defaults to 2 and persists through settings and reload', async 
   await expect(page.locator('.view-summary')).toContainText('5/10')
 })
 
+test('keeper round is enabled by default and can be toggled off', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await page.getByRole('button', { name: /^Display/ }).click()
+  const keeperToggle = page.getByRole('checkbox', { name: 'Include keeper round' })
+  await expect(keeperToggle).toBeChecked()
+  await keeperToggle.uncheck()
+  await expect(keeperToggle).not.toBeChecked()
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toContainText('R1')
+})
+
 test('header mockup lab offers six compact directions', async ({ page }) => {
   await page.goto('./mockups')
   await expect(page.getByRole('heading', { name: 'Choose a calmer, more connected header.' })).toBeVisible()
@@ -1299,7 +1311,7 @@ test('recent snake picks show round and pick shorthand for the configured draft 
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
   const pick = page.getByLabel('Recent draft picks').locator('li').first()
   await pick.getByRole('spinbutton', { name: 'Overall pick for Jahmyr Gibbs' }).fill('15')
-  await expect(pick).toContainText('R2, P5')
+  await expect(pick).toContainText('R1, P5')
 })
 
 test('adjusted-rank sorting promotes adjusted rank while retaining movement color', async ({ page }) => {
@@ -1412,6 +1424,8 @@ test('snake roster assigns the first available draft round', async ({ page }) =>
   await page.getByRole('button', { name: /Settings/ }).click()
   await openCurrentSheet(page)
   await page.getByLabel('Sheet').selectOption('fpros')
+  await page.getByRole('button', { name: /^Display/ }).click()
+  await page.getByRole('checkbox', { name: 'Include keeper round' }).uncheck()
   await page.getByRole('button', { name: 'Close settings' }).click()
 
   const rows = page.locator('.rankings-table--fpros tbody tr[data-ranking-id]')

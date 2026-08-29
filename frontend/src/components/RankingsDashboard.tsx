@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent as ReactDragEvent } from 'react'
 import type { AdjustedProfile, DataManifest, DraftRankingRow, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset, YahooProjectionColumn, YahooProjectionMap } from '../types'
 import { calculateRegression, filterRankings, formatRank, formatSignedValue, formatValue, rankingDifference, regressionDifference, sortRankings, sourceLabel, yahooProjectionFor as findYahooProjection } from '../data/rankings'
-import { DEFAULT_DRAFT_SIZE, DEFAULT_DRAFT_SLOT, MAX_DRAFT_SIZE, MIN_DRAFT_SIZE, rankingId, readAuctionDraftState, readDraftShare, readDraftState, writeAuctionDraftState, writeDraftState } from '../data/draftState'
+import { DEFAULT_DRAFT_SIZE, DEFAULT_DRAFT_SLOT, MAX_DRAFT_SIZE, MIN_DRAFT_SIZE, rankingId, readAuctionDraftState, readDraftShare, readDraftState, snakeOverallPick, writeAuctionDraftState, writeDraftState } from '../data/draftState'
 import { DEFAULT_ROSTER_TARGETS, rosterTargetSlots, type RosterTargetGoals } from '../data/rosterTargets'
 import { Filters } from './Filters'
 import { RankingCard } from './RankingCard'
@@ -37,16 +37,11 @@ function autoRosterSlot(row: RankingRow, drafted: Set<string>, slots: Record<str
   return [...eligible, ...benches].find((slot) => !occupied.has(slot)) ?? benches[benches.length - 1] ?? rosterSlots[rosterSlots.length - 1]
 }
 
-function firstAvailableDraftRound(mine: Set<string>, prices: Record<string, number>): number {
-  const usedRounds = new Set([...mine].map((id) => prices[id]).filter((round): round is number => Number.isInteger(round) && round > 0))
-  let round = 1
+function firstAvailableDraftRound(mine: Set<string>, prices: Record<string, number>, includeKeeperRound: boolean): number {
+  const usedRounds = new Set([...mine].map((id) => prices[id]).filter((round): round is number => Number.isInteger(round) && round >= 0))
+  let round = includeKeeperRound ? 0 : 1
   while (usedRounds.has(round)) round += 1
   return round
-}
-
-function snakePickForSlot(round: number, slot: number, draftSize: number): number {
-  const pickInRound = round % 2 === 1 ? slot : draftSize - slot + 1
-  return ((round - 1) * draftSize) + pickInRound
 }
 type Props = {
   manifest: DataManifest
@@ -86,6 +81,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
   const [draftPicks, setDraftPicks] = useState<Record<string, number>>({})
   const [draftSlot, setDraftSlot] = useState(DEFAULT_DRAFT_SLOT)
   const [draftSize, setDraftSize] = useState(DEFAULT_DRAFT_SIZE)
+  const [includeKeeperRound, setIncludeKeeperRound] = useState(true)
   const [mine, setMine] = useState<Set<string>>(new Set())
   const [draftPrices, setDraftPrices] = useState<Record<string, number>>({})
   const [draftSlots, setDraftSlots] = useState<Record<string, string>>({})
@@ -237,16 +233,16 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       delete nextPicks[id]
     } else {
       nextPicks[id] = Math.max(0, ...Object.values(nextPicks)) + 1
-      const isMyPick = draftMode === 'snake' && Array.from({ length: 17 }, (_, index) => snakePickForSlot(index + 1, draftSlot, draftSize)).includes(nextPicks[id])
+      const isMyPick = draftMode === 'snake' && [...(includeKeeperRound ? [snakeOverallPick(0, draftSlot, draftSize, true)] : []), ...Array.from({ length: 17 }, (_, index) => snakeOverallPick(index + 1, draftSlot, draftSize, includeKeeperRound))].includes(nextPicks[id])
       if (isMyPick) {
         nextMine.add(id)
         const row = rows.find((candidate) => rankingId(candidate) === id)
         if (row && autoLineupApply) nextSlots[id] = autoRosterSlot(row, nextDrafted, draftSlots, targetGoals)
-        if (draftMode === 'snake') nextPrices[id] = firstAvailableDraftRound(nextMine, nextPrices)
+        if (draftMode === 'snake') nextPrices[id] = nextPicks[id] <= draftSize && includeKeeperRound ? 0 : firstAvailableDraftRound(nextMine, nextPrices, includeKeeperRound)
       }
     }
     applyDraftState(nextTargets, nextDrafted, nextPrices, nextSlots, nextMine, nextPicks)
-  }, [applyDraftState, autoLineupApply, drafted, draftMode, draftPicks, draftPrices, draftSize, draftSlot, draftSlots, mine, rows, targetGoals, targets])
+  }, [applyDraftState, autoLineupApply, drafted, draftMode, draftPicks, draftPrices, draftSize, draftSlot, draftSlots, includeKeeperRound, mine, rows, targetGoals, targets])
 
   const toggleMine = useCallback((id: string) => {
     if (!drafted.has(id)) {
@@ -270,11 +266,11 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       const row = rows.find((candidate) => rankingId(candidate) === id)
       if (row) {
         if (autoLineupApply) nextSlots[id] = autoRosterSlot(row, drafted, draftSlots, targetGoals)
-        if (draftMode === 'snake') nextPrices[id] = firstAvailableDraftRound(nextMine, nextPrices)
+        if (draftMode === 'snake') nextPrices[id] = firstAvailableDraftRound(nextMine, nextPrices, includeKeeperRound)
       }
     }
     applyDraftState(new Set(targets), new Set(drafted), nextPrices, nextSlots, nextMine, draftPicks)
-  }, [applyDraftState, autoLineupApply, drafted, draftMode, draftPicks, draftPrices, draftSlots, mine, rows, targetGoals, targets])
+  }, [applyDraftState, autoLineupApply, drafted, draftMode, draftPicks, draftPrices, draftSlots, includeKeeperRound, mine, rows, targetGoals, targets])
 
   const removeRosterPlayerFromBoard = useCallback((event: ReactDragEvent<HTMLElement>) => {
     event.preventDefault()
@@ -340,13 +336,14 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     const initialPrices = { ...auctionState.prices }
     if (draftMode === 'snake') {
       initialMine.forEach((id) => {
-        if (initialPrices[id] === undefined) initialPrices[id] = firstAvailableDraftRound(initialMine, initialPrices)
+        if (initialPrices[id] === undefined) initialPrices[id] = firstAvailableDraftRound(initialMine, initialPrices, initialState.includeKeeperRound !== false)
       })
     }
     setTargets(new Set(initialState.targets))
     setDrafted(new Set(initialState.drafted))
     setDraftPicks(initialPicks)
     setDraftSize(initialState.draftSize ?? DEFAULT_DRAFT_SIZE)
+    setIncludeKeeperRound(initialState.includeKeeperRound !== false)
     setDraftSlot(Math.min(initialState.draftSize ?? DEFAULT_DRAFT_SIZE, initialState.draftSlot ?? DEFAULT_DRAFT_SLOT))
     setMine(initialMine)
     setDraftPrices(initialPrices)
@@ -410,8 +407,8 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
-    writeDraftState(storageKey, { targets: [...targets], drafted: [...drafted], picks: draftPicks, draftSlot, draftSize })
-  }, [storageKey, hydratedStorageKey, targets, drafted, draftPicks, draftSlot, draftSize])
+    writeDraftState(storageKey, { targets: [...targets], drafted: [...drafted], picks: draftPicks, draftSlot, draftSize, includeKeeperRound })
+  }, [storageKey, hydratedStorageKey, targets, drafted, draftPicks, draftSlot, draftSize, includeKeeperRound])
 
   useEffect(() => {
     if (hydratedStorageKey !== storageKey) return
@@ -664,10 +661,11 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     setPosition(value)
   }
 
-  function restoreDraft(state: { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; draftSize: number; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) {
+  function restoreDraft(state: { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; draftSize: number; includeKeeperRound: boolean; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) {
     applyDraftState(new Set(state.targets), new Set(state.drafted), state.prices, state.slots, new Set(state.mine), state.picks)
     const nextSize = Math.min(MAX_DRAFT_SIZE, Math.max(MIN_DRAFT_SIZE, state.draftSize || DEFAULT_DRAFT_SIZE))
     setDraftSize(nextSize)
+    setIncludeKeeperRound(state.includeKeeperRound !== false)
     setDraftSlot(Math.min(nextSize, Math.max(1, state.draftSlot || DEFAULT_DRAFT_SLOT)))
     if (Object.keys(state.targetGoals).length) setTargetGoals((current) => ({ ...current, ...state.targetGoals }))
   }
@@ -695,7 +693,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     ordered.splice(fromIndex, 1)
     ordered.splice(toIndex, 0, fromId)
     const nextPicks = Object.fromEntries(ordered.map((id, index) => [id, index + 1]))
-    const ownPicks = new Set(Array.from({ length: 17 }, (_, index) => snakePickForSlot(index + 1, draftSlot, draftSize)))
+    const ownPicks = new Set([...(includeKeeperRound ? [snakeOverallPick(0, draftSlot, draftSize, true)] : []), ...Array.from({ length: 17 }, (_, index) => snakeOverallPick(index + 1, draftSlot, draftSize, includeKeeperRound))])
     const nextDrafted = new Set(ordered)
     const nextMine = new Set<string>()
     const nextPrices: Record<string, number> = {}
@@ -703,7 +701,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     ordered.forEach((id) => {
       if (!ownPicks.has(nextPicks[id])) return
       nextMine.add(id)
-      nextPrices[id] = Math.floor((nextPicks[id] - 1) / draftSize) + 1
+      nextPrices[id] = includeKeeperRound && nextPicks[id] <= draftSize ? 0 : Math.floor((nextPicks[id] - (includeKeeperRound ? draftSize : 0) - 1) / draftSize) + 1
       const row = rows.find((candidate) => rankingId(candidate) === id)
       if (row) nextSlots[id] = draftSlots[id] ?? autoRosterSlot(row, nextDrafted, nextSlots, targetGoals)
     })
@@ -786,7 +784,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       </section>
 
       <div ref={workbenchRef} className={`dashboard-workbench${stickyWorkbench ? ' dashboard-workbench--sticky' : ''}`}>
-      {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} picks={draftPicks} draftSize={draftSize} mine={mine} teams={teams} mode={draftMode} onMine={toggleMine} onUndraft={toggleDrafted} onPick={updateDraftPick} onReorder={reorderDraftPicks} /> : null}
+      {showDraftLog ? <RecentDraftPanel rows={rows} drafted={drafted} picks={draftPicks} draftSize={draftSize} includeKeeperRound={includeKeeperRound} mine={mine} teams={teams} mode={draftMode} onMine={toggleMine} onUndraft={toggleDrafted} onPick={updateDraftPick} onReorder={reorderDraftPicks} /> : null}
 
       <section className="search-panel" aria-label="Player search and filters">
         <Filters
@@ -829,7 +827,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       {view === 'board' ? (
         <div className={`draft-board-layout${showTargetQueue ? '' : ' draft-board-layout--queue-hidden'}${stickyWorkbench ? ' draft-board-layout--sticky-roster' : ''}`} data-roster-visible={showRosterPanel ? 'true' : 'false'}>
           <div className={`draft-board-drop-zone${boardDropActive ? ' is-drop-target' : ''}`} aria-label="Player board" onDragOverCapture={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; setBoardDropActive(true) }} onDragLeave={() => setBoardDropActive(false)}>
-            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} draftSize={draftSize} yahooProjectionMode={projectionMode} yahooProjectionColumn={yahooProjectionColumn} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction' || selectedSource === 'espn-auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} onBoardDrop={removeRosterPlayerFromBoard} />
+            <RankingsTable rows={visibleRows} teams={teams} source={selectedSource} sortKey={sortKey} sortDirection={sortDirection} draftSlot={draftSlot} draftSize={draftSize} includeKeeperRound={includeKeeperRound} yahooProjectionMode={projectionMode} yahooProjectionColumn={yahooProjectionColumn} showYahooProjections={showYahooProjections} showRegressionDiff={showRegressionDiff} showAuctionValues={draftMode === 'auction' || selectedSource === 'espn-auction'} yahooProjectionFor={yahooProjectionFor} targets={targets} drafted={drafted} mine={mine} selectedId={selectedId} onSelect={setSelectedId} onSort={handleSort} onTarget={toggleTarget} onDrafted={draftPlayer} onMine={toggleMine} stickyHeaders={stickyWorkbench} onBoardDrop={removeRosterPlayerFromBoard} />
             <section className="cards-list" aria-label="Mobile rankings cards">
               {visibleRows.map((row) => {
                 const id = rankingId(row)
@@ -875,6 +873,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         picks={draftPicks}
         draftSlot={draftSlot}
         draftSize={draftSize}
+        includeKeeperRound={includeKeeperRound}
         mine={mine}
         prices={draftPrices}
         slots={draftSlots}
@@ -899,6 +898,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
         onTargetGoals={updateTargetGoals}
         onDraftSlot={setDraftSlot}
         onDraftSize={updateDraftSize}
+        onIncludeKeeperRound={setIncludeKeeperRound}
         onClose={() => setSettingsOpen(false)}
       />
       {selectedRow && isEspnSource && draftMode === 'auction' ? <AuctionPlayerInspector row={selectedRow} allRows={rows} draftedCount={rows.filter((candidate) => candidate.position.toUpperCase() === selectedRow.position.toUpperCase() && drafted.has(rankingId(candidate))).length} dragOffset={inspectorOffset} rowsBySeason={draftRowsBySeason} season={selectedSeason} teams={teams} favorited={targets.has(selectedId)} onFavorite={() => toggleTarget(selectedId)} onClose={() => setSelectedId('')} onDraft={() => { draftPlayer(selectedId); setSelectedId('') }} onAdd={() => { toggleMine(selectedId); setSelectedId('') }} onNavigate={navigateInspector} onDragOffsetChange={setInspectorOffset} /> : null}

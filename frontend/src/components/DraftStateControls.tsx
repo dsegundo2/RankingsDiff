@@ -10,11 +10,12 @@ type Props = {
   picks: Record<string, number>
   draftSlot: number
   draftSize: number
+  includeKeeperRound: boolean
   mine: Set<string>
   prices: Record<string, number>
   slots: Record<string, string>
   targetGoals: Record<string, number>
-  onRestore: (state: { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; draftSize: number; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) => void
+  onRestore: (state: { targets: string[]; drafted: string[]; picks: Record<string, number>; draftSlot: number; draftSize: number; includeKeeperRound: boolean; mine: string[]; prices: Record<string, number>; slots: Record<string, string>; targetGoals: Record<string, number> }) => void
   onClear: () => void
 }
 
@@ -22,13 +23,13 @@ function safeName(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 }
 
-export function DraftStateControls({ season, source, targets, drafted, picks, draftSlot, draftSize, mine, prices, slots, targetGoals, onRestore, onClear }: Props) {
+export function DraftStateControls({ season, source, targets, drafted, picks, draftSlot, draftSize, includeKeeperRound, mine, prices, slots, targetGoals, onRestore, onClear }: Props) {
   const [clearOpen, setClearOpen] = useState(false)
   const [message, setMessage] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
   function downloadDraft(): void {
-    const payload = createDraftFile(season, source, { targets: [...targets], drafted: [...drafted], picks, draftSlot, draftSize, mine: [...mine], prices, slots, targetGoals })
+    const payload = createDraftFile(season, source, { targets: [...targets], drafted: [...drafted], picks, draftSlot, draftSize, includeKeeperRound, mine: [...mine], prices, slots, targetGoals })
     const url = URL.createObjectURL(new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: 'application/json' }))
     const anchor = document.createElement('a')
     anchor.href = url
@@ -51,7 +52,7 @@ export function DraftStateControls({ season, source, targets, drafted, picks, dr
     if (!file) return
     try {
       const parsed = parseDraftFile(await file.text())
-      onRestore({ targets: parsed.players.targets, drafted: parsed.players.drafted, picks: parsed.players.picks, draftSlot: parsed.players.draftSlot, draftSize: parsed.players.draftSize, mine: parsed.roster.mine, prices: parsed.roster.prices, slots: parsed.roster.slots, targetGoals: parsed.targetGoals })
+      onRestore({ targets: parsed.players.targets, drafted: parsed.players.drafted, picks: parsed.players.picks, draftSlot: parsed.players.draftSlot, draftSize: parsed.players.draftSize, includeKeeperRound: parsed.players.includeKeeperRound, mine: parsed.roster.mine, prices: parsed.roster.prices, slots: parsed.roster.slots, targetGoals: parsed.targetGoals })
       const sheetNote = parsed.season === season && parsed.source === source ? '' : ` from ${parsed.season} · ${parsed.source}`
       setMessage(`Draft restored${sheetNote}.`)
     } catch (error) {
@@ -60,7 +61,7 @@ export function DraftStateControls({ season, source, targets, drafted, picks, dr
   }
 
   async function shareDraft(): Promise<void> {
-    const url = createDraftShareUrl(season, source, { targets: [...targets], drafted: [...drafted], picks, draftSlot, draftSize })
+    const url = createDraftShareUrl(season, source, { targets: [...targets], drafted: [...drafted], picks, draftSlot, draftSize, includeKeeperRound })
     try {
       if (navigator.share) {
         await navigator.share({ title: `Draft Distillery ${season} draft`, text: 'Open this Draft Distillery draft board', url })
