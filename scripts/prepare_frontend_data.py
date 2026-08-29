@@ -417,11 +417,29 @@ def build_manifest() -> dict[str, Any]:
             continue
         sources = []
         yahoo_projection_path = ROOT / "data" / "raw" / str(season) / "yahoo_projections.json"
+        # The checked-in snapshot is the fallback for clean CI/Pages builds;
+        # the raw JSON is produced only by the optional live Yahoo refresh.
+        yahoo_projection_fallback = ROOT / "data" / "yahoo_projected_points.csv"
         yahoo_projection_public_path = None
         if yahoo_projection_path.exists():
             yahoo_projection_target = PUBLIC_DATA / str(season) / "yahoo" / "projections.json"
             yahoo_projection_target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(yahoo_projection_path, yahoo_projection_target)
+            yahoo_projection_public_path = public_path(yahoo_projection_target)
+        elif season == 2026 and yahoo_projection_fallback.exists():
+            yahoo_projection_target = PUBLIC_DATA / str(season) / "yahoo" / "projections.json"
+            yahoo_projection_target.parent.mkdir(parents=True, exist_ok=True)
+            projection_rows = [
+                {
+                    "player": row.get("name", ""),
+                    "team": row.get("nfl_team", ""),
+                    "seasonPpr": parse_number(row.get("projected_points")),
+                    "week1Ppr": parse_number(row.get("week1_projected_points")),
+                }
+                for row in read_csv(yahoo_projection_fallback)
+                if row.get("name") and row.get("nfl_team")
+            ]
+            yahoo_projection_target.write_text(json.dumps(projection_rows, indent=2) + "\n", encoding="utf-8")
             yahoo_projection_public_path = public_path(yahoo_projection_target)
         for source_dir in sorted(p for p in season_dir.iterdir() if p.is_dir()):
             source = source_dir.name
