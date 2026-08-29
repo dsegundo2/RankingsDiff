@@ -311,6 +311,9 @@ tbody tr.is-drafted .draft-action.active { border-color: var(--line); color: var
 .action-heading__label { font-size: .62rem; letter-spacing: .02em; }
 .player-cell__inner, .player-line { display: flex; min-width: 190px; gap: 12px; align-items: center; }
 .player-cell__inner > div > strong, .player-cell__inner > div > span, .player-line > div > strong, .player-line > div > span { display: block; }
+.player-name-trigger { display: block; margin: 0; padding: 0; border: 0; color: inherit; background: transparent; font: inherit; font-weight: 800; line-height: inherit; text-align: left; cursor: pointer; }
+.player-name-trigger:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.player-name-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
 .player-cell__inner > div > strong, .player-line > div > strong { font-weight: 800; }
 .player-cell__inner > div > span, .player-line > div > span { margin-top: 2px; color: var(--muted); font-size: .84rem; }
 .team-badge { --team-color: var(--accent); display: flex; width: 36px; height: 36px; flex: 0 0 36px; align-items: center; justify-content: center; overflow: hidden; border: 1px solid color-mix(in srgb, var(--team-color) 24%, var(--line)); border-radius: 11px; background: var(--panel-soft); }

@@ -149,7 +149,6 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                 key={`${row.player}-${row.team}-${row.sourceRank}`}
                 className={`${isDrafted ? 'is-drafted' : ''} ${selectedId === id ? 'is-selected' : ''} pos-${row.positionTone ?? 'other'}`}
                 style={diffSignalStyle(row.diff, showValueColumn)}
-                onClick={() => onSelect?.(id)}
                 aria-selected={selectedId === id}
                 data-ranking-id={id}
               >
@@ -157,7 +156,7 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
                 <td className="player-cell">
                   <div className="player-cell__inner">
                     <TeamBadge team={team} asset={asset} />
-                    <div><strong>{row.player}</strong><span>{team}</span></div>
+                    <div><button type="button" className="player-name-trigger" onClick={(event) => { event.stopPropagation(); onSelect?.(id) }}>{row.player}</button><span>{team}</span></div>
                   </div>
                 </td>
                 <td className="position-cell"><span className={`pos-chip pos-${row.positionTone ?? 'other'}`}>{row.positionRank ?? row.position}</span></td>
