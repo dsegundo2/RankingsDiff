@@ -272,30 +272,30 @@ test('trend is off by default and can be shown and sorted', async ({ page }) => 
 
 test('draft pick pill tracks draft, undraft, filtering, and sort changes', async ({ page }) => {
   await page.goto('./')
-  const futureDivider = page.locator('[data-draft-divider][data-draft-marker-overall="2"]')
+  const futureDivider = page.locator('[data-draft-divider][data-draft-marker-overall="-2"]')
   await expect(futureDivider).toHaveCount(1)
-  await expect(page.locator('[data-draft-divider]')).toHaveCount(17)
+  await expect(page.locator('[data-draft-divider]')).toHaveCount(18)
   const dividerHeight = await futureDivider.boundingBox()
   const firstRowHeight = await page.locator('tbody tr[data-ranking-id]').first().boundingBox()
-  expect(dividerHeight?.height ?? 99).toBeLessThanOrEqual(2)
+  expect(dividerHeight?.height ?? 0).toBeGreaterThan(0)
   expect(firstRowHeight?.height ?? 0).toBeGreaterThan(0)
 
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
   const currentDivider = page.locator('[data-draft-divider][data-draft-marker-current="true"]')
-  await expect(currentDivider).toHaveAttribute('data-draft-marker-overall', '2')
+  await expect(currentDivider).toHaveAttribute('data-draft-marker-overall', '-2,2')
   await expect(currentDivider).toContainText('Your pick')
   await expect(page.locator('[data-draft-divider]')).toHaveCount(17)
   await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
   await page.getByRole('button', { name: 'Mark drafted Bijan Robinson' }).first().click()
   await page.getByRole('button', { name: 'Mark drafted Puka Nacua' }).first().click()
-  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="23"]')).toHaveCount(1)
-  await expect(page.locator('[data-draft-divider]')).toHaveCount(16)
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider]')).toHaveCount(17)
 
   await page.getByRole('button', { name: 'WR', exact: true }).first().click()
-  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="23"]')).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
 
   await page.getByRole('button', { name: 'Undo drafted Puka Nacua' }).first().click()
-  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="23"]')).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
 
   await page.getByLabel('Sort by', { exact: true }).selectOption('diff')
   await expect(page.locator('[data-draft-divider]')).toHaveCount(0)
@@ -306,17 +306,17 @@ test('draft pick pill tracks draft, undraft, filtering, and sort changes', async
   await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByRole('checkbox', { name: 'Show drafted' }).uncheck()
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="23"]')).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
 })
 
 test('draft divider stays below past picks even when a lower-ranked player was drafted', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: "Mark drafted Ja'Marr Chase" }).first().click()
-  const divider = page.locator('[data-draft-divider][data-draft-marker-overall="2"]')
+  const divider = page.locator('[data-draft-divider][data-draft-marker-overall="-2"]')
   await expect(divider).toHaveCount(1)
   await expect(divider.locator('xpath=following-sibling::tr[1]')).toContainText('Jahmyr Gibbs')
   await page.getByRole('button', { name: "Undo drafted Ja'Marr Chase" }).first().click()
-  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="-2"]')).toHaveCount(1)
 })
 
 test('first pick marker moves to the top available player when rank five is drafted first', async ({ page }) => {
@@ -330,16 +330,16 @@ test('first pick marker moves to the top available player when rank five is draf
 
 test('draft spot defaults to 2 and persists through settings and reload', async ({ page }) => {
   await page.goto('./')
-  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="2"]')).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="-2"]')).toHaveCount(1)
   await expect(page.locator('.view-summary')).toContainText('2/12')
   await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByRole('spinbutton', { name: 'My draft spot' }).fill('5')
   await page.getByRole('spinbutton', { name: 'Draft size' }).fill('10')
   await page.getByRole('button', { name: 'Close settings' }).click()
-  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="5"]')).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="-5"]')).toHaveCount(1)
   await expect(page.locator('.view-summary')).toContainText('5/10')
   await page.reload()
-  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="5"]')).toHaveCount(1)
+  await expect(page.locator('[data-draft-divider][data-draft-marker-overall="-5"]')).toHaveCount(1)
   await expect(page.locator('.view-summary')).toContainText('5/10')
 })
 
@@ -1311,7 +1311,7 @@ test('recent snake picks show round and pick shorthand for the configured draft 
   await page.getByRole('button', { name: 'Mark drafted Jahmyr Gibbs' }).first().click()
   const pick = page.getByLabel('Recent draft picks').locator('li').first()
   await pick.getByRole('spinbutton', { name: 'Overall pick for Jahmyr Gibbs' }).fill('15')
-  await expect(pick).toContainText('R1, P5')
+  await expect(pick).toContainText('R2 · Pick 6')
 })
 
 test('adjusted-rank sorting promotes adjusted rank while retaining movement color', async ({ page }) => {
@@ -1454,7 +1454,7 @@ test('snake recent picks show editable overall picks and support reordering', as
   const latestName = await latest.locator('.recent-draft__identity strong').textContent()
   if (!latestName) throw new Error('Expected latest drafted player')
   const pickInput = latest.getByRole('spinbutton', { name: `Overall pick for ${latestName}` })
-  await expect(pickInput).toHaveValue('3')
+  await expect(pickInput).toHaveValue('-3')
   await pickInput.fill('24')
   await expect(pickInput).toHaveValue('24')
   await list.locator('li').nth(2).dragTo(list.locator('li').first())

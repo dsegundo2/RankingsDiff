@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createDraftFile, createDraftShareUrl, parseDraftFile, rankingId, readDraftShare, readDraftState, snakeOverallPick, snakePickDetails, writeDraftState } from './draftState'
+import { createDraftFile, createDraftShareUrl, draftPickForIndex, draftPickLabel, parseDraftFile, rankingId, readDraftShare, readDraftState, snakeOverallPick, snakePickDetails, writeDraftState } from './draftState'
 
 describe('draft state', () => {
   beforeEach(() => localStorage.clear())
@@ -58,10 +58,19 @@ describe('draft state', () => {
   })
 
   it('maps keeper round picks before the regular snake rounds', () => {
-    expect(snakeOverallPick(0, 2, 12, true)).toBe(2)
-    expect(snakeOverallPick(1, 2, 12, true)).toBe(14)
-    expect(snakeOverallPick(2, 2, 12, true)).toBe(35)
-    expect(snakePickDetails(2, 12, true)).toEqual({ round: 0, pickInRound: 2 })
-    expect(snakePickDetails(14, 12, true)).toEqual({ round: 1, pickInRound: 2 })
+    expect(draftPickForIndex(0, 12, true)).toBe(-1)
+    expect(draftPickForIndex(11, 12, true)).toBe(-12)
+    expect(draftPickForIndex(12, 12, true)).toBe(1)
+    expect(snakeOverallPick(0, 2, 12, true)).toBe(-2)
+    expect(snakeOverallPick(1, 2, 12, true)).toBe(2)
+    expect(snakeOverallPick(2, 2, 12, true)).toBe(23)
+    expect(snakePickDetails(-2, 12, true)).toEqual({ round: 0, pickInRound: 2 })
+    expect(snakePickDetails(2, 12, true)).toEqual({ round: 1, pickInRound: 2 })
+    expect(draftPickLabel(-2, { round: 0, pickInRound: 2 })).toBe('Keeper 2')
+  })
+
+  it('migrates saved keeper-inclusive overall picks', () => {
+    localStorage.setItem('draft', JSON.stringify({ drafted: ['one'], picks: { one: 13 }, draftSize: 12, includeKeeperRound: true }))
+    expect(readDraftState('draft').picks).toEqual({ one: 1 })
   })
 })

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent as ReactDragEvent } from 'react'
 import type { AdjustedProfile, DataManifest, DraftRankingRow, PositionFilter, RankingRow, SourceCheckPayload, SortDirection, SortKey, TeamAsset, YahooProjectionColumn, YahooProjectionMap } from '../types'
 import { calculateRegression, filterRankings, formatRank, formatSignedValue, formatValue, rankingDifference, regressionDifference, sortRankings, sourceLabel, yahooProjectionFor as findYahooProjection } from '../data/rankings'
-import { DEFAULT_DRAFT_SIZE, DEFAULT_DRAFT_SLOT, MAX_DRAFT_SIZE, MIN_DRAFT_SIZE, rankingId, readAuctionDraftState, readDraftShare, readDraftState, snakeOverallPick, writeAuctionDraftState, writeDraftState } from '../data/draftState'
+import { DEFAULT_DRAFT_SIZE, DEFAULT_DRAFT_SLOT, MAX_DRAFT_SIZE, MIN_DRAFT_SIZE, draftPickForIndex, rankingId, readAuctionDraftState, readDraftShare, readDraftState, snakeOverallPick, writeAuctionDraftState, writeDraftState } from '../data/draftState'
 import { downloadDraftFile, type DraftSaveRecord } from './DraftStateControls'
 import { DEFAULT_ROSTER_TARGETS, rosterTargetSlots, type RosterTargetGoals } from '../data/rosterTargets'
 import { Filters } from './Filters'
@@ -237,13 +237,13 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       delete nextPicks[id]
     } else {
       setAutosavePickCount((current) => current + 1)
-      nextPicks[id] = Math.max(0, ...Object.values(nextPicks)) + 1
+      nextPicks[id] = draftPickForIndex(drafted.size, draftSize, includeKeeperRound)
       const isMyPick = draftMode === 'snake' && [...(includeKeeperRound ? [snakeOverallPick(0, draftSlot, draftSize, true)] : []), ...Array.from({ length: 17 }, (_, index) => snakeOverallPick(index + 1, draftSlot, draftSize, includeKeeperRound))].includes(nextPicks[id])
       if (isMyPick) {
         nextMine.add(id)
         const row = rows.find((candidate) => rankingId(candidate) === id)
         if (row && autoLineupApply) nextSlots[id] = autoRosterSlot(row, nextDrafted, draftSlots, targetGoals)
-        if (draftMode === 'snake') nextPrices[id] = nextPicks[id] <= draftSize && includeKeeperRound ? 0 : firstAvailableDraftRound(nextMine, nextPrices, includeKeeperRound)
+        if (draftMode === 'snake') nextPrices[id] = nextPicks[id] < 0 ? 0 : firstAvailableDraftRound(nextMine, nextPrices, includeKeeperRound)
       }
     }
     applyDraftState(nextTargets, nextDrafted, nextPrices, nextSlots, nextMine, nextPicks)
@@ -257,7 +257,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       const nextSlots = { ...draftSlots }
       const row = rows.find((candidate) => rankingId(candidate) === id)
       if (row && autoLineupApply) nextSlots[id] = autoRosterSlot(row, nextDrafted, nextSlots, targetGoals)
-      applyDraftState(new Set(targets), nextDrafted, { ...draftPrices }, nextSlots, nextMine, { ...draftPicks, [id]: Math.max(0, ...Object.values(draftPicks)) + 1 })
+      applyDraftState(new Set(targets), nextDrafted, { ...draftPrices }, nextSlots, nextMine, { ...draftPicks, [id]: draftPickForIndex(drafted.size, draftSize, includeKeeperRound) })
       return
     }
     const nextMine = new Set(mine)
@@ -276,7 +276,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
       }
     }
     applyDraftState(new Set(targets), new Set(drafted), nextPrices, nextSlots, nextMine, draftPicks)
-  }, [applyDraftState, autoLineupApply, drafted, draftMode, draftPicks, draftPrices, draftSlots, includeKeeperRound, mine, rows, targetGoals, targets])
+  }, [applyDraftState, autoLineupApply, drafted, draftMode, draftPicks, draftPrices, draftSize, draftSlots, includeKeeperRound, mine, rows, targetGoals, targets])
 
   const removeRosterPlayerFromBoard = useCallback((event: ReactDragEvent<HTMLElement>) => {
     event.preventDefault()
@@ -339,7 +339,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     const auctionState = readAuctionDraftState(auctionStorageKey)
     const shared = readDraftShare(new URLSearchParams(window.location.search).get('draft'))
     const initialState = shared?.season === selectedSeason && shared.source === selectedSource ? shared : state
-    const initialPicks = Object.keys(initialState.picks ?? {}).length ? initialState.picks : Object.fromEntries(initialState.drafted.map((id, index) => [id, index + 1]))
+    const initialPicks = Object.keys(initialState.picks ?? {}).length ? initialState.picks : Object.fromEntries(initialState.drafted.map((id, index) => [id, draftPickForIndex(index, initialState.draftSize, initialState.includeKeeperRound !== false)]))
     const initialMine = new Set(auctionState.mine.filter((id) => initialState.drafted.includes(id)))
     const initialPrices = { ...auctionState.prices }
     if (draftMode === 'snake') {
@@ -717,7 +717,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     if (fromIndex < 0 || toIndex < 0) return
     ordered.splice(fromIndex, 1)
     ordered.splice(toIndex, 0, fromId)
-    const nextPicks = Object.fromEntries(ordered.map((id, index) => [id, index + 1]))
+    const nextPicks = Object.fromEntries(ordered.map((id, index) => [id, draftPickForIndex(index, draftSize, includeKeeperRound)]))
     const ownPicks = new Set([...(includeKeeperRound ? [snakeOverallPick(0, draftSlot, draftSize, true)] : []), ...Array.from({ length: 17 }, (_, index) => snakeOverallPick(index + 1, draftSlot, draftSize, includeKeeperRound))])
     const nextDrafted = new Set(ordered)
     const nextMine = new Set<string>()
@@ -726,7 +726,7 @@ export function RankingsDashboard({ manifest, rows, teams, draftRowsBySeason, ya
     ordered.forEach((id) => {
       if (!ownPicks.has(nextPicks[id])) return
       nextMine.add(id)
-      nextPrices[id] = includeKeeperRound && nextPicks[id] <= draftSize ? 0 : Math.floor((nextPicks[id] - (includeKeeperRound ? draftSize : 0) - 1) / draftSize) + 1
+      nextPrices[id] = includeKeeperRound && nextPicks[id] < 0 ? 0 : Math.floor((Math.max(1, nextPicks[id]) - 1) / draftSize) + 1
       const row = rows.find((candidate) => rankingId(candidate) === id)
       if (row) nextSlots[id] = draftSlots[id] ?? autoRosterSlot(row, nextDrafted, nextSlots, targetGoals)
     })

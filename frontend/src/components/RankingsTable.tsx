@@ -3,7 +3,7 @@ import type { RankingRow, RankingSource, SortDirection, SortKey, TeamAsset, Yaho
 import { adjustedRankTone, formatRank, formatSignedRank, formatSignedValue, formatValue, sourceLabel } from '../data/rankings'
 import { getTeamAsset, normalizeTeamAbbreviation } from '../data/teams'
 import { TeamBadge } from './TeamBadge'
-import { rankingId, snakeOverallPick, snakePickDetails } from '../data/draftState'
+import { draftPickForIndex, draftPickLabel, draftPickOrder, rankingId, snakeOverallPick, snakePickDetails } from '../data/draftState'
 
 type Props = {
   rows: RankingRow[]
@@ -42,7 +42,7 @@ function draftDividerStyle(): CSSProperties {
 }
 
 function DraftDividerRow({ markers, columnCount, atTop = false }: { markers: DraftMarker[]; columnCount: number; atTop?: boolean }) {
-  return <tr className={`draft-divider-row${atTop ? ' draft-divider-row--top' : ''}`} data-draft-divider="true" data-draft-marker-overall={markers.map((marker) => marker.overallPick).join(',')} data-draft-marker-current={markers.some((marker) => marker.isCurrent) ? 'true' : undefined} aria-label={markers.map((marker) => marker.isCurrent && marker.isMine ? 'Your pick' : `Round ${marker.round}, pick ${marker.pickInRound}`).join(' · ')}><td colSpan={columnCount}><div className="draft-divider" style={draftDividerStyle()}>{markers.map((marker) => <span className={`${marker.isCurrent ? 'is-current ' : ''}${marker.isMine ? 'is-mine' : 'is-future'}`} key={marker.overallPick}>{marker.isCurrent && marker.isMine ? 'Your pick' : `R${marker.round} · Pick ${marker.pickInRound}`}</span>)}</div></td></tr>
+  return <tr className={`draft-divider-row${atTop ? ' draft-divider-row--top' : ''}`} data-draft-divider="true" data-draft-marker-overall={markers.map((marker) => marker.overallPick).join(',')} data-draft-marker-current={markers.some((marker) => marker.isCurrent) ? 'true' : undefined} aria-label={markers.map((marker) => marker.isCurrent && marker.isMine ? 'Your pick' : draftPickLabel(marker.overallPick, marker)).join(' · ')}><td colSpan={columnCount}><div className="draft-divider" style={draftDividerStyle()}>{markers.map((marker) => <span className={`${marker.isCurrent ? 'is-current ' : ''}${marker.isMine ? 'is-mine' : 'is-future'}`} key={marker.overallPick}>{marker.isCurrent && marker.isMine ? 'Your pick' : draftPickLabel(marker.overallPick, marker)}</span>)}</div></td></tr>
 }
 
 function AuctionRoundDividerRow({ round, columnCount }: { round: number; columnCount: number }) {
@@ -75,14 +75,15 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
   const rankForDraft = (row: RankingRow): number | undefined => sortKey === 'adjustedRank' ? row.adjustedRank : row.sourceRank
   const rankSortKey = sortKey === 'adjustedRank' ? 'adjustedRank' : 'sourceRank'
   const nextRankSortKey = rankSortKey === 'sourceRank' ? 'adjustedRank' : 'sourceRank'
-  const nextDraftPick = drafted.size + 1
+  const nextDraftPick = draftPickForIndex(drafted.size, draftSize, includeKeeperRound)
   const myDraftPicks = new Set([...(includeKeeperRound ? [snakeOverallPick(0, draftSlot, draftSize, true)] : []), ...Array.from({ length: DRAFT_ROUNDS }, (_, index) => snakeOverallPick(index + 1, draftSlot, draftSize, includeKeeperRound))])
-  const maxDraftPick = (DRAFT_ROUNDS + (includeKeeperRound ? 1 : 0)) * draftSize
-  const markerPicks = [...myDraftPicks].filter((overallPick) => overallPick >= nextDraftPick && overallPick <= maxDraftPick)
+  const maxDraftOrder = (DRAFT_ROUNDS + (includeKeeperRound ? 1 : 0)) * draftSize
+  const nextDraftOrder = draftPickOrder(nextDraftPick, draftSize, includeKeeperRound)
+  const markerPicks = [...myDraftPicks].filter((overallPick) => draftPickOrder(overallPick, draftSize, includeKeeperRound) >= nextDraftOrder && draftPickOrder(overallPick, draftSize, includeKeeperRound) <= maxDraftOrder)
   const draftMarkers = markerPicks.map((overallPick): DraftMarker => {
     const details = snakePickDetails(overallPick, draftSize, includeKeeperRound)
     return { overallPick, ...details, isCurrent: overallPick === nextDraftPick, isMine: myDraftPicks.has(overallPick) }
-  }).sort((left, right) => left.overallPick - right.overallPick)
+  }).sort((left, right) => draftPickOrder(left.overallPick, draftSize, includeKeeperRound) - draftPickOrder(right.overallPick, draftSize, includeKeeperRound))
   const markerGroups = new Map<number, DraftMarker[]>()
   draftMarkers.forEach((marker) => {
     // The active pick is the next available roster choice, not the row whose
@@ -95,8 +96,9 @@ export function RankingsTable({ rows, teams, source, sortKey, sortDirection, dra
       markerGroups.set(index, [...(markerGroups.get(index) ?? []), marker])
       return
     }
-    const firstAvailableIndex = rows.findIndex((row) => typeof rankForDraft(row) === 'number' && rankForDraft(row)! >= marker.overallPick && !drafted.has(rankingId(row)))
-    const lastPastPickIndex = rows.reduce((lastIndex, row, index) => typeof rankForDraft(row) === 'number' && rankForDraft(row)! >= marker.overallPick && drafted.has(rankingId(row)) ? index : lastIndex, -1)
+    const markerRank = Math.max(0, marker.overallPick)
+    const firstAvailableIndex = rows.findIndex((row) => typeof rankForDraft(row) === 'number' && rankForDraft(row)! >= markerRank && !drafted.has(rankingId(row)))
+    const lastPastPickIndex = rows.reduce((lastIndex, row, index) => typeof rankForDraft(row) === 'number' && rankForDraft(row)! >= markerRank && drafted.has(rankingId(row)) ? index : lastIndex, -1)
     const availableIndex = firstAvailableIndex === -1 ? rows.length : firstAvailableIndex
     const index = Math.max(availableIndex, lastPastPickIndex + 1)
     markerGroups.set(index, [...(markerGroups.get(index) ?? []), marker])

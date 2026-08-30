@@ -18,17 +18,28 @@ export type DraftFile = {
   targetGoals: Record<string, number>
 }
 
+/** Pick numbers are negative for keepers so they never consume regular overall picks. */
+export function draftPickForIndex(index: number, draftSize: number, includeKeeperRound: boolean): number {
+  return includeKeeperRound && index < draftSize ? -(index + 1) : (includeKeeperRound ? index - draftSize : index) + 1
+}
+
+export function draftPickOrder(pick: number, draftSize: number, includeKeeperRound: boolean): number {
+  return includeKeeperRound && pick < 0 ? -pick : (includeKeeperRound ? draftSize : 0) + pick
+}
+
+export function draftPickLabel(pick: number, details: { round: number; pickInRound: number }): string {
+  return details.round === 0 ? `Keeper ${Math.abs(pick)}` : `R${details.round} · Pick ${details.pickInRound}`
+}
+
 export function snakeOverallPick(round: number, slot: number, draftSize: number, includeKeeperRound: boolean): number {
-  if (includeKeeperRound && round === 0) return slot
+  if (includeKeeperRound && round === 0) return -slot
   const pickInRound = round % 2 === 1 ? slot : draftSize - slot + 1
-  const offset = includeKeeperRound ? draftSize : 0
-  return offset + ((round - 1) * draftSize) + pickInRound
+  return ((round - 1) * draftSize) + pickInRound
 }
 
 export function snakePickDetails(overallPick: number, draftSize: number, includeKeeperRound: boolean): { round: number; pickInRound: number } {
-  if (includeKeeperRound && overallPick <= draftSize) return { round: 0, pickInRound: overallPick }
-  const offset = includeKeeperRound ? draftSize : 0
-  const pickIndex = overallPick - offset - 1
+  if (includeKeeperRound && overallPick < 0) return { round: 0, pickInRound: Math.abs(overallPick) }
+  const pickIndex = overallPick - 1
   const round = Math.floor(pickIndex / draftSize) + 1
   const pickInRound = round % 2 === 1 ? (pickIndex % draftSize) + 1 : draftSize - (pickIndex % draftSize)
   return { round, pickInRound }
@@ -51,14 +62,24 @@ function draftSettings(value: Partial<DraftState>): Pick<DraftState, 'draftSlot'
   return { draftSize, draftSlot: validDraftSlot(value.draftSlot, draftSize) ? value.draftSlot : Math.min(DEFAULT_DRAFT_SLOT, draftSize), includeKeeperRound: value.includeKeeperRound !== false }
 }
 
+function normalizePicks(value: unknown, settings: Pick<DraftState, 'draftSize' | 'includeKeeperRound'>): Record<string, number> {
+  const picks = Object.fromEntries(Object.entries((value ?? {}) as Record<string, unknown>).filter(([, item]) => typeof item === 'number' && Number.isInteger(item) && item !== 0)) as Record<string, number>
+  // Drafts saved before keeper picks became negative included the keeper round
+  // in every regular overall number (1–12, then 13+). Migrate those files once.
+  const isLegacyKeeperNumbering = settings.includeKeeperRound && !Object.values(picks).some((item) => item < 0) && Object.values(picks).some((item) => item > settings.draftSize)
+  if (!isLegacyKeeperNumbering) return picks
+  return Object.fromEntries(Object.entries(picks).map(([id, pick]) => [id, pick <= settings.draftSize ? -pick : pick - settings.draftSize]))
+}
+
 export function readDraftState(key: string): DraftState {
   try {
     const parsed = JSON.parse(localStorage.getItem(key) ?? '{}') as Partial<DraftState>
+    const settings = draftSettings(parsed)
     return {
       targets: Array.isArray(parsed.targets) ? parsed.targets.filter((value): value is string => typeof value === 'string') : [],
       drafted: Array.isArray(parsed.drafted) ? parsed.drafted.filter((value): value is string => typeof value === 'string') : [],
-      picks: Object.fromEntries(Object.entries(parsed.picks ?? {}).filter(([, value]) => typeof value === 'number' && Number.isInteger(value) && value > 0)) as Record<string, number>,
-      ...draftSettings(parsed)
+      picks: normalizePicks(parsed.picks, settings),
+      ...settings
     }
   } catch {
     return { targets: [], drafted: [], picks: {}, ...draftSettings({}) }
@@ -115,6 +136,7 @@ export function parseDraftFile(contents: string): DraftFile {
   const prices = Object.fromEntries(Object.entries((roster.prices ?? {}) as Record<string, unknown>).filter(([, value]) => typeof value === 'number' && Number.isFinite(value) && value >= 0)) as Record<string, number>
   const slots = Object.fromEntries(Object.entries((roster.slots ?? {}) as Record<string, unknown>).filter(([, value]) => typeof value === 'string' && value.length > 0)) as Record<string, string>
   const targetGoals = Object.fromEntries(Object.entries((parsed.targetGoals ?? {}) as Record<string, unknown>).filter(([, value]) => typeof value === 'number' && Number.isFinite(value) && value >= 0)) as Record<string, number>
+  const settings = draftSettings(parsed.players)
   return {
     version: 2,
     exportedAt: typeof parsed.exportedAt === 'string' ? parsed.exportedAt : '',
@@ -123,8 +145,8 @@ export function parseDraftFile(contents: string): DraftFile {
     players: {
       targets: stringList(parsed.players.targets),
       drafted: stringList(parsed.players.drafted),
-      picks: Object.fromEntries(Object.entries(parsed.players.picks ?? {}).filter(([id, value]) => stringList([id]).length > 0 && typeof value === 'number' && Number.isInteger(value) && value > 0)) as Record<string, number>,
-      ...draftSettings(parsed.players)
+      picks: Object.fromEntries(Object.entries(normalizePicks(parsed.players.picks, settings)).filter(([id]) => stringList([id]).length > 0)),
+      ...settings
     },
     roster: {
       mine: stringList(roster.mine),
@@ -153,7 +175,7 @@ export function readDraftShare(value: string | null): SharedDraft | undefined {
     const parsed = JSON.parse(decodeURIComponent(escape(atob(padded)))) as Partial<SharedDraft>
     if (typeof parsed.season !== 'number' || typeof parsed.source !== 'string') return undefined
     const settings = draftSettings(parsed)
-    return { season: parsed.season, source: parsed.source, targets: stringList(parsed.targets), drafted: stringList(parsed.drafted), picks: parsed.picks ?? {}, ...settings }
+    return { season: parsed.season, source: parsed.source, targets: stringList(parsed.targets), drafted: stringList(parsed.drafted), picks: normalizePicks(parsed.picks, settings), ...settings }
   } catch {
     return undefined
   }
