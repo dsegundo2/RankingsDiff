@@ -3757,7 +3757,7 @@
   },
   {
     "player": "Blake Grupe",
-    "team": "NYJ",
+    "team": "FA",
     "position": "K",
     "positionRank": null,
     "sourceRank": 314,
@@ -4117,7 +4117,7 @@
   },
   {
     "player": "Devin Neal",
-    "team": "FA",
+    "team": "MIN",
     "position": "RB",
     "positionRank": null,
     "sourceRank": 344,
@@ -4297,7 +4297,7 @@
   },
   {
     "player": "Odell Beckham Jr.",
-    "team": "NYG",
+    "team": "FA",
     "position": "WR",
     "positionRank": null,
     "sourceRank": 359,
@@ -4405,7 +4405,7 @@
   },
   {
     "player": "Audric Estime",
-    "team": "FA",
+    "team": "MIN",
     "position": "RB",
     "positionRank": null,
     "sourceRank": 368,
