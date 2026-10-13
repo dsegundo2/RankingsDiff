@@ -2665,7 +2665,7 @@
   },
   {
     "player": "Harrison Mevis",
-    "team": "LAR",
+    "team": "FA",
     "position": "K",
     "positionRank": null,
     "sourceRank": 223,
@@ -3757,7 +3757,7 @@
   },
   {
     "player": "Blake Grupe",
-    "team": "NYJ",
+    "team": "LAR",
     "position": "K",
     "positionRank": null,
     "sourceRank": 314,
@@ -4117,7 +4117,7 @@
   },
   {
     "player": "Devin Neal",
-    "team": "FA",
+    "team": "WSH",
     "position": "RB",
     "positionRank": null,
     "sourceRank": 344,
@@ -4273,7 +4273,7 @@
   },
   {
     "player": "Jarquez Hunter",
-    "team": "MIA",
+    "team": "FA",
     "position": "RB",
     "positionRank": null,
     "sourceRank": 357,
@@ -4309,7 +4309,7 @@
   },
   {
     "player": "Emari Demercado",
-    "team": "FA",
+    "team": "DAL",
     "position": "RB",
     "positionRank": null,
     "sourceRank": 360,
@@ -4405,7 +4405,7 @@
   },
   {
     "player": "Audric Estime",
-    "team": "MIN",
+    "team": "CLE",
     "position": "RB",
     "positionRank": null,
     "sourceRank": 368,
