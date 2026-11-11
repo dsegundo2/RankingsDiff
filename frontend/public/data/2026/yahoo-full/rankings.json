@@ -961,7 +961,7 @@
   },
   {
     "player": "Josh Downs",
-    "team": "IND",
+    "team": "KC",
     "position": "WR",
     "positionRank": null,
     "sourceRank": 81,
@@ -2881,7 +2881,7 @@
   },
   {
     "player": "Kendre Miller",
-    "team": "FA",
+    "team": "DAL",
     "position": "RB",
     "positionRank": null,
     "sourceRank": 241,
@@ -3361,7 +3361,7 @@
   },
   {
     "player": "Kirk Cousins",
-    "team": "LV",
+    "team": "MIN",
     "position": "QB",
     "positionRank": null,
     "sourceRank": 281,
@@ -4225,7 +4225,7 @@
   },
   {
     "player": "Jaydon Blue",
-    "team": "PHI",
+    "team": "FA",
     "position": "RB",
     "positionRank": null,
     "sourceRank": 353,
@@ -4273,7 +4273,7 @@
   },
   {
     "player": "Jarquez Hunter",
-    "team": "NO",
+    "team": "FA",
     "position": "RB",
     "positionRank": null,
     "sourceRank": 357,
@@ -4297,7 +4297,7 @@
   },
   {
     "player": "Odell Beckham Jr.",
-    "team": "MIN",
+    "team": "FA",
     "position": "WR",
     "positionRank": null,
     "sourceRank": 359,
